@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/01 16:52:30 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:53:11 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -16,6 +16,6 @@
 int main(int argc, char **argv, char **env)
 {
 	if (!env[0])
-		throw_error(RD"ERROR: No enviroment"RES);
+		throw_error("ERROR: ");
 	return (0);
 }
