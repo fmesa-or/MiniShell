@@ -1,21 +1,20 @@
 /******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/01 16:52:30 by fmesa-or         ###   ########.fr       */
+/*   Created: 2024/10/01 16:50:44 by fmesa-or          #+#    #+#             */
+/*   Updated: 2024/10/01 17:20:06 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "minishell.h"
+#include <errno.h>
 
-
-int main(int argc, char **argv, char **env)
+void	throw_error(const char *str)
 {
-	if (!env[0])
-		throw_error(RD"ERROR: No enviroment"RES);
-	return (0);
+	perror(str);
+	exit (errno);
 }
