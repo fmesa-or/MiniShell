@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 13:27:13 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/09/30 19:27:45 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/02 20:16:21 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -30,9 +30,9 @@ char	*ft_substr(char const *s, unsigned int start, int len)
 	i = 0;
 	if (!s)
 		return (NULL);
-	if ((start + len) > ft_strlen(s))
+	if ((int)(start + len) > (int)ft_strlen(s))
 		len = ft_strlen(s) - start;
-	if (start >= ft_strlen(s))
+	if ((int)start >= (int)ft_strlen(s))
 		len = 0;
 	ptr = (char *)malloc(sizeof(char) * (len + 1));
 	if (!ptr)

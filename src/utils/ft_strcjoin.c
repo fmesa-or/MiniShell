@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_strcjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 18:46:12 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/01 14:11:42 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/02 20:17:25 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -61,9 +61,9 @@ char	*ft_strcjoin(char const *s1, char const *s2, char c)
 	n = 1;
 	if(c != '\0')
 		n++;
-	ptr = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + n);
+	ptr = (char *)malloc(ft_strlen((char *)s1) + ft_strlen((char *)s2) + n);
 	if (!ptr)
 		return (0);
-	ptr = cjoin(s1, s2, ptr, c);
+	ptr = cjoin((char *)s1, (char *)s2, ptr, c);
 	return (ptr);
 }

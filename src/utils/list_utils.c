@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/01 18:12:27 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/10/02 20:13:42 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -60,10 +60,11 @@ t_list	*envtolist(char **env)
 	list = NULL;
 	while (env[i])
 	{
-		aux = ft_split(env[i], "=");
+		aux = ft_split(env[i], '=');
 		list->key = aux[0];
 		list->value = aux[1];
 		list = list->next;
 		i++;
 	}
+	return (list);
 }

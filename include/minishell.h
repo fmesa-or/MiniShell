@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/02 19:16:05 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/10/02 20:19:17 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -131,5 +131,8 @@ char	*ft_strcjoin(char const *s1, char const *s2, char c);
 t_list	*ft_unset(t_list *list, char *ref);
 char	**listtoenv(t_list *list);
 t_list	*envtolist(char **env);
+
+/*---------ERRORS----------*/
+void	throw_error(const char *str);
 
 #endif
