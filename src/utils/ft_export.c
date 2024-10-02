@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:11:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/01 18:18:05 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/02 17:31:39 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,28 +53,39 @@ Tendra q ser llamada dentro de un while para que se le vayan pasando los args co
 int	ft_export(t_list *list, char *n_key)
 {
 	char	**aux;
-	int		i;
+	int		flag;
 
-	i = 0;
+	aux = NULL;
+	flag = 0;
 	if (n_key[0] == '=')
 		//ft_error
     if (ft_strchr(n_key, '=') == -1)
     {
         while (ft_strcmp(list->key, n_key) != 0 || list->next != NULL)
             list = list->next;
-        //crea nuevo elemento y list->key se convierte en n_key
+		ft_lstnew(list, n_key);
+		list->value = NULL;
 		return (0);
     }
-
 	else
 	{
 		aux = ft_split(n_key, "=");
-		while (ft_strcmp(list->key, aux[i]) != 0 || list->next != NULL)
+		while (list->next != NULL)
+		{
+			if (ft_strcmp(list->key, aux[0]) == 0)
+			{
+				if (list->value)
+					free(list->value);
+				list->value = aux[1];
+				flag = 1;
+			}
 			list = list->next;
-		//si encuentra el key, sustituye el value
-		//si no existe, crea nuevo nodo donde list->key = aux[0] y list->value = aux[1]
+		}
+		if (flag == 0)
+		{
+			ft_lstnew(list, aux[0]);
+			list->value = aux[1];
+		}
 	}
-    
-
 }
 
