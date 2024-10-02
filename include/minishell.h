@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/02 17:31:46 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:17:59 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ char	*ft_strcjoin(char const *s1, char const *s2, char c);
 t_list  *ft_unset(t_list *list, char *ref);
 char 	**listtoenv(t_list *list);
 t_list  *envtolist(char **env);
-t_list	*ft_lstnew(t_list *node, void *content);
+t_list	*ft_lstnew(char *n_key, char *n_value);
+
+/*-----------ft_export-----------*/
+t_list	*find_key(t_list *list, char *n_key);
 
 #endif
