@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   use_var_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:19:01 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/15 20:13:27 by jholland         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:45:48 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_mj.h"
 
 char	*find_var(t_varlist *list, char *key)
 {
