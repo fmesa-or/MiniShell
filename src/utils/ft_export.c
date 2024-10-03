@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:11:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/03 12:26:00 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:59:45 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	ft_export(t_list *list, char *n_key)
 	t_list	*node;
 
 	if (n_key[0] == '=')
+		return (-1);
 		//ft_error
 	aux = ft_split (n_key, '=');
 	node = find_key(list, aux[0]);
@@ -66,30 +67,9 @@ int	ft_export(t_list *list, char *n_key)
 	}
 	else
 		ft_lstadd_back(&list, ft_lstnew(aux[0], aux[1]));
+	return (0);
 }		
 
-/*Esta funcion añade un nodo nuevo al final de la lista,
-añadiendo solo su key y value*/
-
-void	ft_lstadd_back(t_list **lst, t_list *new)
-{
-	t_list	*temp;
-
-	if (!*lst)
-		*lst = new;
-	else
-	{
-		while (*lst)
-		{
-			if ((*lst)->next)
-				(*lst) = (*lst)->next;
-			else
-				break ;
-		}
-		temp = (*lst);
-		temp->next = new;
-	}
-}
 
 /*Esta funcion busca dentro de la lista donde se encuentra una key
 y retorna el nodo en el que esta o null si no lo encuetra*/
