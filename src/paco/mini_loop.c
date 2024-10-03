@@ -6,13 +6,11 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:16:42 by fmesa-or          #+#    #+#             */
-/*   Updated: 2024/10/03 17:29:45 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:49:12 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "readline/readline.h"
-#include "readline/history.h"
 
 void	mini_loop()
 {
@@ -20,7 +18,7 @@ void	mini_loop()
 
 	while (1)
 	{
-		line = readline("minishell> ");
+		line = readline("minishell> "); //el prompt debería ser ~user:current_dir$~
 		if (!line)
 			break ;
 		if (*line)

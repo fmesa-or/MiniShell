@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/03 16:42:55 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:49:21 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <errno.h>
+# include "readline/readline.h"
+# include "readline/history.h"
 
 							/* COLORS */
 # define RD		"\033[1;91m"
