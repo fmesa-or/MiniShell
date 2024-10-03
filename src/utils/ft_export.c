@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:11:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/02 18:23:56 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:26:00 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,32 +90,6 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		temp->next = new;
 	}
 }
-
-/*     if (ft_strchr(n_key, '=') == -1)
-    {
-        while (ft_strcmp(list->key, n_key) != 0 || list->next != NULL)
-            list = list->next;
-		ft_lstnew(list, n_key);
-		list->value = NULL;
-		return (0);
-    }
-	else
-	{
-		aux = ft_split(n_key, "=");
-		list = find_key(list, aux[0]);
-		if (!list)
-		{
-			ft_lstnew(list, aux[0]);
-			list->value = aux[1];
-		}
-		else
-		{
-			if (list->value)
-				free(list->value);
-			list->value = aux[1];
-		}
-	} */
-
 
 /*Esta funcion busca dentro de la lista donde se encuentra una key
 y retorna el nodo en el que esta o null si no lo encuetra*/

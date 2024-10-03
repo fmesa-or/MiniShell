@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/02 18:18:02 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:26:03 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ t_list  *envtolist(char **env)
     }
 }
 
+/* 
 t_list	*ft_lstnew(char *n_key, char *n_value)
 {
 	t_list *node;
@@ -79,4 +80,4 @@ t_list	*ft_lstnew(char *n_key, char *n_value)
 	node->value = n_value;
 	node->next = NULL;
 	return (node);
-}
+} */
