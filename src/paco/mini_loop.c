@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:16:42 by fmesa-or          #+#    #+#             */
-/*   Updated: 2024/10/03 17:49:12 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:51:24 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	mini_loop()
 			break ;
 		if (*line)
 			add_history(line);
-		printf("Input: %s\n", line);
+		printf("Input: %s\n", line); //aquí debería ir la función que parsea la línea
 		free(line);
 		rl_on_new_line();
 		rl_redisplay();
