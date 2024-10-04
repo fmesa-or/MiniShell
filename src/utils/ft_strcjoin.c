@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 18:46:12 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/01 14:11:42 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:47:55 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*cjoin(char *s1, char *s2, char *ptr, char c)
 	return(ptr);
 }
 
-char	*ft_strcjoin(char const *s1, char const *s2, char c)
+char	*ft_strcjoin(char *s1, char *s2, char c)
 {
 	int	n;
 	char	*ptr;

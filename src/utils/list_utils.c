@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/02 18:18:02 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/03 13:00:49 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,38 @@ t_list  *envtolist(char **env)
     list = NULL;
     while (env[i])
     {
-        aux = ft_split(env[i], "=");
+        aux = ft_split(env[i], '=');
         list->key = aux[0];
         list->value = aux[1];
         list = list->next;
         i++;
     }
+	return (list);
 }
+
+/*Esta funcion añade un nodo nuevo al final de la lista,
+añadiendo solo su key y value*/
+
+void	ft_lstadd_back(t_list **lst, t_list *new)
+{
+	t_list	*temp;
+
+	if (!*lst)
+		*lst = new;
+	else
+	{
+		while (*lst)
+		{
+			if ((*lst)->next)
+				(*lst) = (*lst)->next;
+			else
+				break ;
+		}
+		temp = (*lst);
+		temp->next = new;
+	}
+}
+
 
 t_list	*ft_lstnew(char *n_key, char *n_value)
 {
