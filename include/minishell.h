@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/04 13:06:39 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:01:58 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ int		ft_strlen(const char *str);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcjoin(char *s1, char *s2, char c);
 
+/*-----------Builts_in-----------*/
+void	ft_env(t_list *list);
+void 	ft_pwd(t_list *list);
 /*----------List_utils----------*/
 t_list  *ft_unset(t_list *list, char *ref);
 char 	**listtoenv(t_list *list);
