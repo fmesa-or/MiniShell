@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/02 20:19:17 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:50:11 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -20,7 +20,18 @@
 # include <string.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-#include <errno.h>
+# include <errno.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+
+							/* COLORS */
+# define RD		"\033[1;91m"
+# define PR		"\033[4;95m"
+# define CI		"\033[0;96m"
+# define GR		"\033[0;92m"
+# define PI		"\033[0;94m"
+# define FF		"\033[0;97m"
+# define RES	"\033[0m"
 
 /***********************************************************************
 *                                 TOKEN                                *
@@ -109,16 +120,24 @@ typedef struct s_redir
 typedef struct s_token
 {
 	int				fd[2];
-	int				type;
-	int				argc;
-	char			**argv;
-	char			*command;
+	int				type; //cmd
+	int				argc; //3
+	char			**argv; // [0]= ls; [1]=-l; [2]=-a; [3]=NULL
+	char			*command; // /bin/ls
 	int				pid;
-	struct s_redir	*redir;
-	int				l_status;
+	struct s_redir	*redir; //NULL
+	int				l_status; //indiferente
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
+//1-Exite un comando después? -> Hacer una pipe. Modificando el fd.
+//2-Redirecciones ->
+//3-Comprobar tipo de comando
+/****Aquí cambia para los built in****/
+//4-Es necesario hacer un fork?->Cuando no es exit, cuando no es un built-in extraño, casi siempre.
+//5-Hacer dup2 de los fd y close.
+//6-Ejecutar
+//7-Del 1 al 7 en el siguiente.
 
 /*-----------split-----------*/
 char	**ft_split(char const *s, char c);
@@ -134,5 +153,8 @@ t_list	*envtolist(char **env);
 
 /*---------ERRORS----------*/
 void	throw_error(const char *str);
+
+/*-------MINI_LOOP----------*/
+void	mini_loop();
 
 #endif

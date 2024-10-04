@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   user_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 19:33:50 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/15 18:28:25 by jholland         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:43:35 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_mj.h"
 
 static void	check_quotes(char **ptr);
 
