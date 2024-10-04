@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   builts_in.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 13:46:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/04 14:03:22 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:12:17 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -18,8 +18,8 @@
 
 void ft_pwd(t_list *list)
 {
-	find_key(list, "PWD");
-	write(1, &list->value, ft_strlen(list->value));
+	find_key(list, "PWD"); // esto devueve el nodo con key PWD, no lo estas almacenando
+	write(1, &list->value, ft_strlen(list->value)); // esto imprime el value del prime nodo supongo
 	write(1, "\n", 1);
 }
 
