@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/03 13:01:17 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/04 13:06:39 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_list
 
 /*-----------Error-----------*/
 void	throw_error(const char *str);
+int		close_quote(char *str, char c);
 /*-----------Split-----------*/
 char	**ft_split(char const *s, char c);
 int		ft_strlen(const char *str);
