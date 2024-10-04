@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: migumar2 <migumar2@student.42.com>         +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 19:53:31 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/17 13:45:27 by migumar2         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:43:10 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_mj.h"
 
 int	g_sig;
 
