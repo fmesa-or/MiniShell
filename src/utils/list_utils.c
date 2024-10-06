@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/03 13:00:49 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/06 16:00:48 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,21 @@ char **listtoenv(t_list *list)
 
     
     i = 0;
-    env = NULL;
+	while (list)
+	{
+		i++;
+		list = list->next;
+	}
+	env = malloc(sizeof(char *) * i + 1);//proteccion
+	i = 0;
     while (list)
     {
+		write(1, "pito\n", 5);
         env[i] = ft_strcjoin(list->key, list->value, '=');
         i++;
         list = list->next;
     }
+	env[i] = 0;
     return(env);
 
 }
@@ -54,19 +62,32 @@ t_list  *envtolist(char **env)
 {
     t_list *list;
     int     i;
+	t_list *head;
     char    **aux;
 
-    i = 0;
-    list = NULL;
+if (!env || !*env) return (NULL);
+	list = NULL;
+	head =NULL;
+	aux = NULL;
+	i = 0;
     while (env[i])
     {
         aux = ft_split(env[i], '=');
-        list->key = aux[0];
-        list->value = aux[1];
+		if (list == NULL)
+		{
+			list =ft_lstnew(aux[0],aux[1]);
+			head = list;
+		}
+		else
+		{
+			list->next =ft_lstnew(aux[0],aux[1]);
+		}
+        //list->key = aux[0];
+        //list->value = aux[1];
         list = list->next;
         i++;
     }
-	return (list);
+	return (head);
 }
 
 /*Esta funcion añade un nodo nuevo al final de la lista,

@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/04 14:01:58 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/06 14:26:22 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int		close_quote(char *str, char c);
 /*-----------Split-----------*/
 char	**ft_split(char const *s, char c);
 int		ft_strlen(const char *str);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 /*-----------strCjoin-----------*/
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcjoin(char *s1, char *s2, char c);

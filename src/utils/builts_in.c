@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   builts_in.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 13:46:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/04 16:12:17 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/10/06 15:36:57 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -18,8 +18,12 @@
 
 void ft_pwd(t_list *list)
 {
-	find_key(list, "PWD"); // esto devueve el nodo con key PWD, no lo estas almacenando
-	write(1, &list->value, ft_strlen(list->value)); // esto imprime el value del prime nodo supongo
+	t_list *node;
+
+
+	node = find_key(list, "PWD");
+	if(node)
+		write(1, node->value, ft_strlen(node->value));
 	write(1, "\n", 1);
 }
 
@@ -34,9 +38,10 @@ void	ft_env(t_list *list)
 
 	i = 0;
 	env = listtoenv(list);
+	write(1, "sale0\n", 6);
 	while (env[i])
 	{
-		write (1, &env[i], ft_strlen(env[i]));
+		write (1, env[i], ft_strlen(env[i]));
 		i++;
 	}
 }
