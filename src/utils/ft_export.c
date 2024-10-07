@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:11:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/06 19:04:50 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:06:02 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ y retorna el nodo en el que esta o null si no lo encuetra*/
 
 t_list	*find_key(t_list *list, char *n_key)
 {
-	while (list->next != NULL)
+	while (list != NULL)
 	{
 		if (ft_strcmp(list->key, n_key) == 0)
 			return (list);

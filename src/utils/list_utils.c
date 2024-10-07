@@ -6,12 +6,14 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/07 14:21:36 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:00:13 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*Esta funcion elimina un nodo de nuestra lista, q necesita
+q la pasemos con &, ya que usa doble puntero*/
 
 void	ft_unset(t_list **list, char *ref)
 {
