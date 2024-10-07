@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:11:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/03 12:59:45 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/06 19:04:50 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,15 @@ int ft_strchr(const char *str, char c)
 
 void    ft_voidexport(t_list *list)
 {
-    char    **env;
-    int     i;
-
-    i = 0;
-    env = listtoenv(list);
-    while (env)
+    while (list)
     {
         write(1, "declare -x ", 11);
-        write(1, &env[i], ft_strlen(env[i]));
-        i++;
+        write(1, list->key, ft_strlen(list->key));
+		write(1, "=\"", 2);
+		if(list->value)
+			write(1, list->value, ft_strlen(list->value));
+		write(1, "\"\n", 2);
+        list = list->next;
     }
     
 }

@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 18:46:12 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/06 15:41:23 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/06 17:51:31 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,17 @@ char	*cjoin(char *s1, char *s2, char *ptr, char c)
 		ptr[i] = s1[i];
 		i++;
 	}
-		write(1, "pene\n", 5);
 	if (c != '\0')
 	{
 		ptr[i] = c;
 		i++;
 	}
-		write(1, "pene2\n", 6);
-	while (s2[j])
+	while (s2 && s2[j])
 	{
 		ptr[i + j] = s2[j];
 		j++;
 	}
 	ptr[i + j] = '\0';
-		write(1, "pene3\n", 6);
 	return(ptr);
 }
 

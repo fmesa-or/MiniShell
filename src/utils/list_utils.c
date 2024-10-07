@@ -6,54 +6,68 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/06 16:00:48 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/06 19:05:14 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-t_list  *ft_unset(t_list *list, char *ref)
+void	ft_unset(t_list **list, char *ref)
 {
     t_list  *aux;
-    t_list  *aux2;
 
-    aux = list;
-    while (ft_strcmp(list->key, ref) != 0)
+    aux = *list;
+	if (ft_strcmp((*list)->key, ref) == 0)
+	{
+		*list =(*list)->next;
+		free(aux->value);
+		free(aux->key);
+		free(aux);
+		return ;
+	}
+    while (ft_strcmp((*list)->key, ref) != 0 || !list)
     {
-        aux->next = list;
-        list = list->next;
+        aux = *list;
+        (*list) = (*list)->next;
     }
-    aux2 = list->next;
-    aux->next = aux2;
-    free(list->value);
-    free(list->key);
-    free(list);
-    return (aux);
+	write(1, "llega2\n", 8);
+	if (*list && ft_strcmp((*list)->key, ref) == 0)
+	{
+		aux = (*list)->next;
+		free((*list)->value);
+		free((*list)->key);
+		free((*list));
+		write(1, "llega3\n", 8);
+	}
 }
 
 char **listtoenv(t_list *list)
 {
     char    **env;
     int     i;
+	t_list	*head;
 
     
     i = 0;
+	head = list;
 	while (list)
 	{
 		i++;
 		list = list->next;
 	}
-	env = malloc(sizeof(char *) * i + 1);//proteccion
+	env = malloc(sizeof(char *) * i + 1);
+	if (!env)
+		throw_error("ERROR: ");
 	i = 0;
+	list = head;
     while (list)
     {
-		write(1, "pito\n", 5);
         env[i] = ft_strcjoin(list->key, list->value, '=');
         i++;
         list = list->next;
     }
-	env[i] = 0;
+	env[i] = NULL;
     return(env);
 
 }
@@ -65,7 +79,8 @@ t_list  *envtolist(char **env)
 	t_list *head;
     char    **aux;
 
-if (!env || !*env) return (NULL);
+	if (!env || !*env)
+		return (NULL);
 	list = NULL;
 	head =NULL;
 	aux = NULL;
@@ -81,10 +96,8 @@ if (!env || !*env) return (NULL);
 		else
 		{
 			list->next =ft_lstnew(aux[0],aux[1]);
+        	list = list->next;
 		}
-        //list->key = aux[0];
-        //list->value = aux[1];
-        list = list->next;
         i++;
     }
 	return (head);

@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/06 14:26:22 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/06 18:38:20 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_strcjoin(char *s1, char *s2, char c);
 void	ft_env(t_list *list);
 void 	ft_pwd(t_list *list);
 /*----------List_utils----------*/
-t_list  *ft_unset(t_list *list, char *ref);
+void	ft_unset(t_list **list, char *ref);
 char 	**listtoenv(t_list *list);
 t_list  *envtolist(char **env);
 void	ft_lstadd_back(t_list **lst, t_list *new);

@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:14:29 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/06 14:31:03 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/06 17:43:44 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,8 @@ int	ft_strlen(const char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while(str[i])
 		i++;
 	return (i);
