@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/06 19:04:38 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:21:49 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(int argc, char **argv, char **env)
 	if (argc == 1 && argv)
 	{
 		t_list *list =envtolist(env);
-		ft_unset(&list, "PATH");
+		ft_unset(&list, "SHELL");
 		ft_env(list);
 		//write(1, list->value, ft_strlen(list->value));
 		//write(1, "\n", 1);

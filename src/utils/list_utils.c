@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/06 19:05:14 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:21:36 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 void	ft_unset(t_list **list, char *ref)
 {
     t_list  *aux;
-
+	t_list	*prev;
     aux = *list;
-	if (ft_strcmp((*list)->key, ref) == 0)
+ 	if (ft_strcmp((*list)->key, ref) == 0)
 	{
 		*list =(*list)->next;
 		free(aux->value);
@@ -26,19 +26,17 @@ void	ft_unset(t_list **list, char *ref)
 		free(aux);
 		return ;
 	}
-    while (ft_strcmp((*list)->key, ref) != 0 || !list)
+    while (aux && ft_strcmp(aux->key, ref) != 0)
     {
-        aux = *list;
-        (*list) = (*list)->next;
+		prev = aux;
+        aux = aux->next;
     }
-	write(1, "llega2\n", 8);
-	if (*list && ft_strcmp((*list)->key, ref) == 0)
+	if (aux && ft_strcmp(aux->key, ref) == 0)
 	{
-		aux = (*list)->next;
-		free((*list)->value);
-		free((*list)->key);
-		free((*list));
-		write(1, "llega3\n", 8);
+		prev->next = aux->next;
+		free(aux->value);
+		free(aux->key);
+		free(aux);
 	}
 }
 
