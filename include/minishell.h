@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/07 18:38:51 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/08 17:47:15 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 *HDOC	->Redirection, text input {HEREDOC} ("<<")                     *
 *DOUT	->Redirection, destructive, deletes everything of the file(">")*
 *NDOUT	->Redirection, non destructive, writes at the end (">>")       *
-*BUIL	->I have no clue what is this.                                 *
+*BUIL	->Commands we include in the built in, like env,  cd, pwd,etc.                                 *
 ***********************************************************************/
 enum	e_token
 {
@@ -142,7 +142,8 @@ typedef struct s_token
 
 /*-----------Parse-----------*/
 //int		close_quote(char *str, char c);
-
+int	pipe_count(char *str);
+char	**pip_separator(char *str);
 /*-----------Error-----------*/
 void	throw_error(const char *str);
 /*-----------Split-----------*/

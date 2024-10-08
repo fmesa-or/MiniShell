@@ -6,58 +6,20 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/07 19:08:07 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/08 17:47:04 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*Esta funcion comprueba que las comillas o el caracter que sea esta cerrado;
-	basicamente, mira si hay un numero par del caracter de turno, y entonces devuelve 0;
-	sino, devuelve -1 como q esta abierta una comilla.
-	Habria q pasarla una vez por cada caracter q se quiera comprobar.
-	Tiene en cuenta q si el char es '<' luego mira el de cierre*/
-/* int	close_quote(char *str, char c)
+/*Esta funcion itera el str hasta encontrar un pipe valido.
+	Despues devuelve el int de su posicion, lo q sirve para retomar ese valor*/
+int	pipe_iteri(char *str, int i)
 {
-	int i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-		{
-			count++;
-			if(c == '<')
-				c = '>';
-			else if (c == '>')
-				c = '<';
-		}
-		i++;
-	}
-	if (count % 2 == 0)
-		return (0);
-	else
-		return (-1);
-
-} */
-
-
-
-/*comprobar q cuenta bien, tiene q contar los cachos entre |,
-sin tener en cuenta los entre comillas y eso*/
-int	pipe_count(char *str)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while(str[i] )
+	while (str[i] != '|' && str[i])
 	{
 		if(str[i] == '\\' && str[i+1])
-			i++;
+			i += 2;
 		else if (str[i] == '\"')
 		{
 			i++;
@@ -70,19 +32,91 @@ int	pipe_count(char *str)
 			while (str[i] != '\'' && str[i])
 				i++;
 		}
-		else if (str[i] == '|')
-			count++;
-		count++;
 		i++;
+	}
+	return(i);
+}
+
+/*Esta funcion cuenta los cachos entre |, sin tener en cuenta
+los q esten entre comillas y eso.
+IMPORTANTE: si hay una pipe como primer o ultimo  char los cuenta,
+sendos casos tienen q tener tratamientos distintos:
+	Si el str[0] = |, tiene q dar error como q el primer pipe ta vacio.
+	Si el ultimo str[i] = |, tiene 	q dejar escribir el ultimo trozo por terminal;*/
+
+int	pipe_count(char *str)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while(str[i])
+	{
+		count++;
+		i = pipe_iteri(str, i);
+		if (str[i] == '|')
+			i++;	
 	}
 	return(count);
 }
+/* char	*put_argv(char *str)
+{
+	int		i;
+	int		j;
+	char	*av;
 
-void	parse_main(char *str)
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		j = pipe_iteri(str, i);
+		if (str[i] == '|')
+			i++;
+	}
+	av = ft_substr(str, i, j - i);
+	return (av);
+} */
+
+/*Esta funcion coge el string inicial q nos pasen y lo separa por pipes.
+	Retorna char **, correspondiente a argv.
+	Tiene en cuenta comillas simples, dobles, y la barra invertida.
+	El tratamiento de las redir tendra q  ser previo o posterior a esta ft.
+*/
+
+char	**pip_separator(char *str)
+{
+	char	**av;
+	int	i;
+	int	j;
+	int	k;
+	int	npipe;
+
+	i = 0;
+	j = 0;
+	npipe = pipe_count(str);
+	av = malloc(sizeof(char *) * npipe +1);
+	if(!av)
+		throw_error("ERROR: ");
+	while (npipe > 0)
+	{
+		k = pipe_iteri(str, j);
+		av[i] = ft_substr(str, j, k - j);
+		j = k;
+		if(str[j] == '|')
+			j++;
+		i++;
+		npipe--;
+	}
+	av[i] = 0;
+	return(av);	
+}
+
+/* void	parse_main(char *str)
 {
 	char **av;
 
 	pipe_count(str);
 	av = pipe_separator(str);
-}
+} */
 
