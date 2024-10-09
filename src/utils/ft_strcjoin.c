@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 18:46:12 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/06 17:51:31 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:40:45 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*cjoin(char *s1, char *s2, char *ptr, char c)
 		ptr[i] = s1[i];
 		i++;
 	}
-	if (c != '\0')
+	if (c)
 	{
 		ptr[i] = c;
 		i++;
@@ -59,7 +59,7 @@ char	*ft_strcjoin(char *s1, char *s2, char c)
 	char	*ptr;
 
 	n = 1;
-	if(c != '\0')
+	if(c)
 		n++;
 	ptr = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + n);
 	if (!ptr)

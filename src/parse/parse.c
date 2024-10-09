@@ -6,12 +6,22 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/08 17:47:04 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/09 20:26:33 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*Esta funcion mira q un char sea un espacio.
+	Se usa dentro de la condicion de los while*/
+int	ft_isspace(char c)
+{
+	if (c == ' ' || c == '\t' || c =='\n'
+		|| c == '\r' || c == '\f' || c == '\v')
+		return(0);
+	else
+		return(1);
+}
 /*Esta funcion itera el str hasta encontrar un pipe valido.
 	Despues devuelve el int de su posicion, lo q sirve para retomar ese valor*/
 int	pipe_iteri(char *str, int i)
@@ -60,23 +70,6 @@ int	pipe_count(char *str)
 	}
 	return(count);
 }
-/* char	*put_argv(char *str)
-{
-	int		i;
-	int		j;
-	char	*av;
-
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		j = pipe_iteri(str, i);
-		if (str[i] == '|')
-			i++;
-	}
-	av = ft_substr(str, i, j - i);
-	return (av);
-} */
 
 /*Esta funcion coge el string inicial q nos pasen y lo separa por pipes.
 	Retorna char **, correspondiente a argv.
@@ -84,7 +77,7 @@ int	pipe_count(char *str)
 	El tratamiento de las redir tendra q  ser previo o posterior a esta ft.
 */
 
-char	**pip_separator(char *str)
+char	**pipe_separator(char *str)
 {
 	char	**av;
 	int	i;
@@ -112,11 +105,19 @@ char	**pip_separator(char *str)
 	return(av);	
 }
 
-/* void	parse_main(char *str)
+void	parse_main(char *str, t_list *list)
 {
 	char **av;
+	int	i;
 
+	i = 0;
 	pipe_count(str);
 	av = pipe_separator(str);
-} */
+	while (av[i])
+	{
+		av[i] = expand_var(av[i], list);
+		i++;
+	}
+
+}
 

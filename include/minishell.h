@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/08 17:47:15 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/09 20:26:58 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,9 +139,12 @@ typedef struct s_token
 //6-Ejecutar
 //7-Del 1 al 7 en el siguiente.
 
-
+/*----------Expand-----------*/
+char	*expand_var(char *str, t_list *list);
 /*-----------Parse-----------*/
 //int		close_quote(char *str, char c);
+void	parse_main(char *str, t_list *list);
+int	ft_isspace(char c);
 int	pipe_count(char *str);
 char	**pip_separator(char *str);
 /*-----------Error-----------*/
