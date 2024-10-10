@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/09 20:26:58 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/10 14:22:47 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,5 +171,8 @@ t_list	*find_key(t_list *list, char *n_key);
 int ft_strchr(const char *str, char c);
 void    ft_voidexport(t_list *list);
 int	ft_export(t_list *list, char *n_key);
+
+
+void	mini_loop();
 
 #endif

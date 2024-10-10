@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/09 20:23:20 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/10 14:19:04 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ char	*ft_expand(char  *str, int *i, t_list *list)
 	return (aux);
 
 }
+/*Esta funcion expande las variables despues del $,
+no cuenta entre comillas simples ni despues de \.*/
 
 char	*expand_var(char *str, t_list *list)
 {
