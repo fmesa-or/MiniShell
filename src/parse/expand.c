@@ -6,13 +6,13 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/10 14:19:04 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:19:59 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*la i esta en el ultimo char de loq se va a expan
+/*la i esta en el ultimo char de lo q se va a expan
 la j esta en el siguiente char al $*/
 char	*ft_sustit(char *str, int i, int j, t_list *node)
 {

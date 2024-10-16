@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/09 20:26:33 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/14 18:52:57 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,13 @@ void	parse_main(char *str, t_list *list)
 		av[i] = expand_var(av[i], list);
 		i++;
 	}
+	i = 0;
+	while(av[i])
+	{
+		printf("av[i]%s\n",av[i]);
+		i++;
+	}
+	//tk_list_init(av);
 
 }
 

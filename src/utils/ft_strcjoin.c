@@ -6,11 +6,13 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 18:46:12 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/09 19:40:45 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/14 18:56:01 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
 
 int	ft_strcmp(const char *s1, const char *s2)
 {

@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/10 14:22:47 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/14 19:08:58 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ enum	e_token
 	HDOC,
 	DOUT,
 	NDOUT,
-	BUIL
+	BUIL,
 };
 
 /**************************************************************
@@ -70,8 +70,6 @@ enum	e_token
 **************************************************************/
 typedef struct s_data
 {
-	char			*name;
-	char			*prompt;
 	char			*home;
 	char			*user_input;
 	char			**cmnds;
@@ -139,6 +137,9 @@ typedef struct s_token
 //6-Ejecutar
 //7-Del 1 al 7 en el siguiente.
 
+/*----------Token_list----------*/
+t_token	*tk_list_init(char **pipes);
+
 /*----------Expand-----------*/
 char	*expand_var(char *str, t_list *list);
 /*-----------Parse-----------*/
@@ -173,6 +174,8 @@ void    ft_voidexport(t_list *list);
 int	ft_export(t_list *list, char *n_key);
 
 
-void	mini_loop();
+void	mini_loop(t_data *data, t_list *list);
+t_data	*data_init(t_list *env);
+char	*ft_strdup(const char *s1);
 
 #endif
