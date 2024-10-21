@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/14 18:52:57 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/17 19:41:13 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	ft_isspace(char c)
 }
 /*Esta funcion itera el str hasta encontrar un pipe valido.
 	Despues devuelve el int de su posicion, lo q sirve para retomar ese valor*/
-int	pipe_iteri(char *str, int i)
+int	pipe_iteri(char *str, int i, char c)
 {
-	while (str[i] != '|' && str[i])
+	while (str[i] != c && str[i])
 	{
 		if(str[i] == '\\' && str[i+1])
 			i += 2;
@@ -64,7 +64,7 @@ int	pipe_count(char *str)
 	while(str[i])
 	{
 		count++;
-		i = pipe_iteri(str, i);
+		i = pipe_iteri(str, i, '|');
 		if (str[i] == '|')
 			i++;	
 	}
@@ -87,13 +87,14 @@ char	**pipe_separator(char *str)
 
 	i = 0;
 	j = 0;
+	k = 0;
 	npipe = pipe_count(str);
 	av = malloc(sizeof(char *) * npipe +1);
 	if(!av)
 		throw_error("ERROR: ");
 	while (npipe > 0)
 	{
-		k = pipe_iteri(str, j);
+		k = pipe_iteri(str, j, '|');
 		av[i] = ft_substr(str, j, k - j);
 		j = k;
 		if(str[j] == '|')
@@ -111,6 +112,7 @@ void	parse_main(char *str, t_list *list)
 	int	i;
 
 	i = 0;
+	av = NULL;
 	pipe_count(str);
 	av = pipe_separator(str);
 	while (av[i])
@@ -124,7 +126,7 @@ void	parse_main(char *str, t_list *list)
 		printf("av[i]%s\n",av[i]);
 		i++;
 	}
-	//tk_list_init(av);
+	//tk_list_make(av);
 
 }
 

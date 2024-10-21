@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/14 19:08:58 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/16 18:09:59 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ t_token	*tk_list_init(char **pipes);
 char	*expand_var(char *str, t_list *list);
 /*-----------Parse-----------*/
 //int		close_quote(char *str, char c);
+int	pipe_iteri(char *str, int i, char c);
 void	parse_main(char *str, t_list *list);
 int	ft_isspace(char c);
 int	pipe_count(char *str);
