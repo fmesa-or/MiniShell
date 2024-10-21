@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/16 19:23:37 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:17:51 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_token	*tk_init(void)
 	return (new);
 }
 
-t_token	*tk_readrd(t_token *tk_node, char *str)
+t_token	*tk_inrd(t_token *tk_node, char *str)
 {
 	int i;
 
@@ -53,14 +53,14 @@ t_token	*tk_readrd(t_token *tk_node, char *str)
 	}
 	return (tk_node);
 }
-t_token	*tk_writerd(t_token *tk_node, char *str)
+t_token	*tk_outrd(t_token *tk_node, char *str)
 {
 	int i;
 
 	i = 0;
 	while(str[i])
 	{
-		i = pipe_iteri(str, i, '<');
+		i = pipe_iteri(str, i, '>');
 		if (str[i] == '>' && str[i+1] == '>')
 		{
 			tk_node->redir->type = DOUT;

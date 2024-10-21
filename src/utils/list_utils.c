@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/07 15:00:13 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:17:48 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ char **listtoenv(t_list *list)
 t_list  *envtolist(char **env)
 {
     t_list *list;
-    int     i;
 	t_list *head;
     char    **aux;
+    int     i;
 
 	if (!env || !*env)
 		return (NULL);

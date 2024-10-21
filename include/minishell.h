@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/16 18:09:59 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:03:04 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ int	pipe_count(char *str);
 char	**pip_separator(char *str);
 /*-----------Error-----------*/
 void	throw_error(const char *str);
+void	free_2ptr(char **array);
 /*-----------Split-----------*/
 char	**ft_split(char const *s, char c);
 int		ft_strlen(const char *str);

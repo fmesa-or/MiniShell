@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/14 19:17:07 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:56:59 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_data	*data_init(t_list *env)
 	data_list->pwd = ft_strdup(node->value);
 	node = find_key(env, "HOME");
 	data_list->home = ft_strdup(node->value);
+	
 	return(data_list);
 }
 
@@ -60,7 +61,9 @@ int main(int argc, char **argv, char **env)
 	if (argc == 1 && argv)
 	{
 		data = data_init(list);
-		mini_loop(data,list);
+		free(data);
+		parse_main("pito flaut|as florin$USER", list);
+		//mini_loop(data,list);
 		//write(1, s, ft_strlen(s));
 		write(1, "\n", 1);
 

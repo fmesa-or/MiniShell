@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/17 19:41:13 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:05:16 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	**pipe_separator(char *str)
 	j = 0;
 	k = 0;
 	npipe = pipe_count(str);
-	av = malloc(sizeof(char *) * npipe +1);
+	av = malloc(sizeof(char *) * (npipe +1));
 	if(!av)
 		throw_error("ERROR: ");
 	while (npipe > 0)
@@ -109,15 +109,18 @@ char	**pipe_separator(char *str)
 void	parse_main(char *str, t_list *list)
 {
 	char **av;
+	//char *aux;
 	int	i;
 
 	i = 0;
 	av = NULL;
-	pipe_count(str);
+	//pipe_count(str);
 	av = pipe_separator(str);
 	while (av[i])
 	{
+		//aux = av[i];
 		av[i] = expand_var(av[i], list);
+		//free(aux);
 		i++;
 	}
 	i = 0;
@@ -126,6 +129,7 @@ void	parse_main(char *str, t_list *list)
 		printf("av[i]%s\n",av[i]);
 		i++;
 	}
+	free_2ptr(av);
 	//tk_list_make(av);
 
 }
