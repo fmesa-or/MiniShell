@@ -6,11 +6,17 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/21 16:17:51 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:43:10 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void printredir(t_redir *red)
+{
+	printf("file: %s\n", red->file);
+	printf("tipo: %i\n", red->type);
+}
 
 t_token	*tk_init(void)
 {
@@ -29,52 +35,107 @@ t_token	*tk_init(void)
 	return (new);
 }
 
+/*Esta funcion solo coge la siguiente palabra despues
+de la redireccion, q tiene q ser el archivo al q hace ref*/
+
+char *getfilename(char *str, int i)
+{
+	int	start;
+
+	write(1, "5\n", 2);
+	while(ft_isspace(str[i]) && str[i])
+		i++;
+	start = i;
+	if (!str[i])
+		return(NULL);
+	else if (str[i] == '\"')
+	{
+		i = end_quote(str, i, '\"');
+		return(ft_substr(str, start, i - start));
+	}
+	else if (str[i] == '\'')
+	{
+		i = end_quote(str, i, '\'');
+		return(ft_substr(str, start, i - start));
+	}
+	else
+	{
+		write(1, "6\n", 2);
+		while (!ft_isspace(str[i]) && str[i])
+			i++;
+		write(1, "7\n", 2);
+		return(ft_substr(str, start, i - start));
+	}
+}
+
 t_token	*tk_inrd(t_token *tk_node, char *str)
 {
 	int i;
+	t_redir *aux_red;
 
 	i = 0;
 	while(str[i])
 	{
 		i = pipe_iteri(str, i, '<');
+		if(!str[i])
+			break ;
+		printf("%s\n", &str[i]);
 		if (str[i] == '<' && str[i+1] == '<')
 		{
-			tk_node->redir->type = HDOC;
-			//coger aqui nombre del archivo?
+			aux_red = malloc(sizeof(t_redir));
+			ft_rediradd_back(&tk_node->redir, aux_red);
+			aux_red->type = HDOC;
+			aux_red->file = getfilename(str, i + 2);
 			i += 2;			
 		}
 		else if(str[i] == '<' && str[i+1] != '<')
 		{
-			tk_node->redir->type = IN;
+			write(1, "9\n", 2);
+			aux_red = malloc(sizeof(t_redir));
+			ft_rediradd_back(&tk_node->redir, aux_red);
+			aux_red->type = IN;
+			aux_red->file = getfilename(str, i + 1);
 			i++;
 		}
 		else if (str[i] != '<' && str[i])
 			i++;
 	}
+	printredir(tk_node->redir);
 	return (tk_node);
 }
 t_token	*tk_outrd(t_token *tk_node, char *str)
 {
-	int i;
+		int i;
+	t_redir *aux_red;
 
 	i = 0;
 	while(str[i])
 	{
 		i = pipe_iteri(str, i, '>');
+		if(!str[i])
+			break ;
+		printf("%s\n", &str[i]);
 		if (str[i] == '>' && str[i+1] == '>')
 		{
-			tk_node->redir->type = DOUT;
-			//coger aqui nombre del archivo?
+			aux_red = malloc(sizeof(t_redir));
+			ft_rediradd_back(&tk_node->redir, aux_red);
+			aux_red->type = NDOUT;
+			aux_red->file = getfilename(str, i + 2);
 			i += 2;			
 		}
 		else if(str[i] == '>' && str[i+1] != '>')
 		{
-			tk_node->redir->type = NDOUT;
+			write(1, "9\n", 2);
+			aux_red = malloc(sizeof(t_redir));
+			ft_rediradd_back(&tk_node->redir, aux_red);
+			aux_red->type = DOUT;
+			aux_red->file = getfilename(str, i + 1);
 			i++;
 		}
 		else if (str[i] != '>' && str[i])
 			i++;
 	}
+	printredir(tk_node->redir);
 	return (tk_node);
 }
 
@@ -86,9 +147,14 @@ t_token	*tk_list_make(char **pipes)
 	t_token	*tk_list;
 	while (pipes[i])
 	{
+		write(1, "1\n", 2);
 		tk_list= tk_init();
-		//tk_readrd(tk_list, pipes[i]);
-		//tk_writerd(tk_list, pipes[i]);
+		write(1, "2\n", 2);
+		tk_inrd(tk_list, pipes[i]);
+		write(1, "3\n", 2);
+		tk_outrd(tk_list, pipes[i]);
+		write(1, "4\n", 2);
+		
 		tk_list = tk_list->next;
 		i++;
 	}

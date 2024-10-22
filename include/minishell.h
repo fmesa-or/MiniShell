@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/21 16:03:04 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:22:31 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,12 @@ typedef struct s_token
 //6-Ejecutar
 //7-Del 1 al 7 en el siguiente.
 
+
+
+void	ft_rediradd_back(t_redir **lst, t_redir *new);
 /*----------Token_list----------*/
 t_token	*tk_list_init(char **pipes);
-
+t_token	*tk_list_make(char **pipes);
 /*----------Expand-----------*/
 char	*expand_var(char *str, t_list *list);
 /*-----------Parse-----------*/
@@ -175,6 +178,9 @@ int ft_strchr(const char *str, char c);
 void    ft_voidexport(t_list *list);
 int	ft_export(t_list *list, char *n_key);
 
+/*----------Str_utils-----------*/
+int	end_quote(char *str, int i, char c);
+int ft_strchr(const char *str, char c);
 
 void	mini_loop(t_data *data, t_list *list);
 t_data	*data_init(t_list *env);
