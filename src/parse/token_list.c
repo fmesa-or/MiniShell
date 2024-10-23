@@ -6,14 +6,15 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/22 17:43:10 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:34:56 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void printredir(t_redir *red)
+void printredir(t_redir *red, char *str)
 {
+	printf("cheking: %s\n", str);
 	printf("file: %s\n", red->file);
 	printf("tipo: %i\n", red->type);
 }
@@ -79,7 +80,7 @@ t_token	*tk_inrd(t_token *tk_node, char *str)
 		i = pipe_iteri(str, i, '<');
 		if(!str[i])
 			break ;
-		printf("%s\n", &str[i]);
+		printf("inrd: %s\n", &str[i]);
 		if (str[i] == '<' && str[i+1] == '<')
 		{
 			aux_red = malloc(sizeof(t_redir));
@@ -100,7 +101,7 @@ t_token	*tk_inrd(t_token *tk_node, char *str)
 		else if (str[i] != '<' && str[i])
 			i++;
 	}
-	printredir(tk_node->redir);
+	printredir(tk_node->redir, "in");
 	return (tk_node);
 }
 t_token	*tk_outrd(t_token *tk_node, char *str)
@@ -114,7 +115,7 @@ t_token	*tk_outrd(t_token *tk_node, char *str)
 		i = pipe_iteri(str, i, '>');
 		if(!str[i])
 			break ;
-		printf("%s\n", &str[i]);
+		printf("outrn: %s\n", &str[i]);
 		if (str[i] == '>' && str[i+1] == '>')
 		{
 			aux_red = malloc(sizeof(t_redir));
@@ -135,7 +136,7 @@ t_token	*tk_outrd(t_token *tk_node, char *str)
 		else if (str[i] != '>' && str[i])
 			i++;
 	}
-	printredir(tk_node->redir);
+	printredir(tk_node->redir, "out");
 	return (tk_node);
 }
 
@@ -145,10 +146,13 @@ t_token	*tk_list_make(char **pipes)
 
 	i = 0;
 	t_token	*tk_list;
+	t_token *head;
 	while (pipes[i])
 	{
 		write(1, "1\n", 2);
 		tk_list= tk_init();
+		if(i = 0)
+			head = tk_list;
 		write(1, "2\n", 2);
 		tk_inrd(tk_list, pipes[i]);
 		write(1, "3\n", 2);

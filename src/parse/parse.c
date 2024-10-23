@@ -6,22 +6,13 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/22 16:18:31 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:02:57 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*Esta funcion mira q un char sea un espacio.
-	Se usa dentro de la condicion de los while*/
-int	ft_isspace(char c)
-{
-	if (c == ' ' || c == '\t' || c =='\n'
-		|| c == '\r' || c == '\f' || c == '\v')
-		return(0);
-	else
-		return(1);
-}
+
 /*Esta funcion itera el str hasta encontrar un pipe valido.
 	Despues devuelve el int de su posicion, lo q sirve para retomar ese valor*/
 int	pipe_iteri(char *str, int i, char c)

@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/22 17:22:31 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:58:25 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ typedef struct s_token
 	struct s_redir	*redir; //NULL
 	int				l_status; //indiferente
 	struct s_token	*next;
-	struct s_token	*prev;
 }	t_token;
 //1-Exite un comando después? -> Hacer una pipe. Modificando el fd.
 //2-Redirecciones ->
@@ -179,6 +178,7 @@ void    ft_voidexport(t_list *list);
 int	ft_export(t_list *list, char *n_key);
 
 /*----------Str_utils-----------*/
+int	ft_isalnum(int c);
 int	end_quote(char *str, int i, char c);
 int ft_strchr(const char *str, char c);
 

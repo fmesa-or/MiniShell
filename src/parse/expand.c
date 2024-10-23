@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/14 17:19:59 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:01:46 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*expand_var(char *str, t_list *list)
 			while (str[i] != '\'' && str[i])
 				i++;
 		}
-		else if (str[i] == '$' && str[i+1])
+		else if (str[i] == '$' && ft_isalnum(str[i+1])) //esto realmente mirar dentro del if, por q si falla el char hay q dar error
 		{
 			aux = ft_expand(str, &i, list);
 			//free(str);
