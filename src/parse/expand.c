@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/23 16:01:46 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/23 19:03:02 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_expand(char  *str, int *i, t_list *list)
 
 	n = *i;
 	j = n + 1;
-	while(ft_isspace(str[n]) && str[n])
+	while(!ft_isspace(str[n]) && str[n])
 		n++;
 	aux =ft_substr(str, j, n - j);
 	node = find_key(list, aux);

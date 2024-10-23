@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:38:50 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/23 16:03:24 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/23 19:02:33 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	ft_isspace(char c)
 {
 	if (c == ' ' || c == '\t' || c =='\n'
 		|| c == '\r' || c == '\f' || c == '\v')
-		return(0);
-	else
 		return(1);
+	else
+		return(0);
 }
 
 /*esto mira q un caracter sea alfanumerico,

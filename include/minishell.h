@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/23 15:58:25 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/23 19:06:58 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ typedef struct s_token
 	int				pid;
 	struct s_redir	*redir; //NULL
 	int				l_status; //indiferente
-	struct s_token	*next;
 }	t_token;
 //1-Exite un comando después? -> Hacer una pipe. Modificando el fd.
 //2-Redirecciones ->
