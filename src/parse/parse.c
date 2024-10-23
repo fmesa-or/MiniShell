@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/23 16:02:57 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:00:08 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,21 +100,15 @@ char	**pipe_separator(char *str)
 void	parse_main(char *str, t_list *list)
 {
 	char **av;
-	//char *aux;
+	char *aux;
 	int	i;
 	t_token *token;
 
 	i = 0;
 	av = NULL;
 	token = NULL;
-	av = pipe_separator(str);
-	while (av[i])
-	{
-		//aux = av[i];
-		av[i] = expand_var(av[i], list);
-		//free(aux);
-		i++;
-	}
+	aux = expand_var(str, list);
+	av = pipe_separator(aux);
 	write(1, "llega\n", 6);
 	token = tk_list_make(av);
 	free(token);//quitar esta linea
@@ -125,7 +119,6 @@ void	parse_main(char *str, t_list *list)
 		i++;
 	}
 	free_2ptr(av);
-	//tk_list_make(av);
 
 }
 

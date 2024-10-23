@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/23 15:34:56 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:44:27 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char *getfilename(char *str, int i)
 	}
 }
 
-t_token	*tk_inrd(t_token *tk_node, char *str)
+void	tk_inrd(t_token *tk_node, char *str)
 {
 	int i;
 	t_redir *aux_red;
@@ -102,9 +102,8 @@ t_token	*tk_inrd(t_token *tk_node, char *str)
 			i++;
 	}
 	printredir(tk_node->redir, "in");
-	return (tk_node);
 }
-t_token	*tk_outrd(t_token *tk_node, char *str)
+void	tk_outrd(t_token *tk_node, char *str)
 {
 		int i;
 	t_redir *aux_red;
@@ -137,7 +136,6 @@ t_token	*tk_outrd(t_token *tk_node, char *str)
 			i++;
 	}
 	printredir(tk_node->redir, "out");
-	return (tk_node);
 }
 
 t_token	*tk_list_make(char **pipes)
@@ -146,19 +144,16 @@ t_token	*tk_list_make(char **pipes)
 
 	i = 0;
 	t_token	*tk_list;
-	t_token *head;
+	//t_token *aux;
 	while (pipes[i])
 	{
 		write(1, "1\n", 2);
-		tk_list= tk_init();
-		if(i = 0)
-			head = tk_list;
-		write(1, "2\n", 2);
+		if (!tk_list)
+			tk_list= tk_init();
 		tk_inrd(tk_list, pipes[i]);
 		write(1, "3\n", 2);
 		tk_outrd(tk_list, pipes[i]);
-		write(1, "4\n", 2);
-		
+		write(1, "4\n", 2);		
 		tk_list = tk_list->next;
 		i++;
 	}
