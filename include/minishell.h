@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/04 17:50:11 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/10/28 13:11:18 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -105,9 +105,9 @@ typedef struct s_redir
 *                                TOKEN                                     *
 *fd			->Files descriptor for the pipe process.                       *
 *type		->The options are:                                             *
-*				->Building.                                                *
-*				->Normal command.                                          *
-*				->Pipe (we can omit this option if we don't make the bonus)*
+*				->(0)Building.                                                *
+*				->(1)Normal command.                                          *
+*				->(2)Pipe (we can omit this option if we don't make the bonus)*
 *argc		->Number of arguments we have in the command.                  *
 *argv		->Array with arguments.                                        *
 *command	->Pointer to the main command.                                 *
@@ -156,5 +156,17 @@ void	throw_error(const char *str);
 
 /*-------MINI_LOOP----------*/
 void	mini_loop();
+
+
+/*---PACO----*/
+void	ft_freearray(char **array);
+char	*ft_strdup(const char *s1);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
+void	ft_execute(const char *argv, char **envp);
+char	*find_path(char *cmd, char **envp);
+char	*fp_loop(char *path, char *cmd, char **paths, int i);
+char	**awk_split(const char *argv, int i);
+
 
 #endif
