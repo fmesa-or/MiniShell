@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/28 13:11:18 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/11/05 18:29:16 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -70,8 +70,6 @@ enum	e_token
 **************************************************************/
 typedef struct s_data
 {
-	char			*name;
-	char			*prompt;
 	char			*home;
 	char			*user_input;
 	char			**cmnds;
@@ -97,8 +95,8 @@ typedef struct s_list
 typedef struct s_redir
 {
 	int				type;
+	int				index; //la posicion del primer caracter del redir
 	char			*file;
-	struct s_redir	*next;
 }	t_redir;
 
 /***************************************************************************
@@ -127,8 +125,6 @@ typedef struct s_token
 	int				pid;
 	struct s_redir	*redir; //NULL
 	int				l_status; //indiferente
-	struct s_token	*next;
-	struct s_token	*prev;
 }	t_token;
 //1-Exite un comando después? -> Hacer una pipe. Modificando el fd.
 //2-Redirecciones ->

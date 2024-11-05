@@ -1,0 +1,11 @@
+cmd1 << LIMITER | cmd2 >> file
+	>input text
+
+cmd >> file
+	input text
+		LIMITER = ctrl + z
+			^Z
+			[2]+  Stopped                 cat >> files/output
+		LIMITER = ctrl + c
+			^C
+
