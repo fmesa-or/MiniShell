@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 13:46:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/06 18:26:53 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/11/06 20:22:47 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,11 @@
 
 void ft_pwd(t_list *list)
 {
-	t_list *node;
+	char	*aux;
 
-
-	node = find_key(list, "PWD");
-	if(node)
-		write(1, node->value, ft_strlen(node->value));
+	aux = getcwd(NULL, 0);
+	write(1,aux, sizeof(aux));
+	free(aux);
 	write(1, "\n", 1);
 }
 

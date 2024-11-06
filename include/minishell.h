@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/23 19:06:58 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/11/06 19:35:17 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,14 @@ typedef struct s_list
 *type	->The kind of redirection (</<</>/>>)                         *
 *file	->The file for the redirection (except when is a HEREDOC (<<),*
 *			in that case it's the limit)                              *
-*next	->The next redirection ("< input.txt cat >> output.txt")      *
+*index	->Index of the first char in the original str    *
 **********************************************************************/
 typedef struct s_redir
 {
 	int				type;
+	int				index;
 	char			*file;
-	struct s_redir	*next;
+	struct s_redir			*next;
 }	t_redir;
 
 /***************************************************************************
@@ -136,7 +137,13 @@ typedef struct s_token
 //7-Del 1 al 7 en el siguiente.
 
 
-
+/*------------redir------------*/
+char	*rd_strdel(t_token *tk, char *str);
+void	tk_inrd(t_token *tk_node, char *str);
+void	tk_outrd(t_token *tk_node, char *str);
+/*------------Redir_utirs------------*/
+void printredir(t_redir *red, char *str);
+char *getfilename(char *str, int i);
 void	ft_rediradd_back(t_redir **lst, t_redir *new);
 /*----------Token_list----------*/
 t_token	*tk_list_init(char **pipes);
