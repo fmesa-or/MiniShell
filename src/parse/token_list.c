@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/06 19:29:46 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/11/11 11:30:34 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,11 @@ t_token	*tk_list_make(char **pipes)
 		tk_init(&tk_list[i]);
 		tk_inrd(&tk_list[i], pipes[i]);
 		tk_outrd(&tk_list[i], pipes[i]);
-		if (tk_list[i].redir->type){
+		if (tk_list[i].redir->type)
+		{
 			aux = rd_strdel(&tk_list[i], pipes[i]);
 			printf("str = %s\n", aux);
-			}
+		}
 		i++;
 	}
 	tk_list[i].type = NONE;

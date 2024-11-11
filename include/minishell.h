@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/06 19:35:17 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/11/11 13:15:44 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@
 *NONE	->Nothing                                                      *
 *CMD	->Command                                                      *
 *PIPE	->Pipe ("|")                                                   *
-*IN		->Redirection, input fd ("<")                                  *
-*HDOC	->Redirection, text input {HEREDOC} ("<<")                     *
-*DOUT	->Redirection, destructive, deletes everything of the file(">")*
-*NDOUT	->Redirection, non destructive, writes at the end (">>")       *
+*IN		->("<") Redirection, input fd                                  *
+*HDOC	->("<<"){HEREDOC}Redirection, text input                     *
+*DOUT	->(">")Redirection, destructive, deletes everything of the file*
+*NDOUT	->(">>")Redirection, non destructive, writes at the end        *
 *BUIL	->Commands we include in the built in, like env,  cd, pwd,etc.                                 *
 ***********************************************************************/
 enum	e_token
@@ -138,6 +138,7 @@ typedef struct s_token
 
 
 /*------------redir------------*/
+t_redir	*redir_fill(t_token *tk, char *str, int rd_type, int i);      
 char	*rd_strdel(t_token *tk, char *str);
 void	tk_inrd(t_token *tk_node, char *str);
 void	tk_outrd(t_token *tk_node, char *str);
