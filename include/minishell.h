@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/11 13:15:44 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/11/15 13:52:17 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,9 @@ typedef struct s_token
 	char			**argv; // [0]= ls; [1]=-l; [2]=-a; [3]=NULL
 	char			*command; // /bin/ls
 	int				pid;
-	struct s_redir	*redir; //NULL
 	int				l_status; //indiferente
+	struct s_redir	*redir; //NULL
+	struct s_list	*env;//puntero a struct main
 }	t_token;
 //1-Exite un comando después? -> Hacer una pipe. Modificando el fd.
 //2-Redirecciones ->
@@ -138,7 +139,7 @@ typedef struct s_token
 
 
 /*------------redir------------*/
-t_redir	*redir_fill(t_token *tk, char *str, int rd_type, int i);      
+void	redir_fill(t_token *tk, char *str, int rd_type, int i);      
 char	*rd_strdel(t_token *tk, char *str);
 void	tk_inrd(t_token *tk_node, char *str);
 void	tk_outrd(t_token *tk_node, char *str);
@@ -148,7 +149,7 @@ char *getfilename(char *str, int i);
 void	ft_rediradd_back(t_redir **lst, t_redir *new);
 /*----------Token_list----------*/
 t_token	*tk_list_init(char **pipes);
-t_token	*tk_list_make(char **pipes);
+t_token	*tk_list_make(char **pipes, t_list *env);
 /*----------Expand-----------*/
 char	*expand_var(char *str, t_list *list);
 /*-----------Parse-----------*/
@@ -171,7 +172,7 @@ char	*ft_strcjoin(char *s1, char *s2, char c);
 
 /*-----------Builts_in-----------*/
 void	ft_env(t_list *list);
-void 	ft_pwd(t_list *list);
+void 	ft_pwd();
 /*----------List_utils----------*/
 void	ft_unset(t_list **list, char *ref);
 char 	**listtoenv(t_list *list);

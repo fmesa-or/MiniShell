@@ -6,17 +6,17 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 13:46:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/06 20:22:47 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/11/11 16:04:23 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*Esta funcion busca e imprime el PWD asociado al value de dicha key
-	dentro de NUESTRA LISTA, por lo que tendremos q actualizar dicho value
-	cada vez que usemos el cmd CD!!!*/
+/*Esta funcion busca e imprime el PWD, lo he cambiado
+	para q no tengamos q recurrir a nuestra lista,
+	de manera q siempre lo escriba*/
 
-void ft_pwd(t_list *list)
+void ft_pwd()
 {
 	char	*aux;
 

@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 17:21:09 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/06 20:01:11 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/11/15 12:25:10 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ char *getfilename(char *str, int i)
 	{
 		while (!ft_isspace(str[i]) && str[i])
 			i++;
-		printf("i = %i\nstart = %i\n", i, start);
 		return(ft_substr(str, start, i - start));
 	}
 }

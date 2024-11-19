@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/11 13:31:13 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/11/11 16:43:07 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int main(int argc, char **argv, char **env)
 	{
 		data = data_init(list);
 		free(data);
-		parse_main("pito < flauta | algarroba $USER> pene", list);
+		parse_main("pito >     flauta  3| algarroba $USER >   pene aljofifa|>> polla pito tres", list);
 		//mini_loop(data,list);
 		//write(1, s, ft_strlen(s));
 		write(1, "\n", 1);
