@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/15 13:52:17 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/11/19 17:46:24 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcjoin(char *s1, char *s2, char c);
 
 /*-----------Builts_in-----------*/
+void	ft_cd(char *path);
 void	ft_env(t_list *list);
 void 	ft_pwd();
 /*----------List_utils----------*/
