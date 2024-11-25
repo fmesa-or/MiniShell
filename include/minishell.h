@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/05 18:29:16 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/11/25 19:51:57 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -38,11 +38,11 @@
 *NONE	->Nothing                                                      *
 *CMD	->Command                                                      *
 *PIPE	->Pipe ("|")                                                   *
-*IN		->Redirection, input fd ("<")                                  *
-*HDOC	->Redirection, text input {HEREDOC} ("<<")                     *
-*DOUT	->Redirection, destructive, deletes everything of the file(">")*
-*NDOUT	->Redirection, non destructive, writes at the end (">>")       *
-*BUIL	->I have no clue what is this.                                 *
+*IN		->("<") Redirection, input fd                                  *
+*HDOC	->("<<"){HEREDOC}Redirection, text input                     *
+*DOUT	->(">")Redirection, destructive, deletes everything of the file*
+*NDOUT	->(">>")Redirection, non destructive, writes at the end        *
+*BUIL	->Co	PIPE,mmands we include in the built in, like env,  cd, pwd,etc.                                 *
 ***********************************************************************/
 enum	e_token
 {
@@ -53,7 +53,7 @@ enum	e_token
 	HDOC,
 	DOUT,
 	NDOUT,
-	BUIL
+	BUIL,
 };
 
 /**************************************************************
@@ -75,7 +75,7 @@ typedef struct s_data
 	char			**cmnds;
 	struct s_list	*exported_list;
 	char			*pwd;
-	int				l_status;
+	int				l_status; //el q hay q imrpimir con $?
 }	t_data;
 
 typedef struct s_list
@@ -90,22 +90,23 @@ typedef struct s_list
 *type	->The kind of redirection (</<</>/>>)                         *
 *file	->The file for the redirection (except when is a HEREDOC (<<),*
 *			in that case it's the limit)                              *
-*next	->The next redirection ("< input.txt cat >> output.txt")      *
+*index	->Index of the first char in the original str    *
 **********************************************************************/
 typedef struct s_redir
 {
 	int				type;
-	int				index; //la posicion del primer caracter del redir
+	int				index;
 	char			*file;
+	struct s_redir			*next;
 }	t_redir;
 
 /***************************************************************************
 *                                TOKEN                                     *
 *fd			->Files descriptor for the pipe process.                       *
 *type		->The options are:                                             *
-*				->(0)Building.                                                *
-*				->(1)Normal command.                                          *
-*				->(2)Pipe (we can omit this option if we don't make the bonus)*
+*				->Building.                                                *
+*				->Normal command.                                          *
+*				->Pipe (we can omit this option if we don't make the bonus)*
 *argc		->Number of arguments we have in the command.                  *
 *argv		->Array with arguments.                                        *
 *command	->Pointer to the main command.                                 *
@@ -123,46 +124,75 @@ typedef struct s_token
 	char			**argv; // [0]= ls; [1]=-l; [2]=-a; [3]=NULL
 	char			*command; // /bin/ls
 	int				pid;
-	struct s_redir	*redir; //NULL
 	int				l_status; //indiferente
+	struct s_redir	*redir; //NULL
+	struct s_list	*env;//puntero a struct main
 }	t_token;
 //1-Exite un comando después? -> Hacer una pipe. Modificando el fd.
 //2-Redirecciones ->
-//3-Comprobar tipo de comando
+//3-Hacemos fork si existe un comando despues
+//4-Hacer dup2 de los fd y close.
+//5-Comprobar tipo de comando
 /****Aquí cambia para los built in****/
-//4-Es necesario hacer un fork?->Cuando no es exit, cuando no es un built-in extraño, casi siempre.
-//5-Hacer dup2 de los fd y close.
 //6-Ejecutar
 //7-Del 1 al 7 en el siguiente.
 
-/*-----------split-----------*/
+
+/*------------redir------------*/
+void	redir_fill(t_token *tk, char *str, int rd_type, int i);      
+char	*rd_strdel(t_token *tk, char *str);
+void	tk_inrd(t_token *tk_node, char *str);
+void	tk_outrd(t_token *tk_node, char *str);
+/*------------Redir_utirs------------*/
+void printredir(t_redir *red, char *str);
+char *getfilename(char *str, int i);
+void	ft_rediradd_back(t_redir **lst, t_redir *new);
+/*----------Token_list----------*/
+t_token	*tk_list_init(char **pipes);
+t_token	*tk_list_make(char **pipes, t_list *env);
+/*----------Expand-----------*/
+char	*expand_var(char *str, t_list *list);
+/*-----------Parse-----------*/
+//int		close_quote(char *str, char c);
+int	pipe_iteri(char *str, int i, char c);
+void	parse_main(char *str, t_list *list);
+int	ft_isspace(char c);
+int	pipe_count(char *str);
+char	**pip_separator(char *str);
+/*-----------Error-----------*/
+void	throw_error(const char *str);
+void	free_2ptr(char **array);
+/*-----------Split-----------*/
 char	**ft_split(char const *s, char c);
 int		ft_strlen(const char *str);
-/*-----------strjoin-----------*/
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+/*-----------strCjoin-----------*/
 int		ft_strcmp(const char *s1, const char *s2);
-char	*ft_strcjoin(char const *s1, char const *s2, char c);
+char	*ft_strcjoin(char *s1, char *s2, char c);
 
-/*----------list_utils----------*/
-t_list	*ft_unset(t_list *list, char *ref);
-char	**listtoenv(t_list *list);
-t_list	*envtolist(char **env);
+/*-----------Builts_in-----------*/
+int	ft_cd(char **argv, t_list *env);
+int	ft_env(t_list *list);
+int	ft_pwd();
+/*----------List_utils----------*/
+void	ft_unset(t_list **list, char *ref);
+char 	**listtoenv(t_list *list);
+t_list  *envtolist(char **env);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+t_list	*ft_lstnew(char *n_key, char *n_value);
+/*-----------ft_export-----------*/
+t_list	*find_key(t_list *list, char *n_key);
+int ft_strchr(const char *str, char c);
+void    ft_voidexport(t_list *list);
+int	ft_export(t_list *list, char *n_key);
 
-/*---------ERRORS----------*/
-void	throw_error(const char *str);
+/*----------Str_utils-----------*/
+int	ft_isalnum(int c);
+int	end_quote(char *str, int i, char c);
+int ft_strchr(const char *str, char c);
 
-/*-------MINI_LOOP----------*/
-void	mini_loop();
-
-
-/*---PACO----*/
-void	ft_freearray(char **array);
+void	mini_loop(t_data *data, t_list *list);
+t_data	*data_init(t_list *env);
 char	*ft_strdup(const char *s1);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-void	ft_execute(const char *argv, char **envp);
-char	*find_path(char *cmd, char **envp);
-char	*fp_loop(char *path, char *cmd, char **paths, int i);
-char	**awk_split(const char *argv, int i);
-
 
 #endif

@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
@@ -6,90 +6,79 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/05 17:09:43 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/11/25 19:53:06 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(int argc, char **argv, char **env)
+t_data	*data_init(t_list *env)
 {
-	t_token	token;
-	int		input = 0;
-	int		output = 0;
-	int		i = 0;
+	t_data *data_list;
+	t_list *node;
 
-	if (!env[0])
-		throw_error(RD"ERROR: Enviroment empty"RES);
-	while (argv[++i] && argc > 0)
-	{
-		if (!argv[i][0])
-			throw_error(RD"Error: One or more arguments empty"RES);
-		i++;
-	}
-
-/*     cmd1 << LIMITER | cmd2 >> file
-	if (????)
-	{
-		i = 3;
-		output = tin_opener(argv[argc - 1], 0);
-		here_doc(argv[2], argc);
-	}
-*/
-	else
-	{
-		i = 2;
-		output = tin_opener(argv[argc - 1], 1);
-		input = tin_opener(argv[1], 2);
-		dup2(input, STDIN_FILENO);
-	}
-	while (i < (argc - 2))
-		child_process_bonus(argv[i++], env);
-	dup2(output, STDOUT_FILENO);
-	ft_execute(argv[argc - 2], env);
-	wait(NULL);
-
+	data_list = malloc(sizeof(t_data));
+	if (!data_list)
+		throw_error("ERROR: ");	
+	data_list->l_status = 0;
+	data_list->cmnds = NULL; //esta linea y la de arriba cambiaran
+	data_list->exported_list = env;
+	data_list->user_input = NULL;
+	node = find_key(env, "PATH");
+	if(!node)
+		throw_error("ERROR: PATH has been deleted");
+	data_list->pwd = ft_strdup(node->value);
+	node = find_key(env, "HOME");
+	if(!node)
+		throw_error("ERROR: HOME has been deleted");
+	data_list->home = ft_strdup(node->value);
+	
+	return(data_list);
 }
 
 
+void	mini_loop(t_data *data, t_list *list)
+{
+	
+	while (1)
+	{
+		data->user_input = readline("minishell> "); //el prompt debería ser ~user:current_dir$~
+		if (!data->user_input)
+			break ;
+		add_history(data->user_input);
+		parse_main(data->user_input, list);
 
+		//printf("Input: %s\n", line); //aquí debería ir la función que parsea la línea
+		free(data->user_input);
+	//	rl_on_new_line();
+	//	rl_redisplay();
+	}
+}
 
+int main(int argc, char **argv, char **env)
+{
+	t_data	*data;
+	t_list *list = envtolist(env);
 
-/*     V0.1
 	if (!env[0])
 		throw_error("ERROR: ");
 	if (argc == 1 && argv)
 	{
-		input = open("files/input", O_RDONLY);
-		output = open("files/output", O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		token.type = 1;
-		token.argc = 1;
-		token.argv[0] = "cat";
-	//	token.command = "/bin/cat/";
-	}
-	dup2(input, STDIN_FILENO);
-	dup2(output, STDOUT_FILENO);
-	ft_execute(token.argv[0], env);
-	wait(NULL);
+		data = data_init(list);
+		free(data);
+		parse_main("export >     flauta  3| algarroba $USER >   pene pwd|>> polla wc -l tres", list);
+		//mini_loop(data,list);
+		//write(1, s, ft_strlen(s));
+		write(1, "\n", 1);
 
-	//	mini_loop();
+		//write(1, av[3], ft_strlen(av[3]));
+		//write(1, "\n", 1);
+		//write(1, list->value, ft_strlen(list->value));
+		//write(1, "\n", 1);
+		//write(1, list->next->value, ft_strlen(list->next->value));
+		//write(1, "\n", 1);
+		//write(1, list->next->next->value, ft_strlen(list->next->next->value));
+		//write(1, "\n", 1);
+	}
 	return (0);
 }
-*/
-
-
-/*
-typedef struct s_token
-{
-	int				fd[2];
-	int				type; //cmd
-	int				argc; //3
-	char			**argv; // [0]= ls; [1]=-l; [2]=-a; [3]=NULL
-	char			*command; // /bin/ls
-	int				pid;
-	struct s_redir	*redir; //NULL
-	int				l_status; //indiferente
-	struct s_token	*next;
-	struct s_token	*prev;
-}	t_token;
-*/
