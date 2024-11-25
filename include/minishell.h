@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/19 17:46:24 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/11/21 18:34:45 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct s_data
 	char			**cmnds;
 	struct s_list	*exported_list;
 	char			*pwd;
-	int				l_status;
+	int				l_status; //el q hay q imrpimir con $?
 }	t_data;
 
 typedef struct s_list
@@ -171,9 +171,9 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcjoin(char *s1, char *s2, char c);
 
 /*-----------Builts_in-----------*/
-void	ft_cd(char *path);
-void	ft_env(t_list *list);
-void 	ft_pwd();
+int	ft_cd(char **argv, t_list *env);
+int	ft_env(t_list *list);
+int	ft_pwd();
 /*----------List_utils----------*/
 void	ft_unset(t_list **list, char *ref);
 char 	**listtoenv(t_list *list);

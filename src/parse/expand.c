@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/06 20:13:00 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/11/21 18:38:50 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ char	*expand_var(char *str, t_list *list)
 			i++;
 			while (str[i] != '\'' && str[i])
 				i++;
+		}
+		else if (str[i] == '$' && str[i + 1] == '?')
+		{
+			//funcion q elimine sustitua el $? por el l_status del struc data			
 		}
 		else if (str[i] == '$' && ft_isalnum(str[i+1])) //esto realmente mirar dentro del if, por q si falla el char hay q dar error
 		{

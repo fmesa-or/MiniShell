@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/15 13:58:52 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/11/21 17:58:55 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,19 @@ void	tk_get_arg(t_token *tk_list, char *pipe, t_list *env)
 	if (flag == 0)
 		throw_error("ERROR: no cmd in pipe");
 	tk_list->argc = i;
-	
-	
+	//printeo de tk struc
+	printf("----------------------\n");
+	printf("type: %i\ncommand: %s\nargc = %i\n", tk_list->type, tk_list->command, tk_list->argc);
+	i = 0;
+	while (tk_list->argv[i])
+	{
+		printf("argv[%i] = %s\n", i, tk_list->argv[i]);
+		i++;
+	}
+	printf("---REDIR---\nredir type: %i\nredir file: %s\n",tk_list->redir->type, tk_list->redir->file);
+	printf("----------------------\n");
 }
+
 
 
 t_token	*tk_list_make(char **pipes, t_list *env)
