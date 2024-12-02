@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builts_in.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 13:46:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/21 18:15:15 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/11/25 16:10:52 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	ft_env(t_list *list)
 		if (write(1,"\n",1) == -1)
 			return(-1);
 		list = list->next;
-		return(0);
 	}
+	return(0);
 }
 
 /*replica funcion cd. Hay q pasarle los argv siendo el primero el mismo comando cd*/

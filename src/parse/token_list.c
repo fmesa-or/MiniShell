@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/21 17:58:55 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:55:46 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,14 @@ int	is_cmd(char *av,t_token *tk, t_list *env)
 		{
 			tk->command = ft_strdup(aux);
 			tk->type = CMD;
+			free_2ptr(path);
 			free(aux);
 			return(1);			
 		}
 		i++;
 	}
+	free_2ptr(path);
+	free(aux);
 	return (0);
 }
 
@@ -129,7 +132,7 @@ t_token	*tk_list_make(char **pipes, t_list *env)
 		tk_init(&tk_list[i]);
 		tk_inrd(&tk_list[i], pipes[i]);
 		tk_outrd(&tk_list[i], pipes[i]);
-		if (tk_list[i].redir->type)
+		if (tk_list[i].redir && tk_list[i].redir->type)
 		{
 			pipes[i] = rd_strdel(&tk_list[i], pipes[i]);
 			printf("str = %s\n", pipes[i]);

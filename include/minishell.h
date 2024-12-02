@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/21 18:34:45 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:33:37 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,10 @@ typedef struct s_token
 //6-Ejecutar
 //7-Del 1 al 7 en el siguiente.
 
-
+/*------------freedom-----------*/
+void	free_partial_data(t_data *data);
+void	free_all_data(t_data *data);
+void	free_2ptr(char **array);
 /*------------redir------------*/
 void	redir_fill(t_token *tk, char *str, int rd_type, int i);      
 char	*rd_strdel(t_token *tk, char *str);
@@ -151,17 +154,16 @@ void	ft_rediradd_back(t_redir **lst, t_redir *new);
 t_token	*tk_list_init(char **pipes);
 t_token	*tk_list_make(char **pipes, t_list *env);
 /*----------Expand-----------*/
-char	*expand_var(char *str, t_list *list);
+char	*expand_var(char *str, t_list *list, t_data *data);
+
 /*-----------Parse-----------*/
 //int		close_quote(char *str, char c);
 int	pipe_iteri(char *str, int i, char c);
-void	parse_main(char *str, t_list *list);
-int	ft_isspace(char c);
+t_token	*parse_main(char *str, t_list *list, t_data *data);
 int	pipe_count(char *str);
 char	**pip_separator(char *str);
 /*-----------Error-----------*/
 void	throw_error(const char *str);
-void	free_2ptr(char **array);
 /*-----------Split-----------*/
 char	**ft_split(char const *s, char c);
 int		ft_strlen(const char *str);
@@ -174,6 +176,13 @@ char	*ft_strcjoin(char *s1, char *s2, char c);
 int	ft_cd(char **argv, t_list *env);
 int	ft_env(t_list *list);
 int	ft_pwd();
+/*-----------ft_echo-----------*/
+void	ft_putstr_fd(char *s, int fd);
+int	ft_echo(char **argv);
+/*-----------ft_exit-----------*/
+int	ft_exit(char **av);
+int	ft_atoi(const char *str);
+
 /*----------List_utils----------*/
 void	ft_unset(t_list **list, char *ref);
 char 	**listtoenv(t_list *list);
@@ -186,11 +195,15 @@ int ft_strchr(const char *str, char c);
 void    ft_voidexport(t_list *list);
 int	ft_export(t_list *list, char *n_key);
 
+/*-----------ft_itoa------------*/
+char	*ft_itoa(int n);
 /*----------Str_utils-----------*/
 int	ft_isalnum(int c);
 int	end_quote(char *str, int i, char c);
 int ft_strchr(const char *str, char c);
+int	ft_isspace(char c);
 
+/*-----------Minishell (MAIN)------------*/
 void	mini_loop(t_data *data, t_list *list);
 t_data	*data_init(t_list *env);
 char	*ft_strdup(const char *s1);

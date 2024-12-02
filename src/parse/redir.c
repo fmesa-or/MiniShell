@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:52:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/15 12:21:28 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/11/25 16:50:10 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*rd_strdel(t_token *tk, char *str)
 	char	*aux2;
 
 	i = tk->redir->index;
-	if(str[i] == '<' || str[i] == '>')
+	if (str[i] == '<' || str[i] == '>')
 	{
 		if (str[i+1] == '<' || str[i+1] == '>')
 			i++;
@@ -120,7 +120,7 @@ char	*rd_strdel(t_token *tk, char *str)
 		return(str);
 		
 	}
-	else if(tk->redir->type == IN || tk->redir->type == DOUT)
+	else if (tk->redir->type == IN || tk->redir->type == DOUT)
 	{
 		//caso de 1
 		aux1 = ft_substr(str, 0, i);

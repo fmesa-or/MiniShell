@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/21 15:17:48 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/11/28 18:45:08 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ t_list  *envtolist(char **env)
 		}
         i++;
     }
+	free_2ptr(aux);
 	return (head);
 }
 

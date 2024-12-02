@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/15 13:02:20 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:44:20 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,22 +94,24 @@ char	**pipe_separator(char *str)
 		npipe--;
 	}
 	av[i] = 0;
-	return(av);	
+	return (av);	
 }
 
-void	parse_main(char *str, t_list *list)
+t_token	*parse_main(char *str, t_list *list, t_data *data)
 {
 	char **av;
 	char *aux;
-	t_token *token;
+	t_token *tokens;
 
 	av = NULL;
-	token = NULL;
-	aux = expand_var(str, list);
+	tokens = NULL;
+	write(1, "5\n", 2);
+	aux = expand_var(str, list, data);
 	av = pipe_separator(aux);
-	//write(1, "llega\n", 6);
-	token = tk_list_make(av, list);
-	free(token);//quitar esta linea
+	write(1, "llega\n", 6);
+	tokens = tk_list_make(av, list);
 	free_2ptr(av);
+	free(aux);
+	return (tokens);
 }
 

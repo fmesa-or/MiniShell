@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+/*esto solo es para debuguear las redir en su estructura*/
 void printredir(t_redir *red, char *str)
 {
 	if (!red)
