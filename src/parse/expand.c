@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/26 18:26:24 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:48:59 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ char	*ft_expand(char  *str, int *i, t_list *list)
 	aux = ft_sustit(str, n, j, node);
 	(*i) += ft_strlen(list->value) - ft_strlen(list->key); 
 	return (aux);
-
 }
 
 /*comprobar que las mates estan bien hechas, pero en principio tendria q impimir bien*/

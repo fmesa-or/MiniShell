@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/28 19:33:37 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:14:58 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,9 @@ typedef struct s_token
 void	free_partial_data(t_data *data);
 void	free_all_data(t_data *data);
 void	free_2ptr(char **array);
+void	ft_redirclear(t_redir **red);
+void	ft_tokenclear(t_token *tk);
+void	ft_envclear(t_list **lst);
 /*------------redir------------*/
 void	redir_fill(t_token *tk, char *str, int rd_type, int i);      
 char	*rd_strdel(t_token *tk, char *str);

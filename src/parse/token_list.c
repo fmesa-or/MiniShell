@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/28 19:55:46 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:47:33 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ void	tk_get_arg(t_token *tk_list, char *pipe, t_list *env)
 		printf("argv[%i] = %s\n", i, tk_list->argv[i]);
 		i++;
 	}
-	printf("---REDIR---\nredir type: %i\nredir file: %s\n",tk_list->redir->type, tk_list->redir->file);
+	if (tk_list->redir)
+		printf("---REDIR---\nredir type: %i\nredir file: %s\n",tk_list->redir->type, tk_list->redir->file);
 	printf("----------------------\n");
 }
 
@@ -143,9 +144,4 @@ t_token	*tk_list_make(char **pipes, t_list *env)
 	tk_list[i].type = NONE;
 	return(tk_list);
 }
-/*para terminar de completar este apartado tengo q rellenar
-la struct data, q quedan el argv, q basta con un split(' ');
-esto va a dar a su vez el argc y hay q encontrar el cmd
-con esto metemos el type y dependiendo si es built o cmd
-le metemos el path en la variable cmd*/
 

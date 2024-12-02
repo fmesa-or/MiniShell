@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/28 19:41:54 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:55:29 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,6 @@ int main(int argc, char **argv, char **env)
 		//parse_main("export >     flauta  3| algarroba $USER >   pene pwd|>> polla wc -l tres", list, data);
 		mini_loop(data,list);
 	}
+	free_all_data(data);
 	return (0);
 }
