@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/12/02 15:55:29 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/12/03 17:35:30 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ t_data	*data_init(t_list *env)
 
 void	mini_loop(t_data *data, t_list *list)
 {
-	
+	t_token	*tk_list;
+
 	while (1)
 	{
 		data->user_input = readline("minishell> "); //el prompt debería ser ~user:current_dir$~
@@ -48,11 +49,14 @@ void	mini_loop(t_data *data, t_list *list)
 			break ;
 		add_history(data->user_input);
 		write(1, "3\n", 2);
-		parse_main(data->user_input, list, data);
+		tk_list = parse_main(data->user_input, list, data);
 		write(1, "4\n", 2);
 		//aqui va la ejecucion
 		//printf("Input: %s\n", line); //aquí debería ir la función que parsea la línea
-		//free(data->user_input);
+	/* 	if (ft_strcmp(tk_list->command, "exit"))
+			ft_exit(NULL); */
+		ft_tokenclear(tk_list);
+		free_partial_data(data);
 	//	rl_on_new_line();
 	//	rl_redisplay();
 	}
@@ -72,7 +76,7 @@ int main(int argc, char **argv, char **env)
 		//free(data);
 		//parse_main("export >     flauta  3| algarroba $USER >   pene pwd|>> polla wc -l tres", list, data);
 		mini_loop(data,list);
+		free_all_data(data);
 	}
-	free_all_data(data);
 	return (0);
 }
