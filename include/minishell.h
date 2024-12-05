@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/25 19:51:57 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/12/05 19:40:29 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ enum	e_token
 
 /**************************************************************
 *                         T_DATA                              *
-*name			->Name of the program (minishell)             *
-*prompt			->What user sees in the screen ("minishell> ")*
 *home			->The route to home (root)                    *
 *user_input		->What the user types                         *
 *cmnds			->Array with the commands (like in pipex)     *
@@ -78,6 +76,9 @@ typedef struct s_data
 	int				l_status; //el q hay q imrpimir con $?
 }	t_data;
 
+/***!!!!!!!!!!!!!!
+*Necesitamos un comentario explicando esto porfis*
+***/
 typedef struct s_list
 {
 	char			*key;
@@ -153,11 +154,10 @@ t_token	*tk_list_make(char **pipes, t_list *env);
 /*----------Expand-----------*/
 char	*expand_var(char *str, t_list *list);
 /*-----------Parse-----------*/
-//int		close_quote(char *str, char c);
-int	pipe_iteri(char *str, int i, char c);
-void	parse_main(char *str, t_list *list);
-int	ft_isspace(char c);
-int	pipe_count(char *str);
+//int	close_quote(char *str, char c);
+int		pipe_iteri(char *str, int i, char c);
+t_token	*parse_main(char *str, t_list *list, t_data *data);
+int		pipe_count(char *str);
 char	**pip_separator(char *str);
 /*-----------Error-----------*/
 void	throw_error(const char *str);
@@ -183,7 +183,7 @@ t_list	*ft_lstnew(char *n_key, char *n_value);
 /*-----------ft_export-----------*/
 t_list	*find_key(t_list *list, char *n_key);
 int ft_strchr(const char *str, char c);
-void    ft_voidexport(t_list *list);
+void	ft_voidexport(t_list *list);
 int	ft_export(t_list *list, char *n_key);
 
 /*----------Str_utils-----------*/

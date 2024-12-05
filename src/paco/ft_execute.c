@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_execute.c                                       :+:      :+:    :+:   */
+/*   ft_execute                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:56:33 by fmesa-or          #+#    #+#             */
-/*   Updated: 2024/10/28 13:09:01 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/12/05 21:41:35 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -117,7 +117,7 @@ char	*find_path(char *cmd, char **envp)
 *3rd: Uses EXECVE to replace the actual process with the new one.           *
 	int execve(const char *filename, char *const argv[], char *const envp[])*
 ****************************************************************************/
-void	ft_execute(const char *argv, char **envp)
+//void	ft_execute(const char *argv, char **envp)
 {
 	int		i;
 	char	*path;

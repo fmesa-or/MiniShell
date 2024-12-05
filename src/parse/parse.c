@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/12/05 19:29:39 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/12/05 19:57:18 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,10 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)
 
 	av = NULL;
 	tokens = NULL;
-	write(1, "5\n", 2);
-	aux = expand_var(str, list, data);
-	av = pipe_separator(aux);
-	write(1, "llega\n", 6);
+//	write(1, "5\n", 2);
+	aux = expand_var(str, list, data); //no sé que es esto
+	av = pipe_separator(aux); //no sé que es esto tampoco
+//	write(1, "llega\n", 6);
 	tokens = tk_list_make(av, list);
 	free_2ptr(av);
 	free(aux);
