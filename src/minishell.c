@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/25 19:53:06 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/12/05 19:28:30 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,16 @@ void	mini_loop(t_data *data, t_list *list)
 	while (1)
 	{
 		data->user_input = readline("minishell> "); //el prompt debería ser ~user:current_dir$~
+	//	write(1, "2\n", 2);
 		if (!data->user_input)
 			break ;
 		add_history(data->user_input);
-		parse_main(data->user_input, list);
-
+	//	write(1, "3\n", 2);
+		parse_main(data->user_input, list, data);
+	//	write(1, "4\n", 2);
+		//aqui va la ejecucion
 		//printf("Input: %s\n", line); //aquí debería ir la función que parsea la línea
-		free(data->user_input);
+		//free(data->user_input);
 	//	rl_on_new_line();
 	//	rl_redisplay();
 	}
@@ -65,20 +68,11 @@ int main(int argc, char **argv, char **env)
 	if (argc == 1 && argv)
 	{
 		data = data_init(list);
-		free(data);
-		parse_main("export >     flauta  3| algarroba $USER >   pene pwd|>> polla wc -l tres", list);
-		//mini_loop(data,list);
-		//write(1, s, ft_strlen(s));
-		write(1, "\n", 1);
-
-		//write(1, av[3], ft_strlen(av[3]));
-		//write(1, "\n", 1);
-		//write(1, list->value, ft_strlen(list->value));
-		//write(1, "\n", 1);
-		//write(1, list->next->value, ft_strlen(list->next->value));
-		//write(1, "\n", 1);
-		//write(1, list->next->next->value, ft_strlen(list->next->next->value));
-		//write(1, "\n", 1);
+	//	write(1, "1\n", 2);
+		//free(data);
+		//parse_main("export >     flauta  3| algarroba $USER >   pene pwd|>> polla wc -l tres", list, data);
+		mini_loop(data,list);
 	}
+	free_all_data(data);
 	return (0);
 }
