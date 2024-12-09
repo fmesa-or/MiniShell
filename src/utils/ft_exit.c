@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:47:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/28 19:26:26 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:06:48 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,16 @@ int	ft_alldigit(char *str)
 	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		if (str[i] < '0' && str[i] > '9')
 			return (0);
 		i++;
 	}
-	return(1);
+	return (1);
 
 }
+
 int	ft_atoi(const char *str)
 {
 	long	nb;
@@ -43,13 +44,13 @@ int	ft_atoi(const char *str)
 	while (str[i])
 	{
 		if (str[i] < 48 || str[i] > 57)
-			throw_error("ERROR: ft_atoi fail");
+			throw_error("ERROR: ft_atoi fail", NULL, NULL);
 		else
 			nb = nb * 10 + (str[i] - '0');
 		i++;
 	}
 	if (nb < INT_MIN || nb > INT_MAX)
-		throw_error("ERROR: exit number too long");
+		throw_error("ERROR: exit number too long", NULL, NULL);
 	return ((int) nb);
 }
 

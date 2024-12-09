@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:52:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/12/02 15:45:40 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:06:00 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	redir_fill(t_token *tk, char *str, int rd_type, int i)
 	{
 		aux_red->file = getfilename(str, i + 1);
 		if (!aux_red->file)
-			throw_error("ERROR: wrong or not existing file");
+			throw_error("ERROR: wrong or not existing file", tk, NULL);
 	}
 }
 

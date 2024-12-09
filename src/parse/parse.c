@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/28 19:44:20 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:15:39 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	pipe_count(char *str)
 	El tratamiento de las redir tendra q  ser previo o posterior a esta ft.
 */
 
-char	**pipe_separator(char *str)
+char	**pipe_separator(char *str, t_data* data)
 {
 	char	**av;
 	int	i;
@@ -82,7 +82,7 @@ char	**pipe_separator(char *str)
 	npipe = pipe_count(str);
 	av = malloc(sizeof(char *) * (npipe +1));
 	if(!av)
-		throw_error("ERROR: ");
+		throw_error("ERROR: ", data, NULL);
 	while (npipe > 0)
 	{
 		k = pipe_iteri(str, j, '|');
@@ -99,17 +99,17 @@ char	**pipe_separator(char *str)
 
 t_token	*parse_main(char *str, t_list *list, t_data *data)
 {
-	char **av;
-	char *aux;
+	char	 **av;
+	char 	*aux;
 	t_token *tokens;
 
 	av = NULL;
 	tokens = NULL;
 	write(1, "5\n", 2);
 	aux = expand_var(str, list, data);
-	av = pipe_separator(aux);
+	av = pipe_separator(aux, data);
 	write(1, "llega\n", 6);
-	tokens = tk_list_make(av, list);
+	tokens = tk_list_make(av, list, data);
 	free_2ptr(av);
 	free(aux);
 	return (tokens);

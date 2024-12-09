@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   str_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:38:50 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/23 19:02:33 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:00:47 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*Esto imprime str por el fd deseado*/
+void	ft_putstr_fd(char *s, int fd)
+{
+	while (*s)
+	{
+		write(fd, s, 1);
+		s++;
+	}
+}
+
 
 /*Esta funcion mira q un char sea un espacio.
 	Se usa dentro de la condicion de los while*/
@@ -67,7 +78,7 @@ int	end_quote(char *str, int i, char c)
 {
 	while (str[i] && str[i] != c)
 		i++;
-	if(!str[i])
-		throw_error("ERROR: ");
+	if (!str[i])
+		throw_error("ERROR: ", NULL, NULL);
 	return (i);
 }

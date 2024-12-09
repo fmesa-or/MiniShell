@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/11/28 18:45:08 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:13:04 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char **listtoenv(t_list *list)
 	}
 	env = malloc(sizeof(char *) * i + 1);
 	if (!env)
-		throw_error("ERROR: ");
+		throw_error("ERROR: ", NULL, NULL);
 	i = 0;
 	list = head;
     while (list)

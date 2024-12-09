@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/12/03 17:35:30 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:09:47 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,26 @@
 
 t_data	*data_init(t_list *env)
 {
-	t_data *data_list;
-	t_list *node;
+	t_data	*data_list;
+	t_list	*node;
 
 	data_list = malloc(sizeof(t_data));
 	if (!data_list)
-		throw_error("ERROR: ");	
+		throw_error("ERROR: ", NULL, NULL);	
 	data_list->l_status = 0;
-	data_list->cmnds = NULL; //esta linea y la de arriba cambiaran
+	data_list->cmnds = NULL;
 	data_list->exported_list = env;
 	data_list->user_input = NULL;
 	node = find_key(env, "PATH");
-	if(!node)
-		throw_error("ERROR: PATH has been deleted");
+	if (!node)
+		throw_error("ERROR: PATH has been deleted", NULL, data_list);
 	data_list->pwd = ft_strdup(node->value);
 	node = find_key(env, "HOME");
-	if(!node)
-		throw_error("ERROR: HOME has been deleted");
+	if (!node)
+		throw_error("ERROR: HOME has been deleted", NULL, data_list);
 	data_list->home = ft_strdup(node->value);
-	
-	return(data_list);
+
+	return (data_list);
 }
 
 
@@ -68,14 +68,14 @@ int main(int argc, char **argv, char **env)
 	t_list *list = envtolist(env);
 
 	if (!env[0])
-		throw_error("ERROR: ");
+		throw_error("ERROR: ", NULL, NULL);
 	if (argc == 1 && argv)
 	{
 		data = data_init(list);
 		write(1, "1\n", 2);
 		//free(data);
 		//parse_main("export >     flauta  3| algarroba $USER >   pene pwd|>> polla wc -l tres", list, data);
-		mini_loop(data,list);
+		mini_loop(data, list);
 		free_all_data(data);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/12/02 15:14:58 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:16:50 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,9 @@ typedef struct s_list
 **********************************************************************/
 typedef struct s_redir
 {
-	int				type;
-	int				index;
-	char			*file;
+	int						type;
+	int						index;
+	char					*file;
 	struct s_redir			*next;
 }	t_redir;
 
@@ -145,28 +145,28 @@ void	ft_redirclear(t_redir **red);
 void	ft_tokenclear(t_token *tk);
 void	ft_envclear(t_list **lst);
 /*------------redir------------*/
-void	redir_fill(t_token *tk, char *str, int rd_type, int i);      
+void	redir_fill(t_token *tk, char *str, int rd_type, int i);
 char	*rd_strdel(t_token *tk, char *str);
 void	tk_inrd(t_token *tk_node, char *str);
 void	tk_outrd(t_token *tk_node, char *str);
 /*------------Redir_utirs------------*/
-void printredir(t_redir *red, char *str);
-char *getfilename(char *str, int i);
+void	printredir(t_redir *red, char *str);
+char	*getfilename(char *str, int i);
 void	ft_rediradd_back(t_redir **lst, t_redir *new);
 /*----------Token_list----------*/
 t_token	*tk_list_init(char **pipes);
-t_token	*tk_list_make(char **pipes, t_list *env);
+t_token	*tk_list_make(char **pipes, t_list *env, t_data *data);
 /*----------Expand-----------*/
 char	*expand_var(char *str, t_list *list, t_data *data);
 
 /*-----------Parse-----------*/
 //int		close_quote(char *str, char c);
-int	pipe_iteri(char *str, int i, char c);
+int		pipe_iteri(char *str, int i, char c);
 t_token	*parse_main(char *str, t_list *list, t_data *data);
-int	pipe_count(char *str);
+int		pipe_count(char *str);
 char	**pip_separator(char *str);
 /*-----------Error-----------*/
-void	throw_error(const char *str);
+void	throw_error(const char *str, t_token *tk, t_data *data);
 /*-----------Split-----------*/
 char	**ft_split(char const *s, char c);
 int		ft_strlen(const char *str);
@@ -176,15 +176,14 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcjoin(char *s1, char *s2, char c);
 
 /*-----------Builts_in-----------*/
-int	ft_cd(char **argv, t_list *env);
-int	ft_env(t_list *list);
-int	ft_pwd();
+int		ft_cd(char **argv, t_data *data);
+int		ft_env(t_list *list);
+int		ft_pwd();
 /*-----------ft_echo-----------*/
-void	ft_putstr_fd(char *s, int fd);
-int	ft_echo(char **argv);
+int		ft_echo(char **argv);
 /*-----------ft_exit-----------*/
-int	ft_exit(char **av);
-int	ft_atoi(const char *str);
+int		ft_exit(char **av);
+int		ft_atoi(const char *str);
 
 /*----------List_utils----------*/
 void	ft_unset(t_list **list, char *ref);
@@ -194,17 +193,18 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 t_list	*ft_lstnew(char *n_key, char *n_value);
 /*-----------ft_export-----------*/
 t_list	*find_key(t_list *list, char *n_key);
-int ft_strchr(const char *str, char c);
+int 	ft_strchr(const char *str, char c);
 void    ft_voidexport(t_list *list);
-int	ft_export(t_list *list, char *n_key);
+int		ft_export(t_list *list, char *n_key);
 
 /*-----------ft_itoa------------*/
 char	*ft_itoa(int n);
 /*----------Str_utils-----------*/
-int	ft_isalnum(int c);
-int	end_quote(char *str, int i, char c);
-int ft_strchr(const char *str, char c);
-int	ft_isspace(char c);
+void	ft_putstr_fd(char *s, int fd);
+int		ft_isalnum(int c);
+int		end_quote(char *str, int i, char c);
+int 	ft_strchr(const char *str, char c);
+int		ft_isspace(char c);
 
 /*-----------Minishell (MAIN)------------*/
 void	mini_loop(t_data *data, t_list *list);

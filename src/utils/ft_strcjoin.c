@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 18:46:12 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/14 18:56:01 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:07:55 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ char	*cjoin(char *s1, char *s2, char *ptr, char c)
 	ptr[i + j] = '\0';
 	return(ptr);
 }
-
+/*Esto hace join de dos str metiendo un caracter en medio de los dos
+	Se puede usar como join normal pasando un nuloen el char*/
 char	*ft_strcjoin(char *s1, char *s2, char c)
 {
 	int	n;
