@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/12/16 12:53:43 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/12/16 19:09:03 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ typedef struct s_redir
 *Guardamos lo que vamos a necesitar para la ejecuccion de una linea de comando / user input
 *fd			->Files descriptor for the pipe process.                       *
 *type		->The options are:                                             *
-*				->Building.                                                *
+*				->Built in.                                                *
 *				->Normal command.                                          *
 *				->Pipe (we can omit this option if we don't make the bonus)*
 *argc		->Number of arguments we have in the command.                  *

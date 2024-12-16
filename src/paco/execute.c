@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2024/12/16 18:39:44 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/12/16 19:34:19 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,16 @@
 **/
 typedef struct s_sherpa
 {
-	int	typein;
-	int	typeout;
+	int		typein;
+	int		typeout;
 	char	*filein;
 	char	*fileout;
 	bool	hdocflag;
 }	t_sherpa;
 
+/**********************************************************
+*Fills t_sherpa data structure info with the t_redir list.*
+**********************************************************/
 t_sherpa	ft_sherpa(s_redir *redir);
 {
 	t_sherpa	sherpa;
@@ -50,8 +53,9 @@ t_sherpa	ft_sherpa(s_redir *redir);
 
 void	ft_commander(t_token *token, t_data *data)
 {
-	//esto es el piex
+	//esto es parecido al piex
 	//pid está en data
+	
 	//token->redir -> type = IN || file = "input.txt" || next= NULL
 	//token->argv -> [0]= ls; [1]=-l; [2]=-a; [3]=NULL
 
@@ -63,46 +67,39 @@ void	ft_commander(t_token *token, t_data *data)
 
 	sherpa = ft_sherpa(token->redir);
 
-	if (token->type == HDOC)
+	if (sherpa->hdocflag == true)
 	{
-		
+		//hace sus cositas con el get_next_line para mostrar en pantalla
+		if (sherpa->typein == HDOC)
+			//hacemos el HDOC
+		else
+			//lo mismo que en IN
+
+		//Esto se debe a que bash muestra en pantalla la opción de
+		//escribir en el terminar dando igual cual sea la última redirección,
+		//siempre que aparezca "<<", pero ejecutará como input solo la última.
 	}
 	else
 	{
-		filout = tin_opener(token->redir->file, 1);
-		filein = tin_opener(token->redir->file, 2);
+		fileout = tin_opener(sherpa->fileout, 1);
+		filein = tin_opener(sherpa->filein, 2);
 		dup2(filein, STDIN_FILENO);
 	}
 
-//neceisto almacenar la info de los redir en una
-//estructura para no hacer open y close infinitamente....
-/*
-	int	i;
-	int	fileout;
-	int	filein;
+	//Probablemente aquí necesitemos una forma de llamar a ejecutar lo que
+	//viene a continuación, ya que excev cierra una vez termina de ejecutar.
+	//En el pipex se llama al proceso hijo, pero tengo que ver como
+	//integrar esto aquí.
+	/*
+	El ejemplo de lo que podemos necesitar sería algo así:
+	
+	while ("una forma de controlar si hay otro comando a continuación")
+		child_process_bonus(primer cmd y el resto en una iteración, envp);
+	*/
 
-	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
-	{
-		i = 3;
-		fileout = tin_opener(argv[argc - 1], 0);
-		here_doc(argv[2], argc);
-	}
-	else
-	{
-		i = 2;
-		fileout = tin_opener(argv[argc - 1], 1);
-		filein = tin_opener(argv[1], 2);
-		dup2(filein, STDIN_FILENO);
-	}
-	while (i < (argc - 2))
-		child_process_bonus(argv[i++], envp);
 	dup2(fileout, STDOUT_FILENO);
-	ft_execute(argv[argc - 2], envp);
+	ft_execute(token->type/*tenemos qu eejecutar el último comando aquí*/, token->env);
 	wait(NULL);
-*/
-
-
-
 }
 
 void	ft_builtin(char *command)
@@ -115,7 +112,7 @@ void	ft_builtin(char *command)
 	if echo
 }
 
-void	ft_execute(t_token token, t_data data)
+void	ft_execution(t_token token, t_data data)
 {
 
 	if (token->command == "exit")

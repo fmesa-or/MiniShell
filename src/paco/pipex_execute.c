@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_execute                                         :+:      :+:    :+:   */
+/*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:56:33 by fmesa-or          #+#    #+#             */
-/*   Updated: 2024/12/05 21:41:35 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/12/16 18:53:00 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* PIPEX MATERIAL */
 
 static void	throw_error_awk(int n_error, char **awks, char **flags)
 {
