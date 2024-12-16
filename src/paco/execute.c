@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2024/12/05 22:05:23 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/12/16 13:08:08 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,15 @@
 
 void	ft_execute(t_token token)
 {
-	//1-Existe un comando después? -> Hacer una pipe. Modificando el fd.
 
+	if (token->cmmd == "exit")
+		exit.
+	if (built in)
+		built in.
+	if (cmd)
+		cmd.
+	//1-Existe un comando después? -> Hacer una pipe. Modificando el fd.
+	
 
 	//2-Redirecciones ->
 

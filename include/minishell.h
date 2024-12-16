@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/12/05 19:40:29 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/12/16 12:53:43 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef struct s_redir
 
 /***************************************************************************
 *                                TOKEN                                     *
+*Guardamos lo que vamos a necesitar para la ejecuccion de una linea de comando / user input
 *fd			->Files descriptor for the pipe process.                       *
 *type		->The options are:                                             *
 *				->Building.                                                *
@@ -190,6 +191,11 @@ int	ft_export(t_list *list, char *n_key);
 int	ft_isalnum(int c);
 int	end_quote(char *str, int i, char c);
 int ft_strchr(const char *str, char c);
+
+
+/*-----------Exewcuite---------*/
+void	ft_execute(t_token token, t_data data);
+
 
 void	mini_loop(t_data *data, t_list *list);
 t_data	*data_init(t_list *env);
