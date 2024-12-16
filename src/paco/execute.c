@@ -6,13 +6,49 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2024/12/16 14:40:41 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/12/16 18:39:44 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.c"
 
-void	ft_comander(t_token *token, t_data *data)
+/*
+*This structure only should be called on commander
+*Stores the final redir and all its info
+**/
+typedef struct s_sherpa
+{
+	int	typein;
+	int	typeout;
+	char	*filein;
+	char	*fileout;
+	bool	hdocflag;
+}	t_sherpa;
+
+t_sherpa	ft_sherpa(s_redir *redir);
+{
+	t_sherpa	sherpa;
+
+	while(redir->next)
+	{
+		if (redir->type == IN || redir->type == HDOC)
+		{
+			sherpa->typein = redir->type;
+			sherpa->filein = redir->file;
+		}
+		if (redir->type == HDOC)
+			sherpa->hdocflag = true;
+		if (redir->type == DOUT || redir->type == NDOUT)
+		{
+			sherpa->typeout = redir->type;
+			sherpa->fileout = redir->file;
+		}
+		redir = redir->next;
+	}
+	return(sherpa);
+}
+
+void	ft_commander(t_token *token, t_data *data)
 {
 	//esto es el piex
 	//pid está en data
@@ -21,7 +57,11 @@ void	ft_comander(t_token *token, t_data *data)
 
 	//ultimo input y ultimo output
 
+	int			filein;
+	int			fileout;
+	t_sherpa	sherpa;
 
+	sherpa = ft_sherpa(token->redir);
 
 	if (token->type == HDOC)
 	{
@@ -29,12 +69,13 @@ void	ft_comander(t_token *token, t_data *data)
 	}
 	else
 	{
-		filout = tin_opener();
-		filein = tin_opener();
+		filout = tin_opener(token->redir->file, 1);
+		filein = tin_opener(token->redir->file, 2);
 		dup2(filein, STDIN_FILENO);
 	}
 
-
+//neceisto almacenar la info de los redir en una
+//estructura para no hacer open y close infinitamente....
 /*
 	int	i;
 	int	fileout;
@@ -82,7 +123,7 @@ void	ft_execute(t_token token, t_data data)
 	if (token->type == BUIL)
 		ft_builtin(token->command);
 	if (token->type == CMD)
-		ft_comander(token, data);
+		ft_commander(token, data);
 
 	//1-Existe un comando después? -> Hacer una pipe. Modificando el fd.
 	

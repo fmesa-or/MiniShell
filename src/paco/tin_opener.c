@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   tin_opener.c                                       :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:48:54 by fmesa-or          #+#    #+#             */
-/*   Updated: 2024/10/28 13:09:21 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/12/16 18:04:54 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -32,7 +32,7 @@ int	tin_opener(char *argv, int flag)
 		file = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	else if (flag == 2)
 		file = open(argv, O_RDONLY, 0777);
-	if (file == -1)
-		throw_error(RD"Error: OPEN function failed.\n"RES);
+//	if (file == -1)
+//		throw_error(RD"Error: OPEN function failed.\n"RES, 1);
 	return (file);
 }
