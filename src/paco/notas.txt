@@ -6,3 +6,6 @@
 /****Aquí cambia para los built in****/
 //6-Ejecutar
 //7-Del 1 al 7 en el siguiente.
+
+
+Cntrl + D cierra el STDIN

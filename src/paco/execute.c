@@ -6,11 +6,53 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2024/12/17 14:22:42 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/12/17 20:08:03 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.c"
+
+
+
+void	ft_writer(int *fd, char *line, char *limiter)
+{
+	int	i;
+
+	i = 5;
+	if (!(ft_strncmp(line, limiter, ft_strlen(limiter)) == 0))
+		write(1, "> ", 2);
+	if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+		exit(EXIT_SUCCESS);
+	write(fd[1], line, ft_strlen(line));
+}
+
+/*************************************************************************
+*1st:	Starts the pipe.                                                 *
+*2nd:	Starts the child process.                                        *
+*3rd:	Read from the STDIN with GNL until it finds the limiter.         *
+*************************************************************************/
+void	ft_here_doc(t_token token)
+{
+	pid_t	reader;
+	char	*line;
+
+	if (pipe(token->fd) == -1)
+		//ERROR
+	reader = fork();
+	if (reader == 0)
+	{
+		close(fd[0]);
+		write(1, "> ", 2);
+		while (get_next_line_pipex(&line))
+			ft_writer(token->fd, line, token->hdoc);
+	}
+	else
+	{
+		close(token->fd[1]);
+		dup2(token->fd[0], STDIN_FILENO);
+		waitpid(reader, NULL, 0);
+	}
+}
 
 /***********************************************
 *1st:	Set the pipe.                          *
@@ -54,7 +96,7 @@ typedef struct s_sherpa
 /**********************************************************
 *Fills t_sherpa data structure info with the t_redir list.*
 **********************************************************/
-t_sherpa	ft_sherpa(s_redir *redir);
+t_sherpa	ft_sherpa(t_redir *redir);
 {
 	t_sherpa	sherpa;
 
@@ -63,7 +105,10 @@ t_sherpa	ft_sherpa(s_redir *redir);
 		if (redir->type == IN || redir->type == HDOC)
 		{
 			sherpa->typein = redir->type;
-			sherpa->filein = redir->file;
+			if (redir->type == IN)
+				sherpa->filein = redir->file;
+			else
+				sherpa->filein = NULL;
 		}
 		if (redir->type == HDOC)
 			sherpa->hdocflag = true;
@@ -92,11 +137,19 @@ void	ft_commander(t_token *token, t_data *data)
 	{
 		//hace sus cositas con el get_next_line para mostrar en pantalla
 		if (sherpa->typein == HDOC)
-			//hacemos el HDOC
 			//lo mínimo que entra en bash = "<< LIMITADOR"
+			ft_here_doc(token);
 		else
-			//lo mismo que en IN
-
+		{
+			//Deberá comportarse como si tuviera un HDOC,
+			//pero luego ejecutará con el último INPUT
+			//Por lo que escribiremos en pantalla de forma normal,
+			//pero luego no servirá para ejecutar.
+			ft_fake_hdoc(token);
+			fileout = tin_opener(sherpa->fileout, 1);
+			filein = tin_opener(sherpa->filein, 2);
+			dup2(filein, STDIN_FILENO);
+		}
 		//Esto se debe a que bash muestra en pantalla la opción de
 		//escribir en el terminar dando igual cual sea la última redirección,
 		//siempre que aparezca "<<", pero ejecutará como input solo la última.

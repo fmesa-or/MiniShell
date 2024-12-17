@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/12/16 19:09:03 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/12/17 20:03:58 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <stdbool.h>
 
 							/* COLORS */
 # define RD		"\033[1;91m"
@@ -121,11 +122,12 @@ typedef struct s_redir
 typedef struct s_token
 {
 	int				fd[2];
+	int				pid;
 	int				type; //cmd
 	int				argc; //3
 	char			**argv; // [0]= ls; [1]=-l; [2]=-a; [3]=NULL
 	char			*command; // /bin/ls
-	int				pid;
+	char			*hdoc; //LIMIT for HDOC
 	int				l_status; //indiferente
 	struct s_redir	*redir; //NULL
 	struct s_list	*env;//puntero a struct main
