@@ -6,11 +6,37 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2024/12/16 19:34:19 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/12/17 14:22:42 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.c"
+
+/***********************************************
+*1st:	Set the pipe.                          *
+*2nd:	Sets the child process and executes it.*
+***********************************************/
+void	child_process(t_token token)
+{
+	if (pipe(token->fd) == -1)
+		//ERROR
+	token->pid = fork();
+	if (token->pid == -1)
+		//ERROR
+	if (pid == 0)
+	{
+		close(token->fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		ft_execute(token->type, token->env);
+	}
+	else
+	{
+		close(token->fd[1]);
+		dup2(token->fd[0], STDIN_FILENO);
+	}
+}
+
+
 
 /*
 *This structure only should be called on commander
@@ -53,13 +79,8 @@ t_sherpa	ft_sherpa(s_redir *redir);
 
 void	ft_commander(t_token *token, t_data *data)
 {
-	//esto es parecido al piex
-	//pid está en data
-	
 	//token->redir -> type = IN || file = "input.txt" || next= NULL
 	//token->argv -> [0]= ls; [1]=-l; [2]=-a; [3]=NULL
-
-	//ultimo input y ultimo output
 
 	int			filein;
 	int			fileout;
@@ -72,6 +93,7 @@ void	ft_commander(t_token *token, t_data *data)
 		//hace sus cositas con el get_next_line para mostrar en pantalla
 		if (sherpa->typein == HDOC)
 			//hacemos el HDOC
+			//lo mínimo que entra en bash = "<< LIMITADOR"
 		else
 			//lo mismo que en IN
 
@@ -94,7 +116,7 @@ void	ft_commander(t_token *token, t_data *data)
 	El ejemplo de lo que podemos necesitar sería algo así:
 	
 	while ("una forma de controlar si hay otro comando a continuación")
-		child_process_bonus(primer cmd y el resto en una iteración, envp);
+		child_process(primer cmd y el resto en una iteración, envp);
 	*/
 
 	dup2(fileout, STDOUT_FILENO);
@@ -112,7 +134,7 @@ void	ft_builtin(char *command)
 	if echo
 }
 
-void	ft_execution(t_token token, t_data data)
+void	ft_main_exe(t_token token, t_data data)
 {
 
 	if (token->command == "exit")
