@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:06 by fmesa-or          #+#    #+#             */
-/*   Updated: 2024/12/18 15:53:44 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/12/18 15:58:19 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,17 @@ void	bi_change_dir(t_token token, t_data *data)
 
 void	ft_builtin(t_token token, t_data data)
 {
-	//Solo funcionan en minúsculas
+	//----Solo funcionan en minúsculas
 	if (token.argv[0] == "cd")
 		bi_change_dir(token, &data);
 	else if (token.argv[0] == "")
-	//Solo en minus
-	//Ambos
+	//echo & echo -n
+	//export
+	//unset
+	//env
+	//exit
+
+	//----Solo en minus
+	//----Ambos
+	//pwd
 }
