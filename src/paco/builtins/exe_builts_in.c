@@ -6,13 +6,13 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:06 by fmesa-or          #+#    #+#             */
-/*   Updated: 2024/12/18 14:42:03 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/12/18 15:53:44 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_minusall(char *s)
+void	ft_lowerstr(char *s)
 {
 	int	i;
 
@@ -24,19 +24,34 @@ void	ft_minusall(char *s)
 	}
 }
 
-void	bi_change_dir(t_token token, t_data data)
+void	bi_change_dir(t_token token, t_data *data)
 {
-	ft_minusall(&token.argv[1]);
-	if (!token.argv[1] || token.argv[1] == "$home" || token.argv[1] == "~")
-		token.argv[1] = "home"
-
+	char	*target_path;
+	if (!token.argv[1] || strcmp(token.argv[1], "$HOME") == 0 || strcmp(token.argv[1], "~") == 0)
+	{
+		target_path = getenv("HOME");
+		if (!target_path)
+			//ERROR
+	}
+//	ft_lowerstr(&token.argv[1]);
+	else
+		target_path = token.argv[1];
+	if (chdir(target_path) != 0)
+	{
+		//ERROR
+	}
+	free(data->pwd);
+	data->pwd = getcwd(NULL, 0);
+	if (!data->pwd)
+		//ERROR
 }
 
 void	ft_builtin(t_token token, t_data data)
 {
 	//Solo funcionan en minúsculas
-	if (token->argv[0] == "cd")
-		bi_change_dir(token, data);
-	//Solo en mayus
+	if (token.argv[0] == "cd")
+		bi_change_dir(token, &data);
+	else if (token.argv[0] == "")
+	//Solo en minus
 	//Ambos
 }
