@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2024/12/17 20:08:03 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2024/12/18 13:01:51 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ void	ft_main_exe(t_token token, t_data data)
 	if (token->command == "exit")
 		ft_exit(token->argv);
 	if (token->type == BUIL)
-		ft_builtin(token->command);
+		ft_builtin(token, data);
 	if (token->type == CMD)
 		ft_commander(token, data);
 
