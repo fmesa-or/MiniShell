@@ -6,26 +6,28 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:06 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/01 15:36:31 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/01 20:03:43 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	bi_env()
+/*void	bi_env()
 {
 	
-}
+}*/
 
-void	ft_lowerstr(char *s)
+void	bi_print_working_directory(t_data data)
 {
-	int	i;
-
-	i = -1;
-	while (s[++i])
+	if (data.pwd != NULL)
+		printf("%s\n", data.pwd);
+	else
 	{
-		if (s[i] >= 'A' && s[i] <= 'Z')
-			s[i] = (s[i] + 32);
+		data.pwd = getcwd(NULL, 0);
+		if (data.pwd != NULL)
+			printf("%s\n", data.pwd);
+		else
+			perror("pwd");
 	}
 }
 
@@ -68,5 +70,5 @@ void	ft_builtin(t_token token, t_data data)
 		bi_env();
 	//pwd
 	else if (ms_tolower_str(token.argv[0]) == "pwd")
-		bi_print_working_directory();//vas por aquí Paco
+		bi_print_working_directory(data);
 }
