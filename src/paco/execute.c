@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2024/12/18 13:01:51 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/01 15:34:55 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,24 +173,14 @@ void	ft_commander(t_token *token, t_data *data)
 	*/
 
 	dup2(fileout, STDOUT_FILENO);
-	ft_execute(token->type/*tenemos qu eejecutar el último comando aquí*/, token->env);
+	ft_execute(token->type/*tenemos qu ejecutar el último comando aquí*/, token->env);
 	wait(NULL);
-}
-
-void	ft_builtin(char *command)
-{
-	if export
-	if unset
-	if cd
-	if pwd
-	if env
-	if echo
 }
 
 void	ft_main_exe(t_token token, t_data data)
 {
 
-	if (token->command == "exit")
+	if (token->command == "exit")//por que está aquí?? No lo recuerdo(Paco)
 		ft_exit(token->argv);
 	if (token->type == BUIL)
 		ft_builtin(token, data);

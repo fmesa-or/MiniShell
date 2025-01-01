@@ -6,11 +6,16 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:06 by fmesa-or          #+#    #+#             */
-/*   Updated: 2024/12/18 15:58:19 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/01 15:36:31 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	bi_env()
+{
+	
+}
 
 void	ft_lowerstr(char *s)
 {
@@ -33,7 +38,8 @@ void	bi_change_dir(t_token token, t_data *data)
 		if (!target_path)
 			//ERROR
 	}
-//	ft_lowerstr(&token.argv[1]);
+//	ms_tolower_str(&token.argv[1]);
+
 	else
 		target_path = token.argv[1];
 	if (chdir(target_path) != 0)
@@ -51,14 +57,16 @@ void	ft_builtin(t_token token, t_data data)
 	//----Solo funcionan en minúsculas
 	if (token.argv[0] == "cd")
 		bi_change_dir(token, &data);
-	else if (token.argv[0] == "")
-	//echo & echo -n
 	//export
 	//unset
-	//env
 	//exit
 
-	//----Solo en minus
+	//----Solo en mayus
 	//----Ambos
+	//echo & echo -n
+	else if (token.argv[0] == "env")
+		bi_env();
 	//pwd
+	else if (ms_tolower_str(token.argv[0]) == "pwd")
+		bi_print_working_directory();//vas por aquí Paco
 }
