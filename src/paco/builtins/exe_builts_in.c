@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:06 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/01 20:03:43 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/01 20:10:00 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ void	ft_builtin(t_token token, t_data data)
 	//----Solo en mayus
 	//----Ambos
 	//echo & echo -n
-	else if (token.argv[0] == "env")
-		bi_env();
+	else if (ms_tolower_str(token.argv[0]) == "env")//vas por aquí
+		bi_env();//preguntar a Ramón donde la almacenamos o si puedo usar getenv
 	//pwd
 	else if (ms_tolower_str(token.argv[0]) == "pwd")
 		bi_print_working_directory(data);
