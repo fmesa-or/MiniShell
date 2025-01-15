@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 18:46:12 by rmarin-j          #+#    #+#             */
 /*   Updated: 2024/10/02 20:17:25 by fmesa-or         ###   ########.fr       */
+=======
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/30 18:46:12 by rmarin-j          #+#    #+#             */
+/*   Updated: 2024/12/09 16:07:55 by rmarin-j         ###   ########.fr       */
+>>>>>>> export
 /*                                                                            */
 /******************************************************************************/
 
 #include "minishell.h"
+
+
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -39,12 +48,12 @@ char	*cjoin(char *s1, char *s2, char *ptr, char c)
 		ptr[i] = s1[i];
 		i++;
 	}
-	if (c != '\0')
+	if (c)
 	{
 		ptr[i] = c;
 		i++;
 	}
-	while (s2[j])
+	while (s2 && s2[j])
 	{
 		ptr[i + j] = s2[j];
 		j++;
@@ -52,14 +61,15 @@ char	*cjoin(char *s1, char *s2, char *ptr, char c)
 	ptr[i + j] = '\0';
 	return(ptr);
 }
-
-char	*ft_strcjoin(char const *s1, char const *s2, char c)
+/*Esto hace join de dos str metiendo un caracter en medio de los dos
+	Se puede usar como join normal pasando un nuloen el char*/
+char	*ft_strcjoin(char *s1, char *s2, char c)
 {
 	int	n;
 	char	*ptr;
 
 	n = 1;
-	if(c != '\0')
+	if(c)
 		n++;
 	ptr = (char *)malloc(ft_strlen((char *)s1) + ft_strlen((char *)s2) + n);
 	if (!ptr)
