@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/12/09 16:15:39 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/01/15 17:48:15 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	**pipe_separator(char *str, t_data* data)
 	npipe = pipe_count(str);
 	av = malloc(sizeof(char *) * (npipe +1));
 	if(!av)
-		throw_error("ERROR: ", data, NULL);
+		throw_error("ERROR: ", NULL, data);
 	while (npipe > 0)
 	{
 		k = pipe_iteri(str, j, '|');

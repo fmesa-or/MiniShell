@@ -1,0 +1,16 @@
+----------Q vamo a hacer?-----------
+
+***********************************************************
+-[ ]- Arreglar y completar los built in
+		¿Estan todos los casos?¿y si esta sin argumentos?¿todos devuelven entero?
+		Cada vez que se llamen tienen q actualizar last_status
+
+-[ ]- Terminar la ejecucion
+		¿puede mantener varios pipes? ¿la ejecucion de estas es sucesiva y no todas a la vez?
+		probar distintos comandos pero tampoco hace falta ponerse con cosas raras como el dev random
+
+-[ ]- Unificar todo en cuanto ejecucion este funcional
+
+***********************************************************
+-[ ]- Averiguar lo del rline en mini_loop
+-[ ]- Leaks y normi
