@@ -6,11 +6,11 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/15 18:49:58 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/15 19:33:24 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.c"
+#include "minishell.h"
 
 
 
@@ -21,8 +21,8 @@ void	ft_writer(int *fd, char *line, char *limiter)
 	i = 5;
 	if (!(ft_strncmp(line, limiter, ft_strlen(limiter)) == 0))
 		write(1, "> ", 2);
-	if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
-		exit(EXIT_SUCCESS);
+	else if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+		exit(EXIT_SUCCESS); //revisar
 	write(fd[1], line, ft_strlen(line));
 }
 
@@ -56,19 +56,19 @@ void	child_process(t_token token)
 *2nd:	Starts the child process.                                        *
 *3rd:	Read from the STDIN with GNL until it finds the limiter.         *
 *************************************************************************/
-void	ft_here_doc(t_token token, t_data *data)
+void	ft_here_doc(t_token *token, t_data *data)
 {
 	pid_t	reader;
 	char	*line;
 
 	if (pipe(token->fd) == -1)
-		throw_error("Error: Pipe not working.", token, &data)
+		throw_error("Error: Pipe not working.", token, &data);
 	reader = fork();
 	if (reader == 0)
 	{
-		close(fd[0]);
+		close(token->fd[0]);
 		write(1, "> ", 2);
-		while (get_next_line_pipex(&line))
+		while (ms_gnl(&line))
 			ft_writer(token->fd, line, token->hdoc);
 	}
 	else
