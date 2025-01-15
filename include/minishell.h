@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/01/15 13:28:30 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/15 18:41:21 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,19 @@ typedef struct s_token
 	struct s_list	*env;
 }	t_token;
 
+/**************************************************
+*This structure only should be called on commander*
+*Stores the final redir and all its info          *
+**************************************************/
+typedef struct s_sherpa
+{
+	int		typein;
+	int		typeout;
+	char	*filein;
+	char	*fileout;
+	bool	hdocflag;
+}	t_sherpa;
+
 /**************************************************************************
 *	Note:                                                                 *
 *1-Is any command after? -> Make a pipe. Modifying the fd.                *
@@ -232,7 +245,9 @@ int		ft_strchr(const char *str, char c);
 int		ft_isspace(char c);
 
 /*-----------Exewcuite---------*/
+void	ft_commander(t_token *token, t_data *data);
 void	ft_execute(t_token token, t_data data);
+void	ft_main_exe(t_token token, t_data data);
 
 /*-----------Minishell (MAIN)------------*/
 void	mini_loop(t_data *data, t_list *list);
