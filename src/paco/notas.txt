@@ -11,7 +11,7 @@
 Cntrl + D cierra el STDIN
 
 BUILTINS:
-	>cd solo funciona en minusculas
+	>cd solo funciona en minusculas (mac)
 	>pwd funciona en mayusculas y minusculas sin importar si se alternan.
-		>si ponemos mal las mayus y minus del folder al llamar pwd debe salirnos "mal" ejemplo: cd dEsktoP, entrará en Desktop, pero al usar pwd -> /Users/username/dEsktoP
+		>si ponemos mal las mayus y minus del folder al llamar pwd debe salirnos "mal" ejemplo: cd dEsktoP, entrará en Desktop, pero al usar pwd -> /Users/username/dEsktoP (solo mac)
 	

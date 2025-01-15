@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/01 15:34:55 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/15 14:42:06 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ void	ft_commander(t_token *token, t_data *data)
 
 	if (sherpa->hdocflag == true)
 	{
+		//REVISAR EN GNOME, puede que solo funcione así en MAC
+
 		//hace sus cositas con el get_next_line para mostrar en pantalla
 		if (sherpa->typein == HDOC)
 			//lo mínimo que entra en bash = "<< LIMITADOR"

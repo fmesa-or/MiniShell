@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:06 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/01 20:10:00 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/15 14:40:10 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,37 @@ void	bi_print_working_directory(t_data data)
 void	bi_change_dir(t_token token, t_data *data)
 {
 	char	*target_path;
-	if (!token.argv[1] || strcmp(token.argv[1], "$HOME") == 0 || strcmp(token.argv[1], "~") == 0)
-	{
-		target_path = getenv("HOME");
-		if (!target_path)
-			//ERROR
-	}
-//	ms_tolower_str(&token.argv[1]);
+	int		cd_stat;
 
-	else
-		target_path = token.argv[1];
-	if (chdir(target_path) != 0)
+	if (argv[2])
 	{
-		//ERROR
+		throw_error("ERROR:", NULL, data);
 	}
-	free(data->pwd);
-	data->pwd = getcwd(NULL, 0);
-	if (!data->pwd)
-		//ERROR
+	else
+	{
+		if (!token.argv[1] || strcmp(token.argv[1], "$HOME") == 0 || strcmp(token.argv[1], "~") == 0)
+		{
+			target_path = getenv("HOME");
+			if (!target_path)
+				throw_error("ERROR:", NULL, data);
+		}
+		else
+		{
+			target_path = token.argv[1];
+			ft_export (data->exported_list, ft_strcjoin("OLDPWD", getcwd(NULL, 0), '='));
+			cd_stat = chdir(target_path);
+			if (cd_stat != 0)
+				throw_error("ERROR: no find rute", NULL, data);
+			else
+			{
+				free(data->pwd);
+				ft_export (data->exported_list, ft_strcjoin("PWD", getcwd(NULL, 0), '='));
+				data->pwd = getcwd(NULL, 0);
+				if (!data->pwd)
+					//ERROR
+			}
+		}
+	}
 }
 
 void	ft_builtin(t_token token, t_data data)

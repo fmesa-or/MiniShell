@@ -1,21 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/02 20:21:35 by fmesa-or         ###   ########.fr       */
-=======
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/12/09 16:09:47 by rmarin-j         ###   ########.fr       */
->>>>>>> export
+/*   Updated: 2025/01/15 14:15:59 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -71,12 +64,6 @@ void	mini_loop(t_data *data, t_list *list)
 
 int main(int argc, char **argv, char **env)
 {
-<<<<<<< HEAD
-	if (!env[0])
-		throw_error("ERROR: ");
-	if (argc == 1 && argv)
-		throw_error("ERROR: ");
-=======
 	t_data	*data;
 	t_list *list = envtolist(env);
 
@@ -91,6 +78,5 @@ int main(int argc, char **argv, char **env)
 		mini_loop(data, list);
 		free_all_data(data);
 	}
->>>>>>> export
 	return (0);
 }
