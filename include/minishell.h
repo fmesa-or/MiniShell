@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/01/15 19:23:22 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/15 20:06:28 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,10 +244,14 @@ int		end_quote(char *str, int i, char c);
 int		ft_strchr(const char *str, char c);
 int		ft_isspace(char c);
 
-/*-----------Execuite---------*/
-void	ft_commander(t_token *token, t_data *data);
-void	ft_execute(t_token token, t_data data);
-void	ft_main_exe(t_token token, t_data data);
+/*-----------Execute---------*/
+void		ft_commander(t_token *token, t_data *data);
+void		ft_main_exe(t_token token, t_data data);
+t_sherpa	ft_sherpa(t_redir *redir);
+void		ft_here_doc(t_token *token, t_data *data);
+
+/*----------Pipex Execute------------*/
+void		ft_execute(char *argv, char **envp);
 
 /*-----------GNL MINISHELL-----------*/
 int	ms_gnl(char **line);
@@ -256,7 +260,6 @@ int	ms_gnl(char **line);
 void	mini_loop(t_data *data, t_list *list);
 t_data	*data_init(t_list *env);
 char	*ft_strdup(const char *s1);
-void	ft_here_doc(t_token *token, t_data *data);
 
 
 #endif

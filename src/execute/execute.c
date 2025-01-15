@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/15 19:33:24 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/15 20:05:07 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_sherpa	ft_sherpa(t_redir *redir);
 		}
 		redir = redir->next;
 	}
-	return(sherpa);
+	return (sherpa);
 }
 
 void	ft_commander(t_token *token, t_data *data)
@@ -121,26 +121,17 @@ void	ft_commander(t_token *token, t_data *data)
 
 	if (sherpa->hdocflag == true)
 	{
-		//REVISAR EN GNOME, puede que solo funcione así en MAC
-
-		//hace sus cositas con el get_next_line para mostrar en pantalla
+			/*lo mínimo que entra en bash = "<< LIMITADOR"
+			Preguntar a Ramón si se está controlando esta nota anterior.*/
 		if (sherpa->typein == HDOC)
-			//lo mínimo que entra en bash = "<< LIMITADOR"
 			ft_here_doc(token, &data);
 		else
 		{
-			//Deberá comportarse como si tuviera un HDOC,
-			//pero luego ejecutará con el último INPUT
-			//Por lo que escribiremos en pantalla de forma normal,
-			//pero luego no servirá para ejecutar.
 			ft_fake_hdoc(token);
 			fileout = tin_opener(sherpa->fileout, 1);
 			filein = tin_opener(sherpa->filein, 2);
 			dup2(filein, STDIN_FILENO);
 		}
-		//Esto se debe a que bash muestra en pantalla la opción de
-		//escribir en el terminar dando igual cual sea la última redirección,
-		//siempre que aparezca "<<", pero ejecutará como input solo la última.
 	}
 	else
 	{
@@ -149,23 +140,26 @@ void	ft_commander(t_token *token, t_data *data)
 		dup2(filein, STDIN_FILENO);
 	}
 
-	//Probablemente aquí necesitemos una forma de llamar a ejecutar lo que
-	//viene a continuación, ya que excev cierra una vez termina de ejecutar.
-	//En el pipex se llama al proceso hijo, pero tengo que ver como
-	//integrar esto aquí.
 	/*
+	Probablemente aquí necesitemos una forma de llamar a ejecutar lo que
+	viene a continuación, ya que excev cierra una vez termina de ejecutar.
+	En el pipex se llama al proceso hijo, pero tengo que ver como
+	integrar esto aquí.
 	El ejemplo de lo que podemos necesitar sería algo así:
 	
 	while ("una forma de controlar si hay otro comando a continuación")
 		child_process(primer cmd y el resto en una iteración, envp);
+
+	VER CON RAMÓN
 	*/
 
 	dup2(fileout, STDOUT_FILENO);
-	ft_execute(token->type/*tenemos qu ejecutar el último comando aquí*/, token->env);
+	/*tenemos qu ejecutar el último comando aquí*/
+	ft_execute(token->command, &(token->env));
 	wait(NULL);
 }
 
-void	ft_main_exe(t_token token, t_data data)
+void	ft_main_exe(t_token *token, t_data data)
 {
 
 	if (token->command == "exit")//por que está aquí?? No lo recuerdo(Paco)
@@ -173,7 +167,7 @@ void	ft_main_exe(t_token token, t_data data)
 	if (token->type == BUIL)
 		ft_builtin(token, data);
 	if (token->type == CMD)
-		ft_commander(token, data);
+		ft_commander(&token, &data);
 
 	//1-Existe un comando después? -> Hacer una pipe. Modificando el fd.
 	

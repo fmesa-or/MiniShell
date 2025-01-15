@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_execute.c                                       :+:      :+:    :+:   */
+/*   pipex_execute.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:56:33 by fmesa-or          #+#    #+#             */
-/*   Updated: 2024/12/16 18:53:00 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/15 19:58:25 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char	*find_path(char *cmd, char **envp)
 *3rd: Uses EXECVE to replace the actual process with the new one.           *
 	int execve(const char *filename, char *const argv[], char *const envp[])*
 ****************************************************************************/
-//void	ft_execute(const char *argv, char **envp)
+void	ft_execute(char *argv, char **envp)
 {
 	int		i;
 	char	*path;
