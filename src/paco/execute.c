@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/15 14:42:06 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/15 18:49:58 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,33 +26,6 @@ void	ft_writer(int *fd, char *line, char *limiter)
 	write(fd[1], line, ft_strlen(line));
 }
 
-/*************************************************************************
-*1st:	Starts the pipe.                                                 *
-*2nd:	Starts the child process.                                        *
-*3rd:	Read from the STDIN with GNL until it finds the limiter.         *
-*************************************************************************/
-void	ft_here_doc(t_token token)
-{
-	pid_t	reader;
-	char	*line;
-
-	if (pipe(token->fd) == -1)
-		//ERROR
-	reader = fork();
-	if (reader == 0)
-	{
-		close(fd[0]);
-		write(1, "> ", 2);
-		while (get_next_line_pipex(&line))
-			ft_writer(token->fd, line, token->hdoc);
-	}
-	else
-	{
-		close(token->fd[1]);
-		dup2(token->fd[0], STDIN_FILENO);
-		waitpid(reader, NULL, 0);
-	}
-}
 
 /***********************************************
 *1st:	Set the pipe.                          *
@@ -78,20 +51,33 @@ void	child_process(t_token token)
 	}
 }
 
-
-
-/*
-*This structure only should be called on commander
-*Stores the final redir and all its info
-**/
-typedef struct s_sherpa
+/*************************************************************************
+*1st:	Starts the pipe.                                                 *
+*2nd:	Starts the child process.                                        *
+*3rd:	Read from the STDIN with GNL until it finds the limiter.         *
+*************************************************************************/
+void	ft_here_doc(t_token token, t_data *data)
 {
-	int		typein;
-	int		typeout;
-	char	*filein;
-	char	*fileout;
-	bool	hdocflag;
-}	t_sherpa;
+	pid_t	reader;
+	char	*line;
+
+	if (pipe(token->fd) == -1)
+		throw_error("Error: Pipe not working.", token, &data)
+	reader = fork();
+	if (reader == 0)
+	{
+		close(fd[0]);
+		write(1, "> ", 2);
+		while (get_next_line_pipex(&line))
+			ft_writer(token->fd, line, token->hdoc);
+	}
+	else
+	{
+		close(token->fd[1]);
+		dup2(token->fd[0], STDIN_FILENO);
+		waitpid(reader, NULL, 0);
+	}
+}
 
 /**********************************************************
 *Fills t_sherpa data structure info with the t_redir list.*
@@ -140,7 +126,7 @@ void	ft_commander(t_token *token, t_data *data)
 		//hace sus cositas con el get_next_line para mostrar en pantalla
 		if (sherpa->typein == HDOC)
 			//lo mínimo que entra en bash = "<< LIMITADOR"
-			ft_here_doc(token);
+			ft_here_doc(token, &data);
 		else
 		{
 			//Deberá comportarse como si tuviera un HDOC,
