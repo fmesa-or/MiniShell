@@ -1,0 +1,17 @@
+//1-Existe un comando después? -> Hacer una pipe. Modificando el fd.
+//2-Redirecciones ->
+//3-Hacemos fork si existe un comando despues
+//4-Hacer dup2 de los fd y close.
+//5-Comprobar tipo de comando
+/****Aquí cambia para los built in****/
+//6-Ejecutar
+//7-Del 1 al 7 en el siguiente.
+
+
+Cntrl + D cierra el STDIN
+
+BUILTINS:
+	>cd solo funciona en minusculas
+	>pwd funciona en mayusculas y minusculas sin importar si se alternan.
+		>si ponemos mal las mayus y minus del folder al llamar pwd debe salirnos "mal" ejemplo: cd dEsktoP, entrará en Desktop, pero al usar pwd -> /Users/username/dEsktoP
+	
