@@ -15,3 +15,7 @@ BUILTINS:
 	>pwd funciona en mayusculas y minusculas sin importar si se alternan.
 		>si ponemos mal las mayus y minus del folder al llamar pwd debe salirnos "mal" ejemplo: cd dEsktoP, entrará en Desktop, pero al usar pwd -> /Users/username/dEsktoP (solo mac)
 	
+
+
+
+Me he quedado por la ejecución de los childs, no sé por ahora si va a funcionar, pero en mi cabza tiene cirta lógica.

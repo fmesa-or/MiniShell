@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/15 20:05:07 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/22 19:55:05 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	ft_here_doc(t_token *token, t_data *data)
 		close(token->fd[0]);
 		write(1, "> ", 2);
 		while (ms_gnl(&line))
-			ft_writer(token->fd, line, token->hdoc);
+			ft_writer(token->fd, line, token->redir->file);
 	}
 	else
 	{
@@ -108,7 +108,7 @@ t_sherpa	ft_sherpa(t_redir *redir);
 	return (sherpa);
 }
 
-void	ft_commander(t_token *token, t_data *data)
+void	ms_commander(t_token *token, t_data *data)
 {
 	//token->redir -> type = IN || file = "input.txt" || next= NULL
 	//token->argv -> [0]= ls; [1]=-l; [2]=-a; [3]=NULL
@@ -117,40 +117,57 @@ void	ft_commander(t_token *token, t_data *data)
 	int			fileout;
 	t_sherpa	sherpa;
 
-	sherpa = ft_sherpa(token->redir);
-
-	if (sherpa->hdocflag == true)
+	if (token->type != CMD && token->type != BUIL)
+		return ;
+	if (token->type == BUIL && !token->next)
+		token->l_status = //run_builtin;
+	else
 	{
-			/*lo mínimo que entra en bash = "<< LIMITADOR"
-			Preguntar a Ramón si se está controlando esta nota anterior.*/
-		if (sherpa->typein == HDOC)
-			ft_here_doc(token, &data);
+		token->pid = fork();
+		if (token-redir)
+			sherpa = ft_sherpa(token->redir);
+		if (sherpa->hdocflag == true)
+		{
+			if (sherpa->typein != HDOC)
+			{
+				ft_fake_hdoc(token);
+				if (token->type == BUIL)
+				{
+					//run_builtin;
+					exit(0);
+				}
+				else if (token->type == CMD)
+				{
+					fileout = tin_opener(sherpa->fileout, 1);
+					filein = tin_opener(sherpa->filein, 2);
+					dup2(filein, STDIN_FILENO);
+				}
+			}
+			else if (sherpa->typein == HDOC)
+				ft_here_doc(token, &data);
+		}
 		else
 		{
-			ft_fake_hdoc(token);
 			fileout = tin_opener(sherpa->fileout, 1);
 			filein = tin_opener(sherpa->filein, 2);
 			dup2(filein, STDIN_FILENO);
 		}
 	}
-	else
-	{
-		fileout = tin_opener(sherpa->fileout, 1);
-		filein = tin_opener(sherpa->filein, 2);
-		dup2(filein, STDIN_FILENO);
-	}
+
+
+
+
 
 	/*
-	Probablemente aquí necesitemos una forma de llamar a ejecutar lo que
-	viene a continuación, ya que excev cierra una vez termina de ejecutar.
-	En el pipex se llama al proceso hijo, pero tengo que ver como
-	integrar esto aquí.
-	El ejemplo de lo que podemos necesitar sería algo así:
-	
-	while ("una forma de controlar si hay otro comando a continuación")
-		child_process(primer cmd y el resto en una iteración, envp);
+	Esto puede ser una función recursiva que se llame a si misma en caso de
+	existir un token posterior, por lo que se ejecutan del último al primero.
 
-	VER CON RAMÓN
+	Lo importante es ir manejando los fd para que cada comando desemboque en el anterior.
+	
+	EJEMPLO:
+	if (token->next)
+		ms_kindergarden(token->next)
+	ft_execute(...);
 	*/
 
 	dup2(fileout, STDOUT_FILENO);
@@ -159,8 +176,39 @@ void	ft_commander(t_token *token, t_data *data)
 	wait(NULL);
 }
 
-void	ft_main_exe(t_token *token, t_data data)
+void	ms_pipe_n_redir(t_token *token, t_token **token_prev)
 {
+	if (token->next && (token->next)->type == PIPE)
+		//create PIPE
+	if (token->redir)
+	{
+		token->l_status = //init_redir(token);
+		if (token->l_status == 1)
+		{
+			*token_prev = token;
+			close((*token_prev)->fd[0]);
+			close((*topken_prev)->fd[1]);
+			return ;
+		}
+	}
+	if (token->type == PIPE)
+		return ;
+
+}
+
+void	ft_main_exe(t_token *token, t_data *data)
+{
+/*V0.2*/
+	t_token	*token_prev;
+
+	While(token)
+	{
+		ms_pipe_n_redir(token, &token_prev);
+		ms_commander(token, data);
+		//more
+	}
+
+/* V0.1
 
 	if (token->command == "exit")//por que está aquí?? No lo recuerdo(Paco)
 		ft_exit(token->argv);
@@ -168,7 +216,7 @@ void	ft_main_exe(t_token *token, t_data data)
 		ft_builtin(token, data);
 	if (token->type == CMD)
 		ft_commander(&token, &data);
-
+*/
 	//1-Existe un comando después? -> Hacer una pipe. Modificando el fd.
 	
 

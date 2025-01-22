@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/01/15 20:06:28 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:13:53 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ typedef struct s_token
 	int				argc;
 	char			**argv;
 	char			*command;
-	char			*hdoc;
+//	char			*hdoc;
 	int				pid;
 	int				l_status;
 	struct s_redir	*redir;
