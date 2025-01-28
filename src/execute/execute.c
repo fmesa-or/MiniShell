@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/22 19:55:05 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/28 11:34:20 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ void	ms_commander(t_token *token, t_data *data)
 void	ms_pipe_n_redir(t_token *token, t_token **token_prev)
 {
 	if (token->next && (token->next)->type == PIPE)
-		//create PIPE
+		//create PIPE && advance token
 	if (token->redir)
 	{
 		token->l_status = //init_redir(token);
