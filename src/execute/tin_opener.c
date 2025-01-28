@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:48:54 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/28 16:02:52 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/28 19:06:16 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 *O_RDONLY = Opens the file in read mode.             *
 *			Deleting any previous content.           *
 *****************************************************/
-int	tin_opener(char *argv, int flag)
+int	ms_tin_opener(char *argv, int flag, t_token *token, t_data *data)
 {
 	int	file;
 
@@ -32,6 +32,8 @@ int	tin_opener(char *argv, int flag)
 		file = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	else if (flag == IN)
 		file = open(argv, O_RDONLY, 0777);
+	else if (flag == HDOC)
+		ft_here_doc(token, data);
 //	if (file == -1)
 //		throw_error(RD"Error: OPEN function failed.\n"RES, 1);
 	return (file);

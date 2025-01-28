@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/28 16:48:20 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/28 19:45:32 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,134 +79,65 @@ void	ft_here_doc(t_token *token, t_data *data)
 	}
 }
 
-/**********************************************************
-*Fills t_sherpa data structure info with the t_redir list.*
-**********************************************************/
-t_sherpa	ft_sherpa(t_redir *redir);
+
+
+void	ms_fds(t_token *token, t_token **token_prev, t_data *data)
 {
-	t_sherpa	sherpa;//INICIALIZAR
-
-	sherpa->typein = NULL;
-	sherpa->typeout = NULL;
-	sherpa->filein = NULL;
-	sherpa->fileout = NULL;
-	sherpa->hdocflag = false;
-
-	if (redir->type == IN || redir->type == HDOC)
+	if (token[1].type != NONE)
+		c_pipe(token[1]); //creamos las pipes
+	if (token->redir)
 	{
-		sherpa->typein = redir->type;
-		if (redir->type == IN)
-			sherpa->filein = redir->file;
-		else
+		token->l_status = ms_init_redir(token, data);
+//revisar, creo que o no es necesario, o no aplica así
+		if (token->l_status == 1)
 		{
-			sherpa->filein = NULL;
-			sherpa->hdocflag = true;
+			*token_prev = token;
+			close((*token_prev)->fd[0]);
+			close((*token_prev)->fd[1]);
+			return ;
 		}
 	}
-	if (redir->type == DOUT || redir->type == NDOUT)
-	{
-		sherpa->typeout = redir->type;
-		sherpa->fileout = redir->file;
-	}
-	if (redir->next)
-		sherpa = ft_sherpa(redir->next);
-	return (sherpa);
 }
 
 void	ms_commander(t_token *token, t_data *data)
 {
-	//cd Desktop | ls -l | wc -l <input.txt >out.txt >file.txt
-	//token[2]->redir (es una lista)-> <input.txt >out.txt >file.txt
-	//token[0]->argv[0] -> cd // argv[1] -> Desktop
-	//token[1]->argv[0] -> ls // argv[1] -> -l
-	//token[2]->argv[0] -> wc // argv[1] -> -l
-
-//tengo que controlar, que si no hay redir y NECESITO un out o un in, tengo que tener en cuenta las salidas y entradas de la pipe
-
-	int			filein;
-	int			fileout;
-	t_sherpa	sherpa;
-
-//creamos las pipes
-//abrimos los file in y fileout (sherpa + tin_opener + create_heredoc(fake hdoc))
-//adaptar el código a continuación
-	else
-	{
-		if (token->type == BUIL)
-			token->l_status = //run_builtin;
-		if (token->redir)
-			sherpa = ft_sherpa(token->redir);
-		if (sherpa->hdocflag == true && sherpa->typein != HDOC)
-			ft_fake_hdoc(token);
-		if (sherpa->typein == HDOC)
-		{
-			fileout = tin_opener(sherpa->fileout, sherpa->typeout);
-			ft_here_doc(token, &data);
-		}
-		if (sherpa->typein != HDOC)
-		{
-			fileout = tin_opener(sherpa->fileout, sherpa->typeout);
-			filein = tin_opener(sherpa->filein, sherpa->typein);
-		}
-	}
-//
 	if (token->type != CMD && token->type != BUIL)
 		return ;
-//si es un BUILTIN y no hay nada después, run_builtin del tiron
-//si no, fork
-//ejecutar Builtin o Comando
-//el equivalente a process_token_cmd hay que hacer el wile mientras quedan partes del array de tokens
-//una vez terminado hay que hacer la post ejecucuión
-
-/*
-	dup2(fileout, STDOUT_FILENO);
-	//tenemos qu ejecutar el último comando aquí
-	ft_execute(token->command, &(token->env));
-	wait(NULL);
-*/
+	if (token->type == BUIL && token[1].type == NONE)
+		token->l_status = /*run_builtin*/;
+	else
+	{
+		token->pid = fork();
+		if (token->pid == 0)
+		{
+			if (token->type == BUIL)
+			{
+				/*run_builtin(data, token)*/;
+				exit(0);
+			}
+			else
+				/*execute_child*/;
+		}
+		else
+		{
+			if (token->fd[0] != 0)
+				close(token->fd[0]);
+			if (token->fd[1] != 1)
+				close(token->fd[1]);
+		}
+	}
 }
 
 void	ft_main_exe(t_token *token, t_data *data)
 {
-/*V0.2*/
 	t_token	*token_prev;
 
-	While(token->type != NONE)
+	while(token->type != NONE)
 	{
+		ms_fds(token, &token_prev, data);
 		ms_commander(token, data);
-		//more
+		token_prev = token;
 		token++;
 	}
-
-/* V0.1
-
-	if (token->command == "exit")//por que está aquí?? No lo recuerdo(Paco)
-		ft_exit(token->argv);
-	if (token->type == BUIL)
-		ft_builtin(token, data);
-	if (token->type == CMD)
-		ft_commander(&token, &data);
-*/
-	//1-Existe un comando después? -> Hacer una pipe. Modificando el fd.
-	
-
-	//2-Redirecciones ->
-
-
-
-	//3-Hacemos fork si existe un comando despues
-
-
-
-	//4-Hacer dup2 de los fd y close.
-
-
-
-	//5-Comprobar tipo de comando
-
-
-	/****Aquí cambia para los built in****/
-	//6-Ejecutar
-	//7-Del 1 al 7 en el siguiente.
-
+//una vez terminado hay que hacer la post ejecucuión
 }
