@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/28 14:06:52 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:48:20 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,62 +127,43 @@ void	ms_commander(t_token *token, t_data *data)
 	int			fileout;
 	t_sherpa	sherpa;
 
-	if (token->type != CMD && token->type != BUIL)
-		return ;
+//creamos las pipes
+//abrimos los file in y fileout (sherpa + tin_opener + create_heredoc(fake hdoc))
+//adaptar el código a continuación
 	else
 	{
-		token->pid = fork();
-		//pipe??
 		if (token->type == BUIL)
 			token->l_status = //run_builtin;
 		if (token->redir)
 			sherpa = ft_sherpa(token->redir);
 		if (sherpa->hdocflag == true && sherpa->typein != HDOC)
-		{
 			ft_fake_hdoc(token);
-		/*	if (token->type == BUIL)
-			{
-				//run_builtin;
-				exit(0);
-			}
-			else if (token->type == CMD)
-			{
-				fileout = tin_opener(sherpa->fileout, 1);
-				filein = tin_opener(sherpa->filein, 2);
-				dup2(filein, STDIN_FILENO);
-			}
-		*/
-		}
 		if (sherpa->typein == HDOC)
-				ft_here_doc(token, &data);
-		else
 		{
-			fileout = tin_opener(sherpa->fileout, 1);
-			filein = tin_opener(sherpa->filein, 2);
-			dup2(filein, STDIN_FILENO);
+			fileout = tin_opener(sherpa->fileout, sherpa->typeout);
+			ft_here_doc(token, &data);
+		}
+		if (sherpa->typein != HDOC)
+		{
+			fileout = tin_opener(sherpa->fileout, sherpa->typeout);
+			filein = tin_opener(sherpa->filein, sherpa->typein);
 		}
 	}
+//
+	if (token->type != CMD && token->type != BUIL)
+		return ;
+//si es un BUILTIN y no hay nada después, run_builtin del tiron
+//si no, fork
+//ejecutar Builtin o Comando
+//el equivalente a process_token_cmd hay que hacer el wile mientras quedan partes del array de tokens
+//una vez terminado hay que hacer la post ejecucuión
 
-
-
-
-
-	/*
-	Esto puede ser una función recursiva que se llame a si misma en caso de
-	existir un token posterior, por lo que se ejecutan del último al primero.
-
-	Lo importante es ir manejando los fd para que cada comando desemboque en el anterior.
-	
-	EJEMPLO:
-	if (token->next)
-		ms_kindergarden(token->next)
-	ft_execute(...);
-	*/
-
+/*
 	dup2(fileout, STDOUT_FILENO);
-	/*tenemos qu ejecutar el último comando aquí*/
+	//tenemos qu ejecutar el último comando aquí
 	ft_execute(token->command, &(token->env));
 	wait(NULL);
+*/
 }
 
 void	ft_main_exe(t_token *token, t_data *data)

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:48:54 by fmesa-or          #+#    #+#             */
-/*   Updated: 2024/12/16 18:04:54 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:02:52 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ int	tin_opener(char *argv, int flag)
 	int	file;
 
 	file = 0;
-	if (flag == 0)
+	if (flag == NDOUT)
 		file = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0777);
-	else if (flag == 1)
+	else if (flag == DOUT)
 		file = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	else if (flag == 2)
+	else if (flag == IN)
 		file = open(argv, O_RDONLY, 0777);
 //	if (file == -1)
 //		throw_error(RD"Error: OPEN function failed.\n"RES, 1);
