@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/28 11:34:20 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:06:52 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,34 +84,44 @@ void	ft_here_doc(t_token *token, t_data *data)
 **********************************************************/
 t_sherpa	ft_sherpa(t_redir *redir);
 {
-	t_sherpa	sherpa;
+	t_sherpa	sherpa;//INICIALIZAR
 
-	while(redir->next)
+	sherpa->typein = NULL;
+	sherpa->typeout = NULL;
+	sherpa->filein = NULL;
+	sherpa->fileout = NULL;
+	sherpa->hdocflag = false;
+
+	if (redir->type == IN || redir->type == HDOC)
 	{
-		if (redir->type == IN || redir->type == HDOC)
+		sherpa->typein = redir->type;
+		if (redir->type == IN)
+			sherpa->filein = redir->file;
+		else
 		{
-			sherpa->typein = redir->type;
-			if (redir->type == IN)
-				sherpa->filein = redir->file;
-			else
-				sherpa->filein = NULL;
-		}
-		if (redir->type == HDOC)
+			sherpa->filein = NULL;
 			sherpa->hdocflag = true;
-		if (redir->type == DOUT || redir->type == NDOUT)
-		{
-			sherpa->typeout = redir->type;
-			sherpa->fileout = redir->file;
 		}
-		redir = redir->next;
 	}
+	if (redir->type == DOUT || redir->type == NDOUT)
+	{
+		sherpa->typeout = redir->type;
+		sherpa->fileout = redir->file;
+	}
+	if (redir->next)
+		sherpa = ft_sherpa(redir->next);
 	return (sherpa);
 }
 
 void	ms_commander(t_token *token, t_data *data)
 {
-	//token->redir -> type = IN || file = "input.txt" || next= NULL
-	//token->argv -> [0]= ls; [1]=-l; [2]=-a; [3]=NULL
+	//cd Desktop | ls -l | wc -l <input.txt >out.txt >file.txt
+	//token[2]->redir (es una lista)-> <input.txt >out.txt >file.txt
+	//token[0]->argv[0] -> cd // argv[1] -> Desktop
+	//token[1]->argv[0] -> ls // argv[1] -> -l
+	//token[2]->argv[0] -> wc // argv[1] -> -l
+
+//tengo que controlar, que si no hay redir y NECESITO un out o un in, tengo que tener en cuenta las salidas y entradas de la pipe
 
 	int			filein;
 	int			fileout;
@@ -119,33 +129,32 @@ void	ms_commander(t_token *token, t_data *data)
 
 	if (token->type != CMD && token->type != BUIL)
 		return ;
-	if (token->type == BUIL && !token->next)
-		token->l_status = //run_builtin;
 	else
 	{
 		token->pid = fork();
-		if (token-redir)
+		//pipe??
+		if (token->type == BUIL)
+			token->l_status = //run_builtin;
+		if (token->redir)
 			sherpa = ft_sherpa(token->redir);
-		if (sherpa->hdocflag == true)
+		if (sherpa->hdocflag == true && sherpa->typein != HDOC)
 		{
-			if (sherpa->typein != HDOC)
+			ft_fake_hdoc(token);
+		/*	if (token->type == BUIL)
 			{
-				ft_fake_hdoc(token);
-				if (token->type == BUIL)
-				{
-					//run_builtin;
-					exit(0);
-				}
-				else if (token->type == CMD)
-				{
-					fileout = tin_opener(sherpa->fileout, 1);
-					filein = tin_opener(sherpa->filein, 2);
-					dup2(filein, STDIN_FILENO);
-				}
+				//run_builtin;
+				exit(0);
 			}
-			else if (sherpa->typein == HDOC)
-				ft_here_doc(token, &data);
+			else if (token->type == CMD)
+			{
+				fileout = tin_opener(sherpa->fileout, 1);
+				filein = tin_opener(sherpa->filein, 2);
+				dup2(filein, STDIN_FILENO);
+			}
+		*/
 		}
+		if (sherpa->typein == HDOC)
+				ft_here_doc(token, &data);
 		else
 		{
 			fileout = tin_opener(sherpa->fileout, 1);
@@ -176,36 +185,16 @@ void	ms_commander(t_token *token, t_data *data)
 	wait(NULL);
 }
 
-void	ms_pipe_n_redir(t_token *token, t_token **token_prev)
-{
-	if (token->next && (token->next)->type == PIPE)
-		//create PIPE && advance token
-	if (token->redir)
-	{
-		token->l_status = //init_redir(token);
-		if (token->l_status == 1)
-		{
-			*token_prev = token;
-			close((*token_prev)->fd[0]);
-			close((*topken_prev)->fd[1]);
-			return ;
-		}
-	}
-	if (token->type == PIPE)
-		return ;
-
-}
-
 void	ft_main_exe(t_token *token, t_data *data)
 {
 /*V0.2*/
 	t_token	*token_prev;
 
-	While(token)
+	While(token->type != NONE)
 	{
-		ms_pipe_n_redir(token, &token_prev);
 		ms_commander(token, data);
 		//more
+		token++;
 	}
 
 /* V0.1

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/01/20 17:13:53 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/28 12:49:05 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_data
 	char			**cmnds;
 	struct s_list	*exported_list;
 	char			*pwd;
-	int				l_status; 
+	int				l_status;
 }	t_data;
 
 /**********************************************************
