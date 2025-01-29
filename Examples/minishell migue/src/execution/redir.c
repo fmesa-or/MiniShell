@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 19:25:01 by migumar2          #+#    #+#             */
-/*   Updated: 2024/07/17 14:06:15 by jholland         ###   ########.fr       */
+/*   Updated: 2025/01/29 11:09:33 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 int	error_redir(t_token *l_token, t_redir *redir)
 {
 	if ((!access(redir->file, F_OK) && access(redir->file, R_OK)
-			&& redir->type == LT)
+			&& redir->type == LT)//IN
 		|| (!access(redir->file, F_OK) && access(redir->file, W_OK)
-			&& (redir->type == GT || redir->type == GGT)))
+			&& (redir->type == GT || redir->type == GGT)))//NDOUT & DOUT
 	{
 		write(2, "minishell: ", 11);
 		write(2, redir->file, ft_strlen(redir->file));
 		write(2, ": Permission denied\n", 21);
 		return (1);
 	}
-	else if (((l_token->fd[0] < 0 && (redir->type == LT || redir->type == LLT)))
+	else if (((l_token->fd[0] < 0 && (redir->type == LT || redir->type == LLT)))//LLT = HDOC
 		|| (l_token->fd[1] < 0 && (redir->type == GT || redir->type == GGT)))
 	{
 		write(2, "minishell: ", 11);

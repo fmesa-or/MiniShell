@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:06 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/15 14:40:10 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/29 12:58:16 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,11 @@ void	bi_change_dir(t_token token, t_data *data)
 	}
 }
 
+
+void	r_builts()
+{}
+
+/*
 void	ft_builtin(t_token token, t_data data)
 {
 	//----Solo funcionan en minúsculas
@@ -85,3 +90,4 @@ void	ft_builtin(t_token token, t_data data)
 	else if (ms_tolower_str(token.argv[0]) == "pwd")
 		bi_print_working_directory(data);
 }
+*/

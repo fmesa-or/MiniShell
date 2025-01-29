@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/28 19:45:32 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/29 10:25:42 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,11 @@ void	ft_here_doc(t_token *token, t_data *data)
 void	ms_fds(t_token *token, t_token **token_prev, t_data *data)
 {
 	if (token[1].type != NONE)
-		c_pipe(token[1]); //creamos las pipes
+		c_pipe(token[1], token_prev);
 	if (token->redir)
 	{
 		token->l_status = ms_init_redir(token, data);
-//revisar, creo que o no es necesario, o no aplica así
-		if (token->l_status == 1)
+		if (token->l_status == 1)//revisar, creo que o no es necesario, o no aplica así
 		{
 			*token_prev = token;
 			close((*token_prev)->fd[0]);

@@ -6,11 +6,46 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:22:05 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/28 19:39:43 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/29 12:51:23 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	e_red_mssg(char *file, int flag)
+{
+	if (flag == 0)
+	{
+		write(2, "minishell: ", 11);
+		write(2, file, ft_strlen(file));
+		write(2, ": Permission denied\n", 21);
+		return (1);
+	}
+	else if (flag == 1)
+	{
+		write(2, "minishell: ", 11);
+		write(2, file, ft_strlen(file));
+		write(2, ": No such file or directory\n", 28);
+		return (1);
+	}
+	write(2, "Internal ERROR: flag not given.\n", 32);
+	return (-1);
+}
+
+int	err_redir(t_token *token, t_sherpa *sherpa)
+{
+	if (!access(sherpa->filein, F_OK) && access(sherpa->filein, R_OK)
+			&& sherpa->typein == IN)
+		return (e_red_mssg(sherpa->filein, 0));
+	if (!access(sherpa->fileout, F_OK) && access(sherpa->fileout, W_OK)
+			&& (sherpa->typeout != NULL))
+		return (e_red_mssg(sherpa->fileout, 0));
+	if (token->fd[0] < 0 && (sherpa->typein == IN))
+		return (e_red_mssg(sherpa->filein, 1));
+	if (token->fd[1] < 0 && (sherpa->typeout != NULL))
+		return (e_red_mssg(sherpa->fileout, 1));
+	return (0);
+}
 
 /**********************************************************
 *Fills t_sherpa data structure info with the t_redir list.*
@@ -53,9 +88,12 @@ int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data)
 	ret = 0;
 	if (!redir)
 		return (0);
-	//ret = error_redir(token, redir);
-	token->fd[1] = ms_tin_opener(sherpa->fileout, sherpa->typeout, token, data);
-	token->fd[0] = ms_tin_opener(sherpa->filein, sherpa->typein, token, data);
+	ret = err_redir(token, redir);
+	if (ret == 0)
+	{
+		token->fd[1] = ms_tin_opener(sherpa->fileout, sherpa->typeout, token, data);
+		token->fd[0] = ms_tin_opener(sherpa->filein, sherpa->typein, token, data);
+	}
 	//creo que este if no es necesaria
 /*	if (redir->next && !ret)
 	{
