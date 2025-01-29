@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/01/28 12:49:05 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:54:47 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ enum	e_token
 *pwd			->The path to actaul position                 *
 *l_status		->The state of the last command               *
 *					(you can see it with echo $? for example) *
+*bk_in/out		->BackUp for the standard in and out          *
 **************************************************************/
 typedef struct s_data
 {
@@ -75,6 +76,8 @@ typedef struct s_data
 	struct s_list	*exported_list;
 	char			*pwd;
 	int				l_status;
+	int				bk_in;
+	int				bk_out;
 }	t_data;
 
 /**********************************************************
@@ -245,15 +248,32 @@ int		ft_strchr(const char *str, char c);
 int		ft_isspace(char c);
 
 /*-----------Execute---------*/
+void		ms_main_exe(t_token *token, t_data *data);
+void		ms_fds(t_token *token, t_token **token_prev, t_data *data);
 void		ft_commander(t_token *token, t_data *data);
-void		ft_main_exe(t_token token, t_data data);
 t_sherpa	ft_sherpa(t_redir *redir);
 void		ft_here_doc(t_token *token, t_data *data);
+void		ms_post_exe(t_data *data, t_token *token_prev, t_token *first_token);
+
+/*------------PIPE-------------------*/
+void		c_pipe(t_token *token, t_token *token_prev);
+
+/*------------EXE_REDIR------------------*/
+int			ms_init_redir(t_token *token, t_data *data);
+t_sherpa	*ms_sherpa(t_redir *redir);
+int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data);
+
+/*-------------TIN_OPENER---------------*/
+int	ms_tin_opener(char *argv, int flag, t_token *token, t_data *data);
+
+/*--------------MS_HDOC-----------------*/
+void	ms_here_doc(t_token *token, t_data *data);
+void	ms_hdoc_writer(int *fd, char *line, char *limiter);
 
 /*----------Pipex Execute------------*/
 void		ft_execute(char *argv, char **envp);
 
-/*-----------GNL MINISHELL-----------*/
+/*-----------UTILS_EXE-----------*/
 int	ms_gnl(char **line);
 
 /*-----------Minishell (MAIN)------------*/

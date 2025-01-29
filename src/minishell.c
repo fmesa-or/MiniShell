@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/01/28 12:50:39 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:18:04 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_data	*data_init(t_list *env)
 	data_list->cmnds = NULL;
 	data_list->exported_list = env;
 	data_list->user_input = NULL;
+	data_list->bk_in = dup(STDIN_FILENO);
+	data_list->bk_out = dup(STDOUT_FILENO);
 	node = find_key(env, "PATH");
 	if (!node)
 		throw_error("ERROR: PATH has been deleted", NULL, data_list);
@@ -51,7 +53,7 @@ void	mini_loop(t_data *data, t_list *list)
 		write(1, "3\n", 2);
 		tk_list = parse_main(data->user_input, list, data);
 		write(1, "4\n", 2);
-		ft_main_exe(*tk_list, *data); //cd Desktop | ls -l | wc -l > file.txt
+		ms_main_exe(*tk_list, *data); //cd Desktop | ls -l | wc -l > file.txt
 		//printf("Input: %s\n", line); //aquí debería ir la función que parsea la línea
 	/* 	if (ft_strcmp(tk_list->command, "exit"))
 			ft_exit(NULL); */

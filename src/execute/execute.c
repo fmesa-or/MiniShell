@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/29 10:25:42 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:53:24 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,24 @@
 
 
 
-void	ft_writer(int *fd, char *line, char *limiter)
-{
-	int	i;
 
-	i = 5;
-	if (!(ft_strncmp(line, limiter, ft_strlen(limiter)) == 0))
-		write(1, "> ", 2);
-	else if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
-		exit(EXIT_SUCCESS); //revisar
-	write(fd[1], line, ft_strlen(line));
-}
 
 
 /***********************************************
 *1st:	Set the pipe.                          *
 *2nd:	Sets the child process and executes it.*
 ***********************************************/
-void	child_process(t_token token)
+void	child_process(t_token *token)
 {
 	if (pipe(token->fd) == -1)
 		//ERROR
 	token->pid = fork();
 	if (token->pid == -1)
 		//ERROR
-	if (pid == 0)
+	if (token->pid == 0)
 	{
 		close(token->fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
+		dup2(token->fd[1], STDOUT_FILENO);
 		ft_execute(token->type, token->env);
 	}
 	else
@@ -50,36 +40,6 @@ void	child_process(t_token token)
 		dup2(token->fd[0], STDIN_FILENO);
 	}
 }
-
-/*************************************************************************
-*1st:	Starts the pipe.                                                 *
-*2nd:	Starts the child process.                                        *
-*3rd:	Read from the STDIN with GNL until it finds the limiter.         *
-*************************************************************************/
-void	ft_here_doc(t_token *token, t_data *data)
-{
-	pid_t	reader;
-	char	*line;
-
-	if (pipe(token->fd) == -1)
-		throw_error("Error: Pipe not working.", token, &data);
-	reader = fork();
-	if (reader == 0)
-	{
-		close(token->fd[0]);
-		write(1, "> ", 2);
-		while (ms_gnl(&line))
-			ft_writer(token->fd, line, token->redir->file);
-	}
-	else
-	{
-		close(token->fd[1]);
-		dup2(token->fd[0], STDIN_FILENO);
-		waitpid(reader, NULL, 0);
-	}
-}
-
-
 
 void	ms_fds(t_token *token, t_token **token_prev, t_data *data)
 {
@@ -103,7 +63,7 @@ void	ms_commander(t_token *token, t_data *data)
 	if (token->type != CMD && token->type != BUIL)
 		return ;
 	if (token->type == BUIL && token[1].type == NONE)
-		token->l_status = /*run_builtin*/;
+		token->l_status = r_builts(token, &data);
 	else
 	{
 		token->pid = fork();
@@ -111,11 +71,11 @@ void	ms_commander(t_token *token, t_data *data)
 		{
 			if (token->type == BUIL)
 			{
-				/*run_builtin(data, token)*/;
+				r_buits(token, &data);
 				exit(0);
 			}
 			else
-				/*execute_child*/;
+				ms_exe_childs(token, &data);
 		}
 		else
 		{
@@ -127,10 +87,12 @@ void	ms_commander(t_token *token, t_data *data)
 	}
 }
 
-void	ft_main_exe(t_token *token, t_data *data)
+void	ms_main_exe(t_token *token, t_data *data)
 {
 	t_token	*token_prev;
+	t_token *token_post;
 
+	token_post = token;
 	while(token->type != NONE)
 	{
 		ms_fds(token, &token_prev, data);
@@ -138,5 +100,5 @@ void	ft_main_exe(t_token *token, t_data *data)
 		token_prev = token;
 		token++;
 	}
-//una vez terminado hay que hacer la post ejecucuión
+	ms_post_exe(data, token_prev, token_post);
 }

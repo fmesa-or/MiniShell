@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   utils_exe2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jholland <jholland@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 13:57:43 by jholland          #+#    #+#             */
-/*   Updated: 2024/07/11 13:58:30 by jholland         ###   ########.fr       */
+/*   Created: 2025/01/29 14:25:17 by fmesa-or          #+#    #+#             */
+/*   Updated: 2025/01/29 14:47:09 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isalpha(int c)
+#include "minishell.h"
+
+int	ms_cmd_nf(t_data *data, char *cmd)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (1);
-	return (0);
+	write(2, cmd, sizeof(cmd));
+	write(2, ": command not found", 19);
+	return (1);
 }

@@ -18,4 +18,4 @@ BUILTINS:
 
 
 
-Me he quedado por la ejecución de los childs, no sé por ahora si va a funcionar, pero en mi cabza tiene cirta lógica.
+Estoy añadiendo las funciones al .h voy por el ms_here_doc

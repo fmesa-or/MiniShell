@@ -1,23 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/29 10:21:15 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/29 15:37:34 by fmesa-or         ###   ########.fr       */
+/*   Created: 2025/01/29 14:08:11 by fmesa-or          #+#    #+#             */
+/*   Updated: 2025/01/29 14:19:54 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	c_pipe(t_token *token, t_token *token_prev)
+char	**ms_return_env(t_data *data)
 {
-	pipe(token->fd);
-	if (token_prev)
+	t_list	*list;
+	char	**env;
+	char	*aux;
+	int		i;
+
+	i = 0;
+	list = data->exported_list;
+	while (list)
 	{
-		token_prev->fd[1] = token->fd[1];
-		token_prev->fd[0] = token->fd[0];
+		i++;
+		list = list->next;
 	}
+	env = malloc(sizeof(char *) * (i + 1));
+	list = data->exported_list;
+	i = -1;
+	while (list)
+	{
+		aux = ft_strjoin(list->key, "=");
+		env[++i] = ft_strjoin(aux, list->value);
+		free(aux);
+		list = list->next;
+	}
+	env[++i] = NULL;
+	return (env);
 }
