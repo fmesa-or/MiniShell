@@ -6,11 +6,11 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:52:49 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/29 15:54:22 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:34:18 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.c"
+#include "minishell.h"
 
 void	ms_hdoc_writer(int *fd, char *line, char *limiter)
 {
@@ -32,7 +32,7 @@ void	ms_here_doc(t_token *token, t_data *data)
 	char	*line;
 
 	if (pipe(token->fd) == -1)
-		throw_error("Error: Pipe not working.", token, &data);
+		throw_error("Error: Pipe not working.", token, data);
 	reader = fork();
 	if (reader == 0)
 	{

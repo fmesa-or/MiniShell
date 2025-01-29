@@ -6,11 +6,11 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 19:53:19 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/28 13:56:40 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:30:43 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.c"
+#include "minishell.h"
 
 void	fake_writer(char *line, char *limiter)
 {
@@ -20,11 +20,11 @@ void	fake_writer(char *line, char *limiter)
 		return ;
 }
 
-void	ft_fake_hdoc(t_token token)
+void	ft_fake_hdoc(t_token *token)
 {
 	char	*line;
 
 	write(1, "> ", 2);
 	while (ms_gnl(&line))
-		fake_writer(line, token->hdoc);
+		fake_writer(line, token->redir->file);
 }

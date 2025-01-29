@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 11:17:17 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/29 14:49:13 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:05:31 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,6 @@ PREGUNTAR A RAMÓN SI ES NECESARIO
 */
 	ms_check_permision(token->command);
 	if (execve(token->command, token->argv, ms_return_env(data)) == -1)
-		ms_cmd_nf(data, token->argv[0]);
+		ms_cmd_nf(token->argv[0]);
 	exit(127);
 }

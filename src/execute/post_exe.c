@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:54:52 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/29 15:35:35 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:33:20 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	ms_pilatos(t_token *tokens)
 {
 	int	i;
 
+	i = 0;
 	while(tokens[i].type != NONE)
 		i++;
 	i = i - 2;

@@ -6,11 +6,12 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:03:23 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/29 13:23:01 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:35:35 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 /*********************************************************
 *Compares 'n' bytes or stops comparing when reaching NULL*
 *Returns -1, 0 or 1.                                     *
@@ -48,7 +49,7 @@ char	*ms_tolower_str(char *str)
 	while (str[++i])
 	{
 		if (str[i] >= 'A' && str[i] <= 'Z')
-			str[i] == str[i] + 32;
+			str[i] = str[i] + 32;
 	}
 	return (str);
 }

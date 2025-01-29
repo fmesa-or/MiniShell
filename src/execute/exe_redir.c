@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir.c                                            :+:      :+:    :+:   */
+/*   exe_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:22:05 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/29 12:51:23 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/29 18:32:03 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ int	err_redir(t_token *token, t_sherpa *sherpa)
 			&& sherpa->typein == IN)
 		return (e_red_mssg(sherpa->filein, 0));
 	if (!access(sherpa->fileout, F_OK) && access(sherpa->fileout, W_OK)
-			&& (sherpa->typeout != NULL))
+			&& (sherpa->typeout != NONE))
 		return (e_red_mssg(sherpa->fileout, 0));
 	if (token->fd[0] < 0 && (sherpa->typein == IN))
 		return (e_red_mssg(sherpa->filein, 1));
-	if (token->fd[1] < 0 && (sherpa->typeout != NULL))
+	if (token->fd[1] < 0 && (sherpa->typeout != NONE))
 		return (e_red_mssg(sherpa->fileout, 1));
 	return (0);
 }
@@ -54,8 +54,9 @@ t_sherpa	*ms_sherpa(t_redir *redir)
 {
 	t_sherpa	*sherpa;
 
-	sherpa->typein = NULL;
-	sherpa->typeout = NULL;
+	sherpa = NULL;
+	sherpa->typein = NONE;
+	sherpa->typeout = NONE;
 	sherpa->filein = NULL;
 	sherpa->fileout = NULL;
 	sherpa->hdocflag = false;
@@ -88,7 +89,7 @@ int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data)
 	ret = 0;
 	if (!redir)
 		return (0);
-	ret = err_redir(token, redir);
+	ret = err_redir(token, sherpa);
 	if (ret == 0)
 	{
 		token->fd[1] = ms_tin_opener(sherpa->fileout, sherpa->typeout, token, data);

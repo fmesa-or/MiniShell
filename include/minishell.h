@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/01/29 15:54:47 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:32:49 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
+# include <signal.h>
 
 							/* COLORS */
 # define RD		"\033[1;91m"
@@ -247,39 +248,75 @@ int		end_quote(char *str, int i, char c);
 int		ft_strchr(const char *str, char c);
 int		ft_isspace(char c);
 
-/*-----------Execute---------*/
-void		ms_main_exe(t_token *token, t_data *data);
-void		ms_fds(t_token *token, t_token **token_prev, t_data *data);
-void		ft_commander(t_token *token, t_data *data);
-t_sherpa	ft_sherpa(t_redir *redir);
-void		ft_here_doc(t_token *token, t_data *data);
-void		ms_post_exe(t_data *data, t_token *token_prev, t_token *first_token);
-
-/*------------PIPE-------------------*/
-void		c_pipe(t_token *token, t_token *token_prev);
+/*------CHILDS------*/
+void	ms_exe_childs(t_token *token, t_data *data);
+void	ms_check_permision(char *command);
 
 /*------------EXE_REDIR------------------*/
 int			ms_init_redir(t_token *token, t_data *data);
 t_sherpa	*ms_sherpa(t_redir *redir);
 int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data);
+int	err_redir(t_token *token, t_sherpa *sherpa);
+int	e_red_mssg(char *file, int flag);
+
+/*-----------EXECUTE---------*/
+void	ms_main_exe(t_token *token, t_data *data);
+void	ms_commander(t_token *token, t_data *data);
+void	ms_fds(t_token *token, t_token **token_prev, t_data *data);
+void	child_process(t_token *token);
+
+/*------FAKEHDOC--------*/
+void	ft_fake_hdoc(t_token *token);
+void	fake_writer(char *line, char *limiter);
+
+/*----FREE_ARRAY---*/
+void	ft_freearray(char **array);
+
+/*---MINI_LOOP----*/
+void	mini_loop();
+
+/*----MS_HDOC---*/
+void	ms_here_doc(t_token *token, t_data *data);
+void	ms_hdoc_writer(int *fd, char *line, char *limiter);
+
+/*------------PIPE-------------------*/
+void	c_pipe(t_token *token);
+
+/*----PIPEX_EXECUTE----*/
+void	ft_execute(char *argv, char **envp);
+char	*find_path(char *cmd, char **envp);
+char	*fp_loop(char *path, char *cmd, char **paths, int i);
+char	**awk_split(const char *argv, int i);
+
+/*----POST_EXE----*/
+void	ms_post_exe(t_data *data, t_token *token_prev, t_token *first_token);
 
 /*-------------TIN_OPENER---------------*/
 int	ms_tin_opener(char *argv, int flag, t_token *token, t_data *data);
 
-/*--------------MS_HDOC-----------------*/
-void	ms_here_doc(t_token *token, t_data *data);
-void	ms_hdoc_writer(int *fd, char *line, char *limiter);
-
-/*----------Pipex Execute------------*/
-void		ft_execute(char *argv, char **envp);
-
 /*-----------UTILS_EXE-----------*/
 int	ms_gnl(char **line);
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strdup(const char *s1);
+char	*ms_tolower_str(char *str);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int	ms_cmd_nf(char *cmd);
+
+/*------BUILTINS------*/
+int	r_builts(t_token *token, t_data *data);
+char	**ms_return_env(t_data *data);
+int	bi_print_working_directory(t_data *data);
+int	bi_change_dir(t_token *token, t_data *data);
+
+
+
 
 /*-----------Minishell (MAIN)------------*/
 void	mini_loop(t_data *data, t_list *list);
 t_data	*data_init(t_list *env);
 char	*ft_strdup(const char *s1);
+
 
 
 #endif

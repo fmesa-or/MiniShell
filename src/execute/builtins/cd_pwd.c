@@ -6,11 +6,12 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:11:13 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/29 13:42:35 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:15:35 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 static int bi_cd2(t_token *token, t_data *data, char *target_path, int cd_stat)
 {
 	target_path = token->argv[1];
@@ -35,6 +36,7 @@ int	bi_change_dir(t_token *token, t_data *data)
 	char	*target_path;
 	int		cd_stat;
 
+	target_path = NULL;
 	cd_stat = 0;
 	if (token->argv[2])
 		throw_error("ERROR:", NULL, data);//REVISAR FUNCION
@@ -47,7 +49,7 @@ int	bi_change_dir(t_token *token, t_data *data)
 				throw_error("ERROR:", NULL, data);
 		}
 		else
-			cd_stat = bi_cd2(token, &data, target_path, cd_stat);
+			cd_stat = bi_cd2(token, data, target_path, cd_stat);
 	}
 	return (cd_stat);
 }
