@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/01/29 19:36:24 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/30 08:33:56 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	mini_loop(t_data *data, t_list *list)
 		//printf("Input: %s\n", line); //aquí debería ir la función que parsea la línea
 	/* 	if (ft_strcmp(tk_list->command, "exit"))
 			ft_exit(NULL); */
+		write(1, "EXE DONE\n", 9);
 		ft_tokenclear(tk_list);
 		free_partial_data(data);
 	//	rl_on_new_line();

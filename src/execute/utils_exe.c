@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:03:23 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/29 19:35:35 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/30 08:11:11 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,33 +52,6 @@ char	*ms_tolower_str(char *str)
 			str[i] = str[i] + 32;
 	}
 	return (str);
-}
-
-/**********************************************************************
-*Allocates enough memory to copy 's1'. Copies and returns the pointer.*
-*If there is no enough space available for memory, returns NULL       *
-**********************************************************************/
-char	*ft_strdup(const char *s1)
-{
-	char	*ptr;
-	char	*s1_;
-	int		i;
-
-	s1_ = (char *)s1;
-	i = 0;
-	while (s1_[i])
-		i++;
-	ptr = malloc(i + 1);
-	if (!ptr)
-		return (NULL);
-	i = 0;
-	while (s1_[i])
-	{
-		ptr[i] = s1_[i];
-		i++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
 }
 
 /*******************************************************

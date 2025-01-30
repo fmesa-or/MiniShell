@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   migue_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:14:29 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/10/14 18:56:11 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/01/30 08:10:59 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**********************************************************************
+*Allocates enough memory to copy 's1'. Copies and returns the pointer.*
+*If there is no enough space available for memory, returns NULL       *
+**********************************************************************/
 char	*ft_strdup(const char *s1)
 {
 	char		*ptr;

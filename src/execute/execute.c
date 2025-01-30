@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/29 18:56:01 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/30 08:43:27 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@
 
 void	ms_fds(t_token *token, t_token **token_prev, t_data *data)
 {
+	printf(RD"%d\n"RES, token[1].type);
 	if (token[1].type != NONE)
 		c_pipe(token);
+	printf("PIPE PASSED");
 	if (token->redir)
 	{
 		token->l_status = ms_init_redir(token, data);

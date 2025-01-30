@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:22:05 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/29 18:32:03 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/30 08:44:35 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ t_sherpa	*ms_sherpa(t_redir *redir)
 	sherpa->fileout = NULL;
 	sherpa->hdocflag = false;
 
+	printf(GR"SHERPA\n"RES);
 	if (redir->type == IN || redir->type == HDOC)
 	{
 		sherpa->typein = redir->type;
