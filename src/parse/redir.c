@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:52:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/12/05 16:06:00 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/02/11 21:18:43 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	redir_fill(t_token *tk, char *str, int rd_type, int i)
 {
 	t_redir *aux_red;
-	
+
 	aux_red = malloc(sizeof(t_redir));
 	ft_rediradd_back(&tk->redir, aux_red);
 	aux_red->index = i;

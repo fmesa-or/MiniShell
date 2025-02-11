@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:22:05 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/02/11 20:33:46 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/02/11 21:20:41 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,12 @@ t_sherpa	*ms_sherpa(t_redir *redir, t_sherpa *sherpa)
 		sherpa->fileout = redir->file;
 		printf("sherpa->fileout = %s\n", sherpa->fileout);
 	}
-	printf("redir->next = %p\n", redir->next);
+//	printf("redir->next = %p\n", redir->next);
+//	printf("redir->next->file = %s\n", redir->next->file);//rompe
+//	printf("redir->next->index = %d\n", redir->next->index);//rompe
+//	printf("redir->next->next = %p\n", redir->next->next);//rompe
 //	printf("redir->next->type = %d\n", redir->next->type);
-	if (redir->next->type)
+	if (redir->next)
 		sherpa = ms_sherpa(redir->next, sherpa);
 	return (sherpa);
 }
@@ -124,7 +127,7 @@ int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data)
 
 int	ms_init_redir(t_token *token, t_data *data)
 {
-	t_redir	*redir;
+	t_redir		*redir;
 	t_sherpa	*sherpa;
 
 	sherpa = NULL;
