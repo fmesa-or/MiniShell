@@ -19,3 +19,8 @@ BUILTINS:
 
 
 Estoy añadiendo las funciones al .h voy por el ms_here_doc
+
+Usar gdb ./minishell
+comandos:
+	-run
+	-backtrace

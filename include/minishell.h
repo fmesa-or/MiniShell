@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/01/29 19:32:49 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/02/11 20:19:44 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,7 @@ void	ms_check_permision(char *command);
 
 /*------------EXE_REDIR------------------*/
 int			ms_init_redir(t_token *token, t_data *data);
-t_sherpa	*ms_sherpa(t_redir *redir);
+t_sherpa	*ms_sherpa(t_redir *redir, t_sherpa *sherpa);
 int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data);
 int	err_redir(t_token *token, t_sherpa *sherpa);
 int	e_red_mssg(char *file, int flag);
@@ -280,7 +280,7 @@ void	ms_here_doc(t_token *token, t_data *data);
 void	ms_hdoc_writer(int *fd, char *line, char *limiter);
 
 /*------------PIPE-------------------*/
-void	c_pipe(t_token *token);
+void	ms_pipe(t_token *token);
 
 /*----PIPEX_EXECUTE----*/
 void	ft_execute(char *argv, char **envp);
@@ -300,8 +300,8 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(const char *s1);
 char	*ms_tolower_str(char *str);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
-int	ms_cmd_nf(char *cmd);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ms_cmd_nf(char *cmd);
 
 /*------BUILTINS------*/
 int	r_builts(t_token *token, t_data *data);

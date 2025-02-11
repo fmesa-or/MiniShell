@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:22:05 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/30 08:44:35 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/02/11 20:33:46 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,30 @@ int	err_redir(t_token *token, t_sherpa *sherpa)
 	return (0);
 }
 
-/**********************************************************
-*Fills t_sherpa data structure info with the t_redir list.*
-**********************************************************/
-t_sherpa	*ms_sherpa(t_redir *redir)
+static t_sherpa *ms_sherpa_init(t_sherpa *sherpa)
 {
-	t_sherpa	*sherpa;
-
-	sherpa = NULL;
+	sherpa = malloc(sizeof(t_sherpa));
+	if (!sherpa)
+		return (NULL);
 	sherpa->typein = NONE;
 	sherpa->typeout = NONE;
 	sherpa->filein = NULL;
 	sherpa->fileout = NULL;
 	sherpa->hdocflag = false;
+	return (sherpa);
+}
 
-	printf(GR"SHERPA\n"RES);
+/**********************************************************
+*Fills t_sherpa data structure info with the t_redir list.*
+**********************************************************/
+t_sherpa	*ms_sherpa(t_redir *redir, t_sherpa *sherpa)
+{
+	static int		i= 0;
+
+	i++;
+	printf(CI"SHERPA:%d\n"RES, i);
+	if (!sherpa)
+		return (NULL);
 	if (redir->type == IN || redir->type == HDOC)
 	{
 		sherpa->typein = redir->type;
@@ -72,14 +81,18 @@ t_sherpa	*ms_sherpa(t_redir *redir)
 			sherpa->filein = NULL;
 			sherpa->hdocflag = true;
 		}
+		printf("sherpa->filein = %s\n", sherpa->filein);
 	}
 	if (redir->type == DOUT || redir->type == NDOUT)
 	{
 		sherpa->typeout = redir->type;
 		sherpa->fileout = redir->file;
+		printf("sherpa->fileout = %s\n", sherpa->fileout);
 	}
-	if (redir->next)
-		sherpa = ms_sherpa(redir->next);
+	printf("redir->next = %p\n", redir->next);
+//	printf("redir->next->type = %d\n", redir->next->type);
+	if (redir->next->type)
+		sherpa = ms_sherpa(redir->next, sherpa);
 	return (sherpa);
 }
 
@@ -112,13 +125,19 @@ int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data)
 int	ms_init_redir(t_token *token, t_data *data)
 {
 	t_redir	*redir;
+	t_sherpa	*sherpa;
 
-	if (!token->redir)
-		return (0);
+	sherpa = NULL;
+	sherpa = ms_sherpa_init(sherpa);
+	printf("Init REDIR\n");
+	if (!(token->redir))
+	return (0);
 	if (token->type == BUIL || token->type == CMD)
 	{
+		printf("Avemus BUIL or CMD\n");
 		redir = token->redir;
-		return (ms_c_redir(token, redir, ms_sherpa(redir), data));
+		printf("redir = %s\n", redir->file);
+		return (ms_c_redir(token, redir, ms_sherpa(redir, sherpa), data));
 	}
 	return (0);
 }
