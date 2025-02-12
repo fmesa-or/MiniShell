@@ -1,0 +1,12 @@
+readline:
+-Tenemos: minishell>
+-Debe mostrar user: "pwd"  -> fmesa-or@c3r9s4:~/Desktop/GITHUB/MiniShell$
+
+probando comando sencillo "infile command"
+<infile.txt cat:
+-Tenemos:
+	[2]    3021033 segmentation fault (core dumped)  ./minishell
+-Debe mostrar:
+	//texto contenido en infile.txt//
+
+Revisar el PARSEO, estamos guardando un redir->next con las variables inaccesibles cuando no debería haber redir ninguno.

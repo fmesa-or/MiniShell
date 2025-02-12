@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/30 08:43:27 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/02/11 19:43:59 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@
 
 void	ms_fds(t_token *token, t_token **token_prev, t_data *data)
 {
-	printf(RD"%d\n"RES, token[1].type);
+//	printf("next token type = %d\n", token[1].type);
+//	printf("actual token type = %d\n", token->type);
 	if (token[1].type != NONE)
-		c_pipe(token);
-	printf("PIPE PASSED");
+		ms_pipe(token);
+//	printf("PIPE PASSED");
 	if (token->redir)
 	{
 		token->l_status = ms_init_redir(token, data);
@@ -93,10 +94,14 @@ void	ms_main_exe(t_token *token, t_data *data)
 	token_post = token;
 	while(token->type != NONE)
 	{
+		printf("entrada bucle\n");
 		ms_fds(token, &token_prev, data);
+		printf("señal procesada en ms_fds\n");
 		ms_commander(token, data);
+		printf("señal procesada en ms_commander\n");
 		token_prev = token;
 		token++;
+		printf("salida bucle\n");
 	}
 	ms_post_exe(data, token_prev, token_post);
 }
