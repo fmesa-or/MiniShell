@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:52:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/02/11 21:18:43 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:13:37 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	redir_fill(t_token *tk, char *str, int rd_type, int i)
 	t_redir *aux_red;
 
 	aux_red = malloc(sizeof(t_redir));
+	aux_red->next = NULL;
 	ft_rediradd_back(&tk->redir, aux_red);
 	aux_red->index = i;
 	aux_red->type = rd_type;

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/02/11 20:46:52 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:46:11 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ typedef struct s_token
 	char			**argv;
 	char			*command;
 //	char			*hdoc;
-	int				pid;
+	pid_t			pid;
 	int				l_status;
 	struct s_redir	*redir;
 	struct s_list	*env;
@@ -254,7 +254,7 @@ void	ms_check_permision(char *command);
 
 /*------------EXE_REDIR------------------*/
 int			ms_init_redir(t_token *token, t_data *data);
-t_sherpa	*ms_sherpa(t_redir *redir, t_sherpa *sherpa);
+t_sherpa	*ms_sherpa(t_token *token, t_redir *redir, t_sherpa *sherpa);
 int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data);
 int	err_redir(t_token *token, t_sherpa *sherpa);
 int	e_red_mssg(char *file, int flag);

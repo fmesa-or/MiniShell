@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:22:05 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/02/11 21:20:41 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:54:24 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static t_sherpa *ms_sherpa_init(t_sherpa *sherpa)
 /**********************************************************
 *Fills t_sherpa data structure info with the t_redir list.*
 **********************************************************/
-t_sherpa	*ms_sherpa(t_redir *redir, t_sherpa *sherpa)
+t_sherpa	*ms_sherpa(t_token *token, t_redir *redir, t_sherpa *sherpa)
 {
 	static int		i= 0;
 
@@ -94,8 +94,10 @@ t_sherpa	*ms_sherpa(t_redir *redir, t_sherpa *sherpa)
 //	printf("redir->next->index = %d\n", redir->next->index);//rompe
 //	printf("redir->next->next = %p\n", redir->next->next);//rompe
 //	printf("redir->next->type = %d\n", redir->next->type);
+	if (ft_strnstr(token->argv[0], "cat", 3) && !token->argv[1] && sherpa->filein)
+		token->argv[1] = sherpa->filein;
 	if (redir->next)
-		sherpa = ms_sherpa(redir->next, sherpa);
+		sherpa = ms_sherpa(token, redir->next, sherpa);
 	return (sherpa);
 }
 
@@ -140,7 +142,7 @@ int	ms_init_redir(t_token *token, t_data *data)
 		printf("Avemus BUIL or CMD\n");
 		redir = token->redir;
 		printf("redir = %s\n", redir->file);
-		return (ms_c_redir(token, redir, ms_sherpa(redir, sherpa), data));
+		return (ms_c_redir(token, redir, ms_sherpa(token, redir, sherpa), data));
 	}
 	return (0);
 }
