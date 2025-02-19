@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/02/11 18:38:37 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/02/18 19:50:04 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,20 @@ void	mini_loop(t_data *data, t_list *list)
 	while (1)
 	{
 		data->user_input = readline("minishell> "); //el prompt debería ser ~user:current_dir$~
-		write(1, "2\n", 2);
+//		write(1, "2\n", 2);
 		if (!data->user_input)
 			break ;
 		add_history(data->user_input);
-		write(1, "3\n", 2);
+//		write(1, "3\n", 2);
 		tk_list = parse_main(data->user_input, list, data);
-		write(1, "4\n", 2);
+//		write(1, "4\n", 2);
 		ms_main_exe(tk_list, data); //cd Desktop | ls -l | wc -l > file.txt
 		//printf("Input: %s\n", line); //aquí debería ir la función que parsea la línea
 	/* 	if (ft_strcmp(tk_list->command, "exit"))
 			ft_exit(NULL); */
-		write(1, "EXE DONE\n", 9);
-		ft_tokenclear(tk_list);
-		free_partial_data(data);
+//		write(1, "EXE DONE\n", 9);
+//		ft_tokenclear(tk_list);
+//		free_partial_data(data);
 	//	rl_on_new_line();
 	//	rl_redisplay();
 	}
@@ -75,7 +75,7 @@ int main(int argc, char **argv, char **env)
 	if (argc == 1 && argv)
 	{
 		data = data_init(list);
-		write(1, "1\n", 2);//check
+//		write(1, "1\n", 2);//check
 		//free(data);
 		//parse_main("export >     flauta  3| algarroba $USER >   pene pwd|>> polla wc -l tres", list, data);
 		mini_loop(data, list);

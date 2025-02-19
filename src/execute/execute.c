@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/02/11 19:43:59 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:29:31 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	ms_main_exe(t_token *token, t_data *data)
 {
 	t_token	*token_prev;
 	t_token *token_post;
+	static int j = 0;
 
 	token_post = token;
 	while(token->type != NONE)
@@ -101,7 +102,7 @@ void	ms_main_exe(t_token *token, t_data *data)
 		printf("señal procesada en ms_commander\n");
 		token_prev = token;
 		token++;
-		printf("salida bucle\n");
+		printf("fin bucle: %d\n", ++j);
 	}
 	ms_post_exe(data, token_prev, token_post);
 }
