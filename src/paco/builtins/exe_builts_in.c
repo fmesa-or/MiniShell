@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_builts_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:06 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/15 14:40:10 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:19:38 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,22 +66,28 @@ void	bi_change_dir(t_token token, t_data *data)
 		}
 	}
 }
-
-void	ft_builtin(t_token token, t_data data)
+int	ft_built_run(t_data *data, t_token *token)
 {
-	//----Solo funcionan en minúsculas
-	if (token.argv[0] == "cd")
-		bi_change_dir(token, &data);
-	//export
-	//unset
-	//exit
+	int	lstat;
 
-	//----Solo en mayus
-	//----Ambos
-	//echo & echo -n
-	else if (ms_tolower_str(token.argv[0]) == "env")//vas por aquí
-		bi_env();//preguntar a Ramón donde la almacenamos o si puedo usar getenv
-	//pwd
-	else if (ms_tolower_str(token.argv[0]) == "pwd")
-		bi_print_working_directory(data);
+	dup2(token->fd[1], 1);
+	dup2(token->fd[0], 0);
+	lstat = 0;
+	if (ft_strcmp(token->argv[0], "cd"))
+		lstat = ft_cd(token->argv, data);
+	else if (ft_strcmp(token->argv[0], "pwd"))
+		lstat = ft_pwd();
+	else if (ft_strcmp(token->argv[0], "env"))
+		lstat = ft_env(data->exported_list);
+	else if (ft_strcmp(token->argv[0], "exit"))
+		lstat = ft_exit(token->argv);
+	else if (ft_strcmp(token->argv[0], "echo"))
+		lstat = ft_echo(token->argv);
+	else if (ft_strcmp(token->argv[0], "unset"))
+		lstat = ft_unset(data->exported_list, token->argv[1]);
+	else if (ft_strcmp(token->argv[0], "export"))
+		lstat = ft_export(data->exported_list, token->argv[1]);
+	close(token->fd[0]);
+	close(token->fd[1]);
+	return (lstat);
 }

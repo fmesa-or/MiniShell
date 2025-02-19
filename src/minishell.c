@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/01/15 18:33:31 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:19:25 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,11 @@ void	mini_loop(t_data *data, t_list *list)
 
 	while (1)
 	{
-		data->user_input = readline("minishell> "); //el prompt debería ser ~user:current_dir$~
-		write(1, "2\n", 2);
+		data->user_input = readline(ft_strcjoin(data->pwd, "minishell> ", ' ')); //el prompt debería ser ~user:current_dir$~
 		if (!data->user_input)
-			break ;
+			break ;//salto linea?
 		add_history(data->user_input);
-		write(1, "3\n", 2);
 		tk_list = parse_main(data->user_input, list, data);
-		write(1, "4\n", 2);
 		ft_main_exe(*tk_list, *data);
 		//printf("Input: %s\n", line); //aquí debería ir la función que parsea la línea
 	/* 	if (ft_strcmp(tk_list->command, "exit"))
