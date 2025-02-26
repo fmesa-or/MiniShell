@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/12/09 16:33:51 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:41:20 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,12 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 		tk_outrd(&tk_list[i], pipes[i]);
 		if (tk_list[i].redir && tk_list[i].redir->type)
 		{
-			pipes[i] = rd_strdel(&tk_list[i], pipes[i]);
+			while (tk_list[i].redir->next)
+			{
+				pipes[i] = rd_strdel(tk_list[i].redir, pipes[i]);
+				tk_list[i].redir = tk_list[i].redir->next;
+			}
+			
 			printf("str = %s\n", pipes[i]);
 		}
 		tk_get_arg(&tk_list[i], pipes[i], env, data);

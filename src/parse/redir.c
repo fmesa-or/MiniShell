@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:52:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/02/18 18:13:37 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:45:58 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	redir_fill(t_token *tk, char *str, int rd_type, int i)
 
 	aux_red = malloc(sizeof(t_redir));
 	aux_red->next = NULL;
-	ft_rediradd_back(&tk->redir, aux_red);
 	aux_red->index = i;
 	aux_red->type = rd_type;
 	if (rd_type == NDOUT || rd_type == HDOC)
@@ -31,6 +30,7 @@ void	redir_fill(t_token *tk, char *str, int rd_type, int i)
 		if (!aux_red->file)
 			throw_error("ERROR: wrong or not existing file", tk, NULL);
 	}
+	ft_rediradd_back(&tk->redir, aux_red);
 }
 
 void	tk_inrd(t_token *tk_node, char *str)
@@ -90,14 +90,14 @@ void	tk_outrd(t_token *tk_node, char *str)
 		de cada pipe, despues de guardarlo en la struc.
 		Seguro q se pueden abrebiar muchas lineas, 
 		segurqmente hay q liberar mas memoria*/
-char	*rd_strdel(t_token *tk, char *str)
+char	*rd_strdel(t_redir *redir, char *str)
 {
 	int		i;
 	int		extra_len;
 	char	*aux1;
 	char	*aux2;
 
-	i = tk->redir->index;
+	i = redir->index;
 	if (str[i] == '<' || str[i] == '>')
 	{
 		if (str[i+1] == '<' || str[i+1] == '>')
@@ -109,8 +109,8 @@ char	*rd_strdel(t_token *tk, char *str)
 	while (!ft_isspace(str[i]))
 		i++;
 	extra_len = i;
-	i = tk->redir->index;
-	if (tk->redir->type == HDOC || tk->redir->type == NDOUT)
+	i = redir->index;
+	if (redir->type == HDOC || redir->type == NDOUT)
 	{
 		//caso de dos
 		aux1 = ft_substr(str, 0, i);
@@ -121,7 +121,7 @@ char	*rd_strdel(t_token *tk, char *str)
 		return(str);
 		
 	}
-	else if (tk->redir->type == IN || tk->redir->type == DOUT)
+	else if (redir->type == IN || redir->type == DOUT)
 	{
 		//caso de 1
 		aux1 = ft_substr(str, 0, i);

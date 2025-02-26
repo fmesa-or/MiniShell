@@ -1,2 +1,1 @@
 command = /usr/bin/cat
-command = /usr/bin/cat
