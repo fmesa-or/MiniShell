@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/04 12:41:25 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/04 17:15:56 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,10 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)//("", list, data)
 
 	av = NULL;
 	tokens = NULL;
-	write(1, "Parse Main CHECK\n", 17);
+//	write(1, "Parse Main CHECK\n", 17);
 	aux = expand_var(str, list, data);
 	av = pipe_separator(aux, data);
-	write(1, "llega\n", 6);
+//	write(1, "llega\n", 6);
 	tokens = tk_list_make(av, list, data);
 	free_2ptr(av);
 //	free(aux); //lo he muteado temporalmente, hay que revisar que no genere leaks de memoria

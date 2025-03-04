@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/04 12:07:05 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/04 17:15:18 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	mini_loop(t_data *data, t_list *list)
 	/* 	if (ft_strcmp(tk_list->command, "exit"))
 			ft_exit(NULL); */
 //		write(1, "EXE DONE\n", 9);
-//		ft_tokenclear(tk_list);
-//		free_partial_data(data);
+		ft_tokenclear(tk_list);
+		free_partial_data(data);
 	//	rl_on_new_line();
 	//	rl_redisplay();
 	}
