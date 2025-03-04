@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 09:56:47 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/03/04 19:10:39 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/04 20:32:48 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ int	bi_echo(t_token *token, t_data *data)
 		while (token->argv[++i])
 		{
 			token->argv[i] = bi_rm_quotes(token->argv[i]);
-			//sustituir $ por su 
 			write(token->fd[1], token->argv[i], ft_strlen(token->argv[i]));
 			if (token->argv[i + 1])
 				write(token->fd[1], " ", 1);
@@ -109,7 +108,6 @@ int	bi_echo(t_token *token, t_data *data)
 		while (token->argv[++i])
 		{
 			token->argv[i] = bi_rm_quotes(token->argv[i]);
-			//sustituir $ por su 
 			write(token->fd[1], token->argv[i], ft_strlen(token->argv[i]));
 			if (token->argv[i + 1])
 				write(token->fd[1], " ", 1);
@@ -120,8 +118,3 @@ int	bi_echo(t_token *token, t_data *data)
 		i = 0;
 	return (0);
 }
-
-//WE NEED TO IMPLEMENT A WAY TO CHECK DATA INFO WHEN WE CALL WITH '$'
-//echo My user is $USER
-
-//If we don't give echo arguments it will write a new line
