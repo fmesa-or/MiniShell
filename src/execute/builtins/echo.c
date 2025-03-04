@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 09:56:47 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/03/04 20:32:48 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/04 20:34:08 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static char	*bi_rm_quotes(char *argv)
 *If the option "-n" it's included, doesn't print the next line at the end.*
 *If there is no arguments for "echo" it should return a newline.          *
 **************************************************************************/
-int	bi_echo(t_token *token, t_data *data)
+int	bi_echo(t_token *token)
 {
 	int	i;
 
@@ -114,7 +114,5 @@ int	bi_echo(t_token *token, t_data *data)
 		}
 		write(token->fd[1], "\n", 1);
 	}
-	if (data)
-		i = 0;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:06 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/03/04 10:54:30 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/04 20:34:14 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ int	ms_builts(t_token *token, t_data *data)
 	if (ft_strncmp(token->argv[0], "pwd", ft_strlen(token->argv[0])) == 0)
 		ret = bi_print_working_directory(data);
 	if (ft_strncmp(token->argv[0], "echo", ft_strlen(token->argv[0])) == 0)
-			ret = bi_echo(token, data);
-/*	if (ft_strncmp(token->argv[0], "export", ft_strlen(token->argv[0])) == 0)
+			ret = bi_echo(token);
+	if (ft_strncmp(token->argv[0], "export", ft_strlen(token->argv[0])) == 0)
 		ret = bi_export();
-	if (ft_strncmp(token->argv[0], "unset", ft_strlen(token->argv[0])) == 0)
+/*	if (ft_strncmp(token->argv[0], "unset", ft_strlen(token->argv[0])) == 0)
 		ret = bi_unset();
 	if (ft_strncmp(token->argv[0], "env", ft_strlen(token->argv[0])) == 0)
 		ret = bi_env();

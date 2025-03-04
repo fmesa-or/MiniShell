@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/04 12:52:46 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/04 20:58:26 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,10 +233,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 t_list	*ft_lstnew(char *n_key, char *n_value);
 
 /*-----------ft_export-----------*/
-t_list	*find_key(t_list *list, char *n_key);
 int		ft_strchr(const char *str, char c);
-void	ft_voidexport(t_list *list);
-int		ft_export(t_list *list, char *n_key);
 
 /*-----------ft_itoa------------*/
 char	*ft_itoa(int n);
@@ -308,7 +305,10 @@ int		ms_builts(t_token *token, t_data *data);
 char	**ms_return_env(t_data *data);
 int	bi_print_working_directory(t_data *data);
 int	bi_change_dir(t_token *token, t_data *data);
-int	bi_echo(t_token *token, t_data *data);
+int	bi_echo(t_token *token);
+t_list	*find_key(t_list *list, char *n_key);
+void	bi_voidexport(t_list *list);
+int		bi_export(t_list *list, char *n_key);
 
 
 
