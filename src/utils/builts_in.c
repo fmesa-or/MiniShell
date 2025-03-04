@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 13:46:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/01/15 14:30:42 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/04 10:57:04 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	ft_echo(char **argv)
 	int	i;
 	int n_flag;
 
+	printf("echo RAMON\n");
 	n_flag = 0;
 	i = 1;
 	if(array_count(argv) > 1)

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/02/18 19:59:47 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:52:46 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@
 # define FF		"\033[0;97m"
 # define RES	"\033[0m"
 
-/***********************************************************************
-*                                 TOKEN                                *
-*NONE	->Nothing                                                      *
-*CMD	->Command                                                      *
-*PIPE	->Pipe ("|")                                                   *
-*IN		->("<") Redirection, input fd                                  *
-*HDOC	->("<<"){HEREDOC}Redirection, text input                     *
-*DOUT	->(">")Redirection, destructive, deletes everything of the file*
-*NDOUT	->(">>")Redirection, non destructive, writes at the end        *
-*BUIL	->Commands we include in the built in, like env,  cd, pwd,etc. *
-***********************************************************************/
+/**************************************************************************
+*                                 TOKEN                                   *
+*NONE	->(0)Nothing                                                      *
+*CMD	->(1)Command                                                      *
+*PIPE	->(2)Pipe ("|")                                                   *
+*IN		->(3)("<") Redirection, input fd                                  *
+*HDOC	->(4)("<<"){HEREDOC}Redirection, text input                       *
+*DOUT	->(5)(">")Redirection, destructive, deletes everything of the file*
+*NDOUT	->(6)(">>")Redirection, non destructive, writes at the end        *
+*BUIL	->(7)Commands we include in the built in, like env,  cd, pwd,etc. *
+**************************************************************************/
 enum	e_token
 {
 	NONE,
@@ -214,10 +214,10 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcjoin(char *s1, char *s2, char c);
 
 /*-----------Builts_in-----------*/
-int		ft_cd(char **argv, t_data *data);
+/*int		ft_cd(char **argv, t_data *data);
 int		ft_env(t_list *list);
 int		ft_pwd();
-
+*/
 /*-----------ft_echo-----------*/
 int		ft_echo(char **argv);
 
@@ -304,10 +304,11 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ms_cmd_nf(char *cmd);
 
 /*------BUILTINS------*/
-int	r_builts(t_token *token, t_data *data);
+int		ms_builts(t_token *token, t_data *data);
 char	**ms_return_env(t_data *data);
 int	bi_print_working_directory(t_data *data);
 int	bi_change_dir(t_token *token, t_data *data);
+int	bi_echo(t_token *token, t_data *data);
 
 
 

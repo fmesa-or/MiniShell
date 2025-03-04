@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/02/18 18:29:31 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:51:21 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,12 @@ void	ms_commander(t_token *token, t_data *data)
 {
 	if (token->type != CMD && token->type != BUIL)
 		return ;
-	if (token->type == BUIL && token[1].type == NONE)
-		token->l_status = r_builts(token, data);
+	printf(RD"Token.Type = %d\n"RES, token->type);
+	if (token->type == BUIL && token[1].command == NULL)//hay que arreglarlo para que sea con todo el token
+	{
+		printf(GR"BUIL CHECK\n"RES);
+		token->l_status = ms_builts(token, data);
+	}
 	else
 	{
 		token->pid = fork();
@@ -70,14 +74,19 @@ void	ms_commander(t_token *token, t_data *data)
 		{
 			if (token->type == BUIL)
 			{
-				r_builts(token, data);
+				printf(FF"CHECK BUIL"RES);
+				ms_builts(token, data);
 				exit(0);
 			}
 			else
+			{
+				printf(CI"CHECK CHILDS\n"RES);
 				ms_exe_childs(token, data);
+			}
 		}
 		else
 		{
+			printf(PR"CHECK CLOSE\n"RES);
 			if (token->fd[0] != 0)
 				close(token->fd[0]);
 			if (token->fd[1] != 1)

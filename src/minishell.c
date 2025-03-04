@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/02/18 19:50:04 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:07:05 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,9 @@ int main(int argc, char **argv, char **env)
 	{
 		data = data_init(list);
 //		write(1, "1\n", 2);//check
-		//free(data);
-		//parse_main("export >     flauta  3| algarroba $USER >   pene pwd|>> polla wc -l tres", list, data);
+		free(data);
+		parse_main("", list, data);
+//		parse_main("export >     flauta  3| algarroba $USER >   cebolla pwd|>> pollo wc -l tres", list, data);
 		mini_loop(data, list);
 		free_all_data(data);
 	}

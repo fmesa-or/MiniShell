@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/12/02 15:48:59 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:18:00 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ char	*expand_var(char *str, t_list *list, t_data *data)
 	char *aux;
 
 	i = 0;
+	if (ft_strncmp(str, "", ft_strlen(str)) == 0)
+		return ("");
 	aux = str;
 	while(str[i])
 	{

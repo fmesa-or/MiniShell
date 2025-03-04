@@ -3,3 +3,4 @@ readline:
 -Debe mostrar user: "pwd"  -> fmesa-or@c3r9s4:~/Desktop/GITHUB/MiniShell$
 
 -Si no hay nada de texto al pulsar enter debería devolvernos una nueva linea!
+-Una vez echos todos los comandos y builts, asegurarme que el last status se actualiza correctamente.
