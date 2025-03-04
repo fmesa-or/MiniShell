@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/02/18 19:59:47 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/04 10:55:06 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,10 +214,10 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcjoin(char *s1, char *s2, char c);
 
 /*-----------Builts_in-----------*/
-int		ft_cd(char **argv, t_data *data);
+/*int		ft_cd(char **argv, t_data *data);
 int		ft_env(t_list *list);
 int		ft_pwd();
-
+*/
 /*-----------ft_echo-----------*/
 int		ft_echo(char **argv);
 
@@ -304,10 +304,11 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ms_cmd_nf(char *cmd);
 
 /*------BUILTINS------*/
-int	r_builts(t_token *token, t_data *data);
+int		ms_builts(t_token *token, t_data *data);
 char	**ms_return_env(t_data *data);
 int	bi_print_working_directory(t_data *data);
 int	bi_change_dir(t_token *token, t_data *data);
+int	bi_echo(t_token *token, t_data *data);
 
 
 

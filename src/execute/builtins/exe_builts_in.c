@@ -6,16 +6,17 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:06 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/29 19:14:15 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/04 10:54:30 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	r_builts(t_token *token, t_data *data)
+int	ms_builts(t_token *token, t_data *data)
 {
 	int	ret;
 
+		printf("ms_builts access\n");
 	dup2(token->fd[1], 1);
 	dup2(token->fd[0], 0);
 	ret = 0;
@@ -23,7 +24,17 @@ int	r_builts(t_token *token, t_data *data)
 		ret = bi_change_dir(token, data);
 	if (ft_strncmp(token->argv[0], "pwd", ft_strlen(token->argv[0])) == 0)
 		ret = bi_print_working_directory(data);
-		//MORE
+	if (ft_strncmp(token->argv[0], "echo", ft_strlen(token->argv[0])) == 0)
+			ret = bi_echo(token, data);
+/*	if (ft_strncmp(token->argv[0], "export", ft_strlen(token->argv[0])) == 0)
+		ret = bi_export();
+	if (ft_strncmp(token->argv[0], "unset", ft_strlen(token->argv[0])) == 0)
+		ret = bi_unset();
+	if (ft_strncmp(token->argv[0], "env", ft_strlen(token->argv[0])) == 0)
+		ret = bi_env();
+	if (ft_strncmp(token->argv[0], "exit", ft_strlen(token->argv[0])) == 0)
+		ret = bi_exit();*/
+
 
 	return (ret);
 }

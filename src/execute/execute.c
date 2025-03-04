@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/02/18 18:29:31 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/04 11:24:30 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ void	ms_commander(t_token *token, t_data *data)
 	if (token->type != CMD && token->type != BUIL)
 		return ;
 	if (token->type == BUIL && token[1].type == NONE)
-		token->l_status = r_builts(token, data);
+	{
+		printf(GR"BUIL CHECK\n"RES);
+		token->l_status = ms_builts(token, data);
+	}
 	else
 	{
 		token->pid = fork();
@@ -70,14 +73,19 @@ void	ms_commander(t_token *token, t_data *data)
 		{
 			if (token->type == BUIL)
 			{
-				r_builts(token, data);
+				printf(GR"CHECK"RES);
+				ms_builts(token, data);
 				exit(0);
 			}
 			else
+			{
+				printf(GR"CHECK 2\n"RES);
 				ms_exe_childs(token, data);
+			}
 		}
 		else
 		{
+			printf(GR"CHECK 2\n"RES);
 			if (token->fd[0] != 0)
 				close(token->fd[0]);
 			if (token->fd[1] != 1)
