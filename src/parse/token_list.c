@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/12/09 16:33:51 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/04 13:03:22 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,9 @@ void	tk_get_arg(t_token *tk_list, char *pipe, t_list *env, t_data *data)
 	{
 		if (flag == 0)
 		{
-			flag = is_cmd(tk_list->argv[i], tk_list, env, data);
+			flag = is_builtin(tk_list, tk_list->argv[i]);
 			if (flag == 0)
-				flag = is_builtin(tk_list, tk_list->argv[i]);
+				flag = is_cmd(tk_list->argv[i], tk_list, env, data);
 		}
 		i++;
 	}
@@ -125,22 +125,28 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 	t_token	*tk_list;
 
 	i = 0;
-	while (pipes[i])
-		i++;
+	if (ft_strncmp(pipes[0], "", ft_strlen(pipes[0])) != 0)
+	{
+		while (pipes[i])
+			i++;
+	}
 	tk_list = malloc(sizeof(t_token) * (i + 1));
 	i = 0;
-	while (pipes[i])
+	if (ft_strncmp(pipes[0], "", ft_strlen(pipes[0])) != 0)
 	{
-		tk_init(&tk_list[i]);
-		tk_inrd(&tk_list[i], pipes[i]);
-		tk_outrd(&tk_list[i], pipes[i]);
-		if (tk_list[i].redir && tk_list[i].redir->type)
+		while (pipes[i])
 		{
-			pipes[i] = rd_strdel(&tk_list[i], pipes[i]);
-			printf("str = %s\n", pipes[i]);
+			tk_init(&tk_list[i]);
+			tk_inrd(&tk_list[i], pipes[i]);
+			tk_outrd(&tk_list[i], pipes[i]);
+			if (tk_list[i].redir && tk_list[i].redir->type)
+			{
+				pipes[i] = rd_strdel(&tk_list[i], pipes[i]);
+				printf("str = %s\n", pipes[i]);
+			}
+			tk_get_arg(&tk_list[i], pipes[i], env, data);
+			i++;
 		}
-		tk_get_arg(&tk_list[i], pipes[i], env, data);
-		i++;
 	}
 	tk_list[i].type = NONE;
 	return (tk_list);

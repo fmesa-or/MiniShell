@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/04 10:55:06 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:52:46 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@
 # define FF		"\033[0;97m"
 # define RES	"\033[0m"
 
-/***********************************************************************
-*                                 TOKEN                                *
-*NONE	->Nothing                                                      *
-*CMD	->Command                                                      *
-*PIPE	->Pipe ("|")                                                   *
-*IN		->("<") Redirection, input fd                                  *
-*HDOC	->("<<"){HEREDOC}Redirection, text input                     *
-*DOUT	->(">")Redirection, destructive, deletes everything of the file*
-*NDOUT	->(">>")Redirection, non destructive, writes at the end        *
-*BUIL	->Commands we include in the built in, like env,  cd, pwd,etc. *
-***********************************************************************/
+/**************************************************************************
+*                                 TOKEN                                   *
+*NONE	->(0)Nothing                                                      *
+*CMD	->(1)Command                                                      *
+*PIPE	->(2)Pipe ("|")                                                   *
+*IN		->(3)("<") Redirection, input fd                                  *
+*HDOC	->(4)("<<"){HEREDOC}Redirection, text input                       *
+*DOUT	->(5)(">")Redirection, destructive, deletes everything of the file*
+*NDOUT	->(6)(">>")Redirection, non destructive, writes at the end        *
+*BUIL	->(7)Commands we include in the built in, like env,  cd, pwd,etc. *
+**************************************************************************/
 enum	e_token
 {
 	NONE,
