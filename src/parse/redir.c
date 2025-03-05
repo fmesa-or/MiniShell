@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:52:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/02/25 18:45:58 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:21:59 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ void	redir_fill(t_token *tk, char *str, int rd_type, int i)
 	aux_red->index = i;
 	aux_red->type = rd_type;
 	if (rd_type == NDOUT || rd_type == HDOC)
-		aux_red->file = getfilename(str, i + 2);
+		aux_red->file = getfilename(str, i + 2, aux_red);
 	else if (rd_type == DOUT)
-		aux_red->file = getfilename(str, i + 1);
+		aux_red->file = getfilename(str, i + 1, aux_red);
 	else if (rd_type == IN)
 	{
-		aux_red->file = getfilename(str, i + 1);
+		aux_red->file = getfilename(str, i + 1, aux_red);
 		if (!aux_red->file)
-			throw_error("ERROR: wrong or not existing file", tk, NULL);
+			throw_error("ERROR: wrong or not existing input file", tk, NULL);
 	}
 	ft_rediradd_back(&tk->redir, aux_red);
 }

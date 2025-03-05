@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/02/25 18:39:17 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:22:22 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct s_redir
 {
 	int				type;
 	int				index;
+	int				end_in; //este es el indice del ultimo char del file
 	char			*file;
 	struct s_redir	*next;
 }	t_redir;
@@ -183,7 +184,7 @@ void	tk_outrd(t_token *tk_node, char *str);
 
 /*------------Redir_utirs------------*/
 void	printredir(t_redir *red, char *str);
-char	*getfilename(char *str, int i);
+char	*getfilename(char *str, int i, t_redir *rd);
 void	ft_rediradd_back(t_redir **lst, t_redir *new);
 
 /*----------Token_list----------*/

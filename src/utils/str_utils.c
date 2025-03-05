@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:38:50 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/12/09 16:00:47 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:20:51 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,6 @@ int	end_quote(char *str, int i, char c)
 	while (str[i] && str[i] != c)
 		i++;
 	if (!str[i])
-		throw_error("ERROR: ", NULL, NULL);
+		throw_error("ERROR: no ended quote", NULL, NULL);
 	return (i);
 }

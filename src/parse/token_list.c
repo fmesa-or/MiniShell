@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/05 12:29:14 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:06:26 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,33 @@ void	tk_get_arg(t_token *tk_list, char *pipe, t_list *env, t_data *data)
 	if (tk_list->redir)
 		printf("---REDIR---\nredir type: %i\nredir file: %s\n",tk_list->redir->type, tk_list->redir->file);
 	printf("----------------------\n");
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------
+/* void	printredir(t_redir *red)
+{
+	int i = 0;
+	while (red[i])
+	{
+		if (!red[i])
+			printf("la redir %i no existe\n", i);
+		else
+			printf("rd[%i]--> tipo = %i,  file = %s\n", i, red[i].type, red[i].file);
+		i++;
+	}
+} */
+int	get_redir(t_token *tk, char *str, int i)
+{
+	if (str[i] == '<' && str[i + 1] == '<')
+		redir_fill(tk, str, HDOC, i);
+	else if (str[i] == '>' && str[i + 1] == '>')
+		redir_fill(tk, str, NDOUT, i);
+	else if (str[i] == '<')
+		redir_fill(tk, str, IN, i);
+	else if (str[i] == '>')
+		redir_fill(tk, str, DOUT, i);
 }
 
 t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
