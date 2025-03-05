@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/05 13:22:22 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/05 21:50:19 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void	ft_tokenclear(t_token *tk);
 void	ft_envclear(t_list **lst);
 
 /*------------redir------------*/
-void	redir_fill(t_token *tk, char *str, int rd_type, int i);
+int	redir_fill(t_token *tk, char *str, int rd_type, int i);
 char	*rd_strdel(t_redir *redir, char *str);
 void	tk_inrd(t_token *tk_node, char *str);
 void	tk_outrd(t_token *tk_node, char *str);

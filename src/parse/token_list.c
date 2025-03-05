@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/05 13:06:26 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/05 22:36:22 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,47 +117,58 @@ void	tk_get_arg(t_token *tk_list, char *pipe, t_list *env, t_data *data)
 	printf("----------------------\n");
 }
 
---------------------------------------------------------------------------------------------------------------------------------------
+/*--------------------------------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------------------------------------------------
-/* void	printredir(t_redir *red)
+--------------------------------------------------------------------------------------------------------------------------------------*/
+void	printredir(t_redir *red, char *str)
 {
 	int i = 0;
-	while (red[i])
+	if (!red)
+		printf("la redir %i no existe\n", i);
+	printf("---------------\n");
+	printf("-----REDIR-----\n\n");
+	printf("PIPE = [ %s ]", str);
+	while (red->next)
 	{
-		if (!red[i])
-			printf("la redir %i no existe\n", i);
-		else
-			printf("rd[%i]--> tipo = %i,  file = %s\n", i, red[i].type, red[i].file);
+		printf("rd[%i]--> tipo = %i,  file = %s\n", i, red[i].type, red[i].file);
 		i++;
+		red = red->next;
 	}
-} */
+	printf("---------------\n");
+} 
 int	get_redir(t_token *tk, char *str, int i)
 {
+	int	rd_end;
+	
+	rd_end = 0;
 	if (str[i] == '<' && str[i + 1] == '<')
-		redir_fill(tk, str, HDOC, i);
+		rd_end = redir_fill(tk, str, HDOC, i);
 	else if (str[i] == '>' && str[i + 1] == '>')
-		redir_fill(tk, str, NDOUT, i);
+		rd_end = redir_fill(tk, str, NDOUT, i);
 	else if (str[i] == '<')
-		redir_fill(tk, str, IN, i);
+		rd_end = redir_fill(tk, str, IN, i);
 	else if (str[i] == '>')
-		redir_fill(tk, str, DOUT, i);
+		rd_end = redir_fill(tk, str, DOUT, i);
+	return(rd_end);
 }
 
 t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 {
 	int		i;
 	int		j;
-	int		ac_ind; //esto sera el indice de tk->argv
-	char	*av;
+	//int		ac_ind; //esto sera el indice de tk->argv
+	//char	*av;
 	t_token	*tk_list;
 
+	i = sizeof(env[3]);
 	i = 0;
+	j = data->l_status;
 	j = 0;
 	while (pipes[i])
 		i++;
 	tk_list = malloc(sizeof(t_token) * (i + 1));
 	i = 0;
+	
 	while (pipes[i])
 	{
 		tk_init(&tk_list[i]);
@@ -169,7 +180,7 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 				j++;
 			if (pipes[i][j] == '<' || pipes[i][j] == '>')
 			{
-				//j = funcion que mire que redir es y añada a la lista
+				j = get_redir(tk_list, pipes[i], j);
 				
 			}
 			else
@@ -186,7 +197,7 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 		//tk->argv[ac_ind] = NULL; para poner fin al array
 		i++;
 	}
-	
+	printredir(tk_list->redir, data->user_input);
 	tk_list[i].type = NONE;
 	return (tk_list);
 }
@@ -236,4 +247,4 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 	}
 	tk_list[i].type = NONE;
 	return (tk_list);*/
-}
+

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:52:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/05 13:21:59 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/05 22:01:01 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	redir_fill(t_token *tk, char *str, int rd_type, int i)
+int	redir_fill(t_token *tk, char *str, int rd_type, int i)
 {
 	t_redir *aux_red;
 
@@ -31,6 +31,7 @@ void	redir_fill(t_token *tk, char *str, int rd_type, int i)
 			throw_error("ERROR: wrong or not existing input file", tk, NULL);
 	}
 	ft_rediradd_back(&tk->redir, aux_red);
+	return(aux_red->end_in);
 }
 
 void	tk_inrd(t_token *tk_node, char *str)
