@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 09:56:47 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/03/04 19:10:39 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/05 14:14:25 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static char	*bi_rm_quotes(char *argv)
 
 	i = 0;
 	j = 0;
-//	printf("CHECK bi_rm_quotes\n");
 	q = bi_c_quote(argv);
 	if (q % 2 != 0)
 		while (1)
@@ -74,25 +73,19 @@ static char	*bi_rm_quotes(char *argv)
 *If the option "-n" it's included, doesn't print the next line at the end.*
 *If there is no arguments for "echo" it should return a newline.          *
 **************************************************************************/
-int	bi_echo(t_token *token, t_data *data)
+int	bi_echo(t_token *token)
 {
 	int	i;
 
 	i = 0;
 //	printf ("CHECK bi_echo\n");
-
-	if (ft_strncmp(token->argv[1], "-n", ft_strlen(token->argv[1])) == 0)
+	if (token->argv[1] && (ft_strncmp(token->argv[1], "-n", ft_strlen(token->argv[1])) == 0))
 	{
 		i = 1;
-		if (!(token->argv[2]))//no funciona del todo bien, REVISAR
-		{
-			write(token->fd[1], "\n", 1);
-			return (0);
-		}
+//		printf("CHECK ECHO -N\n");
 		while (token->argv[++i])
 		{
 			token->argv[i] = bi_rm_quotes(token->argv[i]);
-			//sustituir $ por su 
 			write(token->fd[1], token->argv[i], ft_strlen(token->argv[i]));
 			if (token->argv[i + 1])
 				write(token->fd[1], " ", 1);
@@ -109,19 +102,11 @@ int	bi_echo(t_token *token, t_data *data)
 		while (token->argv[++i])
 		{
 			token->argv[i] = bi_rm_quotes(token->argv[i]);
-			//sustituir $ por su 
 			write(token->fd[1], token->argv[i], ft_strlen(token->argv[i]));
 			if (token->argv[i + 1])
 				write(token->fd[1], " ", 1);
 		}
 		write(token->fd[1], "\n", 1);
 	}
-	if (data)
-		i = 0;
 	return (0);
 }
-
-//WE NEED TO IMPLEMENT A WAY TO CHECK DATA INFO WHEN WE CALL WITH '$'
-//echo My user is $USER
-
-//If we don't give echo arguments it will write a new line
