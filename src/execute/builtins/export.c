@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:11:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/04 20:57:16 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/05 12:43:09 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ void	bi_voidexport(t_list *list)
 /*
 *This function will create and modify keys and their values according to the argument passed to it
 must be called within a while loop so that the args with index are passed to it*/
-int	bi_export(t_list *list, char *n_key)
+int	bi_export(t_list *list, char *n_key)//(t_list, VARIABLE="HOLA")
 {
 	char	**aux;
 	t_list	*node;
 
 	if (!n_key)
 	{
-		ft_voidexport(list);
+		bi_voidexport(list);
 		return (0);
 	}
 	if (n_key[0] == '=')

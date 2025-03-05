@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/04 20:58:26 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:38:23 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,6 @@ char	*ft_strcjoin(char *s1, char *s2, char c);
 
 /*-----------Builts_in-----------*/
 /*int		ft_cd(char **argv, t_data *data);
-int		ft_env(t_list *list);
 int		ft_pwd();
 */
 /*-----------ft_echo-----------*/
@@ -302,13 +301,15 @@ int		ms_cmd_nf(char *cmd);
 
 /*------BUILTINS------*/
 int		ms_builts(t_token *token, t_data *data);
-char	**ms_return_env(t_data *data);
 int	bi_print_working_directory(t_data *data);
 int	bi_change_dir(t_token *token, t_data *data);
 int	bi_echo(t_token *token);
 t_list	*find_key(t_list *list, char *n_key);
 void	bi_voidexport(t_list *list);
-int		bi_export(t_list *list, char *n_key);
+int	bi_export(t_list *list, char *n_key);
+//int		bi_env(t_list *list);
+int	bi_env(t_data *data, t_token *token);
+char	**ms_return_env(t_data *data);
 
 
 
@@ -317,7 +318,6 @@ int		bi_export(t_list *list, char *n_key);
 void	mini_loop(t_data *data, t_list *list);
 t_data	*data_init(t_list *env);
 char	*ft_strdup(const char *s1);
-
 
 
 #endif
