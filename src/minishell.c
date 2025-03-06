@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/02/18 19:50:04 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/06 13:37:14 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	mini_loop(t_data *data, t_list *list)
 //		write(1, "2\n", 2);
 		if (!data->user_input)
 			break ;
+		if (!ft_strcmp(data->user_input, "q\0"))//esto es una cosa temporal para poder salir de la ejecucion del minish
+			exit(EXIT_SUCCESS);
 		add_history(data->user_input);
 //		write(1, "3\n", 2);
 		tk_list = parse_main(data->user_input, list, data);
