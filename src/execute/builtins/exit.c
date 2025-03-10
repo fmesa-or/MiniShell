@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:47:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2024/12/09 16:06:48 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/10 14:01:25 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_alldigit(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] < '0' && str[i] > '9')
+		if (str[i] < '0' || str[i] > '9')
 			return (0);
 		i++;
 	}
@@ -54,7 +54,7 @@ int	ft_atoi(const char *str)
 	return ((int) nb);
 }
 
-int	ft_exit(char **av)
+int	bi_exit(char **av)
 {
 	long	nb;
 
@@ -66,15 +66,19 @@ int	ft_exit(char **av)
 	}
 	if (av[1] && !av[2])
 	{
-		if (ft_alldigit(av[1]))
+		if (ft_alldigit(av[1]) == 0)
 		{
-			write(1, "bash: exit:", 11);
+			write(1, "bash: exit: ", 12);
 			write(1, av[1], sizeof(av[1]));
 			write(1, ": numeric argument required\n", 29);
 		}
-		nb = ft_atoi(av[1]);
-		//aqui se libera todo
-		exit(nb);
+		else
+		{
+			nb = ft_atoi(av[1]);
+			//aqui se libera todo
+			exit(nb);
+		}
+		exit(255);
 	}
 	else
 		exit(0);

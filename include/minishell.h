@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/05 13:38:23 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/10 13:44:19 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,6 @@ int		ft_pwd();
 int		ft_echo(char **argv);
 
 /*-----------ft_exit-----------*/
-int		ft_exit(char **av);
 int		ft_atoi(const char *str);
 
 /*----------List_utils----------*/
@@ -301,15 +300,16 @@ int		ms_cmd_nf(char *cmd);
 
 /*------BUILTINS------*/
 int		ms_builts(t_token *token, t_data *data);
-int	bi_print_working_directory(t_data *data);
-int	bi_change_dir(t_token *token, t_data *data);
-int	bi_echo(t_token *token);
+int		bi_print_working_directory(t_data *data);
+int		bi_change_dir(t_token *token, t_data *data);
+int		bi_echo(t_token *token);
 t_list	*find_key(t_list *list, char *n_key);
 void	bi_voidexport(t_list *list);
-int	bi_export(t_list *list, char *n_key);
+int		bi_export(t_list *list, char *n_key);
 //int		bi_env(t_list *list);
-int	bi_env(t_data *data, t_token *token);
+int		bi_env(t_data *data, t_token *token);
 char	**ms_return_env(t_data *data);
+int		bi_exit(char **av);
 
 
 
