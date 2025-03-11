@@ -26,4 +26,4 @@ REVISAR:
 	sospechamos que puede ser o de la lectura(write) o del almacenamiento(lstutils).
 -EXPORT tampoco
 -Nos salen caracteres rotos al intentar exportar!!
--
+-Paco podría probar a seguir con la función EXPORT y sustituir una variable de entorno ya predefinida a ver como se comporta la ejecución
