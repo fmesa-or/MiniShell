@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:52:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/11 16:17:34 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/11 18:47:40 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*rd_strdel(t_redir *redir, char *str)
 	}
 	while (ft_isspace(str[i]))
 		i++;
-	while (!ft_isspace(str[i]) && str[i])
+	while (!ft_isspace(str[i]) && str[i]) //revisar comillas
 		i++;
 	extra_len = i;
 	i = redir->index;

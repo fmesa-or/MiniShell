@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   post_exe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:54:52 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/29 19:33:20 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/11 18:16:24 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	ms_post_exe(t_data *data, t_token *token_prev, t_token *first_token)
 	data->l_status = token_prev->l_status;
 	if (WIFEXITED(token_prev->l_status))
 		token_prev->l_status = WEXITSTATUS(token_prev->l_status);
+	if (WIFSIGNALED(token_prev->l_status))
+		token_prev->l_status = 128 + WTERMSIG(token_prev->l_status); //tiene que dar 130 para el cntrl+c
 	data->l_status = token_prev->l_status;
 	ms_pilatos(first_token);//kill all children except last one
 	dup2(data->bk_in, STDIN_FILENO);

@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/05 12:49:21 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/11 18:16:47 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,3 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)
 	free(aux);
 	return (tokens);
 }
-
