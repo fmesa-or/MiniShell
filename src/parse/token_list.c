@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/06 13:53:00 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:46:10 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,17 +104,17 @@ void	tk_get_arg(t_token *tk_list, char *pipe, t_list *env, t_data *data)
 		throw_error("ERROR: no cmd in pipe", tk_list, data);
 	tk_list->argc = i;
 	//printeo de tk struc
-	printf("----------------------\n");
-	printf("type: %i\ncommand: %s\nargc = %i\n", tk_list->type, tk_list->command, tk_list->argc);
+	//printf("----------------------\n");
+	//printf("type: %i\ncommand: %s\nargc = %i\n", tk_list->type, tk_list->command, tk_list->argc);
 	i = 0;
 	while (tk_list->argv[i])
 	{
-		printf("argv[%i] = %s\n", i, tk_list->argv[i]);
+		//printf("argv[%i] = %s\n", i, tk_list->argv[i]);
 		i++;
 	}
-	if (tk_list->redir)
-		printf("---REDIR---\nredir type: %i\nredir file: %s\n",tk_list->redir->type, tk_list->redir->file);
-	printf("----------------------\n");
+	//if (tk_list->redir)
+		//printf("---REDIR---\nredir type: %i\nredir file: %s\n",tk_list->redir->type, tk_list->redir->file);
+	//printf("----------------------\n");
 }
 
 /*--------------------------------------------------------------------------------------------------------------------------------------
@@ -128,6 +128,8 @@ static int	ft_lstsize(t_redir *lst)
 
 	count = 0;
 	node = lst;
+	//if (!node)
+		//printf("\nno redir en lstsize\n");
 	while (node)
 	{
 		count++;
@@ -135,9 +137,24 @@ static int	ft_lstsize(t_redir *lst)
 	}
 	return (count);
 }
+t_redir	*ft_redirlast(t_redir *rd)
+{
+	t_redir	*node;
+
+	node = rd;
+	while (node)
+	{
+		if (node->next)
+			node = node->next;
+		else
+			break ;
+	}
+	return (node);
+}
 
 void	printredir(t_redir *red, char *str)
 {
+	return ;
 	if (!red)
 		printf("la redir no existe\n");
 	printf("\n---------------\n");
@@ -190,11 +207,15 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 				j++;
 			if (pipes[i][j] == '<' || pipes[i][j] == '>')
 			{
-				j = get_redir(tk_list, pipes[i], j);
-				printf("Cantidad actual nodos redir = [%i]\n", ft_lstsize(tk_list->redir));
-				printredir(tk_list->redir, data->user_input);
+				get_redir(&tk_list[i], pipes[i], j);
+				pipes[i] = rd_strdel(ft_redirlast(tk_list[i].redir), pipes[i]);
+				
+				printf("Cantidad actual nodos redir = [%i]\n", ft_lstsize(tk_list[i].redir));
+
+				printredir(tk_list[i].redir, pipes[i]);
+				printredir(ft_redirlast(tk_list[i].redir), pipes[i]);
 			}
-			/*else
+			else
 			{
 				//av = funcion q saca un arg, teniendo en cuenta q este primer char puede ser ' o ";
 				//tk->argv[ac_ind] = funcion q revisa el argumento correctamente
@@ -202,7 +223,7 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 				
 				//j += ft_strlen(av); esto esta puesto lo ultimo por si peta el bucle
 				//free(av);
-			}*/
+			}
 			j++;
 		}
 		//tk->argv[ac_ind] = NULL; para poner fin al array

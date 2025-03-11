@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 17:21:09 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/05 13:19:14 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:23:37 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,16 @@ char	*getfilename(char *str, int i, t_redir *rd)
 
 void	ft_rediradd_back(t_redir **lst, t_redir *new)
 {
-	t_redir	*temp;
+	t_redir * current;
 
-	if (!*lst)
+	current = *lst;
+
+	if (!*lst) {
 		*lst = new;
-	else
-	{
-		while (*lst)
-		{
-			if ((*lst)->next)
-				(*lst) = (*lst)->next;
-			else
-				break ;
-		}
-		temp = (*lst);
-		temp->next = new;
+		return;
 	}
+
+	while (current && current->next)
+		current = current->next;
+	current->next = new;
 }
