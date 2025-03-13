@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   str_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:38:50 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/04 11:15:50 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:20:51 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int	end_quote(char *str, int i, char c)
 	while (str[i] && str[i] != c)
 		i++;
 	if (!str[i])
-		throw_error("ERROR: ", NULL, NULL);
+		throw_error("ERROR: no ended quote", NULL, NULL);
 	return (i);
 }
-

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/11 14:09:27 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/28 19:30:22 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ añadiendo solo su key y value*/
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
+	t_list	*temp;
+
 	if (!*lst)
 		*lst = new;
 	else
@@ -120,7 +122,8 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 			else
 				break ;
 		}
-		(*lst)->next = new;
+		temp = (*lst);
+		temp->next = new;
 	}
 }
 
@@ -132,12 +135,8 @@ t_list	*ft_lstnew(char *n_key, char *n_value)
 	node = malloc(sizeof(t_list));
 	if (!node)
 		return (NULL);
-	printf("CHECK lstnew n_key: %s\n", n_key);
-	printf("CHECK lstnew n_value: %s\n", n_value);
 	node->key = n_key;
 	node->value = n_value;
-	printf("CHECK lstnew node->key: %s\n", node->key);
-	printf("CHECK lstnew node->value: %s\n", node->value);
 	node->next = NULL;
 	return (node);
 }

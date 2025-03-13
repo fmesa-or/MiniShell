@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 19:13:54 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/04 12:38:34 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/01/30 08:48:50 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,10 @@ void	free_2ptr(char **array)
 	i = 0;
 	if (!array)
 		return ;
-	else if (ft_strncmp(array[0], "", ft_strlen(array[0])) != 0)
+	while (array[i])
 	{
-		while (array[i])
-		{
-			free(array[i]);
-			i++;
-		}
+		free(array[i]);
+		i++;
 	}
 	free(array);
 }
