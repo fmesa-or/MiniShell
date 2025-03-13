@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/05 21:50:19 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/11 18:33:06 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,12 +133,12 @@ typedef struct s_token
 	int				fd[2];
 	int				type;
 	int				argc;
-	char			**argv;
 	char			*command;
 //	char			*hdoc;
 	pid_t			pid;
 	int				l_status;
 	struct s_redir	*redir;
+	struct s_list	*argv;
 	struct s_list	*env;
 }	t_token;
 

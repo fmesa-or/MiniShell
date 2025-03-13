@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/06 13:37:14 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/11 18:27:21 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ t_data	*data_init(t_list *env)
 	if (!node)
 		throw_error("ERROR: HOME has been deleted", NULL, data_list);
 	data_list->home = ft_strdup(node->value);
-
 	return (data_list);
 }
 
