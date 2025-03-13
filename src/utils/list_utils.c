@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/01/28 19:30:22 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/13 21:44:33 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,45 @@ void	ft_unset(t_list **list, char *ref)
 		free(aux);
 	}
 }
+static char	*ft_strdup_quo(const char *s1)
+{
+	char	*ptr;
+	int		i;
+	int		j;
+
+	ptr = (char *) malloc (sizeof(char) * (ft_strlen(s1)-1));
+	if (!ptr)
+		return (NULL);
+	i = 0;
+	j = 1;
+	while (j < (ft_strlen(s1) - 1))
+	{
+		ptr[i] = s1[i];
+		i++;
+		j++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
+}
+char **listtoargv(t_list *lst)
+{
+	char	**av;
+	int		i;
+
+	i = 0;
+	av = malloc(sizeof(char *) * (ft_lstsize(lst) + 1));
+	while (lst)
+    {
+		if (lst->value && (lst->value)[0] == 'q')
+			av[i] = ft_strdup_quo(lst->key);
+		else
+        	av[i] = ft_strdup(lst->key);
+        i++;		
+        lst = lst->next;
+    }
+	av[i] = NULL;
+    return(av);
+}
 
 char **listtoenv(t_list *list)
 {
@@ -69,7 +108,6 @@ char **listtoenv(t_list *list)
     }
 	env[i] = NULL;
     return(env);
-
 }
 
 t_list	*envtolist(char **env)
@@ -104,27 +142,20 @@ t_list	*envtolist(char **env)
 	return (head);
 }
 
-/*Esta funcion añade un nodo nuevo al final de la lista,
-añadiendo solo su key y value*/
-
+/*Esta funcion añade un nodo nuevo al final de un t_list */
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_list	*temp;
+	t_list	*current;
 
+	current = *lst;
 	if (!*lst)
-		*lst = new;
-	else
 	{
-		while (*lst)
-		{
-			if ((*lst)->next)
-				(*lst) = (*lst)->next;
-			else
-				break ;
-		}
-		temp = (*lst);
-		temp->next = new;
+		*lst = new;
+		return;
 	}
+	while (current && current->next)
+		current = current->next;
+	current->next = new;
 }
 
 

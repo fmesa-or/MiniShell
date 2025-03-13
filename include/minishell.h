@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/13 13:57:23 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/13 21:34:01 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ void	ft_rediradd_back(t_redir **lst, t_redir *new);
 /*----------Token_list----------*/
 t_token	*tk_list_init(char **pipes);
 t_token	*tk_list_make(char **pipes, t_list *env, t_data *data);
-
+int	ft_lstsize(t_list *lst);
 /*----------Expand-----------*/
 char	*expand_var(char *str, t_list *list, t_data *data);
 
@@ -232,7 +232,7 @@ char	**listtoenv(t_list *list);
 t_list	*envtolist(char **env);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 t_list	*ft_lstnew(char *n_key, char *n_value);
-
+char 	**listtoargv(t_list *lst);
 /*-----------ft_export-----------*/
 t_list	*find_key(t_list *list, char *n_key);
 int		ft_strchr(const char *str, char c);
