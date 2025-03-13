@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/11 18:56:26 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/13 14:08:01 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@ void	tk_init(t_token *new)
 	new->type = PIPE;
 	new->command = NULL;
 	new->redir = NULL;
-	new->argv->key = NULL;
-	new->argv->value = NULL;
-	new->argv->next = NULL;
+	new->argv = NULL;
+	new->av_list = ft_lstnew(NULL, NULL);
 	new->argc = 0;
 	new->pid = 0;
 	new->fd[0] = 0;
@@ -223,6 +222,8 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 			else
 			{
 				av = get_av(pipes[i], j);//funcion q saca un arg, teniendo en cuenta q este primer char puede ser ' o ";
+				j += sizeof(av);
+				printf("\nav [%i] = %s\n", j, av);
 				//ft que hace addback al av
 				
 				//j += ft_strlen(av); esto esta puesto lo ultimo por si peta el bucle

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:52:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/11 18:47:40 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/13 13:55:53 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ int	redir_fill(t_token *tk, char *str, int rd_type, int i)
 	else
 		aux_red->file = getfilename(str, i + 1, aux_red);
 	ft_rediradd_back(&tk->redir, aux_red);
+	printf("\narchivo = %s\n", tk->redir->file);
 /* 	while (tk->redir->next)
 	{
 		printf("\n redirfill: \n");
-		printf("archivo = %s\n", tk->redir->file);
 		tk->redir = tk->redir->next;
 	} */
 	return(aux_red->end_in);
