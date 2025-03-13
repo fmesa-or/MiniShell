@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/13 21:36:47 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/13 21:58:19 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ int get_av(t_list **lst, char *str, int j)
 		av = ft_substr(str, start, j + 1 - start);
 		//printf("\nav quot[%i] = %s\n", j, av);
 		ft_lstadd_back(lst, ft_lstnew(av, "q")); //le dejo una q en el value para marcar quoted
-		//printf("\nav node quot[%i] = %s\n", j, (*lst)->key);
+		printf("\nav node quot[%i] = %s\n", j, (*lst)->key);
 		return(j + 1);//aqui devuelve con comillas
 	}
 	else
@@ -191,7 +191,7 @@ int get_av(t_list **lst, char *str, int j)
 		av = ft_substr(str, start, j - start);
 		//printf("\nav normal [%i] = %s\n", j, av);
 		ft_lstadd_back(lst, ft_lstnew(av, NULL));
-		//printf("\nav node normal[%i] = %s\n", j, (*lst)->key);
+		printf("\nav node normal[%i] = %s\n", j, (*lst)->key);
 		return (j);
 	}
 }

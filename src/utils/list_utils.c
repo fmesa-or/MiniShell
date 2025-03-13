@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/13 21:44:33 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/13 21:52:57 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	*ft_strdup_quo(const char *s1)
 	j = 1;
 	while (j < (ft_strlen(s1) - 1))
 	{
-		ptr[i] = s1[i];
+		ptr[i] = s1[j];
 		i++;
 		j++;
 	}
