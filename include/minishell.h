@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/10 13:44:19 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:17:34 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct s_redir
 {
 	int				type;
 	int				index;
+	int				end_in; //este es el indice del ultimo char del file
 	char			*file;
 	struct s_redir	*next;
 }	t_redir;
@@ -121,7 +122,6 @@ typedef struct s_redir
 *argc		->Number of arguments we have in the command.                  *
 *argv		->Array with arguments.                                        *
 *command	->Pointer to the main command.                                 *
-*hdoc		->Limit string for the HEREDOC.                                *
 *pid		->Same as in the pipex.                                        *
 *l_status	->The state of the last command executed.                      *
 *redir		->List of redirections (</<</>/>>).                            *
@@ -132,12 +132,12 @@ typedef struct s_token
 	int				fd[2];
 	int				type;
 	int				argc;
-	char			**argv;
 	char			*command;
-//	char			*hdoc;
+	char			**argv;
 	pid_t			pid;
 	int				l_status;
 	struct s_redir	*redir;
+	struct s_list	*av_list;
 	struct s_list	*env;
 }	t_token;
 
@@ -176,14 +176,14 @@ void	ft_tokenclear(t_token *tk);
 void	ft_envclear(t_list **lst);
 
 /*------------redir------------*/
-void	redir_fill(t_token *tk, char *str, int rd_type, int i);
-char	*rd_strdel(t_token *tk, char *str);
+int	redir_fill(t_token *tk, char *str, int rd_type, int i);
+char	*rd_strdel(t_redir *redir, char *str);
 void	tk_inrd(t_token *tk_node, char *str);
 void	tk_outrd(t_token *tk_node, char *str);
 
 /*------------Redir_utirs------------*/
 void	printredir(t_redir *red, char *str);
-char	*getfilename(char *str, int i);
+char	*getfilename(char *str, int i, t_redir *rd);
 void	ft_rediradd_back(t_redir **lst, t_redir *new);
 
 /*----------Token_list----------*/

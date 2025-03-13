@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/13 15:02:09 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/13 18:10:13 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@ void	tk_init(t_token *new)
 	new->type = PIPE;
 	new->command = NULL;
 	new->redir = NULL;
-	new->argv->key = NULL;
-	new->argv->value = NULL;
-	new->argv->next = NULL;
 	new->argv = NULL;
+	new->av_list = ft_lstnew(NULL, NULL);
 	new->argc = 0;
 	new->pid = 0;
 	new->fd[0] = 0;
@@ -128,7 +126,6 @@ int	is_builtin(t_token *tk, char *av)
 // 	}
 // 	return (count);
 // }
-
 t_redir	*ft_redirlast(t_redir *rd)
 {
 	t_redir	*node;
@@ -143,6 +140,7 @@ t_redir	*ft_redirlast(t_redir *rd)
 	}
 	return (node);
 }
+
 void	printredir(t_redir *red, char *str)
 {
 	return ;
@@ -154,7 +152,6 @@ void	printredir(t_redir *red, char *str)
 	printf("rd--> tipo = %i,  file = %s\n", red->type, red->file);
 	printf("---------------\n\n");
 }
-
 int	get_redir(t_token *tk, char *str, int j)
 {
 	int	rd_end;
@@ -171,22 +168,22 @@ int	get_redir(t_token *tk, char *str, int j)
 	return(rd_end);
 }
 
-
 char *get_av(char *str, int j)
 {
 	int start;
 
 	start = j;
 	if (str[j] == '\"')
-		j = end_quote(str, j, '\"');
+		j = end_quote(str, j + 1, '\"');
 	else if (str[j] == '\'')
-		j = end_quote(str, j, '\'');
+		j = end_quote(str, j + 1, '\'');
 	else
 	{
 		while (!ft_isspace(str[j]) && str[j])
 			j++;
+		return(ft_substr(str, start, j));
 	}
-	return(ft_substr(str, start, j));
+	return(ft_substr(str, start, j + 1));//aqui devuelve con comillas
 }
 
 t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
@@ -213,7 +210,7 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 		//ac_ind = 0;  ya q se reinicia en cada tk
 		while(pipes[i][j]) //en este buble inspeccionamos la linea de cada pipe char x char
 		{
-			while (ft_isspace(pipes[i][j]))
+			while (ft_isspace(pipes[i][j]) && pipes[i][j])
 				j++;
 			if (pipes[i][j] == '<' || pipes[i][j] == '>')
 			{
@@ -226,12 +223,14 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 			else
 			{
 				av = get_av(pipes[i], j);//funcion q saca un arg, teniendo en cuenta q este primer char puede ser ' o ";
+				j += sizeof(av);
+				printf("\nav [%i] = %s\n", j, av);
 				//ft que hace addback al av
 				
 				//j += ft_strlen(av); esto esta puesto lo ultimo por si peta el bucle
 				//free(av);
 			}
-			j++;
+			//j++;
 		}
 		//tk->argc = lstsize(argv);
 		//tk->argv[ac_ind] = NULL; para poner fin al array
@@ -241,7 +240,6 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 	tk_list[i].type = NONE;
 	return (tk_list);
 }
-
 
 //esto de abajo es el bucle antiguo
 /* 	while (pipes[i])

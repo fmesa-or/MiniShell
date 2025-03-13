@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:52:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/13 14:55:02 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/13 18:08:16 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	redir_fill(t_token *tk, char *str, int rd_type, int i)
 
 	aux_red = malloc(sizeof(t_redir));
 	aux_red->next = NULL;
-//	ft_rediradd_back(&tk->redir, aux_red);
 	aux_red->index = i;
 	aux_red->type = rd_type;
 	if (rd_type == NDOUT || rd_type == HDOC)
@@ -26,10 +25,10 @@ int	redir_fill(t_token *tk, char *str, int rd_type, int i)
 	else
 		aux_red->file = getfilename(str, i + 1, aux_red);
 	ft_rediradd_back(&tk->redir, aux_red);
+	printf("\narchivo = %s\n", aux_red->file);
 /* 	while (tk->redir->next)
 	{
 		printf("\n redirfill: \n");
-		printf("archivo = %s\n", tk->redir->file);
 		tk->redir = tk->redir->next;
 	} */
 	return(aux_red->end_in);
@@ -86,8 +85,6 @@ char	*rd_strdel(t_redir *redir, char *str)
 	else
 		return(str); 
 }
-
-
 
 /* void	tk_inrd(t_token *tk_node, char *str)
 {

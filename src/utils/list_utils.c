@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/01/28 19:30:22 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:07:48 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,20 @@ t_list	*envtolist(char **env)
 	return (head);
 }
 
+
+t_list	*ft_lstnew(char *n_key, char *n_value)
+{
+	t_list *node;
+
+	node = malloc(sizeof(t_list));
+	if (!node)
+		return (NULL);
+	node->key = n_key;
+	node->value = n_value;
+	node->next = NULL;
+	return (node);
+}
+
 /*Esta funcion añade un nodo nuevo al final de la lista,
 añadiendo solo su key y value*/
 
@@ -125,18 +139,4 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		temp = (*lst);
 		temp->next = new;
 	}
-}
-
-
-t_list	*ft_lstnew(char *n_key, char *n_value)
-{
-	t_list *node;
-
-	node = malloc(sizeof(t_list));
-	if (!node)
-		return (NULL);
-	node->key = n_key;
-	node->value = n_value;
-	node->next = NULL;
-	return (node);
 }

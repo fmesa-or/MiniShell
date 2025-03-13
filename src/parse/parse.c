@@ -6,15 +6,14 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/04 17:15:56 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/13 18:13:58 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 /*Esta funcion itera el str hasta encontrar un pipe valido.
-	Despues devuelve el int de su posicion, lo q sirve para retomar ese valor*/
+Despues devuelve el int de su posicion, lo q sirve para retomar ese valor*/
 int	pipe_iteri(char *str, int i, char c)
 {
 	while (str[i] != c && str[i])
@@ -63,9 +62,9 @@ int	pipe_count(char *str)
 }
 
 /*Esta funcion coge el string inicial q nos pasen y lo separa por pipes.
-	Retorna char **, correspondiente a argv.
-	Tiene en cuenta comillas simples, dobles, y la barra invertida.
-	El tratamiento de las redir tendra q  ser previo o posterior a esta ft.
+Retorna char **, correspondiente a argv.
+Tiene en cuenta comillas simples, dobles, y la barra invertida.
+El tratamiento de las redir tendra q  ser previo o posterior a esta ft.
 */
 
 char	**pipe_separator(char *str, t_data* data)
@@ -79,12 +78,6 @@ char	**pipe_separator(char *str, t_data* data)
 	i = 0;
 	j = 0;
 	k = 0;
-	if (ft_strncmp(str, "", ft_strlen(str)) == 0)
-	{
-		av = malloc(sizeof(char *));
-		av[0] = "";
-		return (av);
-	}
 	npipe = pipe_count(str);
 	av = malloc(sizeof(char *) * (npipe +1));
 	if(!av)
@@ -103,7 +96,7 @@ char	**pipe_separator(char *str, t_data* data)
 	return (av);	
 }
 
-t_token	*parse_main(char *str, t_list *list, t_data *data)//("", list, data)
+t_token	*parse_main(char *str, t_list *list, t_data *data)
 {
 	char	 **av;
 	char 	*aux;
@@ -111,7 +104,7 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)//("", list, data)
 
 	av = NULL;
 	tokens = NULL;
-//	write(1, "Parse Main CHECK\n", 17);
+//	write(1, "5\n", 2);
 	aux = expand_var(str, list, data);
 	av = pipe_separator(aux, data);
 //	write(1, "llega\n", 6);
@@ -120,4 +113,3 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)//("", list, data)
 //	free(aux); //lo he muteado temporalmente, hay que revisar que no genere leaks de memoria
 	return (tokens);
 }
-
