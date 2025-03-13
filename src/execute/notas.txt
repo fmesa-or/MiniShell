@@ -10,11 +10,7 @@
 
 Cntrl + D cierra el STDIN
 
-BUILTINS:
-	>cd solo funciona en minusculas (mac)
-	>pwd funciona en mayusculas y minusculas sin importar si se alternan.
-		>si ponemos mal las mayus y minus del folder al llamar pwd debe salirnos "mal" ejemplo: cd dEsktoP, entrará en Desktop, pero al usar pwd -> /Users/username/dEsktoP (solo mac)
-	
+
 
 
 
@@ -24,3 +20,10 @@ Usar gdb ./minishell
 comandos:
 	-run
 	-backtrace
+
+REVISAR:
+-ENV creemos que no funcioan bien porque no imprime las listas nuevas (además de las últimas) correctamtne
+	sospechamos que puede ser o de la lectura(write) o del almacenamiento(lstutils).
+-EXPORT tampoco
+-Nos salen caracteres rotos al intentar exportar!!
+-Paco podría probar a seguir con la función EXPORT y sustituir una variable de entorno ya predefinida a ver como se comporta la ejecución
