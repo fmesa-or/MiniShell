@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 17:21:09 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/12 12:49:57 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/13 14:41:36 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*getfilename(char *str, int i, t_redir *rd)
 	if (!str[i] || str[i] == '<' || str[i] == '>')
 		return (NULL);
 	else if (str[i] == '\"')
-		i = end_quote(str, i + 1, '\"');
+		i = end_quote(str, i + 1, '\"');//ese mas 1 es importante
 	else if (str[i] == '\'')
 		i = end_quote(str, i + 1, '\'');
 	else

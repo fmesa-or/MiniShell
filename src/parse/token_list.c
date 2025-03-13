@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/13 14:08:01 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/13 14:52:40 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,15 +174,16 @@ char *get_av(char *str, int j)
 
 	start = j;
 	if (str[j] == '\"')
-		j = end_quote(str, j, '\"');
+		j = end_quote(str, j + 1, '\"');
 	else if (str[j] == '\'')
-		j = end_quote(str, j, '\'');
+		j = end_quote(str, j + 1, '\'');
 	else
 	{
 		while (!ft_isspace(str[j]) && str[j])
 			j++;
+		return(ft_substr(str, start, j));
 	}
-	return(ft_substr(str, start, j));
+	return(ft_substr(str, start, j + 1));//aqui devuelve con comillas
 }
 
 t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
@@ -209,7 +210,7 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 		//ac_ind = 0;  ya q se reinicia en cada tk
 		while(pipes[i][j]) //en este buble inspeccionamos la linea de cada pipe char x char
 		{
-			while (ft_isspace(pipes[i][j]))
+			while (ft_isspace(pipes[i][j]) && pipes[i][j])
 				j++;
 			if (pipes[i][j] == '<' || pipes[i][j] == '>')
 			{
@@ -229,7 +230,7 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 				//j += ft_strlen(av); esto esta puesto lo ultimo por si peta el bucle
 				//free(av);
 			}
-			j++;
+			//j++;
 		}
 		//tk->argc = lstsize(argv);
 		//tk->argv[ac_ind] = NULL; para poner fin al array

@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:38:50 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/13 14:04:57 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/13 14:42:06 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int ft_strchr(const char *str, char c)
 
 
 
-/*Esta funcion le pasamos un str cuando el indice esta
+/*Esta funcion le pasamos la i+1, un str cuando el indice esta
 	en una comilla y devuelve el mismo indice pero con
 	el final de la comilla o salta error si termina el str*/
 int	end_quote(char *str, int i, char c)
