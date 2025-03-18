@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/13 18:10:13 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:20:52 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	tk_init(t_token *new)
 	new->command = NULL;
 	new->redir = NULL;
 	new->argv = NULL;
-	new->av_list = ft_lstnew(NULL, NULL);
+	new->av_list = NULL;
 	new->argc = 0;
 	new->pid = 0;
 	new->fd[0] = 0;
@@ -110,22 +110,22 @@ int	is_builtin(t_token *tk, char *av)
 ---------------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------------*/
 
-// static int	ft_lstsize(t_redir *lst)
-// {
-// 	t_redir	*node;
-// 	int		count;
+int	ft_lstsize(t_list *lst)
+{
+	t_list	*node;
+	int		count;
 
-// 	count = 0;
-// 	node = lst;
-// 	//if (!node)
-// 		//printf("\nno redir en lstsize\n");
-// 	while (node)
-// 	{
-// 		count++;
-// 		node = node->next;
-// 	}
-// 	return (count);
-// }
+	count = 0;
+	node = lst;
+	//if (!node)
+		//printf("\nno redir en lstsize\n");
+	while (node)
+	{
+		count++;
+		node = node->next;
+	}
+	return (count);
+}
 t_redir	*ft_redirlast(t_redir *rd)
 {
 	t_redir	*node;
@@ -168,30 +168,53 @@ int	get_redir(t_token *tk, char *str, int j)
 	return(rd_end);
 }
 
-char *get_av(char *str, int j)
+int get_av(t_list **lst, char *str, int j)
 {
 	int start;
+	char *av;
 
 	start = j;
-	if (str[j] == '\"')
-		j = end_quote(str, j + 1, '\"');
-	else if (str[j] == '\'')
-		j = end_quote(str, j + 1, '\'');
+	av = NULL;
+	if (str[j] == '\'' || str[j] == '\"')
+	{
+		j = end_quote(str, j + 1, str[j]);
+		av = ft_substr(str, start, j + 1 - start);
+		//printf("\nav quot[%i] = %s\n", j, av);
+		ft_lstadd_back(lst, ft_lstnew(av, "q")); //le dejo una q en el value para marcar quoted
+		printf("\nav node quot[%i] = %s\n", j, (*lst)->key);
+		return(j + 1);//aqui devuelve con comillas
+	}
 	else
 	{
 		while (!ft_isspace(str[j]) && str[j])
 			j++;
-		return(ft_substr(str, start, j));
+		av = ft_substr(str, start, j - start);
+		//printf("\nav normal [%i] = %s\n", j, av);
+		ft_lstadd_back(lst, ft_lstnew(av, NULL));
+		printf("\nav node normal[%i] = %s\n", j, (*lst)->key);
+		return (j);
 	}
-	return(ft_substr(str, start, j + 1));//aqui devuelve con comillas
 }
+void print2char(char **str)
+{
+	int i = 0;
+
+	write(1, "print2char\n", 12);
+	while (str[i])
+	{
+		write(1, str[i], sizeof(str[i]));
+		write(1, "\n", 1);
+		i++;
+	}
+}
+
 
 t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 {
 	int		i;
 	int		j;
 	//int		ac_ind; //esto sera el indice de tk->argv
-	char	*av;
+	//char	*av;
 	t_token	*tk_list;
 
 	i = sizeof(env[3]);
@@ -210,8 +233,8 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 		//ac_ind = 0;  ya q se reinicia en cada tk
 		while(pipes[i][j]) //en este buble inspeccionamos la linea de cada pipe char x char
 		{
-			while (ft_isspace(pipes[i][j]) && pipes[i][j])
-				j++;
+			while (ft_isspace(pipes[i][j]))
+				j++;				
 			if (pipes[i][j] == '<' || pipes[i][j] == '>')
 			{
 				get_redir(&tk_list[i], pipes[i], j);
@@ -220,20 +243,17 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 				printredir(tk_list[i].redir, pipes[i]);
 				printredir(ft_redirlast(tk_list[i].redir), pipes[i]); */
 			}
-			else
+			
+			else if (pipes[i][j] && (pipes[i][j] != '<' && pipes[i][j] != '>' && !ft_isspace(pipes[i][j])))
 			{
-				av = get_av(pipes[i], j);//funcion q saca un arg, teniendo en cuenta q este primer char puede ser ' o ";
-				j += sizeof(av);
-				printf("\nav [%i] = %s\n", j, av);
-				//ft que hace addback al av
-				
-				//j += ft_strlen(av); esto esta puesto lo ultimo por si peta el bucle
-				//free(av);
+				j = get_av(&tk_list[i].av_list, pipes[i], j);//funcion q saca un arg, teniendo en cuenta q este primer char puede ser ' o ";
+				//printf("tamaño = %i, av tras ft = %s\n", ft_lstsize(tk_list[i].av_list), tk_list[i].av_list->key);
 			}
 			//j++;
 		}
-		//tk->argc = lstsize(argv);
-		//tk->argv[ac_ind] = NULL; para poner fin al array
+		write(1, "llega", 6);
+		tk_list[i].argv = listtoargv(tk_list[i].av_list);
+		print2char(tk_list[i].argv);
 		i++;
 	}
 	//printredir(tk_list->redir, data->user_input);

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/13 17:17:34 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:28:50 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,8 @@ char	**listtoenv(t_list *list);
 t_list	*envtolist(char **env);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 t_list	*ft_lstnew(char *n_key, char *n_value);
+char	**listtoargv(t_list *lst);
+int	ft_lstsize(t_list *lst);
 
 /*-----------ft_export-----------*/
 int		ft_strchr(const char *str, char c);
@@ -318,6 +320,7 @@ int		bi_exit(char **av);
 void	mini_loop(t_data *data, t_list *list);
 t_data	*data_init(t_list *env);
 char	*ft_strdup(const char *s1);
+
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/13 18:13:58 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:19:46 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ int	pipe_count(char *str)
 }
 
 /*Esta funcion coge el string inicial q nos pasen y lo separa por pipes.
-Retorna char **, correspondiente a argv.
-Tiene en cuenta comillas simples, dobles, y la barra invertida.
-El tratamiento de las redir tendra q  ser previo o posterior a esta ft.
+	Retorna char **, correspondiente a argv.
+	Tiene en cuenta comillas simples, dobles, y la barra invertida.
+	El tratamiento de las redir tendra q  ser previo o posterior a esta ft.
 */
 
 char	**pipe_separator(char *str, t_data* data)
@@ -104,12 +104,12 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)
 
 	av = NULL;
 	tokens = NULL;
-//	write(1, "5\n", 2);
+	write(1, "5\n", 2);
 	aux = expand_var(str, list, data);
 	av = pipe_separator(aux, data);
-//	write(1, "llega\n", 6);
+	write(1, "llega\n", 6);
 	tokens = tk_list_make(av, list, data);
 	free_2ptr(av);
-//	free(aux); //lo he muteado temporalmente, hay que revisar que no genere leaks de memoria
+	free(aux);
 	return (tokens);
 }

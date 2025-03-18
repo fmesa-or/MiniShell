@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/13 17:07:48 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:23:59 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ q la pasemos con &, ya que usa doble puntero*/
 
 void	ft_unset(t_list **list, char *ref)
 {
-    t_list  *aux;
+	t_list  *aux;
 	t_list	*prev;
-    aux = *list;
+	aux = *list;
  	if (ft_strcmp((*list)->key, ref) == 0)
 	{
 		*list =(*list)->next;
@@ -28,11 +28,11 @@ void	ft_unset(t_list **list, char *ref)
 		free(aux);
 		return ;
 	}
-    while (aux && ft_strcmp(aux->key, ref) != 0)
-    {
+	while (aux && ft_strcmp(aux->key, ref) != 0)
+	{
 		prev = aux;
-        aux = aux->next;
-    }
+		aux = aux->next;
+	}
 	if (aux && ft_strcmp(aux->key, ref) == 0)
 	{
 		prev->next = aux->next;
@@ -41,15 +41,54 @@ void	ft_unset(t_list **list, char *ref)
 		free(aux);
 	}
 }
+static char	*ft_strdup_quo(const char *s1)
+{
+	char	*ptr;
+	int		i;
+	int		j;
+
+	ptr = (char *) malloc (sizeof(char) * (ft_strlen(s1)-1));
+	if (!ptr)
+		return (NULL);
+	i = 0;
+	j = 1;
+	while (j < (ft_strlen(s1) - 1))
+	{
+		ptr[i] = s1[j];
+		i++;
+		j++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
+}
+char	**listtoargv(t_list *lst)
+{
+	char	**av;
+	int		i;
+
+	i = 0;
+	av = malloc(sizeof(char *) * (ft_lstsize(lst) + 1));
+	while (lst)
+	{
+		if (lst->value && (lst->value)[0] == 'q')
+			av[i] = ft_strdup_quo(lst->key);
+		else
+			av[i] = ft_strdup(lst->key);
+		i++;		
+		lst = lst->next;
+	}
+	av[i] = NULL;
+	return(av);
+}
 
 char **listtoenv(t_list *list)
 {
-    char    **env;
-    int     i;
+	char	**env;
+	int	 i;
 	t_list	*head;
 
-    
-    i = 0;
+		
+	i = 0;
 	head = list;
 	while (list)
 	{
@@ -61,23 +100,22 @@ char **listtoenv(t_list *list)
 		throw_error("ERROR: ", NULL, NULL);
 	i = 0;
 	list = head;
-    while (list)
-    {
-        env[i] = ft_strcjoin(list->key, list->value, '=');
-        i++;
-        list = list->next;
-    }
+	while (list)
+	{
+		env[i] = ft_strcjoin(list->key, list->value, '=');
+		i++;
+		list = list->next;
+	}
 	env[i] = NULL;
-    return(env);
-
+	return(env);
 }
 
 t_list	*envtolist(char **env)
 {
-    t_list *list;
+	t_list *list;
 	t_list *head;
-    char    **aux;
-    int     i;
+	char	**aux;
+	int	 i;
 
 	if (!env || !*env)
 		return (NULL);
@@ -85,9 +123,9 @@ t_list	*envtolist(char **env)
 	head =NULL;
 	aux = NULL;
 	i = 0;
-    while (env[i])
-    {
-        aux = ft_split(env[i], '=');
+	while (env[i])
+	{
+		aux = ft_split(env[i], '=');
 		if (list == NULL)
 		{
 			list =ft_lstnew(aux[0],aux[1]);
@@ -96,12 +134,28 @@ t_list	*envtolist(char **env)
 		else
 		{
 			list->next =ft_lstnew(aux[0],aux[1]);
-        	list = list->next;
+			list = list->next;
 		}
-        i++;
-    }
+		i++;
+	}
 	free_2ptr(aux);
 	return (head);
+}
+
+/*Esta funcion añade un nodo nuevo al final de un t_list */
+void	ft_lstadd_back(t_list **lst, t_list *new)
+{
+	t_list	*current;
+
+	current = *lst;
+	if (!*lst)
+	{
+		*lst = new;
+		return;
+	}
+	while (current && current->next)
+		current = current->next;
+	current->next = new;
 }
 
 
@@ -116,27 +170,4 @@ t_list	*ft_lstnew(char *n_key, char *n_value)
 	node->value = n_value;
 	node->next = NULL;
 	return (node);
-}
-
-/*Esta funcion añade un nodo nuevo al final de la lista,
-añadiendo solo su key y value*/
-
-void	ft_lstadd_back(t_list **lst, t_list *new)
-{
-	t_list	*temp;
-
-	if (!*lst)
-		*lst = new;
-	else
-	{
-		while (*lst)
-		{
-			if ((*lst)->next)
-				(*lst) = (*lst)->next;
-			else
-				break ;
-		}
-		temp = (*lst);
-		temp->next = new;
-	}
 }
