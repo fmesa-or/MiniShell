@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/04 20:22:23 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:47:55 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ t_data	*data_init(t_list *env)
 	node = find_key(env, "PATH");
 	if (!node)
 		throw_error("ERROR: PATH has been deleted", NULL, data_list);
-	data_list->pwd = ft_strdup(node->value);
+//	data_list->pwd = ft_strdup(node->value);
+	data_list->pwd = getcwd(NULL, 0);
 	node = find_key(env, "HOME");
 	if (!node)
 		throw_error("ERROR: HOME has been deleted", NULL, data_list);

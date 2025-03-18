@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/03/04 17:18:20 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:29:21 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,17 @@ void	ms_fds(t_token *token, t_token **token_prev, t_data *data)
 
 void	ms_commander(t_token *token, t_data *data)
 {
+	//ELIMINAR PARCHE
+	token->type = BUIL;
+	//ELIMINAR PARCHE
+
 	if (token->type != CMD && token->type != BUIL)
 		return ;
 //	printf(RD"Token.Type = %d\n"RES, token->type);
 	if (token->type == BUIL && token[1].command == NULL)//hay que arreglarlo para que sea con todo el token
 	{
-//		printf(GR"BUIL CHECK\n"RES);
 		token->l_status = ms_builts(token, data);
+		printf(GR"BUIL CHECK\n"RES);
 	}
 	else
 	{

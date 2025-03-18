@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/18 12:20:52 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:19:48 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ int get_av(t_list **lst, char *str, int j)
 		av = ft_substr(str, start, j + 1 - start);
 		//printf("\nav quot[%i] = %s\n", j, av);
 		ft_lstadd_back(lst, ft_lstnew(av, "q")); //le dejo una q en el value para marcar quoted
-		printf("\nav node quot[%i] = %s\n", j, (*lst)->key);
+//		printf("\nav node quot[%i] = %s\n", j, (*lst)->key);
 		return(j + 1);//aqui devuelve con comillas
 	}
 	else
@@ -191,7 +191,7 @@ int get_av(t_list **lst, char *str, int j)
 		av = ft_substr(str, start, j - start);
 		//printf("\nav normal [%i] = %s\n", j, av);
 		ft_lstadd_back(lst, ft_lstnew(av, NULL));
-		printf("\nav node normal[%i] = %s\n", j, (*lst)->key);
+//		printf("\nav node normal[%i] = %s\n", j, (*lst)->key);
 		return (j);
 	}
 }
@@ -199,13 +199,14 @@ void print2char(char **str)
 {
 	int i = 0;
 
-	write(1, "print2char\n", 12);
+//	write(1, "print2char\n", 12);
+	printf(CI"\n\n------------------\n------------------\n\n");
 	while (str[i])
 	{
-		write(1, str[i], sizeof(str[i]));
-		write(1, "\n", 1);
+		printf("ARGV[%d] = %s\n", i, str[i]);
 		i++;
 	}
+	printf("\n\n------------------\n------------------\n\n"RES);
 }
 
 
@@ -234,7 +235,7 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 		while(pipes[i][j]) //en este buble inspeccionamos la linea de cada pipe char x char
 		{
 			while (ft_isspace(pipes[i][j]))
-				j++;				
+				j++;
 			if (pipes[i][j] == '<' || pipes[i][j] == '>')
 			{
 				get_redir(&tk_list[i], pipes[i], j);
@@ -251,7 +252,7 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 			}
 			//j++;
 		}
-		write(1, "llega", 6);
+//		write(1, "llega\n", 6);
 		tk_list[i].argv = listtoargv(tk_list[i].av_list);
 		print2char(tk_list[i].argv);
 		i++;
