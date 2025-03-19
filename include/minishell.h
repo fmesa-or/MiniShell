@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/19 16:40:00 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/19 19:48:59 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,14 +177,14 @@ void	ft_tokenclear(t_token *tk);
 void	ft_envclear(t_list **lst);
 
 /*------------redir------------*/
-int		redir_fill(t_token *tk, char *str, int rd_type, int i);
+int		redir_fill(t_token *tk, char *str, int rd_type, int i, t_data *data);
 char	*rd_strdel(t_redir *redir, char *str);
 void	tk_inrd(t_token *tk_node, char *str);
 void	tk_outrd(t_token *tk_node, char *str);
 
 /*------------Redir_utirs------------*/
 void	printredir(t_redir *red, char *str);
-char	*getfilename(char *str, int i, t_redir *rd);
+char	*getfilename(char *str, int i, t_redir *rd, t_token *tk, t_data *data);
 void	ft_rediradd_back(t_redir **lst, t_redir *new);
 
 /*----------Token_list----------*/

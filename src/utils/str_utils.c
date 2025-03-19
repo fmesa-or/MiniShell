@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:38:50 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/13 14:42:06 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/19 18:45:33 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ int ft_strchr(const char *str, char c)
 	el final de la comilla o salta error si termina el str*/
 int	end_quote(char *str, int i, char c)
 {
+	/* if(str[i] == c)
+		return (i); */
 	while (str[i] != c && str[i])
 		i++;
 	if (!str[i])

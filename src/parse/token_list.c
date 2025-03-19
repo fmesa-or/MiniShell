@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/19 18:23:32 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/19 19:50:10 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data)
 		i++;
 	}
 	if (flag == 0)
-		throw_error("ERROR: no cmd in pipe\n", tk_list, data);
+		throw_error("ERR: no cmd in pipe\n", tk_list, data);
 	else if (flag > 1)
 		throw_error("ERROR: too much cmd in pipe\n", tk_list, data);
 	tk_list->argc = i;
@@ -152,19 +152,19 @@ void	printredir(t_redir *red, char *str)
 	printf("rd--> tipo = %i,  file = %s\n", red->type, red->file);
 	printf("---------------\n\n");
 }
-int	get_redir(t_token *tk, char *str, int j)
+int	get_redir(t_token *tk, char *str, int j, t_data *data)
 {
 	int	rd_end;
 	
 	rd_end = 0;
 	if (str[j] == '<' && str[j + 1] == '<')
-		rd_end = redir_fill(tk, str, HDOC, j);
+		rd_end = redir_fill(tk, str, HDOC, j, data);
 	else if (str[j] == '>' && str[j + 1] == '>')
-		rd_end = redir_fill(tk, str, NDOUT, j);
+		rd_end = redir_fill(tk, str, NDOUT, j, data);
 	else if (str[j] == '<')
-		rd_end = redir_fill(tk, str, IN, j);
+		rd_end = redir_fill(tk, str, IN, j, data);
 	else if (str[j] == '>')
-		rd_end = redir_fill(tk, str, DOUT, j);
+		rd_end = redir_fill(tk, str, DOUT, j, data);
 	return(rd_end);
 }
 
@@ -179,9 +179,11 @@ int get_av(t_list **lst, char *str, int j)
 	{
 		j = end_quote(str, j + 1, str[j]);
 		av = ft_substr(str, start, j + 1 - start);
-		//printf("\nav quot[%i] = %s\n", j, av);
+		printf("\nav quot[%i] = %s\n", j, av);
+		if (ft_strlen(av) == 2) // si hay comillas vacias pasa de ese argv
+			return (j + 1);
 		ft_lstadd_back(lst, ft_lstnew(av, "q")); //le dejo una q en el value para marcar quoted
-		printf("\nav node quot[%i] = %s\n", j, av);
+		printf("\nav node quot[%i] = %s\n", j, (*lst)->key);
 		return(j + 1);//aqui devuelve con comillas
 	}
 	else
@@ -242,7 +244,7 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 				j++;				
 			if (pipes[i][j] == '<' || pipes[i][j] == '>')
 			{
-				get_redir(&tk_list[i], pipes[i], j);
+				get_redir(&tk_list[i], pipes[i], j, data);
 				pipes[i] = rd_strdel(ft_redirlast(tk_list[i].redir), pipes[i]); //añadir lo de las comillas
 				/* printf("Cantidad actual nodos redir = [%i]\n", ft_lstsize(tk_list[i].redir));
 				printredir(tk_list[i].redir, pipes[i]);
