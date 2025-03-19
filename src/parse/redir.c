@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:52:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/13 14:46:37 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:34:52 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	redir_fill(t_token *tk, char *str, int rd_type, int i)
 	else
 		aux_red->file = getfilename(str, i + 1, aux_red);
 	ft_rediradd_back(&tk->redir, aux_red);
-	printf("\narchivo = %s\n", aux_red->file);
+	printf("\nred indx = %i,  archivo = %s\n", aux_red->index, aux_red->file);
 /* 	while (tk->redir->next)
 	{
 		printf("\n redirfill: \n");

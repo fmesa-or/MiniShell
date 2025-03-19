@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:22:05 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/02/18 20:00:33 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:51:42 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,14 +133,14 @@ int	ms_init_redir(t_token *token, t_data *data)
 
 	sherpa = NULL;
 	sherpa = ms_sherpa_init(sherpa);
-	printf("Init REDIR\n");
+	//printf("Init REDIR\n");
 	if (!(token->redir))
 	return (0);
 	if (token->type == BUIL || token->type == CMD)
 	{
-		printf("Avemus BUIL or CMD\n");
+		//printf("Avemus BUIL or CMD\n");
 		redir = token->redir;
-		printf("redir = %s\n", redir->file);
+		//printf("redir = %s\n", redir->file);
 		return (ms_c_redir(token, redir, ms_sherpa(token, redir, sherpa), data));
 	}
 	return (0);

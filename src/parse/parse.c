@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/11 18:16:47 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/19 18:00:03 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,28 +72,32 @@ char	**pipe_separator(char *str, t_data* data)
 {
 	char	**av;
 	int	i;
-	int	j;
+	int	start;
 	int	k;
 	int	npipe;
 
 	i = 0;
-	j = 0;
+	start = 0;
 	k = 0;
 	npipe = pipe_count(str);
+	printf("npipe = %i\n", npipe);
 	av = malloc(sizeof(char *) * (npipe +1));
 	if(!av)
-		throw_error("ERROR: ", NULL, data);
-	while (npipe > 0)
+		throw_error("ERROR: pipe_sep malloc", NULL, data);
+	while (str[i])
 	{
-		k = pipe_iteri(str, j, '|');
-		av[i] = ft_substr(str, j, k - j);
-		j = k;
-		if(str[j] == '|')
-			j++;
+		start = i;
+		i = pipe_iteri(str, start, '|');
+		printf("pipe indx = %i\n", i);
+		av[k] = ft_substr(str, start, i - start);
+		write(1, "\npipa = ", 9);
+		write(1, av[k], ft_strlen(av[k]));
+		/* if(str[start] == '|')
+			i++; */
+		k++;
 		i++;
-		npipe--;
 	}
-	av[i] = 0;
+	av[k] = 0;
 	return (av);	
 }
 
@@ -103,11 +107,20 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)
 	char 	*aux;
 	t_token *tokens;
 
+	int i = 0;
 	av = NULL;
 	tokens = NULL;
-	write(1, "5\n", 2);
 	aux = expand_var(str, list, data);
 	av = pipe_separator(aux, data);
+	while (av[i])
+	{
+		write(1, "\n---PIPE---\n", 13);
+		write(1, av[i], ft_strlen(av[i]));
+		write(1, "\n", 1);
+		write(1, "\n---EPIP---\n", 13);
+		i++;
+	}
+	
 	write(1, "llega\n", 6);
 	tokens = tk_list_make(av, list, data);
 	free_2ptr(av);

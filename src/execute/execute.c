@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/02/18 18:29:31 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:52:16 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ void	ms_main_exe(t_token *token, t_data *data)
 	{
 		printf("entrada bucle\n");
 		ms_fds(token, &token_prev, data);
-		printf("señal procesada en ms_fds\n");
+		//printf("señal procesada en ms_fds\n");
 		ms_commander(token, data);
-		printf("señal procesada en ms_commander\n");
+		//printf("señal procesada en ms_commander\n");
 		token_prev = token;
 		token++;
 		printf("fin bucle: %d\n", ++j);

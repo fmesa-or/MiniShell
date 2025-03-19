@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/13 21:34:01 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:40:00 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void	ft_tokenclear(t_token *tk);
 void	ft_envclear(t_list **lst);
 
 /*------------redir------------*/
-int	redir_fill(t_token *tk, char *str, int rd_type, int i);
+int		redir_fill(t_token *tk, char *str, int rd_type, int i);
 char	*rd_strdel(t_redir *redir, char *str);
 void	tk_inrd(t_token *tk_node, char *str);
 void	tk_outrd(t_token *tk_node, char *str);
@@ -190,7 +190,7 @@ void	ft_rediradd_back(t_redir **lst, t_redir *new);
 /*----------Token_list----------*/
 t_token	*tk_list_init(char **pipes);
 t_token	*tk_list_make(char **pipes, t_list *env, t_data *data);
-int	ft_lstsize(t_list *lst);
+int		ft_lstsize(t_list *lst);
 /*----------Expand-----------*/
 char	*expand_var(char *str, t_list *list, t_data *data);
 

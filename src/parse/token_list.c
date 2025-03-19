@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/13 21:58:19 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/19 18:23:32 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int	is_cmd(char *av, t_token *tk, t_list *env, t_data *data)
 		i++;
 	}
 	free_2ptr(path);
-	free(aux);
+	if (aux)
+		free(aux);
 	return (0);
 }
 
@@ -83,28 +84,27 @@ int	is_builtin(t_token *tk, char *av)
 	return (0);
 }
 
-/* void	tk_get_arg(t_token *tk_list, char *pipe, t_list *env, t_data *data)
+void	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data)
 {
 	int	i;
 	int	flag;
-
+	
 	i = 0;
 	flag = 0;
-	tk_list->argv = ft_split(pipe, ' ');
 	while (tk_list->argv[i])
 	{
-		if (flag == 0)
-		{
-			flag = is_cmd(tk_list->argv[i], tk_list, env, data);
-			if (flag == 0)
-				flag = is_builtin(tk_list, tk_list->argv[i]);
-		}
+		if (is_builtin(tk_list, tk_list->argv[i]))
+			flag ++;
+		else if (is_cmd(tk_list->argv[i], tk_list, env, data))
+			flag++;
 		i++;
 	}
 	if (flag == 0)
-		throw_error("ERROR: no cmd in pipe", tk_list, data);
+		throw_error("ERROR: no cmd in pipe\n", tk_list, data);
+	else if (flag > 1)
+		throw_error("ERROR: too much cmd in pipe\n", tk_list, data);
 	tk_list->argc = i;
-} */
+}
 
 /*--------------------------------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------------
@@ -181,7 +181,7 @@ int get_av(t_list **lst, char *str, int j)
 		av = ft_substr(str, start, j + 1 - start);
 		//printf("\nav quot[%i] = %s\n", j, av);
 		ft_lstadd_back(lst, ft_lstnew(av, "q")); //le dejo una q en el value para marcar quoted
-		printf("\nav node quot[%i] = %s\n", j, (*lst)->key);
+		printf("\nav node quot[%i] = %s\n", j, av);
 		return(j + 1);//aqui devuelve con comillas
 	}
 	else
@@ -202,7 +202,7 @@ void print2char(char **str)
 	write(1, "print2char\n", 12);
 	while (str[i])
 	{
-		write(1, str[i], sizeof(str[i]));
+		write(1, str[i], strlen(str[i]));
 		write(1, "\n", 1);
 		i++;
 	}
@@ -222,7 +222,11 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 	j = data->l_status;
 	j = 0;
 	while (pipes[i])
+	{
+		write(1, pipes[i], ft_strlen(pipes[i]));
+		write(1, "\n", 1);
 		i++;
+	}
 	tk_list = malloc(sizeof(t_token) * (i + 1));
 	i = 0;
 	
@@ -231,6 +235,7 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 		tk_init(&tk_list[i]);
 		//tk->ac = funcion q haya el argc y me genera array de argv
 		//ac_ind = 0;  ya q se reinicia en cada tk
+		j = 0;
 		while(pipes[i][j]) //en este buble inspeccionamos la linea de cada pipe char x char
 		{
 			while (ft_isspace(pipes[i][j]))
@@ -251,9 +256,11 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 			}
 			//j++;
 		}
-		write(1, "llega", 6);
 		tk_list[i].argv = listtoargv(tk_list[i].av_list);
+		tk_argvtipe(&tk_list[i], env, data);
+		printf("\nargc = %i --- tipo del tk = %i\n", tk_list[i].argc, tk_list[i].type);
 		print2char(tk_list[i].argv);
+		write(1, "\nfin tk\n\n", 10);
 		i++;
 	}
 	//printredir(tk_list->redir, data->user_input);
