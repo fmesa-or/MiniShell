@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/19 18:00:03 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:59:20 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,20 +84,21 @@ char	**pipe_separator(char *str, t_data* data)
 	av = malloc(sizeof(char *) * (npipe +1));
 	if(!av)
 		throw_error("ERROR: pipe_sep malloc", NULL, data);
-	while (str[i])
+	while (str[i]) //esto peta al final????
 	{
 		start = i;
 		i = pipe_iteri(str, start, '|');
 		printf("pipe indx = %i\n", i);
 		av[k] = ft_substr(str, start, i - start);
-		write(1, "\npipa = ", 9);
+		write(1, "pipa = ", 8);
 		write(1, av[k], ft_strlen(av[k]));
-		/* if(str[start] == '|')
-			i++; */
+		write(1, "\n", 1);
+		if(str[i] == '|')
+			i++;
 		k++;
-		i++;
+		//i++;
 	}
-	av[k] = 0;
+	av[k] = NULL;
 	return (av);	
 }
 

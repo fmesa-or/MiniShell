@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/19 19:50:10 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/20 17:25:27 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	is_builtin(t_token *tk, char *av)
 	aux[7] = 0;
 	while (aux[i])
 	{
-		if (!ft_strcmp(av, aux[i]))
+		if (ft_strcmp(av, aux[i]) == 0)
 		{
 			tk->type = BUIL;
 			tk->command = ft_strdup(aux[i]);
@@ -93,16 +93,23 @@ void	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data)
 	flag = 0;
 	while (tk_list->argv[i])
 	{
-		if (is_builtin(tk_list, tk_list->argv[i]))
+		if (is_builtin(tk_list, tk_list->argv[i]) == 1)
+		{
+			write(1, "\nEEEEEEE built EEEEE\n", 22);
 			flag ++;
-		else if (is_cmd(tk_list->argv[i], tk_list, env, data))
+		}	
+		else if (is_cmd(tk_list->argv[i], tk_list, env, data) == 1)
+		{
+			write(1, "\nEEEEEEE coman EEEEE\n", 22);
 			flag++;
+		}	
 		i++;
 	}
+	printf("\nflag = %i\n", flag);
 	if (flag == 0)
 		throw_error("ERR: no cmd in pipe\n", tk_list, data);
 	else if (flag > 1)
-		throw_error("ERROR: too much cmd in pipe\n", tk_list, data);
+		throw_error("ROR: too much cmd in pipe\n", tk_list, data);
 	tk_list->argc = i;
 }
 
@@ -210,18 +217,29 @@ void print2char(char **str)
 	}
 }
 
+void print_tokenlist(t_token *tk)
+{
+	int i = 0;
+	
+	printf("\n----------TOKEN LIST----------\n");
+	while (&tk[i] && tk[i].type != NONE)
+	{
+		printf("tk[%i] :\n", i);
+		printf("tipo = %i\nargc = %i\n", tk[i].type, tk[i].argc);
+		if (tk[i].argv)
+			print2char(tk[i].argv);
+		i++;
+	}
+	printf("\n----------TOKEN ENDS----------\n");
+}
 
 t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 {
 	int		i;
 	int		j;
-	//int		ac_ind; //esto sera el indice de tk->argv
-	//char	*av;
 	t_token	*tk_list;
-
-	i = sizeof(env[3]);
+	
 	i = 0;
-	j = data->l_status;
 	j = 0;
 	while (pipes[i])
 	{
@@ -260,15 +278,21 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 		}
 		tk_list[i].argv = listtoargv(tk_list[i].av_list);
 		tk_argvtipe(&tk_list[i], env, data);
-		printf("\nargc = %i --- tipo del tk = %i\n", tk_list[i].argc, tk_list[i].type);
-		print2char(tk_list[i].argv);
+		//printf("\nargc = %i --- tipo del tk = %i\n", tk_list[i].argc, tk_list[i].type);
+		//print2char(tk_list[i].argv);
 		write(1, "\nfin tk\n\n", 10);
 		i++;
 	}
 	//printredir(tk_list->redir, data->user_input);
 	tk_list[i].type = NONE;
+	print_tokenlist(tk_list);
 	return (tk_list);
 }
+
+
+
+
+
 
 //esto de abajo es el bucle antiguo
 /* 	while (pipes[i])
