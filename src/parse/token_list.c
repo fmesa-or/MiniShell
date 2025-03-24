@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/24 11:25:31 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/24 13:01:16 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,20 +96,23 @@ void	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data)
 		if (is_builtin(tk_list, tk_list->argv[i]) == 1)
 		{
 			write(1, "\nEEEEEEE built EEEEE\n", 22);
+			if ((ft_strcmp(tk_list->argv[i], "cd") == 0) && (ft_strcmp(tk_list->argv[i + 1], "..") == 0))
+				i++;
 			flag ++;
 		}	
 		else if (is_cmd(tk_list->argv[i], tk_list, env, data) == 1)
 		{
 			write(1, "\nEEEEEEE coman EEEEE\n", 22);
 			flag++;
-		}	
+		}
+		printf("VEULTA\n");
 		i++;
 	}
 	printf("\nflag = %i\n", flag);
 	if (flag == 0)
-		throw_error("ERR: no cmd in pipe\n", tk_list, data);
+		throw_error("ERROR: no cmd in pipe\n", tk_list, data);
 	else if (flag > 1)
-		throw_error("ROR: too much cmd in pipe\n", tk_list, data);
+		throw_error("ERROR: too much cmd in pipe\n", tk_list, data);
 	tk_list->argc = i;
 }
 
