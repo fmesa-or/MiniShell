@@ -6,13 +6,13 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:52:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/18 12:18:49 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:18:47 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	redir_fill(t_token *tk, char *str, int rd_type, int i)
+int	redir_fill(t_token *tk, char *str, int rd_type, int i, t_data *data)
 {
 	t_redir *aux_red;
 
@@ -21,11 +21,11 @@ int	redir_fill(t_token *tk, char *str, int rd_type, int i)
 	aux_red->index = i;
 	aux_red->type = rd_type;
 	if (rd_type == NDOUT || rd_type == HDOC)
-		aux_red->file = getfilename(str, i + 2, aux_red);
+		aux_red->file = getfilename(str, i + 2, aux_red, tk, data);
 	else
-		aux_red->file = getfilename(str, i + 1, aux_red);
+		aux_red->file = getfilename(str, i + 1, aux_red, tk, data);
 	ft_rediradd_back(&tk->redir, aux_red);
-	printf("\narchivo = %s\n", aux_red->file);
+	printf("\nred indx = %i,  archivo = %s\n", aux_red->index, aux_red->file);
 /* 	while (tk->redir->next)
 	{
 		printf("\n redirfill: \n");
