@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/18 13:19:48 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:25:31 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int	is_cmd(char *av, t_token *tk, t_list *env, t_data *data)
 		i++;
 	}
 	free_2ptr(path);
-	free(aux);
+	if (aux)
+		free(aux);
 	return (0);
 }
 
@@ -72,7 +73,7 @@ int	is_builtin(t_token *tk, char *av)
 	aux[7] = 0;
 	while (aux[i])
 	{
-		if (!ft_strcmp(av, aux[i]))
+		if (ft_strcmp(av, aux[i]) == 0)
 		{
 			tk->type = BUIL;
 			tk->command = ft_strdup(aux[i]);
@@ -83,49 +84,55 @@ int	is_builtin(t_token *tk, char *av)
 	return (0);
 }
 
-/* void	tk_get_arg(t_token *tk_list, char *pipe, t_list *env, t_data *data)
+void	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data)
 {
 	int	i;
 	int	flag;
-
+	
 	i = 0;
 	flag = 0;
-	tk_list->argv = ft_split(pipe, ' ');
 	while (tk_list->argv[i])
 	{
-		if (flag == 0)
+		if (is_builtin(tk_list, tk_list->argv[i]) == 1)
 		{
-			flag = is_cmd(tk_list->argv[i], tk_list, env, data);
-			if (flag == 0)
-				flag = is_builtin(tk_list, tk_list->argv[i]);
-		}
+			write(1, "\nEEEEEEE built EEEEE\n", 22);
+			flag ++;
+		}	
+		else if (is_cmd(tk_list->argv[i], tk_list, env, data) == 1)
+		{
+			write(1, "\nEEEEEEE coman EEEEE\n", 22);
+			flag++;
+		}	
 		i++;
 	}
+	printf("\nflag = %i\n", flag);
 	if (flag == 0)
-		throw_error("ERROR: no cmd in pipe", tk_list, data);
+		throw_error("ERR: no cmd in pipe\n", tk_list, data);
+	else if (flag > 1)
+		throw_error("ROR: too much cmd in pipe\n", tk_list, data);
 	tk_list->argc = i;
-} */
+}
 
 /*--------------------------------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------------*/
 
-int	ft_lstsize(t_list *lst)
-{
-	t_list	*node;
-	int		count;
+ int	ft_lstsize(t_list *lst)
+ {
+ 	t_list	*node;
+ 	int		count;
 
-	count = 0;
-	node = lst;
-	//if (!node)
-		//printf("\nno redir en lstsize\n");
-	while (node)
-	{
-		count++;
-		node = node->next;
-	}
-	return (count);
-}
+ 	count = 0;
+ 	node = lst;
+ 	//if (!node)
+ 		//printf("\nno redir en lstsize\n");
+ 	while (node)
+ 	{
+ 		count++;
+ 		node = node->next;
+ 	}
+ 	return (count);
+ }
 t_redir	*ft_redirlast(t_redir *rd)
 {
 	t_redir	*node;
@@ -152,19 +159,19 @@ void	printredir(t_redir *red, char *str)
 	printf("rd--> tipo = %i,  file = %s\n", red->type, red->file);
 	printf("---------------\n\n");
 }
-int	get_redir(t_token *tk, char *str, int j)
+int	get_redir(t_token *tk, char *str, int j, t_data *data)
 {
 	int	rd_end;
 	
 	rd_end = 0;
 	if (str[j] == '<' && str[j + 1] == '<')
-		rd_end = redir_fill(tk, str, HDOC, j);
+		rd_end = redir_fill(tk, str, HDOC, j, data);
 	else if (str[j] == '>' && str[j + 1] == '>')
-		rd_end = redir_fill(tk, str, NDOUT, j);
+		rd_end = redir_fill(tk, str, NDOUT, j, data);
 	else if (str[j] == '<')
-		rd_end = redir_fill(tk, str, IN, j);
+		rd_end = redir_fill(tk, str, IN, j, data);
 	else if (str[j] == '>')
-		rd_end = redir_fill(tk, str, DOUT, j);
+		rd_end = redir_fill(tk, str, DOUT, j, data);
 	return(rd_end);
 }
 
@@ -179,9 +186,11 @@ int get_av(t_list **lst, char *str, int j)
 	{
 		j = end_quote(str, j + 1, str[j]);
 		av = ft_substr(str, start, j + 1 - start);
-		//printf("\nav quot[%i] = %s\n", j, av);
+		printf("\nav quot[%i] = %s\n", j, av);
+		if (ft_strlen(av) == 2) // si hay comillas vacias pasa de ese argv
+			return (j + 1);
 		ft_lstadd_back(lst, ft_lstnew(av, "q")); //le dejo una q en el value para marcar quoted
-//		printf("\nav node quot[%i] = %s\n", j, (*lst)->key);
+		printf("\nav node quot[%i] = %s\n", j, (*lst)->key);
 		return(j + 1);//aqui devuelve con comillas
 	}
 	else
@@ -191,7 +200,7 @@ int get_av(t_list **lst, char *str, int j)
 		av = ft_substr(str, start, j - start);
 		//printf("\nav normal [%i] = %s\n", j, av);
 		ft_lstadd_back(lst, ft_lstnew(av, NULL));
-//		printf("\nav node normal[%i] = %s\n", j, (*lst)->key);
+		printf("\nav node normal[%i] = %s\n", j, (*lst)->key);
 		return (j);
 	}
 }
@@ -199,31 +208,45 @@ void print2char(char **str)
 {
 	int i = 0;
 
-//	write(1, "print2char\n", 12);
-	printf(CI"\n\n------------------\n------------------\n\n");
+	write(1, "print2char\n", 12);
 	while (str[i])
 	{
-		printf("ARGV[%d] = %s\n", i, str[i]);
+		write(1, str[i], strlen(str[i]));
+		write(1, "\n", 1);
 		i++;
 	}
-	printf("\n\n------------------\n------------------\n\n"RES);
 }
 
+void print_tokenlist(t_token *tk)
+{
+	int i = 0;
+	
+	printf("\n----------TOKEN LIST----------\n");
+	while (&tk[i] && tk[i].type != NONE)
+	{
+		printf("tk[%i] :\n", i);
+		printf("tipo = %i\nargc = %i\n", tk[i].type, tk[i].argc);
+		if (tk[i].argv)
+			print2char(tk[i].argv);
+		i++;
+	}
+	printf("\n----------TOKEN ENDS----------\n");
+}
 
 t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 {
 	int		i;
 	int		j;
-	//int		ac_ind; //esto sera el indice de tk->argv
-	//char	*av;
 	t_token	*tk_list;
-
-	i = sizeof(env[3]);
+	
 	i = 0;
-	j = data->l_status;
 	j = 0;
 	while (pipes[i])
+	{
+		write(1, pipes[i], ft_strlen(pipes[i]));
+		write(1, "\n", 1);
 		i++;
+	}
 	tk_list = malloc(sizeof(t_token) * (i + 1));
 	i = 0;
 	
@@ -232,13 +255,14 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 		tk_init(&tk_list[i]);
 		//tk->ac = funcion q haya el argc y me genera array de argv
 		//ac_ind = 0;  ya q se reinicia en cada tk
+		j = 0;
 		while(pipes[i][j]) //en este buble inspeccionamos la linea de cada pipe char x char
 		{
 			while (ft_isspace(pipes[i][j]))
-				j++;
+				j++;				
 			if (pipes[i][j] == '<' || pipes[i][j] == '>')
 			{
-				get_redir(&tk_list[i], pipes[i], j);
+				get_redir(&tk_list[i], pipes[i], j, data);
 				pipes[i] = rd_strdel(ft_redirlast(tk_list[i].redir), pipes[i]); //añadir lo de las comillas
 				/* printf("Cantidad actual nodos redir = [%i]\n", ft_lstsize(tk_list[i].redir));
 				printredir(tk_list[i].redir, pipes[i]);
@@ -252,15 +276,23 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 			}
 			//j++;
 		}
-//		write(1, "llega\n", 6);
 		tk_list[i].argv = listtoargv(tk_list[i].av_list);
-		print2char(tk_list[i].argv);
+		tk_argvtipe(&tk_list[i], env, data);
+		//printf("\nargc = %i --- tipo del tk = %i\n", tk_list[i].argc, tk_list[i].type);
+		//print2char(tk_list[i].argv);
+		write(1, "\nfin tk\n\n", 10);
 		i++;
 	}
 	//printredir(tk_list->redir, data->user_input);
 	tk_list[i].type = NONE;
+	print_tokenlist(tk_list);
 	return (tk_list);
 }
+
+
+
+
+
 
 //esto de abajo es el bucle antiguo
 /* 	while (pipes[i])

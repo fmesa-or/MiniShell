@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 17:21:09 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/13 17:09:28 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:17:23 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,33 @@
 
 /*Esta funcion solo coge la siguiente palabra despues
 de la redireccion, q tiene q ser el archivo al q hace ref*/
-char	*getfilename(char *str, int i, t_redir *rd)
-
+char	*getfilename(char *str, int i, t_redir *rd, t_token *tk, t_data *data)
 {
-	int	start;
-
+	int		start;
+	char	*aux;
+	
+	aux = NULL;
 	while (ft_isspace(str[i]) && str[i])
 		i++;
 	start = i;
 	if (!str[i] || str[i] == '<' || str[i] == '>')
 		return (NULL);
-	else if (str[i] == '\"')
-		i = end_quote(str, i + 1, '\"');
-	else if (str[i] == '\'')
-		i = end_quote(str, i + 1, '\'');
+	else if (str[i] == '\'' || str[i] == '\"')
+	{
+		i = end_quote(str, i + 1, str[i]);
+		rd->end_in = i;
+		aux = ft_substr(str, start + 1, i - start - 1);
+		if (ft_strlen(aux) == 0)
+			throw_error("NO file name", tk, data);
+		return(aux);
+	}
 	else
 	{
 		while (!ft_isspace(str[i]) && str[i])
 			i++;
+		rd->end_in = i;
+		return (ft_substr(str, start, i - start));
 	}
-	rd->end_in = i;
-	return (ft_substr(str, start, i - start));
 }
 
 
