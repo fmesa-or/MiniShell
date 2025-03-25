@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/03/24 12:33:31 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:41:31 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ms_commander(t_token *token, t_data *data)
 {
 	if (token->type != CMD && token->type != BUIL)
 		return ;
-//	printf(RD"Token.Type = %d\n"RES, token->type);
+	printf(RD"Token.Type = %d\n"RES, token->type);
 	if (token->type == BUIL && token[1].command == NULL)//hay que arreglarlo para que sea con todo el token
 	{
 		token->l_status = ms_builts(token, data);

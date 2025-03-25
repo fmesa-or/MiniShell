@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/18 12:17:58 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:53:50 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ char	*expand_var(char *str, t_list *list, t_data *data)
 	char *aux;
 
 	i = 0;
+//	if (ft_strncmp(str, "", ft_strlen(str)) == 0)
+//		return ("");
 	aux = str;
 	while(str[i])
 	{

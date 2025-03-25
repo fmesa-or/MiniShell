@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 19:13:54 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/13 18:11:44 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:58:35 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void	ft_envclear(t_list **lst)
 //esto libera parte de la estruct data para cada vez que se vuelve a mandar nueva linea
 void	free_partial_data(t_data *data)
 {
+	if (!data)
+		return ;
 	if (data->cmnds)
 	{
 		free_2ptr(data->cmnds);
@@ -103,6 +105,8 @@ void	free_partial_data(t_data *data)
 	//LLamar a esto en exit
 void	free_all_data(t_data *data)
 {
+	if (!data)
+		return ;
 	free_partial_data(data);
 	if (data->pwd)
 	{

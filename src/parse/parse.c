@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/24 11:30:31 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:52:51 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,12 @@ char	**pipe_separator(char *str, t_data* data)
 	i = 0;
 	start = 0;
 	k = 0;
+//	if (ft_strncmp(str, "", ft_strlen(str)) == 0)
+//	{
+//		av = malloc(sizeof(char *));
+//		av[0] = "";
+//		return (av);
+//	}
 	npipe = pipe_count(str);
 	printf("npipe = %i\n", npipe);
 	av = malloc(sizeof(char *) * (npipe +1));
@@ -121,7 +127,6 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)
 		write(1, "\n---EPIP---\n", 13);
 		i++;
 	}
-	
 	write(1, "llega\n", 6);
 	tokens = tk_list_make(av, list, data);
 	free_2ptr(av);
