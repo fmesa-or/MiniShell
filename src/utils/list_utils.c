@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/25 14:06:37 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:16:20 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,8 @@ t_list	*envtolist(char **env)
 		//		if (i > 0)
 		//			printf("%s%s\n", aux[0], aux[1]);
 		aux = ft_split(env[i], '=');
+			printf("%s%s\n", aux[0], aux[1]);
+
 		if (!aux || (!aux[0] || !aux[1]))
 		{
 			free_2ptr(aux);
@@ -141,7 +143,7 @@ t_list	*envtolist(char **env)
 			list =ft_lstnew(aux[0],aux[1]);
 			head = list;
 		}
-		else
+		else if (env[i + 1])
 		{
 			list->next =ft_lstnew(aux[0],aux[1]);
 			list = list->next;

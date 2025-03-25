@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/25 14:12:23 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:15:01 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,11 @@ int main(int argc, char **argv, char **env)
 
 	//Efectivamente en el momento de almacenar en list, es cuando metemos los datos extras.!!
 	temp = list;
-	while(list)
-	{
-		printf("ENV: %s=%s\n\n", list->key, list->value);
-		list = list->next;
-	}
+//	while(list)
+//	{
+//		printf("ENV: %s=%s\n\n", list->key, list->value);
+//		list = list->next;
+//	}
 	list = temp;
 
 
