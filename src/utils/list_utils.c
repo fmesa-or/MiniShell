@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/18 12:23:59 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:01:46 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,17 @@ t_list	*envtolist(char **env)
 	i = 0;
 	while (env[i])
 	{
+		//Hay que revisar las fugas de memoria, ya que estamos reasignando memoria 
+		//	a una memoria ya reservada previamente sin liberarla.
+		//	La prueba aquí.
+		//		if (i > 0)
+		//			printf("%s%s\n", aux[0], aux[1]);
 		aux = ft_split(env[i], '=');
+		if (!aux || (!aux[0] || !aux[1]))
+		{
+			free_2ptr(aux);
+			throw_error("ERROR: Split failed.", NULL, NULL);
+		}
 		if (list == NULL)
 		{
 			list =ft_lstnew(aux[0],aux[1]);

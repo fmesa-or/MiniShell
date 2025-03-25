@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:11:13 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/03/18 13:46:00 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:09:43 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,13 @@ int	bi_print_working_directory(t_data *data)
 {
 	if (data->pwd != NULL)
 	{
+//		printf("PWD2: %s\n", data->pwd);
 		write(1, data->pwd, ft_strlen(data->pwd));
 		write(1, "\n", 1);
 	}
 	else
 	{
+		//	write(1, "NULL PWD!!", 10);
 		data->pwd = getcwd(NULL, 0);
 		if (data->pwd != NULL)
 		{
