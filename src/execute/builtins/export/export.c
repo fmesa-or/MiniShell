@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:11:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/26 13:17:23 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:24:43 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int	bi_export(t_list *list, char **argv)//(t_list, SET1="HOLA" SET2="CARACOLA")
 //	char	*av_aux;
 //	t_list	*l_aux;
 
-i = 0;
+i = 1;
 //	j = 0;
 if (!argv[1])
 	export_print_declare(list);
