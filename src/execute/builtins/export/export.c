@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:11:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/26 11:34:37 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:17:23 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	ft_lstadd_second(t_list **lst, t_list *new)
 
 /*Esta funcion busca dentro de la lista donde se encuentra una key
 y retorna el nodo en el que esta o null si no lo encuetra*/
-
+/*
 t_list	*find_key(t_list *list, char *n_key)
 {
 	while (list != NULL)
@@ -39,6 +39,71 @@ t_list	*find_key(t_list *list, char *n_key)
 	}
 	return (NULL);
 }
+*/
+
+static int	export_is_key_valid(char *key)
+{
+	int	i;
+
+	i = 0;
+	if ((!key) || (!ft_isalpha(key[0]) && key[0] != '_'))
+		return (0);
+	while (key[i])
+	{
+		if (!ft_isalnum(key[i]) && key[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static int	export_find_equal(char *argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv[i] && argv[i] != '=')
+		i++;
+	if (!argv[i])
+		return (-1);
+	return (i);
+}
+
+
+static int	export_var(t_list *list, char *argv)
+{
+	int		n;
+	char	*value;
+	char	*key;
+
+	value = NULL;
+	//comprobar si tenenmos un igual
+	n = export_find_equal(argv);
+	if (n != -1)
+	{
+		//almacenar value & key en caso de ser correcto
+		value = ft_strdup(&(argv[n + 1]));
+		key = ft_substr(argv, 0, n);
+	}
+	//else almacenarlo todo en key
+	else
+		key = ft_strdup(argv);
+	//comprobamos si key es valida y en caso de no serlo liberamos y mensaje de error
+	if (!export_is_key_valid(key))
+	{
+		free(key);
+		free(value);
+		throw_error("ERROR: Invalid identifier\n", NULL, NULL);
+		return (1);
+	}
+	//añadimos al ENV
+	add_element_to_env(list, ft_strdup(key), ft_strdup(value));
+	//liberamos
+	free(key);
+	free(value);
+	return (0);
+}
+
 
 /******************************************************************************
 *This function prints the env to the screen with "declare -x" before each line*
@@ -61,18 +126,30 @@ void	export_print_declare(t_list *list)
 /*
 *This function will create and modify keys and their values according to the argument passed to it
 must be called within a while loop so that the args with index are passed to it*/
-int	bi_export(t_list *list, char *argv)//(t_list, VARIABLE="HOLA")
+int	bi_export(t_list *list, char **argv)//(t_list, SET1="HOLA" SET2="CARACOLA")
 {
-//	int	i;
+	int	i;
 //	int	j;
 //	char	*key_aux;
 //	char	*av_aux;
 //	t_list	*l_aux;
 
-//	i = 0;
+i = 0;
 //	j = 0;
-	if (!argv)
-		export_print_declare(list);
+if (!argv[1])
+	export_print_declare(list);
+while (argv[i])
+{
+	if (export_var(list, argv[i]) == 1)
+		return (1);
+	i++;
+}
+return (0);
+
+
+
+
+
 
 
 /*	V0.2
@@ -155,5 +232,4 @@ int	bi_export(t_list *list, char *argv)//(t_list, VARIABLE="HOLA")
 
 //	free(key_aux);
 //	free(av_aux);
-	return (0);
 }
