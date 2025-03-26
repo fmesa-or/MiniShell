@@ -6,13 +6,14 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:11:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/11 14:07:25 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:34:37 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
+/*
 static void	ft_lstadd_second(t_list **lst, t_list *new)
 {
 	t_list *tmp;
@@ -21,7 +22,7 @@ static void	ft_lstadd_second(t_list **lst, t_list *new)
 	(*lst)->next = new;
 	new->next = tmp;
 }
-
+*/
 
 
 
@@ -42,7 +43,7 @@ t_list	*find_key(t_list *list, char *n_key)
 /******************************************************************************
 *This function prints the env to the screen with "declare -x" before each line*
 ******************************************************************************/
-void	bi_voidexport(t_list *list)
+void	export_print_declare(t_list *list)
 {
 	while (list)
 	{
@@ -62,14 +63,19 @@ void	bi_voidexport(t_list *list)
 must be called within a while loop so that the args with index are passed to it*/
 int	bi_export(t_list *list, char *argv)//(t_list, VARIABLE="HOLA")
 {
-	int	i;
-	int	j;
-	char	*key_aux;
-	char	*av_aux;
-	t_list	*l_aux;
+//	int	i;
+//	int	j;
+//	char	*key_aux;
+//	char	*av_aux;
+//	t_list	*l_aux;
 
-	i = 0;
-	j = 0;
+//	i = 0;
+//	j = 0;
+	if (!argv)
+		export_print_declare(list);
+
+
+/*	V0.2
 	while (argv[i] != '=')
 		i++;
 	key_aux = (char *)malloc(sizeof(char) * (i + 1));
@@ -116,7 +122,7 @@ int	bi_export(t_list *list, char *argv)//(t_list, VARIABLE="HOLA")
 
 	if (list)
 		i = 0;
-
+*/
 
 
 //	printf("key: %s\n", n_key);
@@ -143,7 +149,11 @@ int	bi_export(t_list *list, char *argv)//(t_list, VARIABLE="HOLA")
 	else
 		ft_lstadd_back(&list, ft_lstnew(aux[0], aux[1]));
 		*/
-	free(key_aux);
-	free(av_aux);
+
+
+
+
+//	free(key_aux);
+//	free(av_aux);
 	return (0);
 }

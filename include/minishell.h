@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/24 11:21:24 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:25:25 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,7 +306,7 @@ int		bi_print_working_directory(t_data *data);
 int		bi_change_dir(t_token *token, t_data *data);
 int		bi_echo(t_token *token);
 t_list	*find_key(t_list *list, char *n_key);
-void	bi_voidexport(t_list *list);
+void	export_print_declare(t_list *list);
 int		bi_export(t_list *list, char *n_key);
 //int		bi_env(t_list *list);
 int		bi_env(t_data *data, t_token *token);
