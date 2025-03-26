@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/26 13:18:33 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:15:27 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,6 +312,8 @@ t_list	*find_key(t_list *list, char *n_key);
 int		bi_env(t_data *data, t_token *token);
 char	**ms_return_env(t_data *data);
 int		bi_exit(char **av);
+int	bi_unset(t_list *list, char **argv);
+
 
 /*-------EXPORT------*/
 void	add_element_to_env(t_list *list, char *n_key, char *n_value);
