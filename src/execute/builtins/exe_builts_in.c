@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:06 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/03/11 12:49:57 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:08:40 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ms_builts(t_token *token, t_data *data)
 	if (ft_strncmp(token->argv[0], "echo", ft_strlen(token->argv[0])) == 0)
 			ret = bi_echo(token);
 	if (ft_strncmp(token->argv[0], "export", ft_strlen(token->argv[0])) == 0)
-		ret = bi_export(data->exported_list, token->argv[1]);
+		ret = bi_export(data->exported_list, token->argv);
 //	if (ft_strncmp(token->argv[0], "unset", ft_strlen(token->argv[0])) == 0)
 //		ret = bi_unset();
 	if (ft_strncmp(token->argv[0], "env", ft_strlen(token->argv[0])) == 0)
