@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/25 12:52:51 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:14:48 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	**pipe_separator(char *str, t_data* data)
 //		return (av);
 //	}
 	npipe = pipe_count(str);
-	printf("npipe = %i\n", npipe);
+		printf("npipe = %i\n", npipe);
 	av = malloc(sizeof(char *) * (npipe +1));
 	if(!av)
 		throw_error("ERROR: pipe_sep malloc", NULL, data);
@@ -127,7 +127,7 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)
 		write(1, "\n---EPIP---\n", 13);
 		i++;
 	}
-	write(1, "llega\n", 6);
+//	write(1, "llega\n", 6);
 	tokens = tk_list_make(av, list, data);
 	free_2ptr(av);
 	//Estás intentado hacer free a un string al cual no se le ha reservado memoria.
