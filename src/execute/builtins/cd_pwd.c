@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:11:13 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/03/25 13:09:43 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:09:31 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	bi_change_dir(t_token *token, t_data *data)
 		throw_error("ERROR:", NULL, data);//REVISAR FUNCION
 	else
 	{
-		if (!(token->argv[1]) || ft_strncmp(token->argv[1], "$HOME", 5) == 0 || ft_strncmp(token->argv[1], "~", 1) == 0)
+		if (!(token->argv[1]) || ft_strncmp(token->argv[1], "$HOME", 5) == 0 || ft_strncmp(token->argv[1], "~", 1) == 0) //también debe cubrir "-", revisar inputs como "-file"
 		{
 			target_path = getenv("HOME");
 			if (!target_path)

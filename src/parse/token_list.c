@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/24 13:01:16 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:15:34 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,7 @@ void print_tokenlist(t_token *tk)
 			print2char(tk[i].argv);
 		i++;
 	}
-	printf("\n----------TOKEN ENDS----------\n");
+	printf("\n----------TOKEN ENDS----------\n\n");
 }
 
 t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
@@ -271,7 +271,6 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 				printredir(tk_list[i].redir, pipes[i]);
 				printredir(ft_redirlast(tk_list[i].redir), pipes[i]); */
 			}
-			
 			else if (pipes[i][j] && (pipes[i][j] != '<' && pipes[i][j] != '>' && !ft_isspace(pipes[i][j])))
 			{
 				j = get_av(&tk_list[i].av_list, pipes[i], j);//funcion q saca un arg, teniendo en cuenta q este primer char puede ser ' o ";
