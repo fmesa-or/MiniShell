@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/03/25 12:41:31 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:11:40 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	ms_commander(t_token *token, t_data *data)
 			}
 			else
 			{
-//				printf(CI"CHECK CHILDS\n"RES);
+				printf(CI"CHECK CHILDS\n"RES);
 				ms_exe_childs(token, data);
 			}
 		}
@@ -104,7 +104,6 @@ void	ms_main_exe(t_token *token, t_data *data)
 	token_post = token;
 	while(token->type != NONE)
 	{
-//		printf("entrada bucle\n");
 		ms_fds(token, &token_prev, data);
 //		printf("señal procesada en ms_fds\n");
 		ms_commander(token, data);
@@ -115,3 +114,5 @@ void	ms_main_exe(t_token *token, t_data *data)
 	}
 	ms_post_exe(data, token_prev, token_post);
 }
+
+//   ls | wc -l | wc -l
