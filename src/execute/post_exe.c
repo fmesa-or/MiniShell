@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:54:52 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/29 19:33:20 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/03 22:00:07 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ static void	ms_pilatos(t_token *tokens)
 		i--;
 	}
 }
-
+/*
+*token_prev es el último token
+*/
 void	ms_post_exe(t_data *data, t_token *token_prev, t_token *first_token)
 {
 	//g_sig = 2 ?????
@@ -39,6 +41,9 @@ void	ms_post_exe(t_data *data, t_token *token_prev, t_token *first_token)
 	if (WIFEXITED(token_prev->l_status))
 		token_prev->l_status = WEXITSTATUS(token_prev->l_status);
 	data->l_status = token_prev->l_status;
+	/*aquí Jhon manda el last_token->prev. Es el comando anterior al último
+	
+	Lo ideal sería almacenarlo de forma local de algún modo, para no tener que reestructurar todo el trabajo de ramón*/
 	ms_pilatos(first_token);//kill all children except last one
 	dup2(data->bk_in, STDIN_FILENO);
 	dup2(data->bk_out, STDOUT_FILENO);

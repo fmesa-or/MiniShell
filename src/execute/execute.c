@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/03/25 12:41:31 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/03 21:55:42 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,11 @@ void	ms_commander(t_token *token, t_data *data)
 	}
 }
 
+
+/*
+*token_prev es el último token
+*token_post es el primer token de todo el string
+*/
 void	ms_main_exe(t_token *token, t_data *data)
 {
 	t_token	*token_prev;

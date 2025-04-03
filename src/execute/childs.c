@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 11:17:17 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/02/18 19:59:11 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/03 21:51:46 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ void	ms_exe_childs(t_token *token, t_data *data)
 		exit(0);
 	else if (ms_is_path(token->argv[0]) && !access(token->argv[0], F_OK))
 		token->command = ft_strdup(token->argv[0]);
-/*
-PREGUNTAR A RAMÓN SI ES NECESARIO
 	else
 	{
 		token->command = ms_find_path(token->argv[0], data);
@@ -72,9 +70,9 @@ PREGUNTAR A RAMÓN SI ES NECESARIO
 			exit(127);
 		}
 	}
-*/
 	ms_check_permision(token->command);
-	printf("command = %s\n", token->command);
+
+		printf("command = %s\n", token->command);
 	
 	if (execve(token->command, token->argv, ms_return_env(data)) == -1)
 		ms_cmd_nf(token->argv[0]);
