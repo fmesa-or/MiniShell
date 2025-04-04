@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/03 21:55:42 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/04 21:07:05 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ void	ms_commander(t_token *token, t_data *data)
 			}
 			else
 			{
-//				printf(CI"CHECK CHILDS\n"RES);
 				ms_exe_childs(token, data);
+				printf(CI"CHECK CHILDS\n"RES);
 			}
 		}
 		else
