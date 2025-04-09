@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:48:54 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/29 14:54:23 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:45:05 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ int	ms_tin_opener(char *argv, int flag, t_token *token, t_data *data)
 	else if (flag == HDOC)
 		ms_here_doc(token, data);
 //	if (file == -1)
-//		throw_error(RD"Error: OPEN function failed.\n"RES, 1);
+//		throw_error(RD"Error: OPEN function failed.\n"RES, 1, data);
 	return (file);
 }
