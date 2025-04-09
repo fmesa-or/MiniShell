@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:22:05 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/02/18 20:00:33 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:44:47 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int	ms_init_redir(t_token *token, t_data *data)
 	sherpa = ms_sherpa_init(sherpa);
 	printf("Init REDIR\n");
 	if (!(token->redir))
-	return (0);
+		return (0);
 	if (token->type == BUIL || token->type == CMD)
 	{
 		printf("Avemus BUIL or CMD\n");

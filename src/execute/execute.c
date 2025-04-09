@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/04 21:07:05 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:55:53 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,32 @@
 	}
 }*/
 
-void	ms_fds(t_token *token, t_token **token_prev, t_data *data)
+void	ms_fds(t_token *token, t_token *token_prev, t_data *data)
 {
 //	printf("next token type = %d\n", token[1].type);
 //	printf("actual token type = %d\n", token->type);
 	if (token[1].type != NONE)
-		ms_pipe(token);
-//	printf("PIPE PASSED");
+	{
+		pipe(token->fd);
+	}
+//	printf("token->redir: %p\n", token->redir);
 	if (token->redir)
 	{
 		token->l_status = ms_init_redir(token, data);
 		if (token->l_status == 1)//revisar, creo que o no es necesario, o no aplica así
 		{
-			*token_prev = token;
-			close((*token_prev)->fd[0]);
-			close((*token_prev)->fd[1]);
+			token_prev = token;
+			close(token_prev->fd[0]);
+			close(token_prev->fd[1]);
 			return ;
 		}
+	}
+	else
+	{
+	//if (token_prev)
+	token->fd[0] = token_prev->fd[1];
+	//if (token[1].type != NONE)
+	token[1].fd[0] = token->fd[1];
 	}
 }
 
@@ -61,7 +70,7 @@ void	ms_commander(t_token *token, t_data *data)
 {
 	if (token->type != CMD && token->type != BUIL)
 		return ;
-	printf(RD"Token.Type = %d\n"RES, token->type);
+//	printf(RD"Token.Type = %d\n"RES, token->type);
 	if (token->type == BUIL && token[1].command == NULL)//hay que arreglarlo para que sea con todo el token
 	{
 		token->l_status = ms_builts(token, data);
@@ -80,8 +89,11 @@ void	ms_commander(t_token *token, t_data *data)
 			}
 			else
 			{
+				printf("CHECK CHILDS: %s REDIR: fd[0]:%d fd[1]:%d\n"RES, token->command, token->fd[0], token->fd[1]);
 				ms_exe_childs(token, data);
-				printf(CI"CHECK CHILDS\n"RES);
+				//ESTAN FALLANDO LOS FILES DESCRIPTORS!!!
+				//CUANDO ENTRAN MAS DE 3 PIPES LOS FD SE EMPIEZAN A RALLAR
+				//REVISAR TAMBIÉN QUE PASARÁ CUANDO META REDIRECCIONES
 			}
 		}
 		else
@@ -102,6 +114,24 @@ void	ms_commander(t_token *token, t_data *data)
 */
 void	ms_main_exe(t_token *token, t_data *data)
 {
+	t_token	*last_token;
+	t_token	*first_token;
+
+	first_token = token;
+	while(token->type != NONE)
+	{
+		ms_fds(token, last_token, data);
+		ms_commander(token, data);
+		last_token = token;
+		token++;
+	}
+	ms_post_exe(data, last_token, first_token);
+
+
+
+
+
+	/*    V0.1
 	t_token	*token_prev;
 	t_token *token_post;
 //	static int j = 0;
@@ -119,4 +149,5 @@ void	ms_main_exe(t_token *token, t_data *data)
 //		printf("fin bucle: %d\n", ++j);
 	}
 	ms_post_exe(data, token_prev, token_post);
+	*/
 }
