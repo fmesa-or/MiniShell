@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/20 16:59:20 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/04/14 17:27:35 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ char	**pipe_separator(char *str, t_data* data)
 	start = 0;
 	k = 0;
 	npipe = pipe_count(str);
-	printf("npipe = %i\n", npipe);
 	av = malloc(sizeof(char *) * (npipe +1));
 	if(!av)
 		throw_error("ERROR: pipe_sep malloc", NULL, data);
@@ -88,11 +87,7 @@ char	**pipe_separator(char *str, t_data* data)
 	{
 		start = i;
 		i = pipe_iteri(str, start, '|');
-		printf("pipe indx = %i\n", i);
 		av[k] = ft_substr(str, start, i - start);
-		write(1, "pipa = ", 8);
-		write(1, av[k], ft_strlen(av[k]));
-		write(1, "\n", 1);
 		if(str[i] == '|')
 			i++;
 		k++;
@@ -108,21 +103,10 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)
 	char 	*aux;
 	t_token *tokens;
 
-	int i = 0;
 	av = NULL;
 	tokens = NULL;
 	aux = expand_var(str, list, data);
 	av = pipe_separator(aux, data);
-	while (av[i])
-	{
-		write(1, "\n---PIPE---\n", 13);
-		write(1, av[i], ft_strlen(av[i]));
-		write(1, "\n", 1);
-		write(1, "\n---EPIP---\n", 13);
-		i++;
-	}
-	
-	write(1, "llega\n", 6);
 	tokens = tk_list_make(av, list, data);
 	free_2ptr(av);
 	free(aux);

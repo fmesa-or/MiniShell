@@ -6,12 +6,13 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:52:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/26 17:29:17 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/04/14 17:45:51 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*Esta funcion es la de lst_last pero para redir*/
 t_redir	*ft_redirlast(t_redir *rd)
 {
 	t_redir	*node;
@@ -59,6 +60,20 @@ int	redir_fill(t_token *tk, char *str, int rd_type, int i, t_data *data)
 	return(aux_red->end_in);
 }
 
+static int	redir_iteri(int i, char *str)
+{
+	if (str[i] == '<' || str[i] == '>')
+	{
+		if (str[i+1] == '<' || str[i+1] == '>')
+			i++;
+		i++;
+	}
+	while (ft_isspace(str[i]))
+		i++;
+	while (!ft_isspace(str[i]) && str[i]) //revisar comillas
+		i++;
+	return(i);
+}
 
 /* Esto elimina las redir y el file name del str
 de cada pipe, despues de guardarlo en la struc.
@@ -72,38 +87,15 @@ char	*rd_strdel(t_redir *redir, char *str)
 	char	*aux2;
 	
 	i = redir->index;
-	if (str[i] == '<' || str[i] == '>')
+	extra_len = redir_iteri(redir->index, str);
+	if (redir->type)
 	{
-		if (str[i+1] == '<' || str[i+1] == '>')
-		i++;
-		i++;
-	}
-	while (ft_isspace(str[i]))
-		i++;
-	while (!ft_isspace(str[i]) && str[i]) //revisar comillas
-		i++;
-	extra_len = i;
-	i = redir->index;
-	if (redir->type == HDOC || redir->type == NDOUT)
-	{
-		//caso de dos
 		aux1 = ft_substr(str, 0, i);
 		aux2 = ft_substr(str, extra_len, ft_strlen(str));
 		str = ft_strcjoin(aux1, aux2, ' ');
 		free(aux1);
 		free(aux2);
-		return(str);
-		
-	}
-	else if (redir->type == IN || redir->type == DOUT)
-	{
-		//caso de 1
-		aux1 = ft_substr(str, 0, i);
-		aux2 = ft_substr(str, extra_len, ft_strlen(str));
-		str = ft_strcjoin(aux1, aux2, ' ');
-		free(aux1);
-		free(aux2);
-		return(str);
+		return(str);		
 	}
 	else
 		return(str); 
