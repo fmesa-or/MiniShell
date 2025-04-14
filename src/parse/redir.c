@@ -6,11 +6,42 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:52:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/19 19:48:45 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:29:17 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_redir	*ft_redirlast(t_redir *rd)
+{
+	t_redir	*node;
+
+	node = rd;
+	while (node)
+	{
+		if (node->next)
+			node = node->next;
+		else
+			break ;
+	}
+	return (node);
+}
+
+int	get_redir(t_token *tk, char *str, int j, t_data *data)
+{
+	int	rd_end;
+	
+	rd_end = 0;
+	if (str[j] == '<' && str[j + 1] == '<')
+		rd_end = redir_fill(tk, str, HDOC, j, data);
+	else if (str[j] == '>' && str[j + 1] == '>')
+		rd_end = redir_fill(tk, str, NDOUT, j, data);
+	else if (str[j] == '<')
+		rd_end = redir_fill(tk, str, IN, j, data);
+	else if (str[j] == '>')
+		rd_end = redir_fill(tk, str, DOUT, j, data);
+	return(rd_end);
+}
 
 int	redir_fill(t_token *tk, char *str, int rd_type, int i, t_data *data)
 {
@@ -25,16 +56,8 @@ int	redir_fill(t_token *tk, char *str, int rd_type, int i, t_data *data)
 	else
 		aux_red->file = getfilename(str, i + 1, aux_red, tk, data);
 	ft_rediradd_back(&tk->redir, aux_red);
-	printf("\nred indx = %i,  archivo = %s\n", aux_red->index, aux_red->file);
-/* 	while (tk->redir->next)
-	{
-		printf("\n redirfill: \n");
-		tk->redir = tk->redir->next;
-	} */
 	return(aux_red->end_in);
 }
-
-//printredir(tk_node->redir, "out");
 
 
 /* Esto elimina las redir y el file name del str
@@ -85,54 +108,3 @@ char	*rd_strdel(t_redir *redir, char *str)
 	else
 		return(str); 
 }
-
-/* void	tk_inrd(t_token *tk_node, char *str)
-{
-	int i;
-
-	i = 0;
-	while(str[i])
-	{
-		i = pipe_iteri(str, i, '<');
-		if(!str[i])
-			break ;
-		if (str[i] == '<' && str[i+1] == '<')
-		{
-			redir_fill(tk_node, str, HDOC, i);
-			i += 2;			
-		}
-		else if(str[i] == '<' && str[i+1] != '<')
-		{
-			redir_fill(tk_node, str, IN, i);
-			i++;
-		}
-		else if (str[i] != '<' && str[i])
-			i++;
-	}
-}
-	//printredir(tk_node->redir, "in");
-	
-void	tk_outrd(t_token *tk_node, char *str)
-{
-	int i;
-
-	i = 0;
-	while(str[i])
-	{
-		i = pipe_iteri(str, i, '>');
-		if(!str[i])
-			break ;
-		if (str[i] == '>' && str[i+1] == '>')
-		{
-			redir_fill(tk_node, str, NDOUT, i);
-			i += 2;			
-		}
-		else if(str[i] == '>' && str[i+1] != '>')
-		{
-			redir_fill(tk_node, str, DOUT, i);
-			i++;
-		}
-		else if (str[i] != '>' && str[i])
-			i++;
-	}
-} */

@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/19 19:48:59 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:43:40 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,13 +179,13 @@ void	ft_envclear(t_list **lst);
 /*------------redir------------*/
 int		redir_fill(t_token *tk, char *str, int rd_type, int i, t_data *data);
 char	*rd_strdel(t_redir *redir, char *str);
-void	tk_inrd(t_token *tk_node, char *str);
-void	tk_outrd(t_token *tk_node, char *str);
+t_redir	*ft_redirlast(t_redir *rd);
 
 /*------------Redir_utirs------------*/
 void	printredir(t_redir *red, char *str);
 char	*getfilename(char *str, int i, t_redir *rd, t_token *tk, t_data *data);
 void	ft_rediradd_back(t_redir **lst, t_redir *new);
+int		get_redir(t_token *tk, char *str, int j, t_data *data);
 
 /*----------Token_list----------*/
 t_token	*tk_list_init(char **pipes);
@@ -193,6 +193,13 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data);
 int		ft_lstsize(t_list *lst);
 /*----------Expand-----------*/
 char	*expand_var(char *str, t_list *list, t_data *data);
+
+/*-----------Argv-----------*/
+int 	get_av(t_list **lst, char *str, int j);
+void	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data);
+int		is_builtin(t_token *tk, char *av);
+int	is_cmd(char *av, t_token *tk, t_list *env, t_data *data);
+
 
 /*-----------Parse-----------*/
 //int		close_quote(char *str, char c);
@@ -228,11 +235,17 @@ int		ft_atoi(const char *str);
 
 /*----------List_utils----------*/
 void	ft_unset(t_list **list, char *ref);
-char	**listtoenv(t_list *list);
-t_list	*envtolist(char **env);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 t_list	*ft_lstnew(char *n_key, char *n_value);
+int		ft_lstsize(t_list *lst);
+
+/*----------Trans_lists------------*/
+char	**listtoenv(t_list *list);
+t_list	*envtolist(char **env);
 char 	**listtoargv(t_list *lst);
+
+
+
 /*-----------ft_export-----------*/
 t_list	*find_key(t_list *list, char *n_key);
 int		ft_strchr(const char *str, char c);
@@ -249,6 +262,10 @@ int		end_quote(char *str, int i, char c);
 int		ft_strchr(const char *str, char c);
 int		ft_isspace(char c);
 
+/*-----------Prints--------------*/
+void	printredir(t_redir *red, char *str);
+void 	print2char(char **str);
+void 	print_tokenlist(t_token *tk);
 /*------CHILDS------*/
 void	ms_exe_childs(t_token *token, t_data *data);
 void	ms_check_permision(char *command);
