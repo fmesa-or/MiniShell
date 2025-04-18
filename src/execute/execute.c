@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/09 13:55:53 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/18 14:40:16 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ void	ms_fds(t_token *token, t_token *token_prev, t_data *data)
 	if (token[1].type != NONE)
 	{
 		pipe(token->fd);
+		//if (token_prev)
+		token->fd[0] = token_prev->fd[1];
+		//if (token[1].type != NONE)
+		token[1].fd[0] = token->fd[1];
 	}
 //	printf("token->redir: %p\n", token->redir);
 	if (token->redir)
@@ -57,13 +61,13 @@ void	ms_fds(t_token *token, t_token *token_prev, t_data *data)
 			return ;
 		}
 	}
-	else
+/*	else
 	{
 	//if (token_prev)
 	token->fd[0] = token_prev->fd[1];
 	//if (token[1].type != NONE)
 	token[1].fd[0] = token->fd[1];
-	}
+	}*/
 }
 
 void	ms_commander(t_token *token, t_data *data)
@@ -71,7 +75,7 @@ void	ms_commander(t_token *token, t_data *data)
 	if (token->type != CMD && token->type != BUIL)
 		return ;
 //	printf(RD"Token.Type = %d\n"RES, token->type);
-	if (token->type == BUIL && token[1].command == NULL)//hay que arreglarlo para que sea con todo el token
+	if (token->type == BUIL && token[1].type == NONE)
 	{
 		token->l_status = ms_builts(token, data);
 		printf(GR"BUIL CHECK\n"RES);
@@ -79,7 +83,39 @@ void	ms_commander(t_token *token, t_data *data)
 	else
 	{
 		token->pid = fork();
-		if (token->pid == 0)
+		if (token->pid == 0) //if es el hijo
+		{
+			if (token->type == BUIL)
+			{
+//				printf(FF"CHECK BUIL"RES);
+				ms_builts(token, data);
+				exit(0);
+			}
+			else
+			{
+				ms_exe_childs(token, data);
+				//ESTAN FALLANDO LOS FILES DESCRIPTORS!!!
+				//CUANDO ENTRAN MAS DE 3 PIPES LOS FD SE EMPIEZAN A RALLAR
+				//REVISAR TAMBIÉN QUE PASARÁ CUANDO META REDIRECCIONES
+			}
+			//añadido BORRAR
+			if (token->fd[0] != 0)
+				close(token->fd[0]);
+			if (token->fd[1] != 1)
+				close(token->fd[1]);
+		}
+		else //else es el padre
+		{
+//			printf(PR"CHECK CLOSE\n"RES);
+			if (token->fd[0] != 0)
+				close(token->fd[0]);
+			if (token->fd[1] != 1)
+				close(token->fd[1]);
+
+				
+			/*   V0.1
+					token->pid = fork();
+		if (token->pid == 0) //if es el hijo
 		{
 			if (token->type == BUIL)
 			{
@@ -102,7 +138,7 @@ void	ms_commander(t_token *token, t_data *data)
 			if (token->fd[0] != 0)
 				close(token->fd[0]);
 			if (token->fd[1] != 1)
-				close(token->fd[1]);
+				close(token->fd[1]);*/
 		}
 	}
 }
@@ -124,6 +160,7 @@ void	ms_main_exe(t_token *token, t_data *data)
 		ms_commander(token, data);
 		last_token = token;
 		token++;
+		write(2, "\nCheck while!!\n", 15);
 	}
 	ms_post_exe(data, last_token, first_token);
 
