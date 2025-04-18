@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/18 20:56:21 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/18 21:29:09 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ void	ms_fds(t_token *token, t_token *token_prev, t_data *data)
 			return ;
 		}
 	}
-	else
+	else //esto sería el ultimo  REVISAR
 	{
-	if (token_prev->type != NONE)
-		token->fd[0] = token_prev->fd[1];
-	if (token[1].type != NONE)
-		token[1].fd[0] = token->fd[1];
+		//if (token_prev->type != NONE)
+		//	token->fd[0] = token_prev->fd[1];
+		if (token[1].type == NONE)
+			dup2(token->fd[1], STDOUT_FILENO);
 	}
 }
 
@@ -165,7 +165,7 @@ void	ms_main_exe(t_token *token, t_data *data)
 		ms_commander(token, data);
 		last_token = token;
 		token++;
-		write(2, "\nCheck while!!\n", 15);
+		write(2, "Check while!!\n", 15);
 	}
 	ms_post_exe(data, last_token, first_token);
 

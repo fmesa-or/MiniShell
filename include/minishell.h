@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/04/09 12:41:54 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/18 21:19:17 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ typedef struct s_list
 /**********************************************************************
 *                            REDIRECTIONS                             *
 *type	->The kind of redirection (</<</>/>>)                         *
+*index	->Index of the first char in the original str                 *
 *file	->The file for the redirection (except when is a HEREDOC (<<),*
 *			in that case it's the limit)                              *
-*index	->Index of the first char in the original str                 *
 *next	->The next redirection ("< input.txt cat >> output.txt")      *
 **********************************************************************/
 typedef struct s_redir
@@ -137,7 +137,7 @@ typedef struct s_token
 	pid_t			pid;
 	int				l_status;
 	struct s_redir	*redir;
-	struct s_list	*av_list;
+	struct s_list	*av_list;//añadir
 	struct s_list	*env;
 }	t_token;
 
