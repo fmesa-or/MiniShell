@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/18 21:29:09 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/19 15:25:05 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,58 @@ void	ms_fds(t_token *token, t_token *token_prev, t_data *data)
 	}
 }
 
+
+void ms_commander(t_token *token, t_data *data)
+{
+    if (token->type != CMD && token->type != BUIL)
+        return;
+
+    if (token->type == BUIL && token[1].type == NONE)
+    {
+        token->l_status = ms_builts(token, data);
+        printf("BUIL CHECK\n");
+    }
+    else
+    {
+        token->pid = fork();
+        dprintf(2, "Iniciando PID: %d\n", token->pid);
+        if (token->pid == 0) // Proceso hijo
+        {
+            // Redirigir entrada y salida
+            if (token->fd[0] != 0)
+            {
+                dup2(token->fd[0], STDIN_FILENO);
+                close(token->fd[0]);
+            }
+            if (token->fd[1] != 1)
+            {
+                dup2(token->fd[1], STDOUT_FILENO);
+                close(token->fd[1]);
+            }
+
+            // Ejecutar el comando
+            if (token->type == BUIL)
+            {
+                ms_builts(token, data);
+                exit(0);
+            }
+            else
+            {
+                ms_exe_childs(token, data);
+                exit(1); // Salir si falla
+            }
+        }
+        else // Proceso padre
+        {
+            // Cerrar extremos de las pipes en el padre
+            if (token->fd[0] != 0)
+                close(token->fd[0]);
+            if (token->fd[1] != 1)
+                close(token->fd[1]);
+        }
+    }
+}
+/*    V0.2
 void	ms_commander(t_token *token, t_data *data)
 {
 	if (token->type != CMD && token->type != BUIL)
@@ -83,6 +135,7 @@ void	ms_commander(t_token *token, t_data *data)
 	else
 	{
 		token->pid = fork();
+		dprintf(2, "Iniciando PID: %d\n", token->pid);
 		if (token->pid == 0) //if es el hijo
 		{
 			if (token->type == BUIL)
@@ -107,11 +160,14 @@ void	ms_commander(t_token *token, t_data *data)
 		else //else es el padre
 		{
 //			printf(PR"CHECK CLOSE\n"RES);
-			if (token->fd[0] != 0)
-				close(token->fd[0]);
-			if (token->fd[1] != 1)
-				close(token->fd[1]);
-
+			//if (token->fd[0] != 0)
+			close(token->fd[0]);
+			//if (token->fd[1] != 1)
+			close(token->fd[1]);
+		}
+	}
+}
+*/
 				
 			/*   V0.1
 					token->pid = fork();
@@ -138,10 +194,11 @@ void	ms_commander(t_token *token, t_data *data)
 			if (token->fd[0] != 0)
 				close(token->fd[0]);
 			if (token->fd[1] != 1)
-				close(token->fd[1]);*/
+				close(token->fd[1]);
 		}
 	}
 }
+*/
 
 
 /*
