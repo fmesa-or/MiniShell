@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/26 14:15:27 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/18 21:19:17 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ typedef struct s_list
 /**********************************************************************
 *                            REDIRECTIONS                             *
 *type	->The kind of redirection (</<</>/>>)                         *
+*index	->Index of the first char in the original str                 *
 *file	->The file for the redirection (except when is a HEREDOC (<<),*
 *			in that case it's the limit)                              *
-*index	->Index of the first char in the original str                 *
 *next	->The next redirection ("< input.txt cat >> output.txt")      *
 **********************************************************************/
 typedef struct s_redir
@@ -137,7 +137,7 @@ typedef struct s_token
 	pid_t			pid;
 	int				l_status;
 	struct s_redir	*redir;
-	struct s_list	*av_list;
+	struct s_list	*av_list;//añadir
 	struct s_list	*env;
 }	t_token;
 
@@ -259,7 +259,7 @@ int	e_red_mssg(char *file, int flag);
 /*-----------EXECUTE---------*/
 void	ms_main_exe(t_token *token, t_data *data);
 void	ms_commander(t_token *token, t_data *data);
-void	ms_fds(t_token *token, t_token **token_prev, t_data *data);
+void	ms_fds(t_token *token, t_token *token_prev, t_data *data);
 void	child_process(t_token *token);
 
 /*------FAKEHDOC--------*/
@@ -277,7 +277,7 @@ void	ms_here_doc(t_token *token, t_data *data);
 void	ms_hdoc_writer(int *fd, char *line, char *limiter);
 
 /*------------PIPE-------------------*/
-void	ms_pipe(t_token *token);
+void	ms_pipe(t_token *token, t_token *token_prev);
 
 /*----PIPEX_EXECUTE----*/
 void	ft_execute(char *argv, char **envp);
@@ -312,7 +312,7 @@ t_list	*find_key(t_list *list, char *n_key);
 int		bi_env(t_data *data, t_token *token);
 char	**ms_return_env(t_data *data);
 int		bi_exit(char **av);
-int	bi_unset(t_list *list, char **argv);
+int		bi_unset(t_list *list, char **argv);
 
 
 /*-------EXPORT------*/
