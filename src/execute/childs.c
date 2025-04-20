@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 11:17:17 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/19 15:09:29 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/20 14:28:44 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,9 @@ void	ms_check_permision(char *command)
 
 void	ms_exe_childs(t_token *token, t_data *data)
 {
-	dprintf(2, "command = %s\n", token->command);//checker
-	close(token->fd[0]);
+	dprintf(2, "exe_childs command = %s\n", token->command);//checker
 	dup2(token->fd[1], STDOUT_FILENO);
-	close(token->fd[1]);
+	close(token->fd[0]);
 	if (token[1].type == NONE)
 	{
 		dup2(data->bk_out, STDOUT_FILENO);
