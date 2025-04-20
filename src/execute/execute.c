@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/20 14:32:22 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/20 18:44:58 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,13 @@ void	ms_fds(t_token *token, t_token *token_prev, t_data *data)
 			perror("pipe");
 			exit(EXIT_FAILURE);
 		}
-		//if (token_prev)
-	//	token->fd[0] = token_prev->fd[1];
-		//if (token[1].type != NONE)
-	//	token[1].fd[0] = token->fd[1];
+		token->fd[1] = token[1].fd[1];
+	}
+	if (token_prev->type != NONE)
+	{
+		dup2(token_prev->fd[0], STDIN_FILENO);
+		close(token_prev->fd[0]);
+		close(token_prev->fd[1]);
 	}
 //	printf("token->redir: %p\n", token->redir);
 	if (token->redir)
@@ -62,16 +65,13 @@ void	ms_fds(t_token *token, t_token *token_prev, t_data *data)
 			token_prev = token;
 			close(token_prev->fd[0]);
 			close(token_prev->fd[1]);
+			close(token->fd[0]);// lo mismo si, lo mismo no
 			return ;
 		}
 	}
-	//else //esto sería el ultimo  REVISAR
-	//{
-		//if (token_prev->type != NONE)
-		//	token->fd[0] = token_prev->fd[1];
-	//	if (token[1].type == NONE)
-	//		dup2(token->fd[1], STDOUT_FILENO);
-	//}
+		if (token[1].type == NONE)
+			dup2(token->fd[1], STDOUT_FILENO);
+	
 }
 
 
@@ -105,17 +105,12 @@ void ms_commander(t_token *token, t_data *data)
 				//REVISAR TAMBIÉN QUE PASARÁ CUANDO META REDIRECCIONES
 			}
 		}
-		else // Proceso padre
+		else //es el padre
 		{
+//			wait(NULL);
 			dprintf(2, "Check PADRE: %s fd[0]:%d fd[1]:%d\n", token->command, token->fd[0], token->fd[1]);
-		
-			// Esperar al proceso hijo
-			int status;
-			waitpid(token->pid, &status, 0);
-		
-			// Cerrar extremos de las pipes en el padre
-			if (token->fd[0] != 0)
-				close(token->fd[0]);
+//			if (token->fd[0] != 0)
+//				close(token->fd[0]);
 			if (token->fd[1] != 1)
 				close(token->fd[1]);
 		}

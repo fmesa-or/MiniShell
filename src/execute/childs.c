@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 11:17:17 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/20 14:28:44 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/20 18:38:36 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,15 @@ void	ms_check_permision(char *command)
 void	ms_exe_childs(t_token *token, t_data *data)
 {
 	dprintf(2, "exe_childs command = %s\n", token->command);//checker
-	dup2(token->fd[1], STDOUT_FILENO);
-	close(token->fd[0]);
+	dup2(token->fd[1], 1);
+	dup2(token->fd[0], 0);
+	if (token->fd[0] != 0)
+		close(token->fd[0]);
+	if (token->fd[1] != 1)
+		close(token->fd[1]);
+	
 	if (token[1].type == NONE)
-	{
-		dup2(data->bk_out, STDOUT_FILENO);
-	}
+		dup2(token->fd[1], STDOUT_FILENO);
 	dprintf(2, "EXECUTE CHILDS: %s REDIR: fd[0]:%d fd[1]:%d\n"RES, token->command, token->fd[0], token->fd[1]);
 	if (execve(token->command, token->argv, ms_return_env(data)) == -1)
 		ms_cmd_nf(token->argv[0]);
