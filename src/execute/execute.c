@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/20 18:44:58 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/20 19:41:30 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	ms_fds(t_token *token, t_token *token_prev, t_data *data)
 			perror("pipe");
 			exit(EXIT_FAILURE);
 		}
-		token->fd[1] = token[1].fd[1];
 	}
 	if (token_prev->type != NONE)
 	{
@@ -69,9 +68,9 @@ void	ms_fds(t_token *token, t_token *token_prev, t_data *data)
 			return ;
 		}
 	}
-		if (token[1].type == NONE)
-			dup2(token->fd[1], STDOUT_FILENO);
-	
+	//if (token[1].type == NONE)
+	//	dup2(token->fd[1], STDOUT_FILENO);
+
 }
 
 
@@ -327,9 +326,6 @@ void	ms_main_exe(t_token *token, t_data *data)
 		write(2, "Check while!!\n", 15);
 	}
 	ms_post_exe(data, last_token, first_token);
-
-
-
 
 
 	/*    V0.1

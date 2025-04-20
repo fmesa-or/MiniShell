@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:54:52 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/20 14:02:34 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/20 19:10:39 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void ms_post_exe(t_data *data, t_token *token_prev, t_token *first_token)
     {
         if (current->pid > 0)
         {
-            printf("Esperando proceso PID: %d\n", current->pid);
+            dprintf(2, "Esperando proceso PID: %d\n", current->pid);
 			dprintf(2, "fd[0]: %d fd[1]: %d\n", current->fd[0], current->fd[1]);
 			dprintf(2, "post_exe command: %s\n", current->command);
             if (waitpid(current->pid, &status, 0) == -1)
@@ -75,7 +75,7 @@ void ms_post_exe(t_data *data, t_token *token_prev, t_token *first_token)
             }
             else
             {
-                printf("Proceso PID: %d terminado con estado: %d command: %s\n", current->pid, status, current->command);
+                dprintf(2, "Proceso PID: %d terminado con estado: %d command: %s\n", current->pid, status, current->command);
 
                 // Actualizar el estado de salida del último proceso
                 if (WIFEXITED(status))
