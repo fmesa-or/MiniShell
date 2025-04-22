@@ -1,7 +1,0 @@
-command = /usr/bin/cat
-Hola
-Holita
-Caracolita
-caracola
-
-cocacola

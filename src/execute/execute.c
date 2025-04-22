@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/09 13:55:53 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/20 21:00:41 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,21 @@
 
 void	ms_fds(t_token *token, t_token *token_prev, t_data *data)
 {
-//	printf("next token type = %d\n", token[1].type);
-//	printf("actual token type = %d\n", token->type);
 	if (token[1].type != NONE)
 	{
-		pipe(token->fd);
+		if (pipe(token->fd) == -1)
+		{
+			perror("pipe");
+			exit(EXIT_FAILURE);
+		}
+		dprintf(2, PR"PIPE\n"RES);
 	}
-//	printf("token->redir: %p\n", token->redir);
+	if (token_prev->type != NONE)
+	{
+		dup2(token_prev->fd[0], 0);
+		close(token_prev->fd[0]);
+		close(token_prev->fd[1]);
+	}
 	if (token->redir)
 	{
 		token->l_status = ms_init_redir(token, data);
@@ -54,36 +62,31 @@ void	ms_fds(t_token *token, t_token *token_prev, t_data *data)
 			token_prev = token;
 			close(token_prev->fd[0]);
 			close(token_prev->fd[1]);
+			close(token->fd[0]);// lo mismo si, lo mismo no
 			return ;
 		}
 	}
-	else
-	{
-	//if (token_prev)
-	token->fd[0] = token_prev->fd[1];
-	//if (token[1].type != NONE)
-	token[1].fd[0] = token->fd[1];
-	}
+	dprintf(2, RD"CHECK FDS: [0]: %d y [1]: %d\n"RES, token->fd[0], token->fd[1]);
 }
 
-void	ms_commander(t_token *token, t_data *data)
+
+void ms_commander(t_token *token, t_data *data)
 {
 	if (token->type != CMD && token->type != BUIL)
-		return ;
-//	printf(RD"Token.Type = %d\n"RES, token->type);
-	if (token->type == BUIL && token[1].command == NULL)//hay que arreglarlo para que sea con todo el token
+		return;
+
+	if (token->type == BUIL && token[1].type == NONE)
 	{
 		token->l_status = ms_builts(token, data);
-		printf(GR"BUIL CHECK\n"RES);
+		printf("BUIL CHECK\n");
 	}
 	else
 	{
 		token->pid = fork();
-		if (token->pid == 0)
+		if (token->pid == 0) //if es el hijo
 		{
 			if (token->type == BUIL)
 			{
-//				printf(FF"CHECK BUIL"RES);
 				ms_builts(token, data);
 				exit(0);
 			}
@@ -91,22 +94,16 @@ void	ms_commander(t_token *token, t_data *data)
 			{
 				printf("CHECK CHILDS: %s REDIR: fd[0]:%d fd[1]:%d\n"RES, token->command, token->fd[0], token->fd[1]);
 				ms_exe_childs(token, data);
-				//ESTAN FALLANDO LOS FILES DESCRIPTORS!!!
-				//CUANDO ENTRAN MAS DE 3 PIPES LOS FD SE EMPIEZAN A RALLAR
-				//REVISAR TAMBIÉN QUE PASARÁ CUANDO META REDIRECCIONES
 			}
 		}
-		else
+		else //es el padre
 		{
-//			printf(PR"CHECK CLOSE\n"RES);
-			if (token->fd[0] != 0)
-				close(token->fd[0]);
-			if (token->fd[1] != 1)
+			dprintf(2, "Check PADRE: %s fd[0]:%d fd[1]:%d\n", token->command, token->fd[0], token->fd[1]);
+			if (token->fd[1] != STDOUT_FILENO)
 				close(token->fd[1]);
 		}
 	}
 }
-
 
 /*
 *token_prev es el último token
@@ -117,6 +114,10 @@ void	ms_main_exe(t_token *token, t_data *data)
 	t_token	*last_token;
 	t_token	*first_token;
 
+	last_token = malloc(sizeof(t_token));
+	if (!last_token)
+		throw_error("ERROR: malloc didn't work as expected.", NULL, data);
+	last_token->type = NONE;
 	first_token = token;
 	while(token->type != NONE)
 	{
@@ -124,30 +125,7 @@ void	ms_main_exe(t_token *token, t_data *data)
 		ms_commander(token, data);
 		last_token = token;
 		token++;
+		write(2, "Check while!!\n", 15);
 	}
 	ms_post_exe(data, last_token, first_token);
-
-
-
-
-
-	/*    V0.1
-	t_token	*token_prev;
-	t_token *token_post;
-//	static int j = 0;
-
-	token_post = token;
-	while(token->type != NONE)
-	{
-//		printf("entrada bucle\n");
-		ms_fds(token, &token_prev, data);
-//		printf("señal procesada en ms_fds\n");
-		ms_commander(token, data);
-//		printf("señal procesada en ms_commander\n");
-		token_prev = token;
-		token++;
-//		printf("fin bucle: %d\n", ++j);
-	}
-	ms_post_exe(data, token_prev, token_post);
-	*/
 }
