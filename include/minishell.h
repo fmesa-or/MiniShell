@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/04/18 21:19:17 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:19:32 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,7 +246,7 @@ int		ft_strchr(const char *str, char c);
 int		ft_isspace(char c);
 
 /*------CHILDS------*/
-void	ms_exe_childs(t_token *token, t_data *data);
+void	ms_exe_childs(t_token *token, t_data *data, int fd[2], int fd_in);
 void	ms_check_permision(char *command);
 
 /*------------EXE_REDIR------------------*/
@@ -258,7 +258,7 @@ int	e_red_mssg(char *file, int flag);
 
 /*-----------EXECUTE---------*/
 void	ms_main_exe(t_token *token, t_data *data);
-void	ms_commander(t_token *token, t_data *data);
+void ms_commander(t_token *token, t_data *data, int fd[2], int fd_in);
 void	ms_fds(t_token *token, t_token *token_prev, t_data *data);
 void	child_process(t_token *token);
 
