@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/26 11:11:40 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/18 15:08:51 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	mini_loop(t_data *data, t_list *list)
 //		write(1, "3\n", 2);
 		tk_list = parse_main(data->user_input, list, data);
 //		write(1, "4\n", 2);
-		ms_main_exe(tk_list, data); //cd Desktop | ls -l | wc -l > file.txt
+		ms_main_exe(tk_list, data); //ls -l | grep docs | wc -l
 		//printf("Input: %s\n", line); //aquí debería ir la función que parsea la línea
 	/* 	if (ft_strcmp(tk_list->command, "exit"))
 			ft_exit(NULL); */

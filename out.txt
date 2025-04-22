@@ -1,0 +1,14 @@
+Cosas a arreglar
+docs
+include
+infile.txt
+leaks
+Makefile
+minishell
+obj
+output
+output2.txt
+output.txt
+out.txt
+q vamo a hacer.txt
+src
