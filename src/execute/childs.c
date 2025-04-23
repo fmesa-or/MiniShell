@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 11:17:17 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/20 18:38:36 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:18:56 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,51 +49,23 @@ void	ms_check_permision(char *command)
 }
 
 
-void	ms_exe_childs(t_token *token, t_data *data)
+void	ms_exe_childs(t_token *token, t_data *data, int fd[2], int fd_in)
 {
+
+	if (fd_in != STDIN_FILENO)
+		dup2(fd_in, STDIN_FILENO);
+	if (token[1].type == CMD)
+		dup2(fd[1], STDOUT_FILENO);
 	dprintf(2, "exe_childs command = %s\n", token->command);//checker
-	dup2(token->fd[1], 1);
-	dup2(token->fd[0], 0);
-	if (token->fd[0] != 0)
-		close(token->fd[0]);
-	if (token->fd[1] != 1)
-		close(token->fd[1]);
-	
-	if (token[1].type == NONE)
-		dup2(token->fd[1], STDOUT_FILENO);
+//	if (token->fd[0] != 0)
+//		close(token->fd[0]);
+//	if (token->fd[1] != 1)
+//		close(token->fd[1]);
+	close(fd[0]);
+	close(fd[1]);
+	dprintf(2, CI"STDIN: %d || STDOUT: %d\n", STDIN_FILENO, STDOUT_FILENO);
 	dprintf(2, "EXECUTE CHILDS: %s REDIR: fd[0]:%d fd[1]:%d\n"RES, token->command, token->fd[0], token->fd[1]);
 	if (execve(token->command, token->argv, ms_return_env(data)) == -1)
 		ms_cmd_nf(token->argv[0]);
 	exit(127);
-
-
-
-	/*    V0.1
-	dup2(token->fd[1], 1);
-	dup2(token->fd[0], 0);
-	if (token->fd[0] != 0)
-		close(token->fd[0]);
-	if (token->fd[1] != 1)
-		close(token->fd[1]);
-	if (!token->argv[0])
-		exit(0);
-	else if (ms_is_path(token->argv[0]) && !access(token->argv[0], F_OK))
-		token->command = ft_strdup(token->argv[0]);
-//	else
-//	{
-//		token->command = ms_find_path(token->argv[0], data);
-//		if (!token->command)
-//		{
-//			ms_cmd_nf(data, token->argv[0]);
-//			exit(127);
-//		}
-//	}
-	ms_check_permision(token->command);
-
-	dprintf(2, "command = %s\n", token->command);
-	
-	if (execve(token->command, token->argv, ms_return_env(data)) == -1)
-		ms_cmd_nf(token->argv[0]);
-	exit(127);
-	*/
 }
