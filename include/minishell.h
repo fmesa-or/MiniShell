@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/04/23 12:13:29 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:28:24 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,11 @@ typedef struct s_data
 	int				l_status;
 	int				bk_in;
 	int				bk_out;
+	int				fd[2];
+	int				file_in;
+	int				file_out;
+	int				typein;
+	int				typeout;
 }	t_data;
 
 /**********************************************************

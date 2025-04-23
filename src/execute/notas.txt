@@ -22,6 +22,6 @@ comandos:
 	-backtrace
 
 REVISAR:
--No funcionan las Redirecciones
+-No funcionan las Redirecciones > y >>
 -Hay que crear una excepción para WC, ya que si usamos una redir [<out.txt wc] no funciona, tendría que funcionar igual <filein wc // wc filein.
 Es probable que se solucione configurando bien el fd fel filein.

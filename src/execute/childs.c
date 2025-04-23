@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 11:17:17 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/23 11:53:47 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:40:26 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ void	ms_check_permision(char *command)
 
 void	ms_exe_childs(t_token *token, t_data *data, int fd[2], int fd_in)
 {
-	if (fd_in != STDIN_FILENO)
+	//Tengo que revisar que sherpa funcione solo dentro de cada token
+	if (data->typein == IN)
+		dup2(data->file_in, STDIN_FILENO);
+	else if (fd_in != STDIN_FILENO)
 		dup2(fd_in, STDIN_FILENO);
 	if (token[1].type == CMD)
 		dup2(fd[1], STDOUT_FILENO);

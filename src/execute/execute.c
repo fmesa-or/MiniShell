@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/23 15:36:21 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:34:19 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,18 @@
 
 void	ms_fds(t_token *token, t_token *token_prev, t_data *data, int *fd)
 {
+	if (token->redir)
+	{
+		token->l_status = ms_init_redir(token, data, fd);
+//		if (token->l_status == 1)//revisar, creo que o no es necesario, o no aplica así
+//		{
+//			token_prev = token;
+//			close(fd[0]);
+//			close(fd[1]);
+//			close(token->fd[0]);// lo mismo si, lo mismo no
+//			return ;
+//		}
+	}
 	if (token[1].type != NONE)
 	{
 		if (pipe(fd) == -1)
@@ -54,18 +66,6 @@ void	ms_fds(t_token *token, t_token *token_prev, t_data *data, int *fd)
 //		close(fd[0]);
 //		close(fd[1]);
 //	}
-	if (token->redir)
-	{
-		token->l_status = ms_init_redir(token, data, fd);
-//		if (token->l_status == 1)//revisar, creo que o no es necesario, o no aplica así
-//		{
-//			token_prev = token;
-//			close(fd[0]);
-//			close(fd[1]);
-//			close(token->fd[0]);// lo mismo si, lo mismo no
-//			return ;
-//		}
-	}
 //	dprintf(2, RD"CHECK FDS: [0]: %d y [1]: %d\n"RES, fd[0], fd[1]);
 	if (token_prev->type == NONE)
 		token_prev->type = NONE;
@@ -127,6 +127,8 @@ void	ms_main_exe(t_token *token, t_data *data)
 		throw_error("ERROR: malloc didn't work as expected.", NULL, data);
 	last_token->type = NONE;
 	first_token = token;
+	data->typein = NONE;
+	data->typeout = NONE;
 	while(token->type != NONE)
 	{
 		ms_fds(token, last_token, data, fd);

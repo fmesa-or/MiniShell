@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:22:05 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/23 17:48:00 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:33:21 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,13 @@ int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data, i
 	ret = 0;
 	if (!redir)
 		return (0);
+	data->typein = sherpa->typein;
+	data->typeout = sherpa->typeout;
 	ret = err_redir(sherpa, fd);
 	if (ret == 0)
 	{
-		fd[1] = ms_tin_opener(sherpa->fileout, sherpa->typeout, token, data, fd);
-		fd[0] = ms_tin_opener(sherpa->filein, sherpa->typein, token, data, fd);
+		data->file_out = ms_tin_opener(sherpa->fileout, data->typeout, token, data, fd);
+		data->file_in = ms_tin_opener(sherpa->filein, data->typein, token, data, fd);
 //		dup2(fd[0], STDIN_FILENO);
 	}
 	//creo que este if no es necesaria
