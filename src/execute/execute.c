@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/20 21:00:41 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:19:46 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,10 @@ void	ms_fds(t_token *token, t_token *token_prev, t_data *data)
 }
 
 
-void ms_commander(t_token *token, t_data *data)
+void ms_commander(t_token *token, t_data *data, int fd[2], int fd_in)
 {
+	int	status;
+
 	if (token->type != CMD && token->type != BUIL)
 		return;
 
@@ -93,14 +95,15 @@ void ms_commander(t_token *token, t_data *data)
 			else
 			{
 				printf("CHECK CHILDS: %s REDIR: fd[0]:%d fd[1]:%d\n"RES, token->command, token->fd[0], token->fd[1]);
-				ms_exe_childs(token, data);
+				ms_exe_childs(token, data, fd, fd_in);
 			}
 		}
 		else //es el padre
 		{
+			waitpid(token->pid, &status, 0);
 			dprintf(2, "Check PADRE: %s fd[0]:%d fd[1]:%d\n", token->command, token->fd[0], token->fd[1]);
-			if (token->fd[1] != STDOUT_FILENO)
-				close(token->fd[1]);
+			if (fd[1] != STDOUT_FILENO)
+				close(fd[1]);
 		}
 	}
 }
@@ -113,18 +116,25 @@ void	ms_main_exe(t_token *token, t_data *data)
 {
 	t_token	*last_token;
 	t_token	*first_token;
+	int fd[2];
+	int	fd_in;
 
 	last_token = malloc(sizeof(t_token));
+	fd_in = STDIN_FILENO;
 	if (!last_token)
 		throw_error("ERROR: malloc didn't work as expected.", NULL, data);
 	last_token->type = NONE;
 	first_token = token;
 	while(token->type != NONE)
 	{
-		ms_fds(token, last_token, data);
-		ms_commander(token, data);
+		//ms_fds(token, last_token, data);
+		if (pipe(fd) == -1) {
+			exit(0);
+		}
+		ms_commander(token, data, fd, fd_in);
 		last_token = token;
 		token++;
+		fd_in = fd[0];
 		write(2, "Check while!!\n", 15);
 	}
 	ms_post_exe(data, last_token, first_token);
