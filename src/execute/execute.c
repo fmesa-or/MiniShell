@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/23 12:32:07 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:36:21 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,8 @@ void	ms_main_exe(t_token *token, t_data *data)
 {
 	t_token	*last_token;
 	t_token	*first_token;
-	int fd[2];
-	int	fd_in;
+	int fd[2];//Los fd que vamos a usar para la pipe
+	int	fd_in;//Almacenamos el SDTIN en un entero.
 
 	last_token = malloc(sizeof(t_token));
 	fd_in = STDIN_FILENO;

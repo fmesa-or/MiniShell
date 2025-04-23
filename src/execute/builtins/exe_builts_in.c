@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:06 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/03/26 14:15:10 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:38:50 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ int	ms_builts(t_token *token, t_data *data)
 {
 	int	ret;
 
-		printf("ms_builts access\n");
-	dup2(token->fd[1], 1);
-	dup2(token->fd[0], 0);
+//	dup2(token->fd[1], 1);
+//	dup2(token->fd[0], 0);
 	ret = 0;
 	if (ft_strncmp(token->argv[0], "cd", ft_strlen(token->argv[0])) == 0)
 		ret = bi_change_dir(token, data);

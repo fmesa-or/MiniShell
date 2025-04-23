@@ -2,5 +2,5 @@ readline:
 -Tenemos: minishell>
 -Debe mostrar user: "pwd"  -> fmesa-or@c3r9s4:~/Desktop/GITHUB/MiniShell$
 
--Una vez echos todos los comandos y builts, asegurarme que el last status se actualiza correctamente.
+-Asegurarme que el last status se actualiza correctamente.
 -Revisar que está fallando en el ENVIROMENT, ya que hay fallos al final y no se almacena como debe
