@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:22:05 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/09 13:44:47 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/23 12:15:05 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	e_red_mssg(char *file, int flag)
 	return (-1);
 }
 
-int	err_redir(t_token *token, t_sherpa *sherpa)
+int	err_redir(t_sherpa *sherpa, int *fd)
 {
 	if (!access(sherpa->filein, F_OK) && access(sherpa->filein, R_OK)
 			&& sherpa->typein == IN)
@@ -40,9 +40,9 @@ int	err_redir(t_token *token, t_sherpa *sherpa)
 	if (!access(sherpa->fileout, F_OK) && access(sherpa->fileout, W_OK)
 			&& (sherpa->typeout != NONE))
 		return (e_red_mssg(sherpa->fileout, 0));
-	if (token->fd[0] < 0 && (sherpa->typein == IN))
+	if (fd[0] < 0 && (sherpa->typein == IN))
 		return (e_red_mssg(sherpa->filein, 1));
-	if (token->fd[1] < 0 && (sherpa->typeout != NONE))
+	if (fd[1] < 0 && (sherpa->typeout != NONE))
 		return (e_red_mssg(sherpa->fileout, 1));
 	return (0);
 }
@@ -100,18 +100,18 @@ t_sherpa	*ms_sherpa(t_token *token, t_redir *redir, t_sherpa *sherpa)
 	return (sherpa);
 }
 
-int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data)
+int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data, int *fd)
 {
 	int	ret;
 
 	ret = 0;
 	if (!redir)
 		return (0);
-	ret = err_redir(token, sherpa);
+	ret = err_redir(sherpa, fd);
 	if (ret == 0)
 	{
-		token->fd[1] = ms_tin_opener(sherpa->fileout, sherpa->typeout, token, data);
-		token->fd[0] = ms_tin_opener(sherpa->filein, sherpa->typein, token, data);
+		fd[1] = ms_tin_opener(sherpa->fileout, sherpa->typeout, token, data, fd);
+		fd[0] = ms_tin_opener(sherpa->filein, sherpa->typein, token, data, fd);
 	}
 	//creo que este if no es necesaria
 /*	if (redir->next && !ret)
@@ -126,22 +126,22 @@ int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data)
 	return (ret);
 }
 
-int	ms_init_redir(t_token *token, t_data *data)
+int	ms_init_redir(t_token *token, t_data *data, int *fd)
 {
 	t_redir		*redir;
 	t_sherpa	*sherpa;
 
 	sherpa = NULL;
 	sherpa = ms_sherpa_init(sherpa);
-	printf("Init REDIR\n");
+	dprintf(2, "Init REDIR\n");
 	if (!(token->redir))
 		return (0);
 	if (token->type == BUIL || token->type == CMD)
 	{
-		printf("Avemus BUIL or CMD\n");
+		dprintf(2, "Avemus BUIL or CMD\n");
 		redir = token->redir;
-		printf("redir = %s\n", redir->file);
-		return (ms_c_redir(token, redir, ms_sherpa(token, redir, sherpa), data));
+		dprintf(2, "redir = %s\n", redir->file);
+		return (ms_c_redir(token, redir, ms_sherpa(token, redir, sherpa), data, fd));
 	}
 	return (0);
 }
