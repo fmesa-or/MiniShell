@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/04/22 14:19:32 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:28:24 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,11 @@ typedef struct s_data
 	int				l_status;
 	int				bk_in;
 	int				bk_out;
+	int				fd[2];
+	int				file_in;
+	int				file_out;
+	int				typein;
+	int				typeout;
 }	t_data;
 
 /**********************************************************
@@ -250,16 +255,16 @@ void	ms_exe_childs(t_token *token, t_data *data, int fd[2], int fd_in);
 void	ms_check_permision(char *command);
 
 /*------------EXE_REDIR------------------*/
-int			ms_init_redir(t_token *token, t_data *data);
+int			ms_init_redir(t_token *token, t_data *data, int *fd);
 t_sherpa	*ms_sherpa(t_token *token, t_redir *redir, t_sherpa *sherpa);
-int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data);
-int	err_redir(t_token *token, t_sherpa *sherpa);
+int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data, int *fd);
+int	err_redir(t_sherpa *sherpa, int *fd);
 int	e_red_mssg(char *file, int flag);
 
 /*-----------EXECUTE---------*/
 void	ms_main_exe(t_token *token, t_data *data);
 void ms_commander(t_token *token, t_data *data, int fd[2], int fd_in);
-void	ms_fds(t_token *token, t_token *token_prev, t_data *data);
+void	ms_fds(t_token *token, t_token *token_prev, t_data *data, int *fd);
 void	child_process(t_token *token);
 
 /*------FAKEHDOC--------*/
@@ -273,7 +278,7 @@ void	ft_freearray(char **array);
 void	mini_loop();
 
 /*----MS_HDOC---*/
-void	ms_here_doc(t_token *token, t_data *data);
+void	ms_here_doc(t_token *token, t_data *data, int *fd);
 void	ms_hdoc_writer(int *fd, char *line, char *limiter);
 
 /*------------PIPE-------------------*/
@@ -289,7 +294,7 @@ char	**awk_split(const char *argv, int i);
 void	ms_post_exe(t_data *data, t_token *token_prev, t_token *first_token);
 
 /*-------------TIN_OPENER---------------*/
-int	ms_tin_opener(char *argv, int flag, t_token *token, t_data *data);
+int	ms_tin_opener(char *argv, int flag, t_token *token, t_data *data, int *fd);
 
 /*-----------UTILS_EXE-----------*/
 int	ms_gnl(char **line);

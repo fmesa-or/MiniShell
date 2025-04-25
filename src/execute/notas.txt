@@ -22,8 +22,6 @@ comandos:
 	-backtrace
 
 REVISAR:
--ENV creemos que no funcioan bien porque no imprime las listas nuevas (además de las últimas) correctamtne
-	sospechamos que puede ser o de la lectura(write) o del almacenamiento(lstutils).
--EXPORT tampoco
--Nos salen caracteres rotos al intentar exportar!!
--Paco podría probar a seguir con la función EXPORT y sustituir una variable de entorno ya predefinida a ver como se comporta la ejecución
+-No funcionan las Redirecciones > y >>
+-Hay que crear una excepción para WC, ya que si usamos una redir [<out.txt wc] no funciona, tendría que funcionar igual <filein wc // wc filein.
+Es probable que se solucione configurando bien el fd fel filein.

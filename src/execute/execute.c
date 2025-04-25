@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/22 14:19:46 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:34:19 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,36 +37,38 @@
 	}
 }*/
 
-void	ms_fds(t_token *token, t_token *token_prev, t_data *data)
+void	ms_fds(t_token *token, t_token *token_prev, t_data *data, int *fd)
 {
+	if (token->redir)
+	{
+		token->l_status = ms_init_redir(token, data, fd);
+//		if (token->l_status == 1)//revisar, creo que o no es necesario, o no aplica así
+//		{
+//			token_prev = token;
+//			close(fd[0]);
+//			close(fd[1]);
+//			close(token->fd[0]);// lo mismo si, lo mismo no
+//			return ;
+//		}
+	}
 	if (token[1].type != NONE)
 	{
-		if (pipe(token->fd) == -1)
+		if (pipe(fd) == -1)
 		{
 			perror("pipe");
 			exit(EXIT_FAILURE);
 		}
-		dprintf(2, PR"PIPE\n"RES);
+//		dprintf(2, PR"PIPE\n"RES);
 	}
-	if (token_prev->type != NONE)
-	{
-		dup2(token_prev->fd[0], 0);
-		close(token_prev->fd[0]);
-		close(token_prev->fd[1]);
-	}
-	if (token->redir)
-	{
-		token->l_status = ms_init_redir(token, data);
-		if (token->l_status == 1)//revisar, creo que o no es necesario, o no aplica así
-		{
-			token_prev = token;
-			close(token_prev->fd[0]);
-			close(token_prev->fd[1]);
-			close(token->fd[0]);// lo mismo si, lo mismo no
-			return ;
-		}
-	}
-	dprintf(2, RD"CHECK FDS: [0]: %d y [1]: %d\n"RES, token->fd[0], token->fd[1]);
+//	if (token_prev->type != NONE)
+//	{
+//		dup2(fd[0], 0);
+//		close(fd[0]);
+//		close(fd[1]);
+//	}
+//	dprintf(2, RD"CHECK FDS: [0]: %d y [1]: %d\n"RES, fd[0], fd[1]);
+	if (token_prev->type == NONE)
+		token_prev->type = NONE;
 }
 
 
@@ -116,8 +118,8 @@ void	ms_main_exe(t_token *token, t_data *data)
 {
 	t_token	*last_token;
 	t_token	*first_token;
-	int fd[2];
-	int	fd_in;
+	int fd[2];//Los fd que vamos a usar para la pipe
+	int	fd_in;//Almacenamos el SDTIN en un entero.
 
 	last_token = malloc(sizeof(t_token));
 	fd_in = STDIN_FILENO;
@@ -125,17 +127,19 @@ void	ms_main_exe(t_token *token, t_data *data)
 		throw_error("ERROR: malloc didn't work as expected.", NULL, data);
 	last_token->type = NONE;
 	first_token = token;
+	data->typein = NONE;
+	data->typeout = NONE;
 	while(token->type != NONE)
 	{
-		//ms_fds(token, last_token, data);
-		if (pipe(fd) == -1) {
-			exit(0);
-		}
+		ms_fds(token, last_token, data, fd);
+//		if (pipe(fd) == -1) {
+//			return ;
+//		}
 		ms_commander(token, data, fd, fd_in);
 		last_token = token;
 		token++;
 		fd_in = fd[0];
-		write(2, "Check while!!\n", 15);
+//		write(2, "Check while!!\n", 15);
 	}
 	ms_post_exe(data, last_token, first_token);
 }
