@@ -6,14 +6,16 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 18:46:12 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/01/28 19:29:58 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/30 12:44:35 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-
+/******************************************************
+*Compares two strings. If they are the same returns 0.*
+******************************************************/
 int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t	i;
