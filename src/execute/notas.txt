@@ -26,4 +26,4 @@ REVISAR:
 -No funcionan las Redirecciones > y >>
 -Hay que crear una excepción para WC, ya que si usamos una redir [<out.txt wc] no funciona, tendría que funcionar igual <filein wc // wc filein.
 Es probable que se solucione configurando bien el fd fel filein.
--Funciona IN, PERO, al poner un input como "<input wc input2"
+-Cuando "< input cat out.txt | wc" el input que llega es de la redirección y no de la salida de la PIPE!!
