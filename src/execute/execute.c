@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/30 15:45:50 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:05:07 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,10 @@ void ms_commander(t_token *token, t_data *data, int fd[2], int fd_in)
 			dprintf(2, "Check PADRE: %s fd[0]:%d fd[1]:%d\n", token->command, token->fd[0], token->fd[1]);
 			if (fd[1] != STDOUT_FILENO)
 				close(fd[1]);
+			data->file_in = NONE;
+			data->file_out = NONE;
+			data->typein = NONE;
+			data->typeout = NONE;
 		}
 	}
 }
