@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/04/23 19:28:24 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/30 13:21:10 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ typedef struct s_data
 	int				bk_in;
 	int				bk_out;
 	int				fd[2];
-	int				file_in;
-	int				file_out;
-	int				typein;
-	int				typeout;
+	int				file_in;//elarchivo IN
+	int				file_out;//archivo de salida
+	int				typein;//tipo de entrada
+	int				typeout;//tipo de salida
 }	t_data;
 
 /**********************************************************
@@ -134,7 +134,7 @@ typedef struct s_redir
 ***************************************************************************/
 typedef struct s_token
 {
-	int				fd[2];
+	int				fd[2];//eliminar
 	int				type;
 	int				argc;
 	char			*command;
@@ -255,8 +255,8 @@ void	ms_exe_childs(t_token *token, t_data *data, int fd[2], int fd_in);
 void	ms_check_permision(char *command);
 
 /*------------EXE_REDIR------------------*/
-int			ms_init_redir(t_token *token, t_data *data, int *fd);
-t_sherpa	*ms_sherpa(t_token *token, t_redir *redir, t_sherpa *sherpa);
+int	ms_init_redir(t_token *token, t_data *data, int *fd, t_token *token_prev);
+t_sherpa	*ms_sherpa(t_token *token, t_redir *redir, t_sherpa *sherpa, t_token *token_prev);
 int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data, int *fd);
 int	err_redir(t_sherpa *sherpa, int *fd);
 int	e_red_mssg(char *file, int flag);

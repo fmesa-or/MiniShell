@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:54:52 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/22 13:53:57 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:01:22 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,23 @@
 //extern int	g_sig;  ??????
 static void ms_pilatos(t_token *tokens)
 {
-    int i = 0;
+	int i = 0;
 
-    // Encontrar el último token
-    while (tokens[i].type != NONE)
-        i++;
-    i--;
+	// Encontrar el último token
+	while (tokens[i].type != NONE)
+		i++;
+	i--;
 
-    // Matar todos los procesos hijos excepto el último
-    while (i >= 0)
-    {
-        if (tokens[i].pid > 0)
-        {
-            printf("Matando proceso hijo PID: %d\n", tokens[i].pid);
-            kill(tokens[i].pid, SIGKILL);
-        }
-        i--;
-    }
+	// Matar todos los procesos hijos excepto el último
+	while (i >= 0)
+	{
+		if (tokens[i].pid > 0)
+		{
+			printf("Matando proceso hijo PID: %d\n", tokens[i].pid);
+			kill(tokens[i].pid, SIGKILL);
+		}
+		i--;
+	}
 }
 
 

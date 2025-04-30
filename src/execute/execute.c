@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/23 19:34:19 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/30 12:40:37 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ms_fds(t_token *token, t_token *token_prev, t_data *data, int *fd)
 {
 	if (token->redir)
 	{
-		token->l_status = ms_init_redir(token, data, fd);
+		token->l_status = ms_init_redir(token, data, fd, token_prev);
 //		if (token->l_status == 1)//revisar, creo que o no es necesario, o no aplica así
 //		{
 //			token_prev = token;
@@ -67,8 +67,8 @@ void	ms_fds(t_token *token, t_token *token_prev, t_data *data, int *fd)
 //		close(fd[1]);
 //	}
 //	dprintf(2, RD"CHECK FDS: [0]: %d y [1]: %d\n"RES, fd[0], fd[1]);
-	if (token_prev->type == NONE)
-		token_prev->type = NONE;
+	if (token_prev->type == NONE)//borrar
+		token_prev->type = NONE;//borrar
 }
 
 
