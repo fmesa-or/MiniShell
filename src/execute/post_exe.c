@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:54:52 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/30 15:40:19 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:01:18 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void ms_pilatos(t_token *tokens)
 	{
 		if (tokens[i].pid > 0)
 		{
-			printf("Matando proceso hijo PID: %d\n", tokens[i].pid);
+			dprintf(2, "Matando proceso hijo PID: %d\n", tokens[i].pid);
 			kill(tokens[i].pid, SIGKILL);
 		}
 		i--;

@@ -6,36 +6,11 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/30 15:40:12 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:01:13 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/***********************************************
-*1st:	Set the pipe.                          *
-*2nd:	Sets the child process and executes it.*
-***********************************************/
-/*void	child_process(t_token *token)
-{
-	if (pipe(token->fd) == -1)
-				throw_error("ERROR: fork didn't work as expected.", token, data);
-
-	token->pid = fork();
-	if (token->pid == -1)
-		throw_error("ERROR: fork didn't work as expected.", token, data);
-	else if (token->pid == 0)
-	{
-		close(token->fd[0]);
-		dup2(token->fd[1], STDOUT_FILENO);
-		ft_execute(token->type, token->env);
-	}
-	else
-	{
-		close(token->fd[1]);
-		dup2(token->fd[0], STDIN_FILENO);
-	}
-}*/
 
 void	ms_fds(t_token *token, t_token *token_prev, t_data *data, int *fd)
 {

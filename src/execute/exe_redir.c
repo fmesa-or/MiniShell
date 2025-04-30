@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:22:05 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/30 15:40:03 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:01:06 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static char	**ms_red_argv(char **argv, char *new)
 		return (NULL);//cambiar por un error
 	while (argv[i])
 		i++;
-	newarray = (char **)malloc(sizeof(char **) * i + 2);
+	newarray = (char **)malloc(sizeof(char *) * i + 2);
 	if (!newarray)
 		return (NULL);//cambiar por un error
 	i = 0;
@@ -84,10 +84,14 @@ static char	**ms_red_argv(char **argv, char *new)
 		newarray[i] = argv[i];
 		i++;
 	}
-	newarray[i] = new;
+	newarray[i] = ft_strdup(new);
+	if (!newarray[i]) // Verifica si strdup falló
+	{
+		free(newarray); // Libera la memoria asignada
+		return (NULL); // Cambiar por un error
+	}
 	newarray[i + 1] = NULL;
-	dprintf(2, RD"AQUI\n"RES);
-	free_2ptr(argv);//al mutear esto, funciona la primera vez que se lanza
+//	free_2ptr(argv);//revisar leaks de memoria
 	return(newarray);
 }
 
@@ -98,8 +102,7 @@ static void	ms_redin_except(t_token *token, t_sherpa *sherpa)
 {
 	if ((ft_strcmp(token->argv[0], "wc") == 0) || (ft_strcmp(token->argv[0], "cat") == 0))
 	{
-		//funcion que coge el argv, y lo duplica añadiendo en la segunda posicion 
-		//(argv[1]) el IN
+		//añade al final
 		token->argv = ms_red_argv(token->argv, sherpa->filein);
 	}
 //	else if (ft_strcmp(token->argv[0], "grep") == 0)
@@ -139,7 +142,7 @@ t_sherpa	*ms_sherpa(t_token *token, t_redir *redir, t_sherpa *sherpa, t_token *t
 
 	if (redir->next)
 		sherpa = ms_sherpa(token, redir->next, sherpa, token_prev);
-	else if (sherpa->typein == IN)
+	else if (sherpa->typein == IN && !(token->argv[1]))
 		ms_redin_except(token, sherpa);
 	return (sherpa);
 }
