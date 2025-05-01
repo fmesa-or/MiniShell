@@ -23,6 +23,10 @@ comandos:
 	-set follow-fork-mode child
 
 REVISAR:
--No funcionan las Redirecciones > y >>
--Hay que crear una excepción para WC, ya que si usamos una redir [<out.txt wc] no funciona, tendría que funcionar igual <filein wc // wc filein.
-Es probable que se solucione configurando bien el fd fel filein.
+-Last Status
+-Prompt correcto
+-Leaks y fugas de memoria
+-Bombardear
+-Limpiar archivos y funciones
+-Traducir notas
+-Norminette
