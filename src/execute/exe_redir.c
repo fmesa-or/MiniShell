@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:22:05 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/30 16:01:06 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/01 12:29:54 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static char	**ms_red_argv(char **argv, char *new)
 *******************************************************************/
 static void	ms_redin_except(t_token *token, t_sherpa *sherpa)
 {
-	if ((ft_strcmp(token->argv[0], "wc") == 0) || (ft_strcmp(token->argv[0], "cat") == 0))
+	if ((ft_strcmp(token->argv[0], "wc") == 0) || (ft_strcmp(token->argv[0], "cat") == 0) || (ft_strcmp(token->argv[0], "grep") == 0))
 	{
 		//añade al final
 		token->argv = ms_red_argv(token->argv, sherpa->filein);
@@ -126,20 +126,14 @@ t_sherpa	*ms_sherpa(t_token *token, t_redir *redir, t_sherpa *sherpa, t_token *t
 			sherpa->filein = NULL;
 			sherpa->hdocflag = true;
 		}
-		dprintf(2, "sherpa->filein = %s\n", sherpa->filein);
+//		dprintf(2, "sherpa->filein = %s\n", sherpa->filein);
 	}
-	if (redir->type == DOUT || redir->type == NDOUT)
+	if (redir->type == DOUT || redir->type == NDOUT)//>/>>
 	{
 		sherpa->typeout = redir->type;
 		sherpa->fileout = redir->file;
 		printf("sherpa->fileout = %s\n", sherpa->fileout);
 	}
-//	printf("redir->next = %p\n", redir->next);
-//	printf("redir->next->file = %s\n", redir->next->file);//rompe
-//	printf("redir->next->index = %d\n", redir->next->index);//rompe
-//	printf("redir->next->next = %p\n", redir->next->next);//rompe
-//	printf("redir->next->type = %d\n", redir->next->type);
-
 	if (redir->next)
 		sherpa = ms_sherpa(token, redir->next, sherpa, token_prev);
 	else if (sherpa->typein == IN && !(token->argv[1]))
@@ -194,7 +188,7 @@ int	ms_init_redir(t_token *token, t_data *data, int *fd, t_token *token_prev)
 		sherpa = ms_sherpa_init(sherpa);
 //		dprintf(2, "Avemus BUIL or CMD\n");
 		redir = token->redir;
-		dprintf(2, "redir = %s\n", redir->file);
+//		dprintf(2, "redir = %s\n", redir->file);
 		return (ms_c_redir(token, redir, ms_sherpa(token, redir, sherpa, token_prev), data, fd));
 	}
 	return (0);

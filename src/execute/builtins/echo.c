@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 09:56:47 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/03/05 14:14:25 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/01 12:21:30 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,9 @@ int	bi_echo(t_token *token)
 
 	i = 0;
 //	printf ("CHECK bi_echo\n");
+//Necesitamos que si hay una pipe, salte a execve
+//	if (token[1].type != NONE)
+//		ms_exe_childs(token, data, fd, fd_in);
 	if (token->argv[1] && (ft_strncmp(token->argv[1], "-n", ft_strlen(token->argv[1])) == 0))
 	{
 		i = 1;
@@ -91,7 +94,6 @@ int	bi_echo(t_token *token)
 				write(token->fd[1], " ", 1);
 		}
 	}
-
 	else
 	{
 		if (!(token->argv[1]))

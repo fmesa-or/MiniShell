@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/30 16:08:05 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/01 12:30:01 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,22 @@ void ms_commander(t_token *token, t_data *data, int fd[2], int fd_in)
 		{
 			if (token->type == BUIL)
 			{
+				if (data->typein == IN)
+					dup2(data->file_in, STDIN_FILENO);
+				else if (fd_in != STDIN_FILENO)
+					dup2(fd_in, STDIN_FILENO);
+				if (data->typeout == DOUT || data->typeout == NDOUT)
+					dup2(data->file_out, STDOUT_FILENO);
+				else if (token[1].type == CMD)
+					dup2(fd[1], STDOUT_FILENO);
+				close(fd[0]);
+				close(fd[1]);
 				ms_builts(token, data);
 				exit(0);
 			}
 			else
 			{
-				printf("CHECK CHILDS: %s REDIR: fd[0]:%d fd[1]:%d\n"RES, token->command, token->fd[0], token->fd[1]);
+//				printf("CHECK CHILDS: %s REDIR: fd[0]:%d fd[1]:%d\n"RES, token->command, token->fd[0], token->fd[1]);
 				ms_exe_childs(token, data, fd, fd_in);
 			}
 		}
