@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/01 13:00:27 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/01 13:12:17 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,7 +263,7 @@ int	e_red_mssg(char *file, int flag);
 
 /*-----------EXECUTE---------*/
 void	ms_main_exe(t_token *token, t_data *data);
-void ms_commander(t_token *token, t_data *data, int fd[2], int fd_in);
+void ms_commander(t_token *token, t_data *data, int fd[2], int fd_in, t_token *token_prev);
 void	ms_fds(t_token *token, t_token *token_prev, t_data *data, int *fd);
 void	child_process(t_token *token);
 
@@ -308,7 +308,7 @@ int		ft_isalpha(int c);
 
 
 /*------BUILTINS------*/
-int		ms_builts(t_token *token, t_data *data);
+int		ms_builts(t_token *token, t_data *data, t_token *token_prev);
 int		bi_print_working_directory(t_data *data);
 int		bi_change_dir(t_token *token, t_data *data);
 int		bi_echo(t_token *token);
