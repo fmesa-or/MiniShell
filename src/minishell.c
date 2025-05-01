@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/04/18 15:08:51 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/01 15:27:50 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,60 @@ t_data	*data_init(t_list *env)
 
 	return (data_list);
 }
-
+/*******************************************************
+*This PROMPT is exclusive for 42MALAGA CAMPUS computers*
+*******************************************************/
+static char *ms_prompt(t_data *data)
+{
+	char	*prompt; //USER
+	char	*char_aux;//SESSION_MANAGER
+	t_list	*aux;
+	int		i;
+	int		start;
+	i = 0;
+	aux = find_key(data->exported_list, "USER");//almacena USER en aux (t_list)
+	prompt = ft_strjoin(ft_strdup(aux->value), "@");//añade al prompt el valor(char *) de USER
+	aux = find_key(data->exported_list, "SESSION_MANAGER");//almacena un nuevo t_list, para buscar el ordenador que estamos usando en 42
+	char_aux = ft_strjoin(ft_strdup(aux->value), "");//añade al char_aux el valor(char *) de SESSION_MANAGER al completo
+	while(ft_isalpha(char_aux[i]) != 0)//buscamos donde empieza el cluster (cxrxsx)
+		i++;
+	start = i + 1;
+	while(char_aux[i + 1] != '.')//buscamos donde termina ya que el r puede valer una o dos cifras
+		i++;
+	char_aux = ft_substr(char_aux, start, (i - start));//recortamos solo lo que nos interesa.
+	prompt = ft_strjoin(prompt, ft_strjoin(char_aux, ":"));//añadimos el ordenador al usuario
+	char_aux = getcwd(NULL, 0); //conseguimos la ruta -> /home/user/...
+	i = 0;
+	while(char_aux[start] && i < 1)
+	{
+		if (char_aux[start] == '/')
+			i++;
+		start++;
+	}
+	start--;
+	i = start;
+	while (char_aux[i])
+		i++;
+	start++;
+	prompt = ft_strjoin(prompt, "~");
+	if ((i - start) > 0)
+	{
+		char_aux = ft_substr(char_aux, start, (i - start));
+		prompt = ft_strjoin(ft_strjoin(prompt, "/"), char_aux);
+	}
+	prompt = ft_strjoin(prompt, "$ ");
+	return(prompt);
+}
 
 void	mini_loop(t_data *data, t_list *list)
 {
 	t_token	*tk_list;
+	char	*prompt;
 
 	while (1)
 	{
-		data->user_input = readline("minishell> "); //el prompt debería ser ~user:current_dir$~
+		prompt = ms_prompt(data);
+		data->user_input = readline(prompt); //el prompt debería ser ~user:current_dir$~
 //		write(1, "2\n", 2);
 		if (!data->user_input)
 			break ;
