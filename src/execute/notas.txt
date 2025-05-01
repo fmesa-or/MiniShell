@@ -24,6 +24,7 @@ comandos:
 
 REVISAR:
 -Limitar los BUILTS IN que pueden entrar o no en las entradas y salidas de una pipe
+	Puede que la mejor opción sea en el PARSEO
 Lo mejor sería crear dos funciones, una para los que llevan PIPE y otra para los que no
 -Last Status
 -Prompt correcto
