@@ -23,6 +23,8 @@ comandos:
 	-set follow-fork-mode child
 
 REVISAR:
+-Limitar los BUILTS IN que pueden entrar o no en las entradas y salidas de una pipe
+Lo mejor sería crear dos funciones, una para los que llevan PIPE y otra para los que no
 -Last Status
 -Prompt correcto
 -Leaks y fugas de memoria

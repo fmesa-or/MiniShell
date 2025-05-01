@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/01 12:22:46 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/01 12:42:00 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void ms_commander(t_token *token, t_data *data, int fd[2], int fd_in)
 
 	if (token->type == BUIL && token[1].type == NONE)
 	{
-		token->l_status = ms_builts(token, data);
+		token->l_status = ms_builts_no_pipe(token, data);
 		printf("BUIL CHECK\n");
 	}
 	else
@@ -76,7 +76,7 @@ void ms_commander(t_token *token, t_data *data, int fd[2], int fd_in)
 					dup2(fd[1], STDOUT_FILENO);
 				close(fd[0]);
 				close(fd[1]);
-				ms_builts(token, data);
+				ms_builts_pipe(token, data);
 				exit(0);
 			}
 			else
