@@ -6,11 +6,13 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/05 11:45:25 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/05 12:14:45 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//int	g_sig;
 
 t_data	*data_init(t_list *env)
 {
@@ -114,18 +116,13 @@ void	mini_loop(t_data *data, t_list *list)
 	{
 		prompt = ms_prompt(data);
 		data->user_input = readline(prompt); //el prompt debería ser ~user:current_dir$~
-//		write(1, "2\n", 2);
 		if (!data->user_input)
 			break ;
 		add_history(data->user_input);
-//		write(1, "3\n", 2);
 		tk_list = parse_main(data->user_input, list, data);
-//		write(1, "4\n", 2);
 		ms_main_exe(tk_list, data); //ls -l | grep docs | wc -l
-		//printf("Input: %s\n", line); //aquí debería ir la función que parsea la línea
 	/* 	if (ft_strcmp(tk_list->command, "exit"))
 			ft_exit(NULL); */
-//		write(1, "EXE DONE\n", 9);
 //		ft_tokenclear(tk_list); /*/aquí peta, REVISAR
 //		free_partial_data(data);
 	//	rl_on_new_line();
@@ -141,6 +138,8 @@ int main(int argc, char **argv, char **env)
 
 	if (!env[0])
 		throw_error("ERROR: Enviroment not found.", NULL, NULL);
+
+
 	list = envtolist(env);
 
 	//Efectivamente en el momento de almacenar en list, es cuando metemos los datos extras.!!
