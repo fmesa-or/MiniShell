@@ -24,7 +24,6 @@ comandos:
 
 REVISAR:
 -Last Status
--Prompt correcto
 -Leaks y fugas de memoria
 -Bombardear
 -Limpiar archivos y funciones
