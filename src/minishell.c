@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/05 13:34:18 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:07:58 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	mini_loop(t_data *data, t_list *list)
 	char	*prompt;
 
 	
-	dprintf(2, GR"g_signal: %d\n"RES, g_signal);
+//	dprintf(2, GR"g_signal: %d\n"RES, g_signal);
 	setup_signal_handlers();
 	while (1)
 	{
