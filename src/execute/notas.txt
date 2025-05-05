@@ -23,6 +23,7 @@ comandos:
 	-set follow-fork-mode child
 
 REVISAR:
+-Signal
 -Last Status
 -Prompt correcto
 -Leaks y fugas de memoria
