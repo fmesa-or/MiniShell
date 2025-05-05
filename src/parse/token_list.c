@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/04/18 12:42:44 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:13:51 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,8 +251,12 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 		i++;
 	}
 	tk_list = malloc(sizeof(t_token) * (i + 1));
+	if (!tk_list)
+	{
+		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
+		exit(errno);
+	}
 	i = 0;
-	
 	while (pipes[i])
 	{
 		tk_init(&tk_list[i]);
