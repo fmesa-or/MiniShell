@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/05 12:13:18 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:05:50 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,10 @@ void	ms_main_exe(t_token *token, t_data *data)
 	last_token = malloc(sizeof(t_token));
 	fd_in = STDIN_FILENO;
 	if (!last_token)
+	{
 		throw_error("ERROR: malloc didn't work as expected.", NULL, data);
+		exit(errno);
+	}
 	last_token->type = NONE;
 	first_token = token;
 	data->typein = NONE;

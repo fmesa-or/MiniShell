@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/05 14:07:58 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:00:35 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ t_data	*data_init(t_list *env)
 
 	data_list = malloc(sizeof(t_data));
 	if (!data_list)
+	{
 		throw_error("ERROR: ", NULL, NULL);	
+		exit(errno);
+	}
 	data_list->l_status = 0;
 	data_list->cmnds = NULL;
 	data_list->exported_list = env;
@@ -41,7 +44,6 @@ t_data	*data_init(t_list *env)
 	if (!node)
 		throw_error("ERROR: HOME has been deleted", NULL, data_list);
 	data_list->home = ft_strdup(node->value);
-
 	return (data_list);
 }
 

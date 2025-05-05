@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 09:56:47 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/01 12:21:30 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:08:21 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ static char	*bi_rm_quotes(char *argv)
 	else
 	{
 		aux = (char *)malloc((sizeof(char *)) * (ft_strlen(argv) - q + 1));
+		if (!aux)
+		{
+			throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
+			exit(errno);
+		}
 		while (argv[i])
 		{
 			if (argv[i + j] == '"')
