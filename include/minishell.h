@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/05 12:12:51 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:15:24 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,6 +333,14 @@ int		bi_export(t_list *list, char **argv);
 void	mini_loop(t_data *data, t_list *list);
 t_data	*data_init(t_list *env);
 char	*ft_strdup(const char *s1);
+
+/*--------SIGNAL-------*/
+void	ctrl_c_handler(int sig);
+void	ctrl_quit_handler(int sig);
+void	ctrl_quit_handler_hd(int sig);
+void	ctrl_c_handler_hd(int sig);
+void setup_signal_handlers(void);
+void setup_signal_handlers_hd(void);
 
 
 

@@ -6,13 +6,13 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/05 12:14:45 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:34:18 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//int	g_sig;
+int	g_signal = 0;
 
 t_data	*data_init(t_list *env)
 {
@@ -74,7 +74,6 @@ static char *ms_prompt(t_data *data)
 		while(char_aux[i] != '.')//buscamos donde termina ya que el r puede valer una o dos cifras
 			i++;
 		char_aux = ft_substr(char_aux, start, (i - start));//recortamos solo lo que nos interesa.
-		prompt = ft_strjoin(prompt, ft_strjoin(char_aux, ":"));//añadimos el ordenador al usuario
 	}
 	else
 		char_aux = "harder!!";
@@ -112,10 +111,21 @@ void	mini_loop(t_data *data, t_list *list)
 	t_token	*tk_list;
 	char	*prompt;
 
+	
+	dprintf(2, GR"g_signal: %d\n"RES, g_signal);
+	setup_signal_handlers();
 	while (1)
 	{
+		
 		prompt = ms_prompt(data);
 		data->user_input = readline(prompt); //el prompt debería ser ~user:current_dir$~
+		if (g_signal == SIGINT)
+		{
+			data->l_status = 130;
+			g_signal = 0;
+		}
+//		else if (data->user_input[0] == '\0')
+//			continue ;
 		if (!data->user_input)
 			break ;
 		add_history(data->user_input);
