@@ -6,11 +6,13 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/01 15:27:50 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:34:18 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_signal = 0;
 
 t_data	*data_init(t_list *env)
 {
@@ -42,6 +44,7 @@ t_data	*data_init(t_list *env)
 
 	return (data_list);
 }
+
 /*******************************************************
 *This PROMPT is exclusive for 42MALAGA CAMPUS computers*
 *******************************************************/
@@ -53,18 +56,34 @@ static char *ms_prompt(t_data *data)
 	int		i;
 	int		start;
 	i = 0;
+	start = 0;
 	aux = find_key(data->exported_list, "USER");//almacena USER en aux (t_list)
-	prompt = ft_strjoin(ft_strdup(aux->value), "@");//añade al prompt el valor(char *) de USER
+
+	if (aux != NULL)
+		prompt = ft_strjoin(ft_strdup(aux->value), "@");//añade al prompt el valor(char *) de USER
+	else
+		prompt = ft_strjoin(ft_strdup("try_harder"), "@");//si USER no existe, es porque te has pasado de listillo
+
 	aux = find_key(data->exported_list, "SESSION_MANAGER");//almacena un nuevo t_list, para buscar el ordenador que estamos usando en 42
-	char_aux = ft_strjoin(ft_strdup(aux->value), "");//añade al char_aux el valor(char *) de SESSION_MANAGER al completo
-	while(ft_isalpha(char_aux[i]) != 0)//buscamos donde empieza el cluster (cxrxsx)
-		i++;
-	start = i + 1;
-	while(char_aux[i + 1] != '.')//buscamos donde termina ya que el r puede valer una o dos cifras
-		i++;
-	char_aux = ft_substr(char_aux, start, (i - start));//recortamos solo lo que nos interesa.
+	if (aux != NULL)
+	{
+		char_aux = ft_strjoin(ft_strdup(aux->value), "");//añade al char_aux el valor(char *) de SESSION_MANAGER al completo
+		while(ft_isalpha(char_aux[i]) != 0)//buscamos donde empieza el cluster (cxrxsx)
+			i++;
+		start = i + 1;
+		while(char_aux[i] != '.')//buscamos donde termina ya que el r puede valer una o dos cifras
+			i++;
+		char_aux = ft_substr(char_aux, start, (i - start));//recortamos solo lo que nos interesa.
+	}
+	else
+		char_aux = "harder!!";
 	prompt = ft_strjoin(prompt, ft_strjoin(char_aux, ":"));//añadimos el ordenador al usuario
-	char_aux = getcwd(NULL, 0); //conseguimos la ruta -> /home/user/...
+	
+	aux = find_key(data->exported_list, "PWD");//almacena un nuevo t_list, buscando donde nos encontramos
+	if (aux)
+		char_aux = ft_strjoin(ft_strdup(aux->value), "");//añade al char_aux el valor(char *) de PWD al completo
+	else
+		char_aux = getcwd(NULL, 0); //conseguimos la ruta -> /home/user/...
 	i = 0;
 	while(char_aux[start] && i < 1)
 	{
@@ -92,22 +111,28 @@ void	mini_loop(t_data *data, t_list *list)
 	t_token	*tk_list;
 	char	*prompt;
 
+	
+	dprintf(2, GR"g_signal: %d\n"RES, g_signal);
+	setup_signal_handlers();
 	while (1)
 	{
+		
 		prompt = ms_prompt(data);
 		data->user_input = readline(prompt); //el prompt debería ser ~user:current_dir$~
-//		write(1, "2\n", 2);
+		if (g_signal == SIGINT)
+		{
+			data->l_status = 130;
+			g_signal = 0;
+		}
+//		else if (data->user_input[0] == '\0')
+//			continue ;
 		if (!data->user_input)
 			break ;
 		add_history(data->user_input);
-//		write(1, "3\n", 2);
 		tk_list = parse_main(data->user_input, list, data);
-//		write(1, "4\n", 2);
 		ms_main_exe(tk_list, data); //ls -l | grep docs | wc -l
-		//printf("Input: %s\n", line); //aquí debería ir la función que parsea la línea
 	/* 	if (ft_strcmp(tk_list->command, "exit"))
 			ft_exit(NULL); */
-//		write(1, "EXE DONE\n", 9);
 //		ft_tokenclear(tk_list); /*/aquí peta, REVISAR
 //		free_partial_data(data);
 	//	rl_on_new_line();
@@ -123,6 +148,8 @@ int main(int argc, char **argv, char **env)
 
 	if (!env[0])
 		throw_error("ERROR: Enviroment not found.", NULL, NULL);
+
+
 	list = envtolist(env);
 
 	//Efectivamente en el momento de almacenar en list, es cuando metemos los datos extras.!!

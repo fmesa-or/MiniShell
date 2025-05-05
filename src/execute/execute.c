@@ -6,11 +6,13 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/01 13:26:17 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/05 12:13:18 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_sig;
 
 void	ms_fds(t_token *token, t_token *token_prev, t_data *data, int *fd)
 {
