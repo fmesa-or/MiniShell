@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 13:09:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/05 13:13:59 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:01:25 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ extern int g_signal;
 void	ctrl_c_handler(int sig)
 {
 	(void)sig;
-	dprintf(2, RD"cntrl+C\n"RES);
+//	dprintf(2, RD"cntrl+C\n"RES);
 	g_signal = SIGINT;
 	printf("\n");
 	rl_on_new_line();
@@ -27,7 +27,7 @@ void	ctrl_c_handler(int sig)
 void	ctrl_quit_handler(int sig)
 {
 	(void)sig;
-	dprintf(2, RD"cntrl+barra\n"RES);
+//	dprintf(2, RD"cntrl+barra\n"RES);
 	rl_redisplay();
 }
 void	ctrl_quit_handler_hd(int sig)

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:52:49 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/23 12:02:26 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:52:16 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	ms_here_doc(t_token *token, t_data *data, int *fd)
 	{
 		close(fd[0]);
 		write(1, "> ", 2);
+		setup_signal_handlers_hd();
 		while (ms_gnl(&line))
 			ms_hdoc_writer(fd, line, token->redir->file);
 	}
