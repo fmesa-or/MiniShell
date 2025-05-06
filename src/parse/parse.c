@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/05 17:10:21 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:58:22 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,9 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)
 	int i = 0;
 	av = NULL;
 	tokens = NULL;
+	write(1, "lleg0\n", 7);
 	aux = expand_var(str, list, data);
+	write(1, "lleg1\n", 7);
 	av = pipe_separator(aux, data);
 	while (av[i])
 	{

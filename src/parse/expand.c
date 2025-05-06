@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/25 12:53:50 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:21:40 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,13 @@ char	*put_lstat(char  *str, int *i, t_data *data)
 	char	*sub;
 
 	n = (*i);
-	sub = ft_substr(str, 0, n);
+	data->l_status = 1234;
 	stat = ft_itoa(data->l_status);
+	sub = ft_substr(str, 0, n);
 	aux = ft_strcjoin(sub, stat, ' ');
-	sub = ft_substr(str, n + 1, sizeof(str));
+	free(sub);
+	free(stat);
+	sub = ft_substr(str, n + 1, ft_strlen(str) - (n + 1)); //mirar bien esta linea de los cojones
 	stat = ft_strcjoin(aux, sub, ' ');
 	free(aux);
 	free(sub);
@@ -80,8 +83,6 @@ char	*expand_var(char *str, t_list *list, t_data *data)
 	char *aux;
 
 	i = 0;
-//	if (ft_strncmp(str, "", ft_strlen(str)) == 0)
-//		return ("");
 	aux = str;
 	while(str[i])
 	{
@@ -94,7 +95,10 @@ char	*expand_var(char *str, t_list *list, t_data *data)
 				i++;
 		}
 		else if (str[i] == '$' && str[i + 1] == '?')
-			put_lstat(str, &i, data);
+		{
+			aux = put_lstat(str, &i, data);
+			str = aux;
+		}	
 		else if (str[i] == '$' && ft_isalnum(str[i+1])) //esto realmente mirar dentro del if, por q si falla el char hay q dar error
 		{
 			aux = ft_expand(str, &i, list);
@@ -103,5 +107,5 @@ char	*expand_var(char *str, t_list *list, t_data *data)
 		}
 		i++;
 	}
-	return(aux);
+	return(str);
 }

@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/05 17:00:35 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:53:56 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,13 +163,13 @@ int main(int argc, char **argv, char **env)
 //	}
 	list = temp;
 
-
 	if (argc == 1 && argv)
 	{
 		data = data_init(list);
-//		write(1, "1\n", 2);//check
-//		free(data); //ESTO HACIA QUE PETASE
+		//		write(1, "1\n", 2);//check
+		//		free(data); //ESTO HACIA QUE PETASE
 		parse_main("", list, data);
+
 //		parse_main("export >     flauta  3| algarroba $USER >   cebolla pwd|>> pollo wc -l tres", list, data);
 		mini_loop(data, list);
 		free_all_data(data);
