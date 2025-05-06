@@ -23,8 +23,10 @@ comandos:
 	-set follow-fork-mode child
 
 REVISAR:
--Last Status
--CD solo no funciona.
+-Last Status, revisar que se actualizan bien, y que se vuelcan en data.Probablemente, haya que eliminar el de token.
+-CD solo no funciona, debería llevarnos a la raiz.
+-Colorear prompt.
+-echo $? no funciona al expandir el last status.
 -Leaks y fugas de memoria
 -Bombardear
 -Limpiar archivos y funciones
