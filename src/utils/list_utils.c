@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/05 17:15:05 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:49:52 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,6 @@ t_list	*envtolist(char **env)
 		//		if (i > 0)
 		//			printf("%s%s\n", aux[0], aux[1]);
 		aux = ft_split(env[i], '=');
-		//	printf("%s%s\n", aux[0], aux[1]);
-		printf("aux0 = %s\n aux1 = %s\n\n", aux[0], aux[1]);
 		if (!aux || !aux[0])
 		{
 			free_2ptr(aux);
