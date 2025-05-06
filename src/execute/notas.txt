@@ -24,8 +24,10 @@ comandos:
 
 REVISAR:
 -Last Status
+-CD solo no funciona.
 -Leaks y fugas de memoria
 -Bombardear
 -Limpiar archivos y funciones
 -Traducir notas
 -Norminette
+

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/05 14:07:58 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:00:59 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ int main(int argc, char **argv, char **env)
 //		printf("ENV: %s=%s\n\n", list->key, list->value);
 //		list = list->next;
 //	}
-	list = temp;
+//	list = temp;
 
 
 	if (argc == 1 && argv)
