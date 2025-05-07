@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:25:17 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/07 12:00:27 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:44:22 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	ms_cmd_nf(char *cmd)
 	write(2, ": command not found", 19);
 	return (127);
 }
-/******************************
-*If char is a number returns 0*
-******************************/
+/***************************
+*If c is a number returns 0*
+***************************/
 int	ft_isalpha(int c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
@@ -32,6 +32,9 @@ int	ft_isalpha(int c)
 	return (0);
 }
 
+/*****************************************************************************
+*Finds a node in a list with the key of the enviroment variable (like "PATH")*
+*****************************************************************************/
 t_list	*find_key(t_list *list, char *n_key)
 {
 	while (list != NULL)

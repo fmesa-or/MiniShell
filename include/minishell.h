@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/07 13:57:50 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:55:04 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_data
 	char			**cmnds;
 	struct s_list	*exported_list;
 	char			*pwd;
+	char			*oldpwd;
 	int				l_status;
 	int				bk_in;
 	int				bk_out;
@@ -341,6 +342,10 @@ void	ctrl_c_handler_hd(int sig);
 void setup_signal_handlers(void);
 void setup_signal_handlers_hd(void);
 
-
+/*------PROMPT----*/
+/*******************************************************
+*This PROMPT is exclusive for 42MALAGA CAMPUS computers*
+*******************************************************/
+char	*ms_prompt(t_data *data);
 
 #endif
