@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:11:13 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/03/26 11:09:31 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:51:02 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	bi_change_dir(t_token *token, t_data *data)
 {
 	char	*target_path;
 	int		cd_stat;
+	t_list	*aux;
 
 	target_path = NULL;
 	cd_stat = 0;
@@ -51,11 +52,15 @@ int	bi_change_dir(t_token *token, t_data *data)
 		else
 			cd_stat = bi_cd2(token, data, target_path, cd_stat);
 	}
+	aux = find_key(data->exported_list, "PWD");
+	aux->value = data->pwd;
 	return (cd_stat);
 }
 
 int	bi_print_working_directory(t_data *data)
 {
+	t_list *aux;
+
 	if (data->pwd != NULL)
 	{
 //		printf("PWD2: %s\n", data->pwd);
@@ -74,5 +79,8 @@ int	bi_print_working_directory(t_data *data)
 		else
 			perror("pwd");
 	}
+	//almacenar pwd en $PWD
+	aux = find_key(data->exported_list, "PWD");
+	aux->value = data->pwd;
 	return (0);
 }

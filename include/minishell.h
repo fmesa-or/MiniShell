@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/07 13:57:50 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:39:03 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,6 +341,10 @@ void	ctrl_c_handler_hd(int sig);
 void setup_signal_handlers(void);
 void setup_signal_handlers_hd(void);
 
-
+/*------PROMPT----*/
+/*******************************************************
+*This PROMPT is exclusive for 42MALAGA CAMPUS computers*
+*******************************************************/
+char	*ms_prompt(t_data *data);
 
 #endif
