@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/07 10:24:49 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/07 11:00:10 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,37 +73,24 @@ char	*put_lstat(char  *str, int *i, t_data *data)
 	free(sub);
 	return (stat);
 }
+
 /*Esta funcion expande las variables despues del $,
 no cuenta entre comillas simples ni despues de \.*/
-
 char	*expand_var(char *str, t_list *list, t_data *data)
 {
 	int i;
-	char *aux;
 
 	i = 0;
-	aux = str;
 	while(str[i])
 	{
 		if (str[i] == '\\')
 			i += 2;
 		else if (str[i] == '\'')
-		{	
-			i++;
-			while (str[i] != '\'' && str[i])
-				i++;
-		}
+			i = end_quote(str, i + 1, '\'');
 		else if (str[i] == '$' && str[i + 1] == '?')
-		{
-			aux = put_lstat(str, &i, data);
-			str = aux;
-		}	
-		else if (str[i] == '$' && ft_isalnum(str[i+1])) //esto realmente mirar dentro del if, por q si falla el char hay q dar error
-		{
-			aux = ft_expand(str, &i, list);
-			//free(str);
-			str = aux;
-		}
+			str = put_lstat(str, &i, data);
+		else if (str[i] == '$' && ft_isalnum(str[i+1]))
+			str = ft_expand(str, &i, list);
 		i++;
 	}
 	return(str);
