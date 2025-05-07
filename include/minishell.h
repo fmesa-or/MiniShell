@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/05 13:15:24 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:57:50 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,7 +252,7 @@ int		ft_isspace(char c);
 
 /*------CHILDS------*/
 void	ms_exe_childs(t_token *token, t_data *data, int fd[2], int fd_in);
-void	ms_check_permision(char *command);
+void	ms_check_permision(char *command, t_token *token);
 
 /*------------EXE_REDIR------------------*/
 int	ms_init_redir(t_token *token, t_data *data, int *fd, t_token *token_prev);
@@ -269,7 +269,6 @@ void	child_process(t_token *token);
 
 /*------FAKEHDOC--------*/
 void	ft_fake_hdoc(t_token *token);
-void	fake_writer(char *line, char *limiter);
 
 /*----FREE_ARRAY---*/
 void	ft_freearray(char **array);

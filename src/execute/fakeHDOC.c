@@ -6,25 +6,31 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 19:53:19 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/01/29 19:30:43 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:13:03 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	fake_writer(char *line, char *limiter)
-{
-	if (!(ft_strncmp(line, limiter, ft_strlen(limiter)) == 0))
-		write(1, "> ", 2);
-	else
-		return ;
-}
-
 void	ft_fake_hdoc(t_token *token)
 {
 	char	*line;
+	pid_t	reader;
 
-	write(1, "> ", 2);
-	while (ms_gnl(&line))
-		fake_writer(line, token->redir->file);
+	reader = fork();
+	if (reader == 0)
+	{	setup_signal_handlers_hd();
+		while (1)
+		{
+			line = readline("> ");
+			if (ft_strcmp(line, token->redir->file) == 0)
+			{
+				free(line);
+				break ;
+			}
+			free(line);
+		}
+	}
+	else
+		waitpid(reader, NULL, 0);
 }
