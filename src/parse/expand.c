@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/06 14:21:40 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/07 10:24:49 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,12 @@ char	*put_lstat(char  *str, int *i, t_data *data)
 	char	*sub;
 
 	n = (*i);
-	data->l_status = 1234;
 	stat = ft_itoa(data->l_status);
 	sub = ft_substr(str, 0, n);
 	aux = ft_strcjoin(sub, stat, ' ');
 	free(sub);
 	free(stat);
-	sub = ft_substr(str, n + 1, ft_strlen(str) - (n + 1)); //mirar bien esta linea de los cojones
+	sub = ft_substr(str, n + 2, ft_strlen(str));
 	stat = ft_strcjoin(aux, sub, ' ');
 	free(aux);
 	free(sub);
