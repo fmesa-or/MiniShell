@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/05 17:05:50 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/07 10:19:17 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,7 @@ void ms_commander(t_token *token, t_data *data, int fd[2], int fd_in, t_token *t
 	if (token->type != CMD && token->type != BUIL)
 		return;
 	if (token->type == BUIL && (token[1].type == NONE && token_prev->type == NONE))
-	{
 		token->l_status = ms_builts(token, data, token_prev);
-		printf("BUIL CHECK\n");
-	}
 	else
 	{
 		token->pid = fork();
