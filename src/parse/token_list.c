@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/04/18 12:42:44 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:24:05 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data)
 		if (is_builtin(tk_list, tk_list->argv[i]) == 1)
 		{
 			write(1, "\nEEEEEEE built EEEEE\n", 22);
-			if ((ft_strcmp(tk_list->argv[i], "cd") == 0) && (ft_strcmp(tk_list->argv[i + 1], "..") == 0))
+			if (((ft_strcmp(tk_list->argv[i], "cd") == 0) && (tk_list->argv[i + 1])) && (ft_strcmp(tk_list->argv[i + 1], "..") == 0))
 				i++;
 			flag ++;
 		}	
@@ -251,6 +251,8 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 		i++;
 	}
 	tk_list = malloc(sizeof(t_token) * (i + 1));
+	if (!tk_list)
+		exit(-1);//llamar a error
 	i = 0;
 	
 	while (pipes[i])
@@ -271,7 +273,7 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 				printredir(tk_list[i].redir, pipes[i]);
 				printredir(ft_redirlast(tk_list[i].redir), pipes[i]); */
 			}
-			else if (pipes[i][j] && (pipes[i][j] != '<' && pipes[i][j] != '>' && !ft_isspace(pipes[i][j])))
+			else if ((pipes[i][j] && (pipes[i][j] != '<') && (pipes[i][j] != '>' && !ft_isspace(pipes[i][j]))))
 			{
 				j = get_av(&tk_list[i].av_list, pipes[i], j);//funcion q saca un arg, teniendo en cuenta q este primer char puede ser ' o ";
 				//printf("tamaño = %i, av tras ft = %s\n", ft_lstsize(tk_list[i].av_list), tk_list[i].av_list->key);

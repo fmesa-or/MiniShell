@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/07 14:38:21 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:10:19 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_data	*data_init(t_list *env)
 //	data_list->pwd = ft_strdup(node->value);
 //	data_list->pwd = (char*)malloc(sizeof(getcwd));
 	data_list->pwd = getcwd(NULL, 0);
+	data_list->oldpwd = getcwd(NULL, 0);
 	if (data_list->pwd == NULL)
 		throw_error("ERROR: failed to set pwd", NULL, data_list);
 //	printf("PWD: %s\n", data_list->pwd);
