@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/07 10:18:10 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:39:45 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,9 @@ void	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data)
 		i++;
 	}
 	if (flag == 0)
-		throw_error("ERROR: no cmd in pipe\n", tk_list, data);
+		throw_error("ERROR: no cmd in pipe\n", tk_list, NULL);
 	else if (flag > 1)
-		throw_error("ERROR: too much cmd in pipe\n", tk_list, data);
+		throw_error("ERROR: too much cmd in pipe\n", tk_list, NULL);
 	tk_list->argc = i;
 }
 
@@ -249,8 +249,6 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 	while (pipes[i])
 	{
 		tk_init(&tk_list[i]);
-		//tk->ac = funcion q haya el argc y me genera array de argv
-		//ac_ind = 0;  ya q se reinicia en cada tk
 		j = 0;
 		while(pipes[i][j]) //en este buble inspeccionamos la linea de cada pipe char x char
 		{
@@ -262,17 +260,14 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 				pipes[i] = rd_strdel(ft_redirlast(tk_list[i].redir), pipes[i]); //añadir lo de las comillas
 			}
 			else if (pipes[i][j] && (pipes[i][j] != '<' && pipes[i][j] != '>' && !ft_isspace(pipes[i][j])))
-			{
 				j = get_av(&tk_list[i].av_list, pipes[i], j);//funcion q saca un arg, teniendo en cuenta q este primer char puede ser ' o ";
-			}
-			//j++;
 		}
 		tk_list[i].argv = listtoargv(tk_list[i].av_list);
 		tk_argvtipe(&tk_list[i], env, data);
 		i++;
 	}
 	tk_list[i].type = NONE;
-	print_tokenlist(tk_list);
+	//print_tokenlist(tk_list);
 	return (tk_list);
 }
 
