@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
 /*   Updated: 2025/05/07 12:15:02 by fmesa-or         ###   ########.fr       */
@@ -69,7 +69,6 @@ void ms_commander(t_token *token, t_data *data, int fd[2], int fd_in, t_token *t
 	if (token->type != CMD && token->type != BUIL)
 		return;
 	if (token->type == BUIL && (token[1].type == NONE && token_prev->type == NONE))
-	{
 		token->l_status = ms_builts(token, data, token_prev);
 //		printf("BUIL CHECK\n");
 	}
@@ -126,7 +125,10 @@ void	ms_main_exe(t_token *token, t_data *data)
 	last_token = malloc(sizeof(t_token));
 	fd_in = STDIN_FILENO;
 	if (!last_token)
+	{
 		throw_error("ERROR: malloc didn't work as expected.", NULL, data);
+		exit(errno);
+	}
 	last_token->type = NONE;
 	first_token = token;
 	data->typein = NONE;

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exe_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:22:05 by fmesa-or          #+#    #+#             */
 /*   Updated: 2025/05/07 14:13:16 by fmesa-or         ###   ########.fr       */
@@ -56,7 +56,10 @@ static t_sherpa *ms_sherpa_init(t_sherpa *sherpa)
 {
 	sherpa = malloc(sizeof(t_sherpa));
 	if (!sherpa)
-		return (NULL);
+	{
+		throw_error("ERROR: malloc failed in sherpa", NULL, NULL);//esto en verdad deberiamos de poder pasarle el data y eso para liberar
+		exit(errno);
+	}
 	sherpa->typein = NONE;
 	sherpa->typeout = NONE;
 	sherpa->filein = NULL;
@@ -80,7 +83,10 @@ static char	**ms_red_argv(char **argv, char *new)
 		i++;
 	newarray = (char **)malloc(sizeof(char *) * i + 2);
 	if (!newarray)
-		return (NULL);//cambiar por un error
+	{
+		throw_error("ERROR: malloc failed in ms_red_argv", NULL, NULL); //esto habria q pasarle tambien el data
+		exit (errno);
+	}
 	i = 0;
 	while (argv[i])
 	{
