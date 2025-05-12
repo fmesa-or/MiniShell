@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/07 10:19:17 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:48:09 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,6 @@ extern int	g_sig;
 
 void	ms_fds(t_token *token, t_token *token_prev, t_data *data, int *fd)
 {
-	if (token->redir)
-	{
-		token->l_status = ms_init_redir(token, data, fd, token_prev);
-//		if (token->l_status == 1)//revisar, creo que o no es necesario, o no aplica así
-//		{
-//			token_prev = token;
-//			close(fd[0]);
-//			close(fd[1]);
-//			close(token->fd[0]);// lo mismo si, lo mismo no
-//			return ;
-//		}
-	}
 	if (token[1].type != NONE)
 	{
 		if (pipe(fd) == -1)
@@ -36,6 +24,19 @@ void	ms_fds(t_token *token, t_token *token_prev, t_data *data, int *fd)
 			exit(EXIT_FAILURE);
 		}
 //		dprintf(2, PR"PIPE\n"RES);
+	}
+	if (token->redir)
+	{
+		token->l_status = ms_init_redir(token, data, fd, token_prev);
+//		if (token->l_status == 1)
+//		{
+//			token++;
+//			token_prev = token;
+//			close(fd[0]);
+//			close(fd[1]);
+//			close(token->fd[0]);//diria que esto ya no se aplica
+//			return ;
+//		}
 	}
 //	if (token_prev->type != NONE)
 //	{
@@ -91,14 +92,13 @@ void ms_commander(t_token *token, t_data *data, int fd[2], int fd_in, t_token *t
 			}
 			else
 			{
-//				printf("CHECK CHILDS: %s REDIR: fd[0]:%d fd[1]:%d\n"RES, token->command, token->fd[0], token->fd[1]);
 				ms_exe_childs(token, data, fd, fd_in);
 			}
 		}
 		else //es el padre
 		{
 			waitpid(token->pid, &status, 0);
-			dprintf(2, "Check PADRE: %s fd[0]:%d fd[1]:%d\n", token->command, token->fd[0], token->fd[1]);
+//			dprintf(2, "Check PADRE: %s fd[0]:%d fd[1]:%d\n", token->command, token->fd[0], token->fd[1]);
 			if (fd[1] != STDOUT_FILENO)
 				close(fd[1]);
 			data->file_in = NONE;
@@ -108,6 +108,7 @@ void ms_commander(t_token *token, t_data *data, int fd[2], int fd_in, t_token *t
 		}
 	}
 }
+
 
 /*
 *token_prev es el último token
@@ -133,13 +134,15 @@ void	ms_main_exe(t_token *token, t_data *data)
 	data->typeout = NONE;
 	while(token->type != NONE)
 	{
+		token->l_status = 0;//dudas, me parece más un parche que como debiera funcionar.
 		ms_fds(token, last_token, data, fd);
 		if (token->type == CMD && (token[1].type == BUIL && ms_check_built_npipe(token[1]) == 0))
 		{
 			write(1, "\n", 1);
 			break ;
 		}
-		ms_commander(token, data, fd, fd_in, last_token);
+		if (token->l_status == 0 || token[1].type != NONE)
+			ms_commander(token, data, fd, fd_in, last_token);
 		last_token = token;
 		token++;
 		fd_in = fd[0];

@@ -95,7 +95,8 @@ void	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data, t_token *tk2free)
 	{
 		if (is_builtin(tk_list, tk_list->argv[i]) == 1)
 		{
-			if ((ft_strcmp(tk_list->argv[i], "cd") == 0) && (ft_strcmp(tk_list->argv[i + 1], "..") == 0))
+			write(1, "\nEEEEEEE built EEEEE\n", 22);
+			if (((ft_strcmp(tk_list->argv[i], "cd") == 0) && (tk_list->argv[i + 1])) && (ft_strcmp(tk_list->argv[i + 1], "..") == 0))
 				i++;
 			flag ++;
 		}

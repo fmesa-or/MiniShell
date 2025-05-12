@@ -76,6 +76,7 @@ typedef struct s_data
 	char			**cmnds;
 	struct s_list	*exported_list;
 	char			*pwd;
+	char			*oldpwd;
 	int				l_status;
 	int				bk_in;
 	int				bk_out;
@@ -250,7 +251,7 @@ int		ft_isspace(char c);
 
 /*------CHILDS------*/
 void	ms_exe_childs(t_token *token, t_data *data, int fd[2], int fd_in);
-void	ms_check_permision(char *command);
+void	ms_check_permision(char *command, t_token *token);
 
 /*------------EXE_REDIR------------------*/
 int	ms_init_redir(t_token *token, t_data *data, int *fd, t_token *token_prev);
@@ -267,7 +268,6 @@ void	child_process(t_token *token);
 
 /*------FAKEHDOC--------*/
 void	ft_fake_hdoc(t_token *token);
-void	fake_writer(char *line, char *limiter);
 
 /*----FREE_ARRAY---*/
 void	ft_freearray(char **array);
@@ -340,6 +340,10 @@ void	ctrl_c_handler_hd(int sig);
 void setup_signal_handlers(void);
 void setup_signal_handlers_hd(void);
 
-
+/*------PROMPT----*/
+/*******************************************************
+*This PROMPT is exclusive for 42MALAGA CAMPUS computers*
+*******************************************************/
+char	*ms_prompt(t_data *data);
 
 #endif
