@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/06 13:53:56 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:14:00 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_data	*data_init(t_list *env)
 //	data_list->pwd = ft_strdup(node->value);
 //	data_list->pwd = (char*)malloc(sizeof(getcwd));
 	data_list->pwd = getcwd(NULL, 0);
+	data_list->oldpwd = getcwd(NULL, 0);
 	if (data_list->pwd == NULL)
 		throw_error("ERROR: failed to set pwd", NULL, data_list);
 //	printf("PWD: %s\n", data_list->pwd);
@@ -47,74 +48,14 @@ t_data	*data_init(t_list *env)
 	return (data_list);
 }
 
-/*******************************************************
-*This PROMPT is exclusive for 42MALAGA CAMPUS computers*
-*******************************************************/
-static char *ms_prompt(t_data *data)
-{
-	char	*prompt; //USER
-	char	*char_aux;//SESSION_MANAGER
-	t_list	*aux;
-	int		i;
-	int		start;
-	i = 0;
-	start = 0;
-	aux = find_key(data->exported_list, "USER");//almacena USER en aux (t_list)
 
-	if (aux != NULL)
-		prompt = ft_strjoin(ft_strdup(aux->value), "@");//añade al prompt el valor(char *) de USER
-	else
-		prompt = ft_strjoin(ft_strdup("try_harder"), "@");//si USER no existe, es porque te has pasado de listillo
-
-	aux = find_key(data->exported_list, "SESSION_MANAGER");//almacena un nuevo t_list, para buscar el ordenador que estamos usando en 42
-	if (aux != NULL)
-	{
-		char_aux = ft_strjoin(ft_strdup(aux->value), "");//añade al char_aux el valor(char *) de SESSION_MANAGER al completo
-		while(ft_isalpha(char_aux[i]) != 0)//buscamos donde empieza el cluster (cxrxsx)
-			i++;
-		start = i + 1;
-		while(char_aux[i] != '.')//buscamos donde termina ya que el r puede valer una o dos cifras
-			i++;
-		char_aux = ft_substr(char_aux, start, (i - start));//recortamos solo lo que nos interesa.
-	}
-	else
-		char_aux = "harder!!";
-	prompt = ft_strjoin(prompt, ft_strjoin(char_aux, ":"));//añadimos el ordenador al usuario
-	
-	aux = find_key(data->exported_list, "PWD");//almacena un nuevo t_list, buscando donde nos encontramos
-	if (aux)
-		char_aux = ft_strjoin(ft_strdup(aux->value), "");//añade al char_aux el valor(char *) de PWD al completo
-	else
-		char_aux = getcwd(NULL, 0); //conseguimos la ruta -> /home/user/...
-	i = 0;
-	while(char_aux[start] && i < 1)
-	{
-		if (char_aux[start] == '/')
-			i++;
-		start++;
-	}
-	start--;
-	i = start;
-	while (char_aux[i])
-		i++;
-	start++;
-	prompt = ft_strjoin(prompt, "~");
-	if ((i - start) > 0)
-	{
-		char_aux = ft_substr(char_aux, start, (i - start));
-		prompt = ft_strjoin(ft_strjoin(prompt, "/"), char_aux);
-	}
-	prompt = ft_strjoin(prompt, "$ ");
-	return(prompt);
-}
 
 void	mini_loop(t_data *data, t_list *list)
 {
 	t_token	*tk_list;
 	char	*prompt;
 
-	
-//	dprintf(2, GR"g_signal: %d\n"RES, g_signal);
+
 	setup_signal_handlers();
 	while (1)
 	{
@@ -161,7 +102,7 @@ int main(int argc, char **argv, char **env)
 //		printf("ENV: %s=%s\n\n", list->key, list->value);
 //		list = list->next;
 //	}
-	list = temp;
+//	list = temp;
 
 	if (argc == 1 && argv)
 	{

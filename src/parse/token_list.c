@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/08 15:39:45 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/12 12:59:59 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ void	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data)
 	{
 		if (is_builtin(tk_list, tk_list->argv[i]) == 1)
 		{
-			if ((ft_strcmp(tk_list->argv[i], "cd") == 0) && (ft_strcmp(tk_list->argv[i + 1], "..") == 0))
+			write(1, "\nEEEEEEE built EEEEE\n", 22);
+			if (((ft_strcmp(tk_list->argv[i], "cd") == 0) && (tk_list->argv[i + 1])) && (ft_strcmp(tk_list->argv[i + 1], "..") == 0))
 				i++;
 			flag ++;
 		}	
@@ -259,9 +260,11 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 				get_redir(&tk_list[i], pipes[i], j, data);
 				pipes[i] = rd_strdel(ft_redirlast(tk_list[i].redir), pipes[i]); //añadir lo de las comillas
 			}
-			else if (pipes[i][j] && (pipes[i][j] != '<' && pipes[i][j] != '>' && !ft_isspace(pipes[i][j])))
+			else if ((pipes[i][j] && (pipes[i][j] != '<') && (pipes[i][j] != '>' && !ft_isspace(pipes[i][j]))))
+			{
 				j = get_av(&tk_list[i].av_list, pipes[i], j);//funcion q saca un arg, teniendo en cuenta q este primer char puede ser ' o ";
-		}
+      }
+    }
 		tk_list[i].argv = listtoargv(tk_list[i].av_list);
 		tk_argvtipe(&tk_list[i], env, data);
 		i++;

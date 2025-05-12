@@ -6,12 +6,15 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:22:05 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/05 17:04:43 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:13:16 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/****************************************************
+*Creates an error message and returns an error code.*
+****************************************************/
 int	e_red_mssg(char *file, int flag)
 {
 	if (flag == 0)
@@ -138,7 +141,7 @@ t_sherpa	*ms_sherpa(t_token *token, t_redir *redir, t_sherpa *sherpa, t_token *t
 	{
 		sherpa->typeout = redir->type;
 		sherpa->fileout = redir->file;
-		printf("sherpa->fileout = %s\n", sherpa->fileout);
+//		dprintf(2, "sherpa->fileout = %s\n", sherpa->fileout);
 	}
 	if (redir->next)
 		sherpa = ms_sherpa(token, redir->next, sherpa, token_prev);
@@ -161,20 +164,9 @@ int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data, i
 	ret = err_redir(sherpa, fd);
 	if (ret == 0)
 	{
-//		if (data->typeout)
-			data->file_out = ms_tin_opener(sherpa->fileout, data->typeout, token, data, fd);
-//		if (!(sherpa->filein && (ft_strcmp(token->argv[0], "wc") == 0 && token->argv[2])))
-			data->file_in = ms_tin_opener(sherpa->filein, data->typein, token, data, fd);
-//		dup2(fd[0], STDIN_FILENO);
+		data->file_out = ms_tin_opener(sherpa->fileout, data->typeout, token, data, fd);
+		data->file_in = ms_tin_opener(sherpa->filein, data->typein, token, data, fd);
 	}
-	//creo que este if no es necesaria
-/*	if (redir->next && !ret)
-	{
-		if (ms_c_redir(token, redir->next, sherpa, data))
-			ret = 1;
-	}
-*/
-//tengo dudas de si esto va aquí o antes
 	if (sherpa->hdocflag == true && sherpa->typein != HDOC)
 		ft_fake_hdoc(token);
 	return (ret);
