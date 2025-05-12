@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/12 13:05:44 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:43:56 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,8 @@ void	free_2ptr(char **array);
 void	ft_redirclear(t_redir **red);
 void	ft_tokenclear(t_token *tk);
 void	ft_envclear(t_list **lst);
+void	ms_free_3(void *p1, void *p2, void *p3);
+
 
 /*------------redir------------*/
 int	redir_fill(t_token *tk, char *str, int rd_type, int i, t_data *data);
@@ -343,9 +345,9 @@ void setup_signal_handlers(void);
 void setup_signal_handlers_hd(void);
 
 /*------PROMPT----*/
-/*******************************************************
-*This PROMPT is exclusive for 42MALAGA CAMPUS computers*
-*******************************************************/
 char	*ms_prompt(t_data *data);
+char	*p_pwd_sub1(t_list *aux);
+char	*p_pwd_sub2(char *old_prompt, char *char_aux, int i, int start);
+
 
 #endif

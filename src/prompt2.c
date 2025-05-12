@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:27:25 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/12 16:33:48 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:44:00 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /********************************************************
 *Adds the path from enviroment. If missing, uses getcwd.*
 ********************************************************/
-static char	*p_pwd_sub1(t_list *aux)
+char	*p_pwd_sub1(t_list *aux)
 {
 	char	*char_aux;
 	char	*char_aux2;
@@ -31,7 +31,7 @@ static char	*p_pwd_sub1(t_list *aux)
 	return (char_aux);
 }
 
-static char	*p_pwd_sub2(char *old_prompt, char *char_aux, int i, int start)
+char	*p_pwd_sub2(char *old_prompt, char *char_aux, int i, int start)
 {
 	char	*char_aux2;
 	char	*new_prompt;
