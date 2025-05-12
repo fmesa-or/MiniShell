@@ -32,6 +32,7 @@ REVISAR:
 -Al saltar un throw error hay veces que libera toda la data y fastidia el enviroment general.(12/5)
 -echo $? no funciona al expandir el last status.Arreglar ECHO(12/5)(DONE)
 -Revisar parejas de comillas en PARSEO.()
+-Si uso CD solo, se buguea el prompt.()
 -Leaks y fugas de memoria.Echo tiene fugas gordas.(13/5)
 -Bombardear(13/5)
 -Limpiar archivos y funciones(14/5)
