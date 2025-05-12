@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/06 13:58:22 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:38:23 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,24 +117,25 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)
 	char 	*aux;
 	t_token *tokens;
 
-	int i = 0;
 	av = NULL;
 	tokens = NULL;
 	write(1, "lleg0\n", 7);
-	aux = expand_var(str, list, data);
+	aux = expand_var(str, list, data, NULL);
 	write(1, "lleg1\n", 7);
 	av = pipe_separator(aux, data);
-	while (av[i])
+/* 	while (av[i])
 	{
 		write(1, "\n---PIPE---\n", 13);
 		write(1, av[i], ft_strlen(av[i]));
 		write(1, "\n", 1);
 		write(1, "\n---EPIP---\n", 13);
 		i++;
-	}
+	} */
 //	write(1, "llega\n", 6);
 	tokens = tk_list_make(av, list, data);
 	free_2ptr(av);
+	if (!tokens)
+		return (NULL);
 	//Estás intentado hacer free a un string al cual no se le ha reservado memoria.
 	//if (aux)
 	//	free(aux);

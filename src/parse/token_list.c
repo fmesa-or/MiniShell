@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/08 15:39:45 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:54:43 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ int	is_builtin(t_token *tk, char *av)
 	return (0);
 }
 
-void	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data)
+void	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data, t_token *tk2free)
 {
 	int	i;
 	int	flag;
-	
+
 	i = 0;
 	flag = 0;
 	while (tk_list->argv[i])
@@ -98,16 +98,16 @@ void	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data)
 			if ((ft_strcmp(tk_list->argv[i], "cd") == 0) && (ft_strcmp(tk_list->argv[i + 1], "..") == 0))
 				i++;
 			flag ++;
-		}	
+		}
 		else if (is_cmd(tk_list->argv[i], tk_list, env, data) == 1)
 			flag++;
 		i++;
 	}
-	if (flag == 0)
-		throw_error("ERROR: no cmd in pipe\n", tk_list, NULL);
-	else if (flag > 1)
-		throw_error("ERROR: too much cmd in pipe\n", tk_list, NULL);
 	tk_list->argc = i;
+	if (flag == 0)
+		throw_error("ERROR: no cmd in pipe\n", tk2free, NULL);
+	else if (flag > 1)
+		throw_error("ERROR: too much cmd in pipe\n", tk2free, NULL);
 }
 
 /*--------------------------------------------------------------------------------------------------------------------------------------
@@ -172,16 +172,21 @@ int	get_redir(t_token *tk, char *str, int j, t_data *data)
 	return(rd_end);
 }
 
-int get_av(t_list **lst, char *str, int j)
+int get_av(t_list **lst, char *str, int j, t_token *tk)
 {
 	int start;
 	char *av;
 
 	start = j;
 	av = NULL;
+	printf("AAAAAAAAAAASTR %c\n",str[j]);
+
 	if (str[j] == '\'' || str[j] == '\"')
 	{
-		j = end_quote(str, j + 1, str[j]);
+		printf("STR %s\n",str);
+		j = end_quote(str, j + 1, str[j], tk);
+		if (j == -1)
+			return (-1);
 		av = ft_substr(str, start, j + 1 - start);
 		if (ft_strlen(av) == 2) // si hay comillas vacias pasa de ese argv
 			return (j + 1);
@@ -197,6 +202,7 @@ int get_av(t_list **lst, char *str, int j)
 		return (j);
 	}
 }
+
 void print2char(char **str)
 {
 	int i = 0;
@@ -250,22 +256,25 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 	{
 		tk_init(&tk_list[i]);
 		j = 0;
-		while(pipes[i][j]) //en este buble inspeccionamos la linea de cada pipe char x char
+		while (pipes[i][j]) //en este buble inspeccionamos la linea de cada pipe char x char
 		{
 			while (ft_isspace(pipes[i][j]))
-				j++;				
+				j ++;				
 			if (pipes[i][j] == '<' || pipes[i][j] == '>')
 			{
 				get_redir(&tk_list[i], pipes[i], j, data);
 				pipes[i] = rd_strdel(ft_redirlast(tk_list[i].redir), pipes[i]); //añadir lo de las comillas
 			}
 			else if (pipes[i][j] && (pipes[i][j] != '<' && pipes[i][j] != '>' && !ft_isspace(pipes[i][j])))
-				j = get_av(&tk_list[i].av_list, pipes[i], j);//funcion q saca un arg, teniendo en cuenta q este primer char puede ser ' o ";
+				j = get_av(&tk_list[i].av_list, pipes[i], j, tk_list);//funcion q saca un arg, teniendo en cuenta q este primer char puede ser ' o ";
+			if (j == -1)
+				return(NULL);
 		}
 		tk_list[i].argv = listtoargv(tk_list[i].av_list);
-		tk_argvtipe(&tk_list[i], env, data);
+		tk_argvtipe(&tk_list[i], env, data, tk_list);
 		i++;
 	}
+	printf("sale\n");
 	tk_list[i].type = NONE;
 	//print_tokenlist(tk_list);
 	return (tk_list);

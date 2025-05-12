@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/05 13:15:24 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:16:55 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,6 @@ typedef struct s_token
 	int				l_status;
 	struct s_redir	*redir;
 	struct s_list	*av_list;//añadir
-	struct s_list	*env;
 }	t_token;
 
 /**************************************************
@@ -196,10 +195,9 @@ t_token	*tk_list_init(char **pipes);
 t_token	*tk_list_make(char **pipes, t_list *env, t_data *data);
 
 /*----------Expand-----------*/
-char	*expand_var(char *str, t_list *list, t_data *data);
+char	*expand_var(char *str, t_list *list, t_data *data, t_token *tk);
 
 /*-----------Parse-----------*/
-//int		close_quote(char *str, char c);
 int		pipe_iteri(char *str, int i, char c);
 t_token	*parse_main(char *str, t_list *list, t_data *data);
 int		pipe_count(char *str);
@@ -246,7 +244,7 @@ char	*ft_itoa(int n);
 /*----------Str_utils-----------*/
 void	ft_putstr_fd(char *s, int fd);
 int		ft_isalnum(int c);
-int		end_quote(char *str, int i, char c);
+int		end_quote(char *str, int i, char c, t_token *tk);
 int		ft_strchr(const char *str, char c);
 int		ft_isspace(char c);
 
