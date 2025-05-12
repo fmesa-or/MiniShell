@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/12 15:38:23 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/12 20:29:42 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,6 @@ char	**pipe_separator(char *str, t_data* data)
 	i = 0;
 	start = 0;
 	k = 0;
-//	if (ft_strncmp(str, "", ft_strlen(str)) == 0)
-//	{
-//		av = malloc(sizeof(char *));
-//		av[0] = "";
-//		return (av);
-//	}
 	npipe = pipe_count(str);
 		printf("npipe = %i\n", npipe);
 	av = malloc(sizeof(char *) * (npipe +1));
@@ -93,7 +87,7 @@ char	**pipe_separator(char *str, t_data* data)
 		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, data);//pasarle data y token si necesario
 		exit(errno);
 	}
-	while (str[i]) //esto peta al final????
+	while (str[i])
 	{
 		start = i;
 		i = pipe_iteri(str, start, '|');
@@ -105,7 +99,6 @@ char	**pipe_separator(char *str, t_data* data)
 		if(str[i] == '|')
 			i++;
 		k++;
-		//i++;
 	}
 	av[k] = NULL;
 	return (av);	
