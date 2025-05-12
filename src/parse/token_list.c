@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/07 15:24:05 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/12 12:59:59 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,6 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 	if (!tk_list)
 		exit(-1);//llamar a error
 	i = 0;
-	
 	while (pipes[i])
 	{
 		tk_init(&tk_list[i]);
