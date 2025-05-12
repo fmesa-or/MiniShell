@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 17:21:09 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/06 12:35:37 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:29:49 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*getfilename(char *str, int i, t_redir *rd, t_token *tk, t_data *data)
 		return (NULL);
 	else if (str[i] == '\'' || str[i] == '\"')
 	{
-		i = end_quote(str, i + 1, str[i]);
+		i = end_quote(str, i + 1, str[i], tk);
 		rd->end_in = i;
 		aux = ft_substr(str, start + 1, i - start - 1);
 		if (ft_strlen(aux) == 0)

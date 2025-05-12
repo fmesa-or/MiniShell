@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/12 13:14:00 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:03:40 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,21 @@ t_data	*data_init(t_list *env)
 
 
 
+static int check_quote(char *str)
+{
+	int i;
+	i = 0;
+	while (str[i])
+	{
+		if(str[i] == '\"' || str[i] == '\'')
+			i = end_quote(str,i + 1,str[i],NULL);
+		if (i == -1)
+			return(-1);
+		i++;
+	}
+	return(0);
+}
+
 void	mini_loop(t_data *data, t_list *list)
 {
 	t_token	*tk_list;
@@ -62,6 +77,11 @@ void	mini_loop(t_data *data, t_list *list)
 		
 		prompt = ms_prompt(data);
 		data->user_input = readline(prompt); //el prompt debería ser ~user:current_dir$~
+		if (check_quote(data->user_input) == -1)
+		{
+			free(data->user_input);
+			continue ;
+		}
 		if (g_signal == SIGINT)
 		{
 			data->l_status = 130;
@@ -73,6 +93,11 @@ void	mini_loop(t_data *data, t_list *list)
 			break ;
 		add_history(data->user_input);
 		tk_list = parse_main(data->user_input, list, data);
+		if (!tk_list)
+		{
+			printf("ENTRA\n");
+			continue ;
+		}
 		ms_main_exe(tk_list, data); //ls -l | grep docs | wc -l
 	/* 	if (ft_strcmp(tk_list->command, "exit"))
 			ft_exit(NULL); */
@@ -109,7 +134,7 @@ int main(int argc, char **argv, char **env)
 		data = data_init(list);
 		//		write(1, "1\n", 2);//check
 		//		free(data); //ESTO HACIA QUE PETASE
-		parse_main("", list, data);
+	//	parse_main("", list, data);
 
 //		parse_main("export >     flauta  3| algarroba $USER >   cebolla pwd|>> pollo wc -l tres", list, data);
 		mini_loop(data, list);
