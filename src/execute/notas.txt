@@ -20,10 +20,22 @@ Usar gdb ./minishell
 comandos:
 	-run
 	-backtrace
+	-set follow-fork-mode child
 
 REVISAR:
--ENV creemos que no funcioan bien porque no imprime las listas nuevas (además de las últimas) correctamtne
-	sospechamos que puede ser o de la lectura(write) o del almacenamiento(lstutils).
--EXPORT tampoco
--Nos salen caracteres rotos al intentar exportar!!
--Paco podría probar a seguir con la función EXPORT y sustituir una variable de entorno ya predefinida a ver como se comporta la ejecución
+-Last Status, revisar que se actualizan bien(V), y que se vuelcan en data(V).(7/5) (DONE)
+-Hay veces que fake HDOC se queda en el aire y no cierra como debe.(7/5) (DONE)
+-Prompt está fallando. No imprime bien al completo el pwd(7/5)(DONE)
+-CD solo no funciona, debería llevarnos a la raiz.(7/5)(DONE)
+-Colorear prompt.(12/5)(DONE)
+-Input aleatorio rompe la minishell(12/5)(DONE)
+-Al saltar un throw error hay veces que libera toda la data y fastidia el enviroment general.(12/5)
+-Update mi rama y la main.
+-echo $? no funciona al expandir el last status.Arreglar ECHO(12/5)
+-Leaks y fugas de memoria.Echo tiene fugas gordas.(13/5)
+-Bombardear(13/5)
+-Limpiar archivos y funciones(14/5)
+-Traducir notas(14/5)
+-Norminette(19/5)
+-Revisión Leaks y general
+

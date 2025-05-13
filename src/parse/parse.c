@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/26 11:14:48 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/12 12:57:10 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,10 @@ char	**pipe_separator(char *str, t_data* data)
 		printf("npipe = %i\n", npipe);
 	av = malloc(sizeof(char *) * (npipe +1));
 	if(!av)
-		throw_error("ERROR: pipe_sep malloc", NULL, data);
+	{
+		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, data);//pasarle data y token si necesario
+		exit(errno);
+	}
 	while (str[i]) //esto peta al final????
 	{
 		start = i;
@@ -117,7 +120,9 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)
 	int i = 0;
 	av = NULL;
 	tokens = NULL;
+	write(1, "lleg0\n", 7);
 	aux = expand_var(str, list, data);
+	write(1, "lleg1\n", 7);
 	av = pipe_separator(aux, data);
 	while (av[i])
 	{

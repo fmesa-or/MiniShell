@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/04/22 14:19:32 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:05:44 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,15 @@ typedef struct s_data
 	char			**cmnds;
 	struct s_list	*exported_list;
 	char			*pwd;
+	char			*oldpwd;
 	int				l_status;
 	int				bk_in;
 	int				bk_out;
+	int				fd[2];
+	int				file_in;//elarchivo IN
+	int				file_out;//archivo de salida
+	int				typein;//tipo de entrada
+	int				typeout;//tipo de salida
 }	t_data;
 
 /**********************************************************
@@ -129,7 +135,7 @@ typedef struct s_redir
 ***************************************************************************/
 typedef struct s_token
 {
-	int				fd[2];
+	int				fd[2];//eliminar
 	int				type;
 	int				argc;
 	char			*command;
@@ -247,24 +253,23 @@ int		ft_isspace(char c);
 
 /*------CHILDS------*/
 void	ms_exe_childs(t_token *token, t_data *data, int fd[2], int fd_in);
-void	ms_check_permision(char *command);
+void	ms_check_permision(char *command, t_token *token);
 
 /*------------EXE_REDIR------------------*/
-int			ms_init_redir(t_token *token, t_data *data);
-t_sherpa	*ms_sherpa(t_token *token, t_redir *redir, t_sherpa *sherpa);
-int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data);
-int	err_redir(t_token *token, t_sherpa *sherpa);
+int	ms_init_redir(t_token *token, t_data *data, int *fd, t_token *token_prev);
+t_sherpa	*ms_sherpa(t_token *token, t_redir *redir, t_sherpa *sherpa, t_token *token_prev);
+int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data, int *fd);
+int	err_redir(t_sherpa *sherpa, int *fd);
 int	e_red_mssg(char *file, int flag);
 
 /*-----------EXECUTE---------*/
 void	ms_main_exe(t_token *token, t_data *data);
-void ms_commander(t_token *token, t_data *data, int fd[2], int fd_in);
-void	ms_fds(t_token *token, t_token *token_prev, t_data *data);
+void ms_commander(t_token *token, t_data *data, int fd[2], int fd_in, t_token *token_prev);
+void	ms_fds(t_token *token, t_token *token_prev, t_data *data, int *fd);
 void	child_process(t_token *token);
 
 /*------FAKEHDOC--------*/
 void	ft_fake_hdoc(t_token *token);
-void	fake_writer(char *line, char *limiter);
 
 /*----FREE_ARRAY---*/
 void	ft_freearray(char **array);
@@ -273,7 +278,7 @@ void	ft_freearray(char **array);
 void	mini_loop();
 
 /*----MS_HDOC---*/
-void	ms_here_doc(t_token *token, t_data *data);
+void	ms_here_doc(t_token *token, t_data *data, int *fd);
 void	ms_hdoc_writer(int *fd, char *line, char *limiter);
 
 /*------------PIPE-------------------*/
@@ -289,7 +294,7 @@ char	**awk_split(const char *argv, int i);
 void	ms_post_exe(t_data *data, t_token *token_prev, t_token *first_token);
 
 /*-------------TIN_OPENER---------------*/
-int	ms_tin_opener(char *argv, int flag, t_token *token, t_data *data);
+int	ms_tin_opener(char *argv, int flag, t_token *token, t_data *data, int *fd);
 
 /*-----------UTILS_EXE-----------*/
 int	ms_gnl(char **line);
@@ -303,7 +308,7 @@ int		ft_isalpha(int c);
 
 
 /*------BUILTINS------*/
-int		ms_builts(t_token *token, t_data *data);
+int		ms_builts(t_token *token, t_data *data, t_token *token_prev);
 int		bi_print_working_directory(t_data *data);
 int		bi_change_dir(t_token *token, t_data *data);
 int		bi_echo(t_token *token);
@@ -329,6 +334,18 @@ void	mini_loop(t_data *data, t_list *list);
 t_data	*data_init(t_list *env);
 char	*ft_strdup(const char *s1);
 
+/*--------SIGNAL-------*/
+void	ctrl_c_handler(int sig);
+void	ctrl_quit_handler(int sig);
+void	ctrl_quit_handler_hd(int sig);
+void	ctrl_c_handler_hd(int sig);
+void setup_signal_handlers(void);
+void setup_signal_handlers_hd(void);
 
+/*------PROMPT----*/
+/*******************************************************
+*This PROMPT is exclusive for 42MALAGA CAMPUS computers*
+*******************************************************/
+char	*ms_prompt(t_data *data);
 
 #endif

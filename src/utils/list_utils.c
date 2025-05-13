@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/26 11:07:53 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:49:52 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ char	**listtoargv(t_list *lst)
 
 	i = 0;
 	av = malloc(sizeof(char *) * (ft_lstsize(lst) + 1));
+	if (!av)
+	{
+		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
+		exit(errno);
+	}
 	while (lst)
 	{
 		if (lst->value && (lst->value)[0] == 'q')
@@ -97,7 +102,10 @@ char **listtoenv(t_list *list)
 	}
 	env = malloc(sizeof(char *) * i + 1);
 	if (!env)
-		throw_error("ERROR: ", NULL, NULL);
+	{
+		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
+		exit(errno);
+	}
 	i = 0;
 	list = head;
 	while (list)
@@ -131,9 +139,7 @@ t_list	*envtolist(char **env)
 		//		if (i > 0)
 		//			printf("%s%s\n", aux[0], aux[1]);
 		aux = ft_split(env[i], '=');
-		//	printf("%s%s\n", aux[0], aux[1]);
-
-		if (!aux || (!aux[0] || !aux[1]))
+		if (!aux || !aux[0])
 		{
 			free_2ptr(aux);
 			throw_error("ERROR: Split failed.", NULL, NULL);
@@ -177,7 +183,10 @@ t_list	*ft_lstnew(char *n_key, char *n_value)
 
 	node = malloc(sizeof(t_list));
 	if (!node)
-		return (NULL);
+	{
+		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
+		exit(errno);
+	}
 	node->key = n_key;
 	node->value = n_value;
 	node->next = NULL;
