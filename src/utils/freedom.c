@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freedom.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 19:13:54 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/25 13:58:35 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:35:03 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ void	ft_tokenclear(t_token *tk)
 	}
 	if (tk->argv)
 		free_2ptr(tk->argv);
+	if (tk->av_list)
+		ft_envclear(&tk->av_list);
 	if (tk->redir)
 		ft_redirclear(&tk->redir);
-	if (tk->env)
-		ft_envclear(&tk->env);
 }
 
 //esto libera el env
@@ -76,7 +76,8 @@ void	ft_envclear(t_list **lst)
 		{
 			ls2 = ls1->next;
 			free(ls1->key);
-			free(ls1->value);
+			if (ls1->value)
+				free(ls1->value);
 			free(ls1);
 			ls1 = ls2;
 		}

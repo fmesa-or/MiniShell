@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/07 11:00:10 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:29:41 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,22 +76,41 @@ char	*put_lstat(char  *str, int *i, t_data *data)
 
 /*Esta funcion expande las variables despues del $,
 no cuenta entre comillas simples ni despues de \.*/
-char	*expand_var(char *str, t_list *list, t_data *data)
+char	*expand_var(char *str, t_list *list, t_data *data, t_token *tk)
 {
 	int i;
 
 	i = 0;
+	if (i == 800)
+		throw_error("IMPOSIBLE", tk, NULL);
 	while(str[i])
 	{
-		if (str[i] == '\\')
+		if (i == -1)
+		{
+			throw_error("ERROR: expand quotes", NULL, NULL);
+			return(NULL);
+		}
+		if (str[i] == '\\' && str[i+1])
 			i += 2;
-		else if (str[i] == '\'')
-			i = end_quote(str, i + 1, '\'');
+		else if (str[i] == '\"')// si expande
+		{
+			i++;
+			while (str[i] != '\"' && str[i])
+			{
+				if (str[i] == '$' && str[i + 1] == '?')
+					str = put_lstat(str, &i, data);
+				else if (str[i] == '$' && ft_isalnum(str[i+1]))
+					str = ft_expand(str, &i, list);
+				i++;
+			}
+		}
+ 		else if (str[i] == '\'') // Q NO EXPAMNDA
+			i = end_quote(str, i + 1, '\'', tk);
 		else if (str[i] == '$' && str[i + 1] == '?')
 			str = put_lstat(str, &i, data);
 		else if (str[i] == '$' && ft_isalnum(str[i+1]))
 			str = ft_expand(str, &i, list);
 		i++;
 	}
-	return(str);
+	return (str);
 }

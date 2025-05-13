@@ -28,9 +28,9 @@ REVISAR:
 -Prompt está fallando. No imprime bien al completo el pwd(7/5)(DONE)
 -CD solo no funciona, debería llevarnos a la raiz.(7/5)(DONE)
 -Colorear prompt.(12/5)(DONE)
--Input aleatorio rompe la minishell(12/5)(DONE)
+-Input aleatorio de dos argv rompe la minishell(12/5)
 -Al saltar un throw error hay veces que libera toda la data y fastidia el enviroment general.(12/5)
--Update mi rama y la main.
+-Update mi rama y la main.(DONE)
 -echo $? no funciona al expandir el last status.Arreglar ECHO(12/5)
 -Leaks y fugas de memoria.Echo tiene fugas gordas.(13/5)
 -Bombardear(13/5)
