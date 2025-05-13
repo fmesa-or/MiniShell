@@ -1,0 +1,52 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prompt2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/12 16:27:25 by fmesa-or          #+#    #+#             */
+/*   Updated: 2025/05/12 16:44:00 by fmesa-or         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+/********************************************************
+*Adds the path from enviroment. If missing, uses getcwd.*
+********************************************************/
+char	*p_pwd_sub1(t_list *aux)
+{
+	char	*char_aux;
+	char	*char_aux2;
+
+	if (aux)
+	{
+		char_aux2 = ft_strdup(aux->value);
+		char_aux = ft_strdup(char_aux2);
+		free(char_aux2);
+	}
+	else
+		char_aux = getcwd(NULL, 0);
+	return (char_aux);
+}
+
+char	*p_pwd_sub2(char *old_prompt, char *char_aux, int i, int start)
+{
+	char	*char_aux2;
+	char	*new_prompt;
+
+	new_prompt = ft_strjoin(old_prompt, "~");
+	free(old_prompt);
+	if ((i - start) > 0)
+	{
+		old_prompt = ft_substr(char_aux, start, (i - start));
+		char_aux2 = ft_strjoin(new_prompt, "/");
+		free(new_prompt);
+		new_prompt = ft_strjoin(char_aux2, old_prompt);
+		free(old_prompt);
+		free(char_aux);
+		free(char_aux2);
+	}
+	return (new_prompt);
+}

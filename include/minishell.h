@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/04/23 19:28:24 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:43:56 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,15 @@ typedef struct s_data
 	char			**cmnds;
 	struct s_list	*exported_list;
 	char			*pwd;
+	char			*oldpwd;
 	int				l_status;
 	int				bk_in;
 	int				bk_out;
 	int				fd[2];
-	int				file_in;
-	int				file_out;
-	int				typein;
-	int				typeout;
+	int				file_in;//elarchivo IN
+	int				file_out;//archivo de salida
+	int				typein;//tipo de entrada
+	int				typeout;//tipo de salida
 }	t_data;
 
 /**********************************************************
@@ -134,7 +135,7 @@ typedef struct s_redir
 ***************************************************************************/
 typedef struct s_token
 {
-	int				fd[2];
+	int				fd[2];//eliminar
 	int				type;
 	int				argc;
 	char			*command;
@@ -179,6 +180,8 @@ void	free_2ptr(char **array);
 void	ft_redirclear(t_redir **red);
 void	ft_tokenclear(t_token *tk);
 void	ft_envclear(t_list **lst);
+void	ms_free_3(void *p1, void *p2, void *p3);
+
 
 /*------------redir------------*/
 int	redir_fill(t_token *tk, char *str, int rd_type, int i, t_data *data);
@@ -252,24 +255,23 @@ int		ft_isspace(char c);
 
 /*------CHILDS------*/
 void	ms_exe_childs(t_token *token, t_data *data, int fd[2], int fd_in);
-void	ms_check_permision(char *command);
+void	ms_check_permision(char *command, t_token *token);
 
 /*------------EXE_REDIR------------------*/
-int			ms_init_redir(t_token *token, t_data *data, int *fd);
-t_sherpa	*ms_sherpa(t_token *token, t_redir *redir, t_sherpa *sherpa);
+int	ms_init_redir(t_token *token, t_data *data, int *fd, t_token *token_prev);
+t_sherpa	*ms_sherpa(t_token *token, t_redir *redir, t_sherpa *sherpa, t_token *token_prev);
 int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data, int *fd);
 int	err_redir(t_sherpa *sherpa, int *fd);
 int	e_red_mssg(char *file, int flag);
 
 /*-----------EXECUTE---------*/
 void	ms_main_exe(t_token *token, t_data *data);
-void ms_commander(t_token *token, t_data *data, int fd[2], int fd_in);
+void ms_commander(t_token *token, t_data *data, int fd[2], int fd_in, t_token *token_prev);
 void	ms_fds(t_token *token, t_token *token_prev, t_data *data, int *fd);
 void	child_process(t_token *token);
 
 /*------FAKEHDOC--------*/
 void	ft_fake_hdoc(t_token *token);
-void	fake_writer(char *line, char *limiter);
 
 /*----FREE_ARRAY---*/
 void	ft_freearray(char **array);
@@ -308,7 +310,7 @@ int		ft_isalpha(int c);
 
 
 /*------BUILTINS------*/
-int		ms_builts(t_token *token, t_data *data);
+int		ms_builts(t_token *token, t_data *data, t_token *token_prev);
 int		bi_print_working_directory(t_data *data);
 int		bi_change_dir(t_token *token, t_data *data);
 int		bi_echo(t_token *token);
@@ -334,6 +336,18 @@ void	mini_loop(t_data *data, t_list *list);
 t_data	*data_init(t_list *env);
 char	*ft_strdup(const char *s1);
 
+/*--------SIGNAL-------*/
+void	ctrl_c_handler(int sig);
+void	ctrl_quit_handler(int sig);
+void	ctrl_quit_handler_hd(int sig);
+void	ctrl_c_handler_hd(int sig);
+void setup_signal_handlers(void);
+void setup_signal_handlers_hd(void);
+
+/*------PROMPT----*/
+char	*ms_prompt(t_data *data);
+char	*p_pwd_sub1(t_list *aux);
+char	*p_pwd_sub2(char *old_prompt, char *char_aux, int i, int start);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 09:56:47 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/03/05 14:14:25 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:40:48 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /***********************************
 *Counts the quotes of the full argv*
 ***********************************/
-static int	bi_c_quote(char *str)
+/*static int	bi_c_quote(char *str)
 {
 	int	quotes;
 	int	i;
@@ -30,28 +30,33 @@ static int	bi_c_quote(char *str)
 	}
 //	printf("nº of quotes: %d\n", quotes);
 	return (quotes);
-}
+}*/
 
 /**********************************************************
 *Check that every quote has start and end; and removes it.*
 *It keeps the quotes if it's preced by a slash '\"'       *
 **********************************************************/
-static char	*bi_rm_quotes(char *argv)
+/*static char	*bi_rm_quotes(char *argv)
 {
 	int	i;
 	int	j;
 	int	q;
 	char *aux;
 
+	aux = NULL;
 	i = 0;
 	j = 0;
-	q = bi_c_quote(argv);
+	q = bi_c_quote(argv);//cuenta las quotes. Esta función no debería existir.
 	if (q % 2 != 0)
-		while (1)
-			i = 1;
+		throw_error("ERROR: Quotes not closed.", NULL, NULL);//revisar. hay que hacer que el parseo no nos deje llegar hasta aquí.
 	else
 	{
 		aux = (char *)malloc((sizeof(char *)) * (ft_strlen(argv) - q + 1));
+		if (!aux)
+		{
+			throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
+			exit(errno);
+		}
 		while (argv[i])
 		{
 			if (argv[i + j] == '"')
@@ -62,7 +67,7 @@ static char	*bi_rm_quotes(char *argv)
 		free(argv);
 	}
 	return (aux);
-}
+}*/
 
 /**************************************************************************
 * When called, ECHO will return the text given.                           *
@@ -78,20 +83,17 @@ int	bi_echo(t_token *token)
 	int	i;
 
 	i = 0;
-//	printf ("CHECK bi_echo\n");
 	if (token->argv[1] && (ft_strncmp(token->argv[1], "-n", ft_strlen(token->argv[1])) == 0))
 	{
 		i = 1;
-//		printf("CHECK ECHO -N\n");
 		while (token->argv[++i])
 		{
-			token->argv[i] = bi_rm_quotes(token->argv[i]);
+//			token->argv[i] = bi_rm_quotes(token->argv[i]);
 			write(token->fd[1], token->argv[i], ft_strlen(token->argv[i]));
 			if (token->argv[i + 1])
 				write(token->fd[1], " ", 1);
 		}
 	}
-
 	else
 	{
 		if (!(token->argv[1]))
@@ -101,7 +103,8 @@ int	bi_echo(t_token *token)
 		}
 		while (token->argv[++i])
 		{
-			token->argv[i] = bi_rm_quotes(token->argv[i]);
+//			token->argv[i] = bi_rm_quotes(token->argv[i]);
+//			dprintf(2, CI"%s\n"RES, token->argv[1]);
 			write(token->fd[1], token->argv[i], ft_strlen(token->argv[i]));
 			if (token->argv[i + 1])
 				write(token->fd[1], " ", 1);
@@ -110,3 +113,4 @@ int	bi_echo(t_token *token)
 	}
 	return (0);
 }
+

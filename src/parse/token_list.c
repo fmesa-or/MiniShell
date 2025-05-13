@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/04/18 12:42:44 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/12 12:59:59 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,23 +96,18 @@ void	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data)
 		if (is_builtin(tk_list, tk_list->argv[i]) == 1)
 		{
 			write(1, "\nEEEEEEE built EEEEE\n", 22);
-			if ((ft_strcmp(tk_list->argv[i], "cd") == 0) && (ft_strcmp(tk_list->argv[i + 1], "..") == 0))
+			if (((ft_strcmp(tk_list->argv[i], "cd") == 0) && (tk_list->argv[i + 1])) && (ft_strcmp(tk_list->argv[i + 1], "..") == 0))
 				i++;
 			flag ++;
 		}	
 		else if (is_cmd(tk_list->argv[i], tk_list, env, data) == 1)
-		{
-			write(1, "\nEEEEEEE coman EEEEE\n", 22);
 			flag++;
-		}
-		printf("VEULTA\n");
 		i++;
 	}
-	printf("\nflag = %i\n", flag);
 	if (flag == 0)
-		throw_error("ERROR: no cmd in pipe\n", tk_list, data);
+		throw_error("ERROR: no cmd in pipe\n", tk_list, NULL);
 	else if (flag > 1)
-		throw_error("ERROR: too much cmd in pipe\n", tk_list, data);
+		throw_error("ERROR: too much cmd in pipe\n", tk_list, NULL);
 	tk_list->argc = i;
 }
 
@@ -189,11 +184,9 @@ int get_av(t_list **lst, char *str, int j)
 	{
 		j = end_quote(str, j + 1, str[j]);
 		av = ft_substr(str, start, j + 1 - start);
-		printf("\nav quot[%i] = %s\n", j, av);
 		if (ft_strlen(av) == 2) // si hay comillas vacias pasa de ese argv
 			return (j + 1);
 		ft_lstadd_back(lst, ft_lstnew(av, "q")); //le dejo una q en el value para marcar quoted
-		printf("\nav node quot[%i] = %s\n", j, (*lst)->key);
 		return(j + 1);//aqui devuelve con comillas
 	}
 	else
@@ -201,9 +194,7 @@ int get_av(t_list **lst, char *str, int j)
 		while (!ft_isspace(str[j]) && str[j])
 			j++;
 		av = ft_substr(str, start, j - start);
-		//printf("\nav normal [%i] = %s\n", j, av);
 		ft_lstadd_back(lst, ft_lstnew(av, NULL));
-		printf("\nav node normal[%i] = %s\n", j, (*lst)->key);
 		return (j);
 	}
 }
@@ -228,7 +219,6 @@ void print_tokenlist(t_token *tk)
 	while (&tk[i] && tk[i].type != NONE)
 	{
 		printf("tk[%i] :\n", i);
-		printf("tipo = %i\nargc = %i\n", tk[i].type, tk[i].argc);
 		if (tk[i].argv)
 			print2char(tk[i].argv);
 		i++;
@@ -251,13 +241,15 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 		i++;
 	}
 	tk_list = malloc(sizeof(t_token) * (i + 1));
+	if (!tk_list)
+	{
+		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
+		exit(errno);
+	}
 	i = 0;
-	
 	while (pipes[i])
 	{
 		tk_init(&tk_list[i]);
-		//tk->ac = funcion q haya el argc y me genera array de argv
-		//ac_ind = 0;  ya q se reinicia en cada tk
 		j = 0;
 		while(pipes[i][j]) //en este buble inspeccionamos la linea de cada pipe char x char
 		{
@@ -267,27 +259,18 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 			{
 				get_redir(&tk_list[i], pipes[i], j, data);
 				pipes[i] = rd_strdel(ft_redirlast(tk_list[i].redir), pipes[i]); //añadir lo de las comillas
-				/* printf("Cantidad actual nodos redir = [%i]\n", ft_lstsize(tk_list[i].redir));
-				printredir(tk_list[i].redir, pipes[i]);
-				printredir(ft_redirlast(tk_list[i].redir), pipes[i]); */
 			}
-			else if (pipes[i][j] && (pipes[i][j] != '<' && pipes[i][j] != '>' && !ft_isspace(pipes[i][j])))
+			else if ((pipes[i][j] && (pipes[i][j] != '<') && (pipes[i][j] != '>' && !ft_isspace(pipes[i][j]))))
 			{
 				j = get_av(&tk_list[i].av_list, pipes[i], j);//funcion q saca un arg, teniendo en cuenta q este primer char puede ser ' o ";
-				//printf("tamaño = %i, av tras ft = %s\n", ft_lstsize(tk_list[i].av_list), tk_list[i].av_list->key);
-			}
-			//j++;
-		}
+      }
+    }
 		tk_list[i].argv = listtoargv(tk_list[i].av_list);
 		tk_argvtipe(&tk_list[i], env, data);
-		//printf("\nargc = %i --- tipo del tk = %i\n", tk_list[i].argc, tk_list[i].type);
-		//print2char(tk_list[i].argv);
-		write(1, "\nfin tk\n\n", 10);
 		i++;
 	}
-	//printredir(tk_list->redir, data->user_input);
 	tk_list[i].type = NONE;
-	print_tokenlist(tk_list);
+	//print_tokenlist(tk_list);
 	return (tk_list);
 }
 
