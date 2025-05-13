@@ -6,12 +6,43 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 17:21:09 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/12 14:29:49 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:57:58 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*returns the last node of redir list*/
+t_redir	*ft_redirlast(t_redir *rd)
+{
+	t_redir	*node;
+
+	node = rd;
+	while (node)
+	{
+		if (node->next)
+			node = node->next;
+		else
+			break ;
+	}
+	return (node);
+}
+
+int	get_redir(t_token *tk, char *str, int j, t_data *data)
+{
+	int	rd_end;
+
+	rd_end = 0;
+	if (str[j] == '<' && str[j + 1] == '<')
+		rd_end = redir_fill(tk, str, HDOC, j, data);
+	else if (str[j] == '>' && str[j + 1] == '>')
+		rd_end = redir_fill(tk, str, NDOUT, j, data);
+	else if (str[j] == '<')
+		rd_end = redir_fill(tk, str, IN, j, data);
+	else if (str[j] == '>')
+		rd_end = redir_fill(tk, str, DOUT, j, data);
+	return (rd_end);
+}
 
 /*Esta funcion solo coge la siguiente palabra despues
 de la redireccion, q tiene q ser el archivo al q hace ref*/
@@ -43,7 +74,6 @@ char	*getfilename(char *str, int i, t_redir *rd, t_token *tk, t_data *data)
 		return (ft_substr(str, start, i - start));
 	}
 }
-
 
 /*Esta ft añade al final  de la lista de redir un nuevo nodo o lo crea si esta vacia la lista*/
 void	ft_rediradd_back(t_redir **lst, t_redir *new)

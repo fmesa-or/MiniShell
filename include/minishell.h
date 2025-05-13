@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/12 15:16:55 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:12:55 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,17 +160,28 @@ typedef struct s_sherpa
 }	t_sherpa;
 
 /**************************************************************************
-*	Note:                                                                 *
-*1-Is any command after? -> Make a pipe. Modifying the fd.                *
-*2-Redirect.                                                              *
-*3-Check the type of command.                                             *
-*                 In this point changes for the built ins                 *
-*4-Is necesary to fork?->When is not exit, when is not a strange built-in,*
-*	almost always.                                                        *
-*5-Make dup2 of the fd and close.                                         *
-*6-Execute.                                                               *
-*7-From 1 to 7 in the next.                                               *
-**************************************************************************/
+ *	Note:                                                                 *
+ *1-Is any command after? -> Make a pipe. Modifying the fd.                *
+ *2-Redirect.                                                              *
+ *3-Check the type of command.                                             *
+ *                 In this point changes for the built ins                 *
+ *4-Is necesary to fork?->When is not exit, when is not a strange built-in,*
+ *	almost always.                                                        *
+ *5-Make dup2 of the fd and close.                                         *
+ *6-Execute.                                                               *
+ *7-From 1 to 7 in the next.                                               *
+ **************************************************************************/
+
+
+/*--------------PRINTS-------------------*/
+void	printredir(t_redir *red, char *str);
+void	print_tokenlist(t_token *tk);
+void	print2char(char **str);
+
+/*-----------------List_Convers------------------*/
+char	**listtoenv(t_list *list);
+t_list	*envtolist(char **env);
+char	**listtoargv(t_list *lst);
 
 /*------------freedom-----------*/
 void	free_partial_data(t_data *data);
@@ -181,15 +192,16 @@ void	ft_tokenclear(t_token *tk);
 void	ft_envclear(t_list **lst);
 
 /*------------redir------------*/
-int	redir_fill(t_token *tk, char *str, int rd_type, int i, t_data *data);
+int		redir_fill(t_token *tk, char *str, int rd_type, int i, t_data *data);
 char	*rd_strdel(t_redir *redir, char *str);
 void	tk_inrd(t_token *tk_node, char *str);
 void	tk_outrd(t_token *tk_node, char *str);
 
 /*------------Redir_utirs------------*/
-void	printredir(t_redir *red, char *str);
 char	*getfilename(char *str, int i, t_redir *rd, t_token *tk, t_data *data);
 void	ft_rediradd_back(t_redir **lst, t_redir *new);
+int		get_redir(t_token *tk, char *str, int j, t_data *data);
+t_redir	*ft_redirlast(t_redir *rd);
 
 /*----------Token_list----------*/
 t_token	*tk_list_init(char **pipes);
@@ -197,6 +209,10 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data);
 
 /*----------Expand-----------*/
 char	*expand_var(char *str, t_list *list, t_data *data, t_token *tk);
+/*---------Get_Argv---------*/
+int		is_cmd(char *av, t_token *tk, t_list *env, t_data *data);
+int		is_builtin(t_token *tk, char *av);
+int		get_av(t_list **lst, char *str, int j, t_token *tk);
 
 /*-----------Parse-----------*/
 int		pipe_iteri(char *str, int i, char c);
@@ -217,10 +233,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcjoin(char *s1, char *s2, char c);
 
-/*-----------Builts_in-----------*/
-/*int		ft_cd(char **argv, t_data *data);
-int		ft_pwd();
-*/
 /*-----------ft_echo-----------*/
 int		ft_echo(char **argv);
 
@@ -229,12 +241,9 @@ int		ft_atoi(const char *str);
 
 /*----------List_utils----------*/
 void	ft_unset(t_list **list, char *ref);
-char	**listtoenv(t_list *list);
-t_list	*envtolist(char **env);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 t_list	*ft_lstnew(char *n_key, char *n_value);
-char	**listtoargv(t_list *lst);
-int	ft_lstsize(t_list *lst);
+int		ft_lstsize(t_list *lst);
 
 /*-----------ft_export-----------*/
 int		ft_strchr(const char *str, char c);
