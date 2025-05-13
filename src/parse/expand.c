@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/12 20:36:42 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/12 21:20:43 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,20 @@ char	*expand_var(char *str, t_list *list, t_data *data, t_token *tk)
 		}
 		if (str[i] == '\\')
 			i += 2;
+		else if (str[i] == '\"')// si expande
+		{
+			while (str[i] != '\"')
+			{
+				if (str[i] == '$' && str[i + 1] == '?')
+					str = put_lstat(str, &i, data);
+				else if (str[i] == '$' && ft_isalnum(str[i+1]))
+					str = ft_expand(str, &i, list);
+				else
+					i++;
+			}
+		}
 		else if (str[i] == '\'')// Q NO EXPAMNDA	
 			i = end_quote(str, i + 1, '\'', tk);
-		else if (str[i] == '\"')	
-			i = end_quote(str, i + 1, '\"', tk);
 		else if (str[i] == '$' && str[i + 1] == '?')
 			str = put_lstat(str, &i, data);
 		else if (str[i] == '$' && ft_isalnum(str[i+1]))
