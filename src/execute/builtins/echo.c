@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 09:56:47 by fmesa-or          #+#    #+#             */
 /*   Updated: 2025/05/12 14:40:48 by fmesa-or         ###   ########.fr       */
@@ -104,7 +104,6 @@ int	bi_echo(t_token *token)
 		while (token->argv[++i])
 		{
 //			token->argv[i] = bi_rm_quotes(token->argv[i]);
-//			dprintf(2, CI"%s\n"RES, token->argv[1]);
 			write(token->fd[1], token->argv[i], ft_strlen(token->argv[i]));
 			if (token->argv[i + 1])
 				write(token->fd[1], " ", 1);

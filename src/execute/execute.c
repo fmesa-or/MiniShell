@@ -109,6 +109,7 @@ void ms_commander(t_token *token, t_data *data, int fd[2], int fd_in, t_token *t
 	}
 }
 
+
 /*
 *token_prev es el último token
 *token_post es el primer token de todo el string
