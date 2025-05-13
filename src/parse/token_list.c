@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/13 12:45:16 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:34:02 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ static int	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data)
 	{
 		if (is_builtin(tk_list, tk_list->argv[i]) == 1)
 		{
-			write(1, "\nEEEEEEE built EEEEE\n", 22);
 			if (((ft_strcmp(tk_list->argv[i], "cd") == 0) && (tk_list->argv[i + 1])) && (ft_strcmp(tk_list->argv[i + 1], "..") == 0))
 				i++;
 			flag ++;
@@ -117,15 +116,13 @@ static int	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data)
 ---------------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------------*/
 
- int	ft_lstsize(t_list *lst)
+int	ft_lstsize(t_list *lst)
  {
  	t_list	*node;
  	int		count;
 
  	count = 0;
  	node = lst;
- 	//if (!node)
- 		//printf("\nno redir en lstsize\n");
  	while (node)
  	{
  		count++;
@@ -133,6 +130,7 @@ static int	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data)
  	}
  	return (count);
  }
+
 t_redir	*ft_redirlast(t_redir *rd)
 {
 	t_redir	*node;
@@ -182,11 +180,9 @@ int get_av(t_list **lst, char *str, int j, t_token *tk)
 
 	start = j;
 	av = NULL;
-	printf("AAAAAAAAAAASTR %c\n",str[j]);
 
 	if (str[j] == '\'' || str[j] == '\"')
 	{
-		printf("STR %s\n",str);
 		j = end_quote(str, j + 1, str[j], tk);
 		if (j == -1)
 			return (-1);
@@ -281,59 +277,8 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 		}
 		i++;
 	}
-	printf("sale\n");
 	tk_list[i].type = NONE;
-	//print_tokenlist(tk_list);
 	return (tk_list);
 }
 
-
-
-
-
-
-//esto de abajo es el bucle antiguo
-/* 	while (pipes[i])
-	{
-		tk_init(&tk_list[i]);
-		tk_inrd(&tk_list[i], pipes[i]);
-		tk_outrd(&tk_list[i], pipes[i]);
-		if (tk_list[i].redir && tk_list[i].redir->type)
-		{
-			pipes[i] = rd_strdel(&tk_list[i], pipes[i]);
-			printf("str = %s\n", pipes[i]);
-		}
-		tk_get_arg(&tk_list[i], pipes[i], env, data);
-		i++;
-	} */
-
-	/*t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
-{
-	int		i;
-	t_token	*tk_list;
-
-	i = 0;
-	while (pipes[i])
-		i++;
-	tk_list = malloc(sizeof(t_token) * (i + 1));
-	i = 0;
-	while (pipes[i])
-	{
-		tk_init(&tk_list[i]);
-		tk_inrd(&tk_list[i], pipes[i]);
-		tk_outrd(&tk_list[i], pipes[i]);
-		if (tk_list[i].redir && tk_list[i].redir->type)
-		{
-			while (tk_list[i].redir->next)
-			{
-				pipes[i] = rd_strdel(tk_list[i].redir, pipes[i]);
-				tk_list[i].redir = tk_list[i].redir->next;
-			}
-			
-			printf("str = %s\n", pipes[i]);
-		}
-		tk_get_arg(&tk_list[i], pipes[i], env, data);//<output echo "Hola""Hol ita" "Hola"
-		i++;
-	}
-	tk_list[i].type = NONE;
-	return (tk_list);*/
+//print_tokenlist(tk_list);

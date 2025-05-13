@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 19:13:54 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/12 15:15:53 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:35:03 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,9 @@ void	ft_tokenclear(t_token *tk)
 		tk->command = NULL;
 	}
 	if (tk->argv)
-	{
 		free_2ptr(tk->argv);
-		printf("LLEGA\n");
-	}
 	if (tk->av_list)
-	{
 		ft_envclear(&tk->av_list);
-		printf("LLEGA1\n");
-	}
 	if (tk->redir)
 		ft_redirclear(&tk->redir);
 }
@@ -76,7 +70,6 @@ void	ft_envclear(t_list **lst)
 	t_list	*ls2;
 
 	ls1 = *lst;
-	//printf("key %s\n",(*lst)->value);
 	if (lst)
 	{
 		while (ls1)

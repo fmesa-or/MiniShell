@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/13 12:36:44 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:29:41 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ char	*expand_var(char *str, t_list *list, t_data *data, t_token *tk)
 	int i;
 
 	i = 0;
+	if (i == 800)
+		throw_error("IMPOSIBLE", tk, NULL);
 	while(str[i])
 	{
 		if (i == -1)
@@ -88,21 +90,21 @@ char	*expand_var(char *str, t_list *list, t_data *data, t_token *tk)
 			throw_error("ERROR: expand quotes", NULL, NULL);
 			return(NULL);
 		}
-		if (str[i] == '\\')
+		if (str[i] == '\\' && str[i+1])
 			i += 2;
 		else if (str[i] == '\"')// si expande
 		{
-			while (str[i] != '\"')
+			i++;
+			while (str[i] != '\"' && str[i])
 			{
 				if (str[i] == '$' && str[i + 1] == '?')
 					str = put_lstat(str, &i, data);
 				else if (str[i] == '$' && ft_isalnum(str[i+1]))
 					str = ft_expand(str, &i, list);
-				else
-					i++;
+				i++;
 			}
 		}
-		else if (str[i] == '\'')// Q NO EXPAMNDA	
+ 		else if (str[i] == '\'') // Q NO EXPAMNDA
 			i = end_quote(str, i + 1, '\'', tk);
 		else if (str[i] == '$' && str[i + 1] == '?')
 			str = put_lstat(str, &i, data);

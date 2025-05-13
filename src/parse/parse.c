@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/12 20:29:42 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:39:27 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	pipe_iteri(char *str, int i, char c)
 		}
 		i++;
 	}
-	return(i);
+	return (i);
 }
 
 /*Esta funcion cuenta los cachos entre |, sin tener en cuenta
@@ -52,14 +52,14 @@ int	pipe_count(char *str)
 
 	i = 0;
 	count = 0;
-	while(str[i])
+	while (str[i])
 	{
 		count++;
 		i = pipe_iteri(str, i, '|');
 		if (str[i] == '|')
 			i++;	
 	}
-	return(count);
+	return (count);
 }
 
 /*Esta funcion coge el string inicial q nos pasen y lo separa por pipes.
@@ -80,7 +80,6 @@ char	**pipe_separator(char *str, t_data* data)
 	start = 0;
 	k = 0;
 	npipe = pipe_count(str);
-		printf("npipe = %i\n", npipe);
 	av = malloc(sizeof(char *) * (npipe +1));
 	if(!av)
 	{
@@ -91,17 +90,13 @@ char	**pipe_separator(char *str, t_data* data)
 	{
 		start = i;
 		i = pipe_iteri(str, start, '|');
-		printf("pipe indx = %i\n", i);
 		av[k] = ft_substr(str, start, i - start);
-		write(1, "pipa = ", 8);
-		write(1, av[k], ft_strlen(av[k]));
-		write(1, "\n", 1);
 		if(str[i] == '|')
 			i++;
 		k++;
 	}
 	av[k] = NULL;
-	return (av);	
+	return (av);
 }
 
 t_token	*parse_main(char *str, t_list *list, t_data *data)
@@ -112,9 +107,7 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)
 
 	av = NULL;
 	tokens = NULL;
-	write(1, "lleg0\n", 7);
 	aux = expand_var(str, list, data, NULL);
-	write(1, "lleg1\n", 7);
 	av = pipe_separator(aux, data);
 /* 	while (av[i])
 	{
@@ -124,13 +117,9 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)
 		write(1, "\n---EPIP---\n", 13);
 		i++;
 	} */
-//	write(1, "llega\n", 6);
 	tokens = tk_list_make(av, list, data);
 	free_2ptr(av);
 	if (!tokens)
 		return (NULL);
-	//Estás intentado hacer free a un string al cual no se le ha reservado memoria.
-	//if (aux)
-	//	free(aux);
 	return (tokens);
 }
