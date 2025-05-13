@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/13 14:11:08 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:49:52 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	ft_unset(t_list **list, char *ref)
 		free(aux);
 	}
 }
-
 
 /*Esta funcion añade un nodo nuevo al final de un t_list */
 void	ft_lstadd_back(t_list **lst, t_list *new)

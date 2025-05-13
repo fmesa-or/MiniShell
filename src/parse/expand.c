@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/13 13:29:41 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/07 11:00:10 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ char	*expand_var(char *str, t_list *list, t_data *data, t_token *tk)
 	int i;
 
 	i = 0;
-	if (i == 800)
-		throw_error("IMPOSIBLE", tk, NULL);
 	while(str[i])
 	{
 		if (i == -1)

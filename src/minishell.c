@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/12 20:00:03 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:40:19 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ t_data	*data_init(t_list *env)
 	data_list->user_input = NULL;
 	data_list->bk_in = dup(STDIN_FILENO);
 	data_list->bk_out = dup(STDOUT_FILENO);
+	data_list->file_in = 0;
+	data_list->file_out = 1;
 	node = find_key(env, "PATH");
 	if (!node)
 		throw_error("ERROR: PATH has been deleted", NULL, data_list);
@@ -76,7 +78,7 @@ void	mini_loop(t_data *data, t_list *list)
 	{
 		
 		prompt = ms_prompt(data);
-		data->user_input = readline(prompt); //el prompt debería ser ~user:current_dir$~
+		data->user_input = readline("> "); //el prompt debería ser ~user:current_dir$~
 		if (check_quote(data->user_input) == -1)
 		{
 			free(data->user_input);
@@ -105,6 +107,7 @@ void	mini_loop(t_data *data, t_list *list)
 //		free_partial_data(data);
 	//	rl_on_new_line();
 	//	rl_redisplay();
+//		free(prompt);
 	}
 }
 
@@ -125,14 +128,11 @@ int main(int argc, char **argv, char **env)
 //		list = list->next;
 //	}
 //	list = temp;
+
 	if (argc == 1 && argv)
 	{
 		data = data_init(list);
-		//		write(1, "1\n", 2);//check
 		//		free(data); //ESTO HACIA QUE PETASE
-	//	parse_main("", list, data);
-
-//		parse_main("export >     flauta  3| algarroba $USER >   cebolla pwd|>> pollo wc -l tres", list, data);
 		mini_loop(data, list);
 		free_all_data(data);
 	}
