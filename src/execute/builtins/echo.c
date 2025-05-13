@@ -6,15 +6,16 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 09:56:47 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/05 17:08:21 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:04:08 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /***********************************
-*Counts the quotes of the full argv*
-***********************************/
+ *Counts the quotes of the full argv*
+ ***********************************/
+/*
 static int	bi_c_quote(char *str)
 {
 	int	quotes;
@@ -30,12 +31,13 @@ static int	bi_c_quote(char *str)
 	}
 //	printf("nº of quotes: %d\n", quotes);
 	return (quotes);
-}
+}*/
 
 /**********************************************************
 *Check that every quote has start and end; and removes it.*
 *It keeps the quotes if it's preced by a slash '\"'       *
 **********************************************************/
+/*
 static char	*bi_rm_quotes(char *argv)
 {
 	int	i;
@@ -68,6 +70,7 @@ static char	*bi_rm_quotes(char *argv)
 	}
 	return (aux);
 }
+*/
 
 /**************************************************************************
 * When called, ECHO will return the text given.                           *
@@ -93,7 +96,7 @@ int	bi_echo(t_token *token)
 //		printf("CHECK ECHO -N\n");
 		while (token->argv[++i])
 		{
-			token->argv[i] = bi_rm_quotes(token->argv[i]);
+//			token->argv[i] = bi_rm_quotes(token->argv[i]);
 			write(token->fd[1], token->argv[i], ft_strlen(token->argv[i]));
 			if (token->argv[i + 1])
 				write(token->fd[1], " ", 1);
@@ -108,7 +111,7 @@ int	bi_echo(t_token *token)
 		}
 		while (token->argv[++i])
 		{
-			token->argv[i] = bi_rm_quotes(token->argv[i]);
+//			token->argv[i] = bi_rm_quotes(token->argv[i]);
 			write(token->fd[1], token->argv[i], ft_strlen(token->argv[i]));
 			if (token->argv[i + 1])
 				write(token->fd[1], " ", 1);
