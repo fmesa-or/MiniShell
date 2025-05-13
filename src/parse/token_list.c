@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/12 15:54:43 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/13 12:45:16 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	is_builtin(t_token *tk, char *av)
 	return (0);
 }
 
-void	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data, t_token *tk2free)
+static int	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data)
 {
 	int	i;
 	int	flag;
@@ -105,11 +105,13 @@ void	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data, t_token *tk2free)
 		i++;
 	}
 	tk_list->argc = i;
-	if (flag == 0)
+	return (flag);
+}
+/* 	if (flag == 0)
 		throw_error("ERROR: no cmd in pipe\n", tk2free, NULL);
 	else if (flag > 1)
-		throw_error("ERROR: too much cmd in pipe\n", tk2free, NULL);
-}
+		throw_error("ERROR: too much cmd in pipe\n", tk2free, NULL); */
+
 
 /*--------------------------------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------------
@@ -272,7 +274,11 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 				return(NULL);
 		}
 		tk_list[i].argv = listtoargv(tk_list[i].av_list);
-		tk_argvtipe(&tk_list[i], env, data, tk_list);
+		if (tk_argvtipe(&tk_list[i], env, data) != 1)
+		{
+			throw_error("ERROR: in pipe cmd != 1", tk_list, NULL);
+			return(NULL);
+		}
 		i++;
 	}
 	printf("sale\n");
