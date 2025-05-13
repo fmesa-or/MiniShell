@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 19:13:54 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/12 16:45:41 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/13 12:51:16 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void	free_all_data(t_data *data)
 }
 void	ms_free_3(void *p1, void *p2, void *p3)
 {
+	
 	if (p1)
 		free(p1);
 	if (p2)

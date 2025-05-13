@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:38:10 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/13 11:29:55 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:35:48 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,26 @@ static char	*prompt_user(t_list *aux, char *prompt)
 	if (aux != NULL)
 	{
 		aux_prompt = ft_strdup(aux->value);
-		prompt = ft_strjoin(aux_prompt, "\033[0;92m@\033[0;96m");//añade al prompt el valor(char *) de USER
+		prompt = ft_strjoin(aux_prompt, "\033[0;92m@\033[0;96m");
 		free(aux_prompt);
 	}
 	else
 	{
 		aux_prompt = ft_strdup("try_harder");
-		prompt = ft_strjoin(aux_prompt, "\033[0;92m@\033[0;96m");//si USER no existe, es porque te has pasado de listillo
+		prompt = ft_strjoin(aux_prompt, "\033[0;92m@\033[0;96m");
 		free(aux_prompt);
 	}
 	return (prompt);
+}
+
+/**************************************************
+*Aux function for prompt_comp so norminette works.*
+**************************************************/
+static char	*p_c_1(char *o_prompt, char *n_prompt, char *c_aux, char *c_aux2)
+{
+	c_aux2 = ft_strjoin(c_aux, "\033[0;92m:\033[0;96m");
+	n_prompt = ft_strjoin(o_prompt, c_aux2);
+	return (n_prompt);
 }
 
 /***************************************************
@@ -43,31 +53,28 @@ static char	*prompt_user(t_list *aux, char *prompt)
 *4:	Keeps what we need (cxrxxsx)                   *
 *5:	Adds the computer to the prompt.               *
 ***************************************************/
-static char	*prompt_comp(t_list *aux, char *old_prompt,char *char_aux, char *char_aux2, int i, int start)
+static char	*prompt_comp(t_list *aux, char *old_prompt, int i, int start)
 {
 	char	*new_prompt;
+	char	*char_aux;
+	char	*char_aux2;
 
+	new_prompt = NULL;
+	char_aux = NULL;
+	char_aux2 = NULL;
 	if (aux != NULL)
 	{
-		char_aux = ft_strdup(aux->value);
-		char_aux2 = ft_strdup(char_aux);
-		free (char_aux);
-		while (ft_isalpha(char_aux2[i]) != 0)
-			i++;
-		start = i + 1;
-		while (char_aux2[i] != '.')
-			i++;
-		char_aux = ft_substr(char_aux2, start, (i - start));
-		free(char_aux2);
+		char_aux2 = ft_strdup(aux->value);
+		char_aux = prompt_comp_first(char_aux, char_aux2, i, start);
 	}
 	else
 	{
 		char_aux = (char *)malloc(sizeof(char) * 9);
 		char_aux = "harder!!";
 	}
-	char_aux2 = ft_strjoin(char_aux, "\033[0;92m:\033[0;96m");
-	new_prompt = ft_strjoin(old_prompt, char_aux2);
-	ms_free_3(old_prompt, char_aux2, char_aux);
+	new_prompt = p_c_1(old_prompt, new_prompt, char_aux, char_aux2);
+	free(old_prompt);
+	free(char_aux);
 	return (new_prompt);
 }
 
@@ -117,7 +124,7 @@ char	*ms_prompt(t_data *data)
 	prompt = NULL;
 	prompt = prompt_user(find_key(data->exported_list, "USER"), prompt);
 	prompt = prompt_comp(find_key(data->exported_list, "SESSION_MANAGER"),
-			prompt, NULL, NULL, 0, 0);
+			prompt, 0, 0);
 	prompt = prompt_pwd(find_key(data->exported_list, "PWD"), prompt);
 	return (prompt);
 }

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:27:25 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/12 16:44:00 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:23:03 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,19 @@ char	*p_pwd_sub2(char *old_prompt, char *char_aux, int i, int start)
 		free(new_prompt);
 		new_prompt = ft_strjoin(char_aux2, old_prompt);
 		free(old_prompt);
-		free(char_aux);
 		free(char_aux2);
 	}
 	return (new_prompt);
+}
+
+char	*prompt_comp_first(char *char_aux, char *char_aux2, int i, int start)
+{
+	while (ft_isalpha(char_aux2[i]) != 0)
+		i++;
+	start = i + 1;
+	while (char_aux2[i] != '.')
+		i++;
+	char_aux = ft_substr(char_aux2, start, (i - start));
+	free(char_aux2);
+	return (char_aux);
 }

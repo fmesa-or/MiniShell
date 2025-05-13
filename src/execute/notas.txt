@@ -22,6 +22,8 @@ comandos:
 	-backtrace
 	-set follow-fork-mode child
 
+valgrind
+
 REVISAR:
 -Last Status, revisar que se actualizan bien(V), y que se vuelcan en data(V).(7/5) (DONE)
 -Hay veces que fake HDOC se queda en el aire y no cierra como debe.(7/5) (DONE)

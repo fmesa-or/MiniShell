@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/13 11:29:40 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:36:45 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	mini_loop(t_data *data, t_list *list)
 		
 		prompt = ms_prompt(data);
 		data->user_input = readline(prompt); //el prompt debería ser ~user:current_dir$~
-		free(prompt);
 		if (g_signal == SIGINT)
 		{
 			data->l_status = 130;
@@ -81,6 +80,7 @@ void	mini_loop(t_data *data, t_list *list)
 //		free_partial_data(data);
 	//	rl_on_new_line();
 	//	rl_redisplay();
+		free(prompt);
 	}
 }
 
