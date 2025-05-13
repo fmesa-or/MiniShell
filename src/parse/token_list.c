@@ -49,7 +49,6 @@ static int	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data)
 	return (flag);
 }
 
-
 t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 {
 	int		i;
