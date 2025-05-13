@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:38:10 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/13 13:35:48 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:42:21 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,8 @@ char	*ms_prompt(t_data *data)
 	prompt = prompt_comp(find_key(data->exported_list, "SESSION_MANAGER"),
 			prompt, 0, 0);
 	prompt = prompt_pwd(find_key(data->exported_list, "PWD"), prompt);
+	i = ft_strlen(prompt);
+	prompt[i] = '\0';
+	printf("%s\n", prompt);
 	return (prompt);
 }

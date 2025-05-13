@@ -35,6 +35,7 @@ REVISAR:
 -Al saltar un throw error hay veces que libera toda la data y fastidia el enviroment general.(12/5)
 -Revisar parejas de comillas en PARSEO.()
 -Si uso CD solo, se buguea el prompt.()
+-Unset SESSION_MANAGER rompe.()
 -Leaks y fugas de memoria.Echo tiene fugas gordas.(13/5)
 -Bombardear(13/5)
 -Limpiar archivos y funciones(14/5)

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 11:17:17 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/13 13:58:40 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:33:00 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,15 @@ void	ms_exe_childs(t_token *token, t_data *data, int fd[2], int fd_in)
 		dup2(data->file_out, STDOUT_FILENO);
 	else if (token[1].type == CMD)
 		dup2(fd[1], STDOUT_FILENO);
-	close(fd[0]);
-	close(fd[1]);
 	if (token->l_status != 0 && token[1].type != NONE)
+	{
+		close(fd[0]);
+		close(fd[1]);
 		exit(1);
+	}
 	else
 	{
+		dprintf(2, "CHECK: %d\n", data->file_in);
 		ms_check_permision(token->command, token);
 		if (execve(token->command, token->argv, ms_return_env(data)) == -1)
 			token->l_status = ms_cmd_nf(token->argv[0]);//dudas si neecsita devolver este valor.
