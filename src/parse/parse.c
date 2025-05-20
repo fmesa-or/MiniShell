@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/12 12:57:10 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:19:34 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,35 +108,20 @@ char	**pipe_separator(char *str, t_data* data)
 		//i++;
 	}
 	av[k] = NULL;
-	return (av);	
+	return (av);
 }
 
 t_token	*parse_main(char *str, t_list *list, t_data *data)
 {
-	char	 **av;
-	char 	*aux;
-	t_token *tokens;
+	char	**av;
+	char	*aux;
+	t_token	*tokens;
 
-	int i = 0;
 	av = NULL;
 	tokens = NULL;
-	write(1, "lleg0\n", 7);
 	aux = expand_var(str, list, data);
-	write(1, "lleg1\n", 7);
 	av = pipe_separator(aux, data);
-	while (av[i])
-	{
-		write(1, "\n---PIPE---\n", 13);
-		write(1, av[i], ft_strlen(av[i]));
-		write(1, "\n", 1);
-		write(1, "\n---EPIP---\n", 13);
-		i++;
-	}
-//	write(1, "llega\n", 6);
 	tokens = tk_list_make(av, list, data);
 	free_2ptr(av);
-	//Estás intentado hacer free a un string al cual no se le ha reservado memoria.
-	//if (aux)
-	//	free(aux);
 	return (tokens);
 }

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:22:05 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/20 16:53:11 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/20 18:18:33 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,34 +53,4 @@ int	err_redir(t_sherpa *sherpa, int *fd)
 	return (0);
 }
 
-/****************************************
-*Returns "argv", adding "new" at the end*
-****************************************/
-static char	**ms_red_argv(char **argv, char *new)
-{
-	int		i;
-	char	**newarray;
 
-	i = 0;
-	if (!argv[0])
-		return (NULL);//cambiar por un error
-	while (argv[i])
-		i++;
-	newarray = (char **)malloc(sizeof(char *) * i + 2);
-	if (!newarray)
-	{
-		throw_error("ERROR: malloc failed in ms_red_argv", NULL, NULL);
-		exit (errno);
-	}
-	i = -1;
-	while (argv[++i])
-		newarray[i] = argv[i];
-	newarray[i] = ft_strdup(new);
-	if (!newarray[i])
-	{
-		free(newarray);
-		return (NULL);
-	}
-	newarray[i + 1] = NULL;
-	return (newarray);
-}

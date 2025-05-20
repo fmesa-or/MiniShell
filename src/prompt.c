@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:38:10 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/13 14:42:21 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/20 18:50:32 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,14 @@ static char	*prompt_comp(t_list *aux, char *old_prompt, int i, int start)
 	else
 	{
 		char_aux = (char *)malloc(sizeof(char) * 9);
+//		if (!char_aux)
+//			throw_error("ERROR: malloc fatal failure.", NULL, NULL);
 		char_aux = "harder!!";
 	}
 	new_prompt = p_c_1(old_prompt, new_prompt, char_aux, char_aux2);
 	free(old_prompt);
-	free(char_aux);
+	if (ft_isalpha(char_aux[0]) == 0 || ft_isalnum(char_aux[0] == 0))
+		free(char_aux);
 	return (new_prompt);
 }
 
