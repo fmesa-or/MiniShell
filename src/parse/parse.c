@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/20 19:19:34 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:54:30 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,14 +109,6 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)
 	tokens = NULL;
 	aux = expand_var(str, list, data, NULL);
 	av = pipe_separator(aux, data);
-/* 	while (av[i])
-	{
-		write(1, "\n---PIPE---\n", 13);
-		write(1, av[i], ft_strlen(av[i]));
-		write(1, "\n", 1);
-		write(1, "\n---EPIP---\n", 13);
-		i++;
-	} */
 	tokens = tk_list_make(av, list, data);
 	free_2ptr(av);
 	if (!tokens)

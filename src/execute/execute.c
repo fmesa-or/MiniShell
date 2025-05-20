@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/20 19:26:08 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:01:08 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	ms_commander(t_token *token, t_data *data, int fd[2], int fd_in, t_token *t
 		token->pid = fork();
 		if (token->pid == 0)
 		{
+			signal(SIGQUIT, SIG_DFL);
 			if (token->type == BUIL)
 			{
 				if (data->typein == IN)
@@ -121,8 +122,17 @@ void	ms_main_exe(t_token *token, t_data *data)
 			write(1, "\n", 1);
 			break ;
 		}
-		if (token->l_status == 0 || token[1].type != NONE)
+		if ((token->l_status == 0 || token[1].type != NONE) && (data->file_out != -1 && data->file_in != -1))
 			ms_commander(token, data, fd, fd_in, last_token);
+		else
+		{
+			if (fd[1] != STDOUT_FILENO)
+				close(fd[1]);
+			data->file_in = NONE;
+			data->file_out = NONE;
+			data->typein = NONE;
+			data->typeout = NONE;
+		}
 		last_token = token;
 		token++;
 		fd_in = fd[0];

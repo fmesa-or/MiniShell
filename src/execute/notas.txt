@@ -27,9 +27,11 @@ valgrind
 REVISAR:
 -Al saltar un throw error hay veces que libera toda la data y fastidia el enviroment general.(12/5)
 -Revisar parejas de comillas en PARSEO.()
--Si lanzo un comando que no existe y luego otro otra vez, SEGMENTATION FAULT()
--Si unset HOME antes de ejecutar minishell segmentation fault(ERROR: HOME has been deleted
-Segmentation fault (core dumped))
+-env imprime doble
+-unset PWD hace fallar cd . y cd -
+-$? con command not found no establece 127
+-cd a b = double free
+-2 heredocs no van
 -Leaks y fugas de memoria.Echo tiene fugas gordas.(13/5)
 -Bombardear(13/5)
 -Limpiar archivos y funciones(14/5)

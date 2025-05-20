@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:11:13 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/20 19:24:33 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/20 21:25:25 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ static int	bi_cd2(t_data *data, char *target_path, int cd_stat)
 {
 	cd_stat = chdir(target_path);
 	if (cd_stat != 0)
-		throw_error("ERROR: no find rute", NULL, data);
+		throw_error("ERROR: no find rute", NULL, NULL);
 	else
 	{
 		free(data->pwd);
 		data->pwd = getcwd(NULL, 0);
 		if (!data->pwd)
-			throw_error("ERROR: failed to update pwd", NULL, data);
+			throw_error("ERROR: failed to update pwd", NULL, NULL);
 	}
 	return (cd_stat);
 }

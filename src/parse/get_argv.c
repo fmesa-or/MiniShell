@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_argv.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:06:25 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/13 14:09:15 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:33:09 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ int	is_cmd(char *av, t_token *tk, t_list *env, t_data *data)
 	return (0);
 }
 
+/*******************************************************
+*If is BUILTIN stores it in token->command and return 1*
+*******************************************************/
 int	is_builtin(t_token *tk, char *av)
 {
 	char	*aux[8];

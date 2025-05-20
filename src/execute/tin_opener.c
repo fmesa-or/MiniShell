@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:48:54 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/20 16:58:30 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:02:19 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ms_tin_opener(char *argv, int flag, t_token *token, t_data *data, int *fd)
 		file = open(argv, O_RDONLY, 0777);
 	else if (flag == HDOC)
 		ms_here_doc(token, data, fd);
-//	if (file == -1)
-//		throw_error(RD"Error: OPEN function failed.\n"RES, 1, data);
+	if (file == -1)
+		throw_error(RD"Error: No such file or directory\n"RES, NULL, NULL);
 	return (file);
 }

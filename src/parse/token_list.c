@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/13 14:09:06 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/20 21:31:07 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,13 @@ static int	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data)
 			if (((ft_strcmp(tk_list->argv[i], "cd") == 0) && (tk_list->argv[i + 1])) && (ft_strcmp(tk_list->argv[i + 1], "..") == 0))
 				i++;
 			flag ++;
+			break ;
 		}
 		else if (is_cmd(tk_list->argv[i], tk_list, env, data) == 1)
+		{
 			flag++;
+			break ;
+		}
 		i++;
 	}
 	tk_list->argc = i;
@@ -89,10 +93,11 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 				return(NULL);
 		}
 		tk_list[i].argv = listtoargv(tk_list[i].av_list);
-		if (tk_argvtipe(&tk_list[i], env, data) != 1)
+		if (tk_argvtipe(&tk_list[i], env, data) < 1)
 		{
-			throw_error("ERROR: in pipe cmd != 1", tk_list, NULL);
-			return(NULL);
+			throw_error("ERROR: command not found", tk_list, NULL);
+			tk_list->l_status = 127;
+			return (tk_list);
 		}
 		i++;
 	}

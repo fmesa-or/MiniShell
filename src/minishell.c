@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/13 14:40:19 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/20 21:46:39 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ t_data	*data_init(t_list *env)
 //	printf("PWD: %s\n", data_list->pwd);
 	node = find_key(env, "HOME");
 	if (!node)
+	{
 		throw_error("ERROR: HOME has been deleted", NULL, data_list);
+		exit (0);
+	}
 	data_list->home = ft_strdup(node->value);
 	return (data_list);
 }
@@ -76,9 +79,10 @@ void	mini_loop(t_data *data, t_list *list)
 	setup_signal_handlers();
 	while (1)
 	{
-		
 		prompt = ms_prompt(data);
 		data->user_input = readline("> "); //el prompt debería ser ~user:current_dir$~
+		if (!data->user_input)
+			break ;
 		if (check_quote(data->user_input) == -1)
 		{
 			free(data->user_input);
@@ -91,15 +95,8 @@ void	mini_loop(t_data *data, t_list *list)
 		}
 //		else if (data->user_input[0] == '\0')
 //			continue ;
-		if (!data->user_input)
-			break ;
 		add_history(data->user_input);
 		tk_list = parse_main(data->user_input, list, data);
-		if (!tk_list)
-		{
-			printf("ENTRA\n");
-			continue ;
-		}
 		ms_main_exe(tk_list, data); //ls -l | grep docs | wc -l
 	/* 	if (ft_strcmp(tk_list->command, "exit"))
 			ft_exit(NULL); */
@@ -114,12 +111,13 @@ void	mini_loop(t_data *data, t_list *list)
 int main(int argc, char **argv, char **env)
 {
 	t_data	*data;
-	t_list	*list; 
+	t_list	*list;
+
 	if (!env[0])
 	{
 		throw_error("ERROR: Enviroment not found.", NULL, NULL);
 		exit(errno);
-	}	
+	}
 	list = envtolist(env);
 	//Efectivamente en el momento de almacenar en list, es cuando metemos los datos extras.!!
 //	while(list)
@@ -128,7 +126,6 @@ int main(int argc, char **argv, char **env)
 //		list = list->next;
 //	}
 //	list = temp;
-
 	if (argc == 1 && argv)
 	{
 		data = data_init(list);
