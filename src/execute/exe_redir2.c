@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:50:44 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/20 16:52:53 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/20 18:15:51 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,3 +68,4 @@ int	ms_init_redir(t_token *token, t_data *data, int *fd, t_token *token_prev)
 	}
 	return (0);
 }
+
