@@ -6,37 +6,11 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:11:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/20 14:49:11 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:45:31 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-static void	ft_lstadd_second(t_list **lst, t_list *new)
-{
-	t_list *tmp;
-
-	tmp = (*lst)->next;
-	(*lst)->next = new;
-	new->next = tmp;
-}
-*/
-
-/*Esta funcion busca dentro de la lista donde se encuentra una key
-y retorna el nodo en el que esta o null si no lo encuetra*/
-/*
-t_list	*find_key(t_list *list, char *n_key)
-{
-	while (list != NULL)
-	{
-		if (ft_strcmp(list->key, n_key) == 0)
-			return (list);
-		list = list->next;
-	}
-	return (NULL);
-}
-*/
 
 static int	export_is_key_valid(char *key)
 {
