@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:03:32 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/05 17:09:54 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:50:27 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_list	*new_var_list_node(char *key, char *value)
 	node = (t_list *)malloc(sizeof(t_list));
 	if (!node)
 	{
-		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
+		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);
 		exit(errno);
 	}
 	node->key = key;

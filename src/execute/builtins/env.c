@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:08:11 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/05 17:09:14 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:36:25 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-char *str_miscelaneus(char *key, char *value)
+char	*str_miscelaneus(char *key, char *value)
 {
 	char	*aux;
 	char	*aux2;
@@ -27,9 +26,9 @@ char *str_miscelaneus(char *key, char *value)
 	return (aux2);
 }
 
-/*
-*Necesaria para la ejecución.(execev)
-*/
+/****************
+*Need for execve*
+****************/
 char	**ms_return_env(t_data *data)
 {
 	t_list	*list;
@@ -46,7 +45,7 @@ char	**ms_return_env(t_data *data)
 	env = malloc(sizeof(char *) * (i + 1));
 	if (!env)
 	{
-		throw_error("ERROR: malloc failed in ms_return_env", NULL, data);//pasarle data y token si necesario
+		throw_error("ERROR: malloc failed in ms_return_env", NULL, data);
 		exit(errno);
 	}
 	list = data->exported_list;
@@ -60,16 +59,15 @@ char	**ms_return_env(t_data *data)
 	return (env);
 }
 
-/*
-*Esta funcion es para sacar el env actual por pantalla;
-*	Convierte nuestra lista en un char ** y lo imprime linea a linea
-*	¡¡Revisar si necesita salto de linea!!
-*/
+/**********************************************
+*Prints the whole enviroment.                 *
+*Turns the list in a char array and prints it.*
+**********************************************/
 int	bi_env(t_data *data, t_token *token)
 {
 	char	**env;
 	int		i;
-	
+
 	env = ms_return_env(data);
 	i = 0;
 	while (env[i])
@@ -84,22 +82,5 @@ int	bi_env(t_data *data, t_token *token)
 		i++;
 	}
 	return (0);
-
-/*  V0.1
-	while (list)
-	{
-		if (write(1, list->key, ft_strlen(list->key)) == -1)
-			return (-1);
-		if (list->value)
-		{
-			if (write(1, "=", 1) == -1)
-				return (-1);
-			if (write(1, list->value, ft_strlen(list->value)) == -1)
-				return (-1);
-		}
-		if (write(1, "\n", 1) == -1)
-			return (-1);
-		list = list->next;
-	}
-	return (0);*/
 }
+
