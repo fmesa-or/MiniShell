@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/13 13:17:22 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/20 18:19:10 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,7 +356,5 @@ char	*ms_prompt(t_data *data);
 char	*p_pwd_sub1(t_list *aux);
 char	*p_pwd_sub2(char *old_prompt, char *char_aux, int i, int start);
 char	*prompt_comp_first(char *char_aux, char *char_aux2, int i, int start);
-
-
 
 #endif

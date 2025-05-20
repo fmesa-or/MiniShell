@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 19:53:19 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/07 14:13:03 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:56:15 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	ft_fake_hdoc(t_token *token)
 
 	reader = fork();
 	if (reader == 0)
-	{	setup_signal_handlers_hd();
+	{
+		setup_signal_handlers_hd();
 		while (1)
 		{
 			line = readline("> ");

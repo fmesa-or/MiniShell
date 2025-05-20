@@ -1,23 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe.c                                             :+:      :+:    :+:   */
+/*   signalshd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/29 10:21:15 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/04/09 13:18:23 by fmesa-or         ###   ########.fr       */
+/*   Created: 2025/05/20 14:35:31 by fmesa-or          #+#    #+#             */
+/*   Updated: 2025/05/20 14:40:49 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ms_pipe(t_token *token, t_token *token_prev)
+extern int	g_signal;
+
+void	ctrl_quit_handler_hd(int sig)
 {
-	printf("PIPE init\n");
-	pipe(token->fd);
-	//if (token_prev)
-		token->fd[0] = token_prev->fd[1];
-	//if (token[1].type != NONE)
-		token[1].fd[0] = token->fd[1];
+	(void)sig;
+}
+
+void	ctrl_c_handler_hd(int sig)
+{
+	(void)sig;
+	g_signal = SIGINT;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_redisplay();
+	exit(1);
+}
+
+void	setup_signal_handlers_hd(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, ctrl_c_handler_hd);
 }

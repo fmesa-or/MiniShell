@@ -6,7 +6,7 @@
 /*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:38:50 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/12 16:00:21 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/20 18:37:57 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	ft_isspace(char c)
 /*esto mira q un caracter sea alfanumerico,
 pa comprobar q despues de ciertos caracteres especiales
 no van cosas raras como unas comilla o yo q se*/
-
 int	ft_isalnum(int c)
 {
 	if (!c)

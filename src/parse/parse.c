@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/13 13:39:27 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:19:34 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,9 @@ char	**pipe_separator(char *str, t_data* data)
 
 t_token	*parse_main(char *str, t_list *list, t_data *data)
 {
-	char	 **av;
-	char 	*aux;
-	t_token *tokens;
+	char	**av;
+	char	*aux;
+	t_token	*tokens;
 
 	av = NULL;
 	tokens = NULL;

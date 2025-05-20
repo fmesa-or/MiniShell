@@ -6,17 +6,12 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:47:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/10 14:01:25 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:39:55 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// primer caso, >2 argc da fallo, solo es el exit y el numero
-// si solo 2 argc, entoces hace atol al argv [1]
-
-
-//esto en especifico mira q todo los caracteres de un str son numeros 
 int	ft_alldigit(char *str)
 {
 	int	i;
@@ -75,12 +70,10 @@ int	bi_exit(char **av)
 		else
 		{
 			nb = ft_atoi(av[1]);
-			//aqui se libera todo
 			exit(nb);
 		}
 		exit(255);
 	}
 	else
 		exit(0);
-		//arriba de estotambien se libera todo
 }

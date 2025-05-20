@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:03:23 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/07 13:12:02 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:59:25 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 /**************************
 *Special GNL for MINISHELL*
 **************************/
+/*
 int	ms_gnl(char **line)
 {
 	int		i;
@@ -145,3 +146,4 @@ int	ms_gnl(char **line)
 	free(buffer);
 	return (r);
 }
+*/
