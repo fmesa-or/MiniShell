@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:08:11 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/05 17:09:14 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:01:47 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-char *str_miscelaneus(char *key, char *value)
+char	*str_miscelaneus(char *key, char *value)
 {
 	char	*aux;
 	char	*aux2;
@@ -27,9 +26,9 @@ char *str_miscelaneus(char *key, char *value)
 	return (aux2);
 }
 
-/*
-*Necesaria para la ejecución.(execev)
-*/
+/****************
+*Need for execve*
+****************/
 char	**ms_return_env(t_data *data)
 {
 	t_list	*list;
@@ -46,7 +45,7 @@ char	**ms_return_env(t_data *data)
 	env = malloc(sizeof(char *) * (i + 1));
 	if (!env)
 	{
-		throw_error("ERROR: malloc failed in ms_return_env", NULL, data);//pasarle data y token si necesario
+		throw_error("ERROR: malloc failed in ms_return_env", NULL, data);
 		exit(errno);
 	}
 	list = data->exported_list;
