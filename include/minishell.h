@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/12 16:43:56 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:17:22 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -348,6 +348,8 @@ void setup_signal_handlers_hd(void);
 char	*ms_prompt(t_data *data);
 char	*p_pwd_sub1(t_list *aux);
 char	*p_pwd_sub2(char *old_prompt, char *char_aux, int i, int start);
+char	*prompt_comp_first(char *char_aux, char *char_aux2, int i, int start);
+
 
 
 #endif
