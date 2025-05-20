@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   str_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:38:50 by rmarin-j          #+#    #+#             */
 /*   Updated: 2025/05/20 18:37:57 by fmesa-or         ###   ########.fr       */
@@ -72,13 +72,14 @@ int ft_strchr(const char *str, char c)
 /*Esta funcion le pasamos la i+1, un str cuando el indice esta
 	en una comilla y devuelve el mismo indice pero con
 	el final de la comilla o salta error si termina el str*/
-int	end_quote(char *str, int i, char c)
+int	end_quote(char *str, int i, char c, t_token *tk)
 {
-	/* if(str[i] == c)
-		return (i); */
 	while (str[i] != c && str[i])
 		i++;
 	if (!str[i])
-		throw_error("ERROR: no ended quote", NULL, NULL);
+	{
+		throw_error("ERROR: no ended quote", tk, NULL);
+		return (-1);
+	}
 	return (i);
 }
