@@ -6,17 +6,12 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:47:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/10 14:01:25 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:12:29 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// primer caso, >2 argc da fallo, solo es el exit y el numero
-// si solo 2 argc, entoces hace atol al argv [1]
-
-
-//esto en especifico mira q todo los caracteres de un str son numeros 
 int	ft_alldigit(char *str)
 {
 	int	i;
@@ -58,29 +53,28 @@ int	bi_exit(char **av)
 {
 	long	nb;
 
-	write(1, "exit\n", 5);
+//	write(1, "exit\n", 5);
 	if (av[1] && av[2])
 	{
-		write(1, "bash: exit:", 11);
+		write(1, "minishell: exit:", 11);
 		write(1, "too many arguments\n", 19);
+		return (1);
 	}
-	if (av[1] && !av[2])
+	else if (av[1] && !av[2])
 	{
 		if (ft_alldigit(av[1]) == 0)
 		{
-			write(1, "bash: exit: ", 12);
+			write(1, "minishell: exit: ", 12);
 			write(1, av[1], sizeof(av[1]));
 			write(1, ": numeric argument required\n", 29);
+			exit(2);
 		}
 		else
 		{
 			nb = ft_atoi(av[1]);
-			//aqui se libera todo
 			exit(nb);
 		}
-		exit(255);
 	}
 	else
 		exit(0);
-		//arriba de estotambien se libera todo
 }

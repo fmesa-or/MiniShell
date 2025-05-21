@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_loop.c                                        :+:      :+:    :+:   */
+/*   signalshd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/03 13:16:42 by fmesa-or          #+#    #+#             */
-/*   Updated: 2024/10/03 17:51:24 by fmesa-or         ###   ########.fr       */
+/*   Created: 2025/05/20 14:35:31 by fmesa-or          #+#    #+#             */
+/*   Updated: 2025/05/20 14:40:49 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	mini_loop()
-{
-	char	*line;
+extern int	g_signal;
 
-	while (1)
-	{
-		line = readline("minishell> "); //el prompt debería ser ~user:current_dir$~
-		if (!line)
-			break ;
-		if (*line)
-			add_history(line);
-		printf("Input: %s\n", line); //aquí debería ir la función que parsea la línea
-		free(line);
-		rl_on_new_line();
-		rl_redisplay();
-	}
+void	ctrl_quit_handler_hd(int sig)
+{
+	(void)sig;
+}
+
+void	ctrl_c_handler_hd(int sig)
+{
+	(void)sig;
+	g_signal = SIGINT;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_redisplay();
+	exit(1);
+}
+
+void	setup_signal_handlers_hd(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, ctrl_c_handler_hd);
 }

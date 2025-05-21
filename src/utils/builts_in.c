@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builts_in.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 13:46:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/04 10:57:04 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:23:31 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,24 +94,4 @@ int	ft_env(t_list *list)
 		list = list->next;
 	}
 	return (0);
-}
-
-/*replica funcion cd. Hay q pasarle los argv siendo el primero el mismo comando cd*/
-int	ft_cd(char **argv, t_data *data)
-{
-	int	cd_stat;
-
-	cd_stat = 0;
-	if (argv[2])
-		throw_error("ERROR:", NULL, data);
-	else
-	{
-		ft_export (data->exported_list, ft_strcjoin("OLDPWD", getcwd(NULL, 0), '='));
-		cd_stat = chdir(argv[1]);
-		if (cd_stat != 0)
-			throw_error("ERROR: no find rute", NULL, data);
-		else
-			ft_export (data->exported_list, ft_strcjoin("PWD", getcwd(NULL, 0), '='));
-	}
-	return (cd_stat);
 }

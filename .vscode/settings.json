@@ -2,6 +2,7 @@
 	"files.associations": {
 		"minishell.h": "c",
 		"__node_handle": "c",
-		"type_traits": "c"
+		"type_traits": "c",
+		"main": "c"
 	}
 }
