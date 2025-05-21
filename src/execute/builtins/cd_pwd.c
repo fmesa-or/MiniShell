@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:11:13 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/20 21:25:25 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:54:14 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,19 @@ static int	bi_cd_homer(t_token *token)
 
 static int	bi_cd2(t_data *data, char *target_path, int cd_stat)
 {
+	char	*aux_pwd;
+
 	cd_stat = chdir(target_path);
 	if (cd_stat != 0)
 		throw_error("ERROR: no find rute", NULL, NULL);
 	else
 	{
-		free(data->pwd);
-		data->pwd = getcwd(NULL, 0);
+//		free(data->pwd);
+		dprintf(2, RD"CHECK: %s\n"RES, data->pwd);
+		aux_pwd = getcwd(NULL, 0);
+		data->pwd = aux_pwd;
+		dprintf(2, RD"CHECK: %s\n"RES, data->pwd);
+//		free(aux_pwd);
 		if (!data->pwd)
 			throw_error("ERROR: failed to update pwd", NULL, NULL);
 	}
@@ -46,9 +52,9 @@ static int	bi_change_dir_sub(t_token *tk, t_data *data, char *target_path)
 	cd_stat = 0;
 	if (tk->argv[1] && ft_strcmp(tk->argv[1], "-") == 0)
 	{
-		bi_print_working_directory(data);
 		target_path = data->oldpwd;
 		cd_stat = bi_cd2(data, target_path, cd_stat);
+		bi_print_working_directory(data);
 	}
 	else if (bi_cd_homer(tk) == 1)
 	{
@@ -75,15 +81,22 @@ int	bi_change_dir(t_token *token, t_data *data)
 	aux_pwd = NULL;
 	cd_stat = 0;
 	if (token->argv[1] && token->argv[2])
-		throw_error("ERROR: cd: too many arguments.", NULL, data);
+		throw_error("ERROR: cd: too many arguments.", NULL, NULL);
 	else
 	{
 		aux_pwd = getcwd(NULL, 0);
 		cd_stat = bi_change_dir_sub(token, data, NULL);
 	}
+//	free(data->oldpwd);
 	data->oldpwd = aux_pwd;
+//	free(aux_pwd);
 	aux = find_key(data->exported_list, "PWD");
-	if (aux != NULL)
+	if (!aux)
+	{
+//		ft_lstadd_back(&data->exported_list, ft_lstnew("PWD", data->pwd));
+		export_var(data->exported_list, (ft_strjoin("PWD=", data->pwd)));
+	}
+	else
 		aux->value = data->pwd;
 	return (cd_stat);
 }
@@ -109,6 +122,10 @@ int	bi_print_working_directory(t_data *data)
 			perror("pwd");
 	}
 	aux = find_key(data->exported_list, "PWD");
-	aux->value = data->pwd;
+	if (!aux)
+//		ft_lstadd_back(&data->exported_list, ft_lstnew("PWD", data->pwd));
+		export_var(data->exported_list, (ft_strjoin("PWD=", data->pwd)));
+	else
+		aux->value = data->pwd;
 	return (0);
 }

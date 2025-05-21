@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:55:58 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/20 19:30:04 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:11:49 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	clear_key(t_list *list, char *key)
 	t_list	*prev;
 
 	aux = list;
+//	dprintf(2, RD"CHECK\n"RES);
 	if (ft_strcmp((list)->key, key) == 0)
 	{
 		list = list->next;

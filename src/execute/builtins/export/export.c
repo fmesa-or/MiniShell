@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:11:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/20 19:11:01 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:17:55 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	export_find_equal(char *argv)
 	return (i);
 }
 
-static int	export_var(t_list *list, char *argv)
+int	export_var(t_list *list, char *argv)
 {
 	int		n;
 	char	*value;
