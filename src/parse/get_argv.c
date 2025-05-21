@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:06:25 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/20 20:33:09 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:03:34 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,13 @@ int	is_cmd(char *av, t_token *tk, t_list *env, t_data *data)
 
 	i = 0;
 	key = find_key(env, "PATH");
-	path = ft_split(key->value, ':');
+	if (!key || ft_strchr(av, '/') != -1)
+	{
+		tk->command = ft_strdup(av);
+		tk->type = CMD;
+		return (1);
+	}
+	path = ft_split(key->value, ':');//segfault cuando unset PATH
 	if (!path)
 		throw_error("ERROR: PATH not found (2)", tk, data);
 	while (path[i])

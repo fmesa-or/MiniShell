@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/21 12:18:17 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:04:33 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,7 +287,7 @@ void	ft_freearray(char **array);
 void	mini_loop();
 
 /*----MS_HDOC---*/
-void	ms_here_doc(t_token *token, t_data *data, int *fd);
+void	ms_here_doc(t_token *token, t_data *data, int *fd, char *limiter);
 void	ms_hdoc_writer(int *fd, char *line, char *limiter);
 
 /*------------PIPE-------------------*/
@@ -358,6 +358,8 @@ char	*p_pwd_sub2(char *old_prompt, char *char_aux, int i, int start);
 char	*prompt_comp_first(char *char_aux, char *char_aux2, int i, int start);
 
 int	export_var(t_list *list, char *argv);
+int	err_argv_command(char **argv);
+
 
 
 #endif

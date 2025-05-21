@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:47:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/20 16:39:55 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:12:29 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,26 +53,27 @@ int	bi_exit(char **av)
 {
 	long	nb;
 
-	write(1, "exit\n", 5);
+//	write(1, "exit\n", 5);
 	if (av[1] && av[2])
 	{
-		write(1, "bash: exit:", 11);
+		write(1, "minishell: exit:", 11);
 		write(1, "too many arguments\n", 19);
+		return (1);
 	}
-	if (av[1] && !av[2])
+	else if (av[1] && !av[2])
 	{
 		if (ft_alldigit(av[1]) == 0)
 		{
-			write(1, "bash: exit: ", 12);
+			write(1, "minishell: exit: ", 12);
 			write(1, av[1], sizeof(av[1]));
 			write(1, ": numeric argument required\n", 29);
+			exit(2);
 		}
 		else
 		{
 			nb = ft_atoi(av[1]);
 			exit(nb);
 		}
-		exit(255);
 	}
 	else
 		exit(0);

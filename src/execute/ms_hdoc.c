@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:52:49 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/07 14:06:54 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:03:56 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ms_hdoc_writer(int *fd, char *line, char *limiter)
 *2nd:	Starts the child process.                                        *
 *3rd:	Read from the STDIN with GNL until it finds the limiter.         *
 *************************************************************************/
-void	ms_here_doc(t_token *token, t_data *data, int *fd)
+void	ms_here_doc(t_token *token, t_data *data, int *fd, char *limiter)
 {
 	pid_t	reader;
 	char	*line;
@@ -47,7 +47,7 @@ void	ms_here_doc(t_token *token, t_data *data, int *fd)
 	{
 		close(fd[0]);
 		setup_signal_handlers_hd();
-		ms_hdoc_writer(fd, line, token->redir->file);
+		ms_hdoc_writer(fd, line, limiter);
 	}
 	else
 	{

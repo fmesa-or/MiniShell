@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:11:13 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/21 12:54:14 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 17:41:21 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,15 @@ static int	bi_cd2(t_data *data, char *target_path, int cd_stat)
 {
 	char	*aux_pwd;
 
-	cd_stat = chdir(target_path);
+	cd_stat = (chdir(target_path) * -1);
 	if (cd_stat != 0)
-		throw_error("ERROR: no find rute", NULL, NULL);
+	{
+		//check if access not granted
+		if (access(target_path, X_OK))
+			throw_error("ERROR: Permission denied", NULL, NULL);
+		else
+			throw_error("ERROR: No such file directory", NULL, NULL);
+	}
 	else
 	{
 //		free(data->pwd);

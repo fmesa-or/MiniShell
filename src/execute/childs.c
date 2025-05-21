@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 11:17:17 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/20 16:40:37 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:19:31 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	ms_check_permision(char *command, t_token *token)
 	{
 		write(2, "minishell: ", 11);
 		write(2, command, ft_strlen(command));
-		write(2, ": Permission denied\n", 20);
-		token->l_status = 126;
-		exit(126);
+		write(2, ": Command error\n", 16);
+		(void) token;//borrar
+		exit(127);
 	}
 }
 
@@ -43,7 +43,7 @@ void	ms_exe_childs(t_token *token, t_data *data, int fd[2], int fd_in)
 	}
 	else
 	{
-		dprintf(2, "CHECK: %d\n", data->file_in);
+//		dprintf(2, "CHECK: %d\n", data->file_in);
 		ms_check_permision(token->command, token);
 		if (execve(token->command, token->argv, ms_return_env(data)) == -1)
 			token->l_status = ms_cmd_nf(token->argv[0]);

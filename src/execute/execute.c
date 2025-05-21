@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/20 22:01:08 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:36:12 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	ms_commander(t_token *token, t_data *data, int fd[2], int fd_in, t_token *t
 		token->l_status = ms_builts(token, data, token_prev);
 	else
 	{
+		if ((!ft_strcmp(token->argv[0], "cat") || !ft_strcmp(token->argv[0], "wc")) && token->argv[1])
+			token->l_status = err_argv_command(token->argv);
 		token->pid = fork();
 		if (token->pid == 0)
 		{
@@ -72,13 +74,17 @@ void	ms_commander(t_token *token, t_data *data, int fd[2], int fd_in, t_token *t
 				exit(0);
 			}
 			else
-			{
 				ms_exe_childs(token, data, fd, fd_in);
-			}
 		}
 		else
 		{
 			waitpid(token->pid, &status, 0);
+			data->l_status = token_prev->l_status;
+			if (WIFEXITED(status))
+				token_prev->l_status = WEXITSTATUS(status);
+			if (WIFSIGNALED(status))
+				token_prev->l_status = 128 + WTERMSIG(status);
+			data->l_status = token_prev->l_status;
 			if (fd[1] != STDOUT_FILENO)
 				close(fd[1]);
 			data->file_in = NONE;
@@ -101,7 +107,14 @@ void	ms_main_exe(t_token *token, t_data *data)
 	int		fd[2];
 	int		fd_in;
 
+//	if (token->l_status != 0)
+//		data->l_status = token->l_status;
 	last_token = malloc(sizeof(t_token));
+	if (!last_token)
+	{
+		throw_error("ERROR: malloc at ms_main_exe failed\n", NULL, NULL);
+		return ;
+	}
 	fd_in = STDIN_FILENO;
 	if (!last_token)
 	{
@@ -114,7 +127,6 @@ void	ms_main_exe(t_token *token, t_data *data)
 	data->typeout = NONE;
 	while (token->type != NONE)
 	{
-		token->l_status = 0;
 		ms_fds(token, last_token, data, fd);
 		if (token->type == CMD && (token[1].type == BUIL
 				&& ms_check_built_npipe(token[1]) == 0))
@@ -132,10 +144,12 @@ void	ms_main_exe(t_token *token, t_data *data)
 			data->file_out = NONE;
 			data->typein = NONE;
 			data->typeout = NONE;
+			data->l_status = token->l_status;
 		}
 		last_token = token;
 		token++;
 		fd_in = fd[0];
 	}
 	ms_post_exe(data, last_token, first_token);
+	token->l_status = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/20 21:31:07 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:25:18 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 		tk_list[i].argv = listtoargv(tk_list[i].av_list);
 		if (tk_argvtipe(&tk_list[i], env, data) < 1)
 		{
-			throw_error("ERROR: command not found", tk_list, NULL);
+			throw_error(RD"ERROR: command not found"RES, tk_list, NULL);
 			tk_list->l_status = 127;
 			return (tk_list);
 		}
