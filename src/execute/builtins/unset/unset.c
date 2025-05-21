@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:55:58 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/21 12:11:49 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:15:04 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ static void	clear_key(t_list *list, char *key)
 	if (ft_strcmp((list)->key, key) == 0)
 	{
 		list = list->next;
-		free(aux->value);
-		free(aux->key);
-		free(aux);
+		sfree(aux->value);
+		sfree(aux->key);
+		sfree(aux);
 		return ;
 	}
 	while (aux && ft_strcmp(aux->key, key) != 0)
@@ -38,9 +38,9 @@ static void	clear_key(t_list *list, char *key)
 			prev->next = NULL;
 		else
 			prev->next = aux->next;
-		free(aux->value);
-		free(aux->key);
-		free(aux);
+		sfree(aux->value);
+		sfree(aux->key);
+		sfree(aux);
 	}
 }
 

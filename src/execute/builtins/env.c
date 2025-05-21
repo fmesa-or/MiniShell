@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:08:11 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/21 11:41:32 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:29:43 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*str_miscelaneus(char *key, char *value)
 		aux2 = ft_strjoin(aux, "");
 	else
 		aux2 = ft_strjoin(aux, value);
-	free (aux);
+	sfree(aux);
 	return (aux2);
 }
 
@@ -42,11 +42,11 @@ char	**ms_return_env(t_data *data)
 		i++;
 		list = list->next;
 	}
-	env = malloc(sizeof(char *) * (i + 1));
+	env = smalloc(sizeof(char *) * (i + 1));
 	if (!env)
 	{
-		throw_error("ERROR: malloc failed in ms_return_env", NULL, data);
-		exit(errno);
+		throw_error("ERROR: smalloc failed in ms_return_env", NULL, data);
+		sexit(errno);
 	}
 	list = data->exported_list;
 	i = -1;

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/20 20:54:30 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 21:04:45 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,11 @@ char	**pipe_separator(char *str, t_data* data)
 	start = 0;
 	k = 0;
 	npipe = pipe_count(str);
-	av = malloc(sizeof(char *) * (npipe +1));
+	av = smalloc(sizeof(char *) * (npipe +1));
 	if(!av)
 	{
-		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, data);//pasarle data y token si necesario
-		exit(errno);
+		throw_error("ERROR: smalloc failed in bm_rm_quotes", NULL, data);//pasarle data y token si necesario
+		sexit(errno);
 	}
 	while (str[i])
 	{

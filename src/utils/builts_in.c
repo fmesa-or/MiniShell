@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builts_in.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 13:46:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/13 14:23:31 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:50:51 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int ft_pwd()
 	aux = getcwd(NULL, 0);
 	if (write(1,aux, sizeof(aux)) == -1)
 		return (-1);
-	free(aux);
+	sfree(aux);
 	if (write(1, "\n", 1) == -1)
 		return (-1);
 	return (0);

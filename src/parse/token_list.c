@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/21 20:25:18 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:54:57 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	tk_init(t_token *new)
 	new->av_list = NULL;
 	new->argc = 0;
 	new->pid = 0;
-	new->fd[0] = 0;
-	new->fd[1] = 1;
+	new->fd[0] = -1;
+	new->fd[1] = -1;
 	new->l_status = 0;
 }
 
@@ -67,11 +67,11 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 		write(1, "\n", 1);
 		i++;
 	}
-	tk_list = malloc(sizeof(t_token) * (i + 1));
+	tk_list = smalloc(sizeof(t_token) * (i + 1));
 	if (!tk_list)
 	{
-		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
-		exit(errno);
+		throw_error("ERROR: smalloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
+		sexit(errno);
 	}
 	i = 0;
 	while (pipes[i])

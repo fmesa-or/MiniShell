@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 19:53:19 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/20 16:56:15 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:15:04 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void	ft_fake_hdoc(t_token *token)
 			line = readline("> ");
 			if (ft_strcmp(line, token->redir->file) == 0)
 			{
-				free(line);
+				sfree(line);
 				break ;
 			}
-			free(line);
+			sfree(line);
 		}
 	}
 	else

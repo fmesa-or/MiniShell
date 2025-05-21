@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:14:29 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/03/25 13:07:50 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:36:37 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strdup(const char *s1)
 	char		*ptr;
 	int		i;
 
-	ptr = (char *) malloc (sizeof(char) * (ft_strlen(s1)+1));
+	ptr = (char *) smalloc(sizeof(char) * (ft_strlen(s1)+1));
 	if (!ptr)
 		return (NULL);
 	i = 0;
@@ -64,11 +64,11 @@ char	**ft_clear(char ***ptr)
 		i = 0;
 		while ((*ptr)[i])
 		{
-			free((*ptr)[i]);
+			sfree((*ptr)[i]);
 			(*ptr)[i] = NULL;
 			i++;
 		}
-		free(*ptr);
+		sfree(*ptr);
 		*ptr = NULL;
 	}
 	return (*ptr);
@@ -124,7 +124,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (ft_strdup(""));
 	else if (size - start < len)
 		len = size - start;
-	ptr = malloc(sizeof(char) * (len + 1));
+	ptr = smalloc(sizeof(char) * (len + 1));
 	if (!ptr)
 		return (NULL);
 	j = 0;
@@ -157,7 +157,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	words = ft_countstr(s, c);
-	ptr = malloc(sizeof(char *) * (words + 1));
+	ptr = smalloc(sizeof(char *) * (words + 1));
 	if (!ptr)
 		return (NULL);
 	ptr = fill_split(ptr, s, c);

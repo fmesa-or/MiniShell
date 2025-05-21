@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:47:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/21 18:12:29 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 21:10:44 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,15 @@ int	bi_exit(char **av)
 			write(1, "minishell: exit: ", 12);
 			write(1, av[1], sizeof(av[1]));
 			write(1, ": numeric argument required\n", 29);
-			exit(2);
+			sexit(2);
 		}
 		else
 		{
 			nb = ft_atoi(av[1]);
-			exit(nb);
+			sexit(nb);
 		}
 	}
 	else
-		exit(0);
+		sexit(0);
+	return (0);
 }

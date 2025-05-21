@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:11:13 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/21 17:41:21 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:50:46 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ static int	bi_cd2(t_data *data, char *target_path, int cd_stat)
 	}
 	else
 	{
-//		free(data->pwd);
+//		sfree(data->pwd);
 		dprintf(2, RD"CHECK: %s\n"RES, data->pwd);
 		aux_pwd = getcwd(NULL, 0);
 		data->pwd = aux_pwd;
 		dprintf(2, RD"CHECK: %s\n"RES, data->pwd);
-//		free(aux_pwd);
+//		sfree(aux_pwd);
 		if (!data->pwd)
 			throw_error("ERROR: failed to update pwd", NULL, NULL);
 	}
@@ -93,9 +93,8 @@ int	bi_change_dir(t_token *token, t_data *data)
 		aux_pwd = getcwd(NULL, 0);
 		cd_stat = bi_change_dir_sub(token, data, NULL);
 	}
-//	free(data->oldpwd);
+	sfree(data->oldpwd);
 	data->oldpwd = aux_pwd;
-//	free(aux_pwd);
 	aux = find_key(data->exported_list, "PWD");
 	if (!aux)
 	{

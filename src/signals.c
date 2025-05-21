@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 13:09:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/20 14:40:25 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 21:04:45 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ctrl_c_handler_hd(int sig)
 //	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	exit(1);
+	sexit(1);
 }
 */
 

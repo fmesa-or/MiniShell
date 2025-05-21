@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:52:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/05 17:12:46 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:15:04 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ int	redir_fill(t_token *tk, char *str, int rd_type, int i, t_data *data)
 {
 	t_redir *aux_red;
 
-	aux_red = malloc(sizeof(t_redir));
+	aux_red = smalloc(sizeof(t_redir));
 	if (!aux_red)
 	{
-		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
-		exit(errno);
+		throw_error("ERROR: smalloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
+		sexit(errno);
 	}
 	aux_red->next = NULL;
 	aux_red->index = i;
@@ -72,8 +72,8 @@ char	*rd_strdel(t_redir *redir, char *str)
 		aux1 = ft_substr(str, 0, i);
 		aux2 = ft_substr(str, extra_len, ft_strlen(str));
 		str = ft_strcjoin(aux1, aux2, ' ');
-		free(aux1);
-		free(aux2);
+		sfree(aux1);
+		sfree(aux2);
 		return(str);
 		
 	}
@@ -83,8 +83,8 @@ char	*rd_strdel(t_redir *redir, char *str)
 		aux1 = ft_substr(str, 0, i);
 		aux2 = ft_substr(str, extra_len, ft_strlen(str));
 		str = ft_strcjoin(aux1, aux2, ' ');
-		free(aux1);
-		free(aux2);
+		sfree(aux1);
+		sfree(aux2);
 		return(str);
 	}
 	else

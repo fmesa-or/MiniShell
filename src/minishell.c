@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/21 17:12:20 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 00:15:59 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,27 @@ t_data	*data_init(t_list *env)
 	t_data	*data_list;
 	t_list	*node;
 
-	data_list = malloc(sizeof(t_data));
+	data_list = smalloc(sizeof(t_data));
 	if (!data_list)
 	{
 		throw_error("ERROR: ", NULL, NULL);	
-		exit(errno);
+		sexit(errno);
 	}
 	data_list->l_status = 0;
 	data_list->cmnds = NULL;
 	data_list->exported_list = env;
 	data_list->user_input = NULL;
-	data_list->bk_in = dup(STDIN_FILENO);
-	data_list->bk_out = dup(STDOUT_FILENO);
+	data_list->bk_in = sdup(STDIN_FILENO);
+	data_list->bk_out = sdup(STDOUT_FILENO);
 	data_list->file_in = 0;
 	data_list->file_out = 1;
+	ft_memset(data_list->fd_table, 0, sizeof(data_list->fd_table));
+	ft_memset(data_list->mem_table, 0, sizeof(data_list->mem_table));
 	node = find_key(env, "PATH");
 	if (!node)
 		throw_error("ERROR: PATH has been deleted", NULL, data_list);
 //	data_list->pwd = ft_strdup(node->value);
-//	data_list->pwd = (char*)malloc(sizeof(getcwd));
+//	data_list->pwd = (char*)smalloc(sizeof(getcwd));
 	data_list->pwd = getcwd(NULL, 0);
 	data_list->oldpwd = getcwd(NULL, 0);
 	if (data_list->pwd == NULL)
@@ -85,7 +87,7 @@ void	mini_loop(t_data *data, t_list *list)
 			break ;
 		if (check_quote(data->user_input) == -1)
 		{
-			free(data->user_input);
+			sfree(data->user_input);
 			continue ;
 		}
 		if (g_signal == SIGINT)
@@ -99,12 +101,12 @@ void	mini_loop(t_data *data, t_list *list)
 		tk_list = parse_main(data->user_input, list, data);
 		ms_main_exe(tk_list, data); //ls -l | grep docs | wc -l
 	/* 	if (ft_strcmp(tk_list->command, "exit"))
-			ft_exit(NULL); */
+			ft_sexit(NULL); */
 //		ft_tokenclear(tk_list); /*/aquí peta, REVISAR
 //		free_partial_data(data);
 	//	rl_on_new_line();
 	//	rl_redisplay();
-//		free(prompt);
+//		sfree(prompt);
 	}
 }
 
@@ -112,11 +114,13 @@ int main(int argc, char **argv, char **env)
 {
 	t_data	*data;
 	t_list	*list;
+	int		final_status;
 
+	final_status = 0;
 	if (!env[0])
 	{
 		throw_error("ERROR: Enviroment not found.", NULL, NULL);
-		exit(errno);
+		sexit(errno);
 	}
 	list = envtolist(env);
 	//Efectivamente en el momento de almacenar en list, es cuando metemos los datos extras.!!
@@ -129,9 +133,10 @@ int main(int argc, char **argv, char **env)
 	if (argc == 1 && argv)
 	{
 		data = data_init(list);
-		//		free(data); //ESTO HACIA QUE PETASE
+		//		sfree(data); //ESTO HACIA QUE PETASE
 		mini_loop(data, list);
+		final_status = data->l_status;
 		free_all_data(data);
 	}
-	return (0);
+	sexit(final_status);
 }

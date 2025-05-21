@@ -20,22 +20,7 @@
 
 	#pragma region "Variables"
 		
-		#define MEM_HASH_SIZE 1031
-
-		enum e_type {
-			NO_MEMORY = 90,
-			DUP_FAIL = 46,
-			DUP2_FAIL = 47,
-			PIPE_FAIL = 48
-		};
-
-		typedef struct s_mem {
-			void			*ptr;
-			struct s_mem	*next;
-		}	t_mem;
-
-		static t_mem	*mem_table[MEM_HASH_SIZE];
-		static int		fd_table[1024];
+//rellenar toda la info, con la estructura nueva en data!!!
 
 	#pragma endregion
 
@@ -237,14 +222,13 @@
 
 #pragma region "SDUP2"
 
-	int sdup2(int *fd1, int fd2, int closeFD) {
+	int sdup2(int fd1, int fd2) {
 		int	new_fd = -1;
 
-		if (*fd1 == -1)		return (new_fd);
-		if (*fd1 == fd2)	return (0);
+		if (fd1 == -1)	return (new_fd);
+		if (fd1 == fd2)	return (0);
 
-		new_fd = dup2(*fd1, fd2);
-		if (closeFD) { close(*fd1); *fd1 = -1; }
+		new_fd = dup2(fd1, fd2);
 		if (new_fd == -1) alloc_fail(DUP2_FAIL);
 
 		fd_table[new_fd] = 1;

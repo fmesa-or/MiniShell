@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/21 18:04:33 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 00:17:20 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,21 @@
 # define PI		"\033[0;94m"
 # define FF		"\033[0;97m"
 # define RES	"\033[0m"
+
+#define MEM_HASH_SIZE 1031
+
+/*descripcion*/
+enum e_type {
+	NO_MEMORY = 90,
+	DUP_FAIL = 46,
+	DUP2_FAIL = 47,
+	PIPE_FAIL = 48
+};
+
+typedef struct s_mem {
+	void			*ptr;
+	struct s_mem	*next;
+}	t_mem;
 
 /**************************************************************************
 *                                 TOKEN                                   *
@@ -80,11 +95,13 @@ typedef struct s_data
 	int				l_status;
 	int				bk_in;
 	int				bk_out;
-	int				fd[2];
+//	int				fd[2];
 	int				file_in;//elarchivo IN
 	int				file_out;//archivo de salida
 	int				typein;//tipo de entrada
 	int				typeout;//tipo de salida
+	t_mem	*mem_table[MEM_HASH_SIZE];
+	int		fd_table[1024];
 }	t_data;
 
 /**********************************************************
@@ -291,7 +308,7 @@ void	ms_here_doc(t_token *token, t_data *data, int *fd, char *limiter);
 void	ms_hdoc_writer(int *fd, char *line, char *limiter);
 
 /*------------PIPE-------------------*/
-void	ms_pipe(t_token *token, t_token *token_prev);
+void	ms_spipe(t_token *token, t_token *token_prev);
 
 /*----PIPEX_EXECUTE----*/
 void	ft_execute(char *argv, char **envp);
@@ -361,5 +378,16 @@ int	export_var(t_list *list, char *argv);
 int	err_argv_command(char **argv);
 
 
+/*--------MEM-------*/
+void	*smalloc(long bytes);
+void	sfree(void *ptr);
+void	sfree_all();
+int		sopen(const char *file, int oflag, int perm);
+int		sclose(int fd);
+void	sclose_all();
+int		sdup(int fd);
+int		sdup2(int fd1, int fd2);
+int		spipe(int *fd);
+void	sexit(int code);
 
 #endif

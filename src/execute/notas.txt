@@ -30,6 +30,7 @@ REVISAR:
 -Solo espacios no debería dar mensaje de error
 -Solo expande el primer $popo $popo
 -echo no está enviando por el stdout correcto cuando hay una redir
+-token->fd[1] en echo y env
 -Limpiar archivos y funciones(14/5)
 -Traducir notas(14/5)
 -Norminette(19/5)
