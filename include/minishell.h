@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/22 00:17:20 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:28:24 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,19 @@
 # define FF		"\033[0;97m"
 # define RES	"\033[0m"
 
-#define MEM_HASH_SIZE 1031
+# define MEM_HASH_SIZE	1031
 
 /*descripcion*/
-enum e_type {
+enum e_type
+{
 	NO_MEMORY = 90,
 	DUP_FAIL = 46,
 	DUP2_FAIL = 47,
 	PIPE_FAIL = 48
 };
 
-typedef struct s_mem {
+typedef struct s_mem
+{
 	void			*ptr;
 	struct s_mem	*next;
 }	t_mem;
@@ -100,8 +102,8 @@ typedef struct s_data
 	int				file_out;//archivo de salida
 	int				typein;//tipo de entrada
 	int				typeout;//tipo de salida
-	t_mem	*mem_table[MEM_HASH_SIZE];
-	int		fd_table[1024];
+	t_mem			*mem_table[MEM_HASH_SIZE];
+	int				fd_table[1024];
 }	t_data;
 
 /**********************************************************
@@ -325,7 +327,7 @@ int	ms_tin_opener(char *argv, int flag, t_token *token, t_data *data, int *fd);
 /*-----------UTILS_EXE-----------*/
 int	ms_gnl(char **line);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char const *s1, char const *s2, t_data *data)
 char	*ft_strdup(const char *s1);
 char	*ms_tolower_str(char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -334,14 +336,15 @@ int		ft_isalpha(int c);
 
 
 /*------BUILTINS------*/
-int		ms_builts(t_token *token, t_data *data, t_token *token_prev);
+int	ms_builts(t_token *token, t_data *data, t_token *token_prev, int *fd);
 int		bi_print_working_directory(t_data *data);
 int		bi_change_dir(t_token *token, t_data *data);
-int		bi_echo(t_token *token);
+int		bi_echo(t_token *token, int *fd);
 t_list	*find_key(t_list *list, char *n_key);
 //int		bi_env(t_list *list);
-int		bi_env(t_data *data, t_token *token);
+int		bi_env(t_data *data, t_token *token, int *fd);
 char	**ms_return_env(t_data *data);
+char	*str_miscelaneus(char *key, char *value, t_data *data);
 int		bi_exit(char **av);
 int		bi_unset(t_list *list, char **argv);
 
@@ -370,24 +373,29 @@ void setup_signal_handlers_hd(void);
 
 /*------PROMPT----*/
 char	*ms_prompt(t_data *data);
-char	*p_pwd_sub1(t_list *aux);
-char	*p_pwd_sub2(char *old_prompt, char *char_aux, int i, int start);
+char	*p_pwd_sub1(t_list *aux, t_data *data);
+char	*p_pwd_sub2(char *old_prompt, char *char_aux, int i, int start, t_data *data);
 char	*prompt_comp_first(char *char_aux, char *char_aux2, int i, int start);
 
 int	export_var(t_list *list, char *argv);
 int	err_argv_command(char **argv);
 
 
+
 /*--------MEM-------*/
-void	*smalloc(long bytes);
-void	sfree(void *ptr);
-void	sfree_all();
-int		sopen(const char *file, int oflag, int perm);
-int		sclose(int fd);
-void	sclose_all();
-int		sdup(int fd);
-int		sdup2(int fd1, int fd2);
-int		spipe(int *fd);
-void	sexit(int code);
+unsigned int	hash_index_ptr(void *ptr);
+void			*smalloc(long bytes, t_data *data);
+void			sfree(void *ptr, t_data *data);
+void			sfree_all(t_data *data);
+int				sopen(const char *file, int oflag, int perm, t_data *data);
+int				sclose(int fd, t_data *data);
+void			sclose_all(t_data *data);
+int				sdup(int fd, t_data *data);
+int				sdup2(int fd1, int fd2, t_data *data);
+int				spipe(int *fd, t_data *data);
+void			sexit(int code, t_data *data);
+void			alloc_fail(int type, t_data *data);
+
+
 
 #endif

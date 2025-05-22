@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:52:49 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/21 22:15:04 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:07:12 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ms_hdoc_writer(int *fd, char *line, char *limiter)
 		write(fd[1], "\n", 1);
 		sfree(line);
 	}
-	sexit(EXIT_SUCCESS);
+	sexit(EXIT_SUCCESS, data);
 }
 
 /*************************************************************************

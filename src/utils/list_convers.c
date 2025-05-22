@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:59:36 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/21 23:36:37 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:08:12 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	**listtoargv(t_list *lst)
 	if (!av)
 	{
 		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
-		sexit(errno);
+		sexit(errno, data);
 	}
 	while (lst)
 	{
@@ -75,7 +75,7 @@ char **listtoenv(t_list *list)
 	if (!env)
 	{
 		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
-		sexit(errno);
+		sexit(errno, data);
 	}
 	i = 0;
 	list = head;

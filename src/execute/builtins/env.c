@@ -6,23 +6,23 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:08:11 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/21 22:29:43 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:27:56 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*str_miscelaneus(char *key, char *value)
+char	*str_miscelaneus(char *key, char *value, t_data *data)
 {
 	char	*aux;
 	char	*aux2;
 
-	aux = ft_strjoin(key, "=");
+	aux = ft_strjoin(key, "=", data);
 	if (!value)
-		aux2 = ft_strjoin(aux, "");
+		aux2 = ft_strjoin(aux, "", data);
 	else
-		aux2 = ft_strjoin(aux, value);
-	sfree(aux);
+		aux2 = ft_strjoin(aux, value, data);
+	sfree(aux, data);
 	return (aux2);
 }
 
@@ -46,13 +46,13 @@ char	**ms_return_env(t_data *data)
 	if (!env)
 	{
 		throw_error("ERROR: smalloc failed in ms_return_env", NULL, data);
-		sexit(errno);
+		sexit(errno, data);
 	}
 	list = data->exported_list;
 	i = -1;
 	while (list)
 	{
-		env[++i] = str_miscelaneus(list->key, list->value);
+		env[++i] = str_miscelaneus(list->key, list->value, data);
 		list = list->next;
 	}
 	env[++i] = NULL;
@@ -63,7 +63,7 @@ char	**ms_return_env(t_data *data)
 *Prints the whole enviroment.                 *
 *Turns the list in a char array and prints it.*
 **********************************************/
-int	bi_env(t_data *data, t_token *token)
+int	bi_env(t_data *data, t_token *token, int *fd)
 {
 	char	**env;
 	int		i;
@@ -75,9 +75,9 @@ int	bi_env(t_data *data, t_token *token)
 	//	if (ft_strncmp(env[i], "minishell", 9) == 0)//ESTAMOS ALMACENANDO EN ENV UN DATO FIANL MAL!!
 	//		break;
 //		printf("%s\n", env[i]);
-		if (write(token->fd[1], env[i], ft_strlen(env[i])) == -1)
+		if (write(fd[1], env[i], ft_strlen(env[i])) == -1)
 			return (-1);
-		if (write(token->fd[1], "\n", 1) == -1)
+		if (write(fd[1], "\n", 1) == -1)
 			return (-1);
 		i++;
 	}

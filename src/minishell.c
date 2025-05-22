@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/22 00:15:59 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:12:36 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ t_data	*data_init(t_list *env)
 	t_data	*data_list;
 	t_list	*node;
 
-	data_list = smalloc(sizeof(t_data));
+	data_list = smalloc(sizeof(t_data), data_list);
 	if (!data_list)
 	{
 		throw_error("ERROR: ", NULL, NULL);	
-		sexit(errno);
+		sexit(errno, data);
 	}
 	data_list->l_status = 0;
 	data_list->cmnds = NULL;
@@ -39,7 +39,7 @@ t_data	*data_init(t_list *env)
 	if (!node)
 		throw_error("ERROR: PATH has been deleted", NULL, data_list);
 //	data_list->pwd = ft_strdup(node->value);
-//	data_list->pwd = (char*)smalloc(sizeof(getcwd));
+//	data_list->pwd = (char*)smalloc(sizeof(getcwd), data_list);
 	data_list->pwd = getcwd(NULL, 0);
 	data_list->oldpwd = getcwd(NULL, 0);
 	if (data_list->pwd == NULL)
@@ -99,14 +99,7 @@ void	mini_loop(t_data *data, t_list *list)
 //			continue ;
 		add_history(data->user_input);
 		tk_list = parse_main(data->user_input, list, data);
-		ms_main_exe(tk_list, data); //ls -l | grep docs | wc -l
-	/* 	if (ft_strcmp(tk_list->command, "exit"))
-			ft_sexit(NULL); */
-//		ft_tokenclear(tk_list); /*/aquí peta, REVISAR
-//		free_partial_data(data);
-	//	rl_on_new_line();
-	//	rl_redisplay();
-//		sfree(prompt);
+		ms_main_exe(tk_list, data);
 	}
 }
 
@@ -120,7 +113,7 @@ int main(int argc, char **argv, char **env)
 	if (!env[0])
 	{
 		throw_error("ERROR: Enviroment not found.", NULL, NULL);
-		sexit(errno);
+		sexit(errno, data);
 	}
 	list = envtolist(env);
 	//Efectivamente en el momento de almacenar en list, es cuando metemos los datos extras.!!
@@ -138,5 +131,5 @@ int main(int argc, char **argv, char **env)
 		final_status = data->l_status;
 		free_all_data(data);
 	}
-	sexit(final_status);
+	sexit(final_status, data);
 }

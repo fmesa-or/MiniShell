@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:27:25 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/21 23:50:10 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:25:05 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,21 @@ char	*p_pwd_sub1(t_list *aux)
 	return (char_aux);
 }
 
-char	*p_pwd_sub2(char *old_prompt, char *char_aux, int i, int start)
+char	*p_pwd_sub2(char *old_prompt, char *char_aux, int i, int start, t_data *data)
 {
 	char	*char_aux2;
 	char	*new_prompt;
 
-	new_prompt = ft_strjoin(old_prompt, "~");
-	sfree(old_prompt);
+	new_prompt = ft_strjoin(old_prompt, "~", data);
+	sfree(old_prompt, data);
 	if ((i - start) > 0)
 	{
 		old_prompt = ft_substr(char_aux, start, (i - start));
-		char_aux2 = ft_strjoin(new_prompt, "/");
-		sfree(new_prompt);
-		new_prompt = ft_strjoin(char_aux2, old_prompt);
-		sfree(old_prompt);
-		sfree(char_aux2);
+		char_aux2 = ft_strjoin(new_prompt, "/", data);
+		sfree(new_prompt, data);
+		new_prompt = ft_strjoin(char_aux2, old_prompt, data);
+		sfree(old_prompt, data);
+		sfree(char_aux2, data);
 	}
 	return (new_prompt);
 }

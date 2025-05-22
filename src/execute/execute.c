@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/21 23:13:49 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:17:22 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ms_fds(t_token *token, t_token *token_prev, t_data *data, int *fd)
 		if (spipe(fd) == -1)
 		{
 			perror("pipe");
-			sexit(EXIT_FAILURE);
+			sexit(EXIT_FAILURE, data);
 		}
 	}
 	if (token->redir)
@@ -49,7 +49,7 @@ void	ms_commander(t_token *token, t_data *data, int fd[2], int fd_in, t_token *t
 		return ;
 	if (token->type == BUIL && (token[1].type == NONE
 			&& token_prev->type == NONE))
-		token->l_status = ms_builts(token, data, token_prev);
+		token->l_status = ms_builts(token, data, token_prev, fd);
 	else
 	{
 		token->pid = fork();
@@ -68,8 +68,8 @@ void	ms_commander(t_token *token, t_data *data, int fd[2], int fd_in, t_token *t
 					sdup2(fd[1], STDOUT_FILENO);
 				sclose(fd[0]);
 				sclose(fd[1]);
-				ms_builts(token, data, token_prev);
-				sexit(0);
+				ms_builts(token, data, token_prev, fd);
+				sexit(0, data);
 			}
 			else
 				ms_exe_childs(token, data, fd, fd_in);
@@ -109,7 +109,7 @@ void	ms_main_exe(t_token *token, t_data *data)
 	fd[1] = -1;
 //	if (token->l_status != 0)
 //		data->l_status = token->l_status;
-	last_token = smalloc(sizeof(t_token));
+	last_token = smalloc(sizeof(t_token), data);
 	if (!last_token)
 	{
 		throw_error("ERROR: smalloc at ms_main_exe failed\n", NULL, NULL);
@@ -119,7 +119,7 @@ void	ms_main_exe(t_token *token, t_data *data)
 	if (!last_token)
 	{
 		throw_error("ERROR: smalloc didn't work as expected.", NULL, data);
-		sexit(errno);
+		sexit(errno, data);
 	}
 	last_token->type = NONE;
 	first_token = token;
