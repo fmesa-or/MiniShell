@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:03:32 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/21 22:15:04 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:07:39 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static t_list	*new_var_list_node(char *key, char *value)
 	if (!node)
 	{
 		throw_error("ERROR: smalloc failed in bm_rm_quotes", NULL, NULL);
-		sexit(errno);
+		sexit(errno, data);
 	}
 	node->key = key;
 	node->value = value;

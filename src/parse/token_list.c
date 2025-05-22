@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/21 22:54:57 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:08:00 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 	if (!tk_list)
 	{
 		throw_error("ERROR: smalloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
-		sexit(errno);
+		sexit(errno, data);
 	}
 	i = 0;
 	while (pipes[i])
