@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/13 13:17:22 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 00:17:20 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,21 @@
 # define PI		"\033[0;94m"
 # define FF		"\033[0;97m"
 # define RES	"\033[0m"
+
+#define MEM_HASH_SIZE 1031
+
+/*descripcion*/
+enum e_type {
+	NO_MEMORY = 90,
+	DUP_FAIL = 46,
+	DUP2_FAIL = 47,
+	PIPE_FAIL = 48
+};
+
+typedef struct s_mem {
+	void			*ptr;
+	struct s_mem	*next;
+}	t_mem;
 
 /**************************************************************************
 *                                 TOKEN                                   *
@@ -80,11 +95,13 @@ typedef struct s_data
 	int				l_status;
 	int				bk_in;
 	int				bk_out;
-	int				fd[2];
+//	int				fd[2];
 	int				file_in;//elarchivo IN
 	int				file_out;//archivo de salida
 	int				typein;//tipo de entrada
 	int				typeout;//tipo de salida
+	t_mem	*mem_table[MEM_HASH_SIZE];
+	int		fd_table[1024];
 }	t_data;
 
 /**********************************************************
@@ -144,7 +161,6 @@ typedef struct s_token
 	int				l_status;
 	struct s_redir	*redir;
 	struct s_list	*av_list;//añadir
-	struct s_list	*env;
 }	t_token;
 
 /**************************************************
@@ -161,17 +177,28 @@ typedef struct s_sherpa
 }	t_sherpa;
 
 /**************************************************************************
-*	Note:                                                                 *
-*1-Is any command after? -> Make a pipe. Modifying the fd.                *
-*2-Redirect.                                                              *
-*3-Check the type of command.                                             *
-*                 In this point changes for the built ins                 *
-*4-Is necesary to fork?->When is not exit, when is not a strange built-in,*
-*	almost always.                                                        *
-*5-Make dup2 of the fd and close.                                         *
-*6-Execute.                                                               *
-*7-From 1 to 7 in the next.                                               *
-**************************************************************************/
+ *	Note:                                                                 *
+ *1-Is any command after? -> Make a pipe. Modifying the fd.                *
+ *2-Redirect.                                                              *
+ *3-Check the type of command.                                             *
+ *                 In this point changes for the built ins                 *
+ *4-Is necesary to fork?->When is not exit, when is not a strange built-in,*
+ *	almost always.                                                        *
+ *5-Make dup2 of the fd and close.                                         *
+ *6-Execute.                                                               *
+ *7-From 1 to 7 in the next.                                               *
+ **************************************************************************/
+
+
+/*--------------PRINTS-------------------*/
+void	printredir(t_redir *red, char *str);
+void	print_tokenlist(t_token *tk);
+void	print2char(char **str);
+
+/*-----------------List_Convers------------------*/
+char	**listtoenv(t_list *list);
+t_list	*envtolist(char **env);
+char	**listtoargv(t_list *lst);
 
 /*------------freedom-----------*/
 void	free_partial_data(t_data *data);
@@ -184,25 +211,29 @@ void	ms_free_3(void *p1, void *p2, void *p3);
 
 
 /*------------redir------------*/
-int	redir_fill(t_token *tk, char *str, int rd_type, int i, t_data *data);
+int		redir_fill(t_token *tk, char *str, int rd_type, int i, t_data *data);
 char	*rd_strdel(t_redir *redir, char *str);
 void	tk_inrd(t_token *tk_node, char *str);
 void	tk_outrd(t_token *tk_node, char *str);
 
 /*------------Redir_utirs------------*/
-void	printredir(t_redir *red, char *str);
 char	*getfilename(char *str, int i, t_redir *rd, t_token *tk, t_data *data);
 void	ft_rediradd_back(t_redir **lst, t_redir *new);
+int		get_redir(t_token *tk, char *str, int j, t_data *data);
+t_redir	*ft_redirlast(t_redir *rd);
 
 /*----------Token_list----------*/
 t_token	*tk_list_init(char **pipes);
 t_token	*tk_list_make(char **pipes, t_list *env, t_data *data);
 
 /*----------Expand-----------*/
-char	*expand_var(char *str, t_list *list, t_data *data);
+char	*expand_var(char *str, t_list *list, t_data *data, t_token *tk);
+/*---------Get_Argv---------*/
+int		is_cmd(char *av, t_token *tk, t_list *env, t_data *data);
+int		is_builtin(t_token *tk, char *av);
+int		get_av(t_list **lst, char *str, int j, t_token *tk);
 
 /*-----------Parse-----------*/
-//int		close_quote(char *str, char c);
 int		pipe_iteri(char *str, int i, char c);
 t_token	*parse_main(char *str, t_list *list, t_data *data);
 int		pipe_count(char *str);
@@ -221,10 +252,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcjoin(char *s1, char *s2, char c);
 
-/*-----------Builts_in-----------*/
-/*int		ft_cd(char **argv, t_data *data);
-int		ft_pwd();
-*/
 /*-----------ft_echo-----------*/
 int		ft_echo(char **argv);
 
@@ -233,12 +260,9 @@ int		ft_atoi(const char *str);
 
 /*----------List_utils----------*/
 void	ft_unset(t_list **list, char *ref);
-char	**listtoenv(t_list *list);
-t_list	*envtolist(char **env);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 t_list	*ft_lstnew(char *n_key, char *n_value);
-char	**listtoargv(t_list *lst);
-int	ft_lstsize(t_list *lst);
+int		ft_lstsize(t_list *lst);
 
 /*-----------ft_export-----------*/
 int		ft_strchr(const char *str, char c);
@@ -249,7 +273,7 @@ char	*ft_itoa(int n);
 /*----------Str_utils-----------*/
 void	ft_putstr_fd(char *s, int fd);
 int		ft_isalnum(int c);
-int		end_quote(char *str, int i, char c);
+int		end_quote(char *str, int i, char c, t_token *tk);
 int		ft_strchr(const char *str, char c);
 int		ft_isspace(char c);
 
@@ -280,11 +304,11 @@ void	ft_freearray(char **array);
 void	mini_loop();
 
 /*----MS_HDOC---*/
-void	ms_here_doc(t_token *token, t_data *data, int *fd);
+void	ms_here_doc(t_token *token, t_data *data, int *fd, char *limiter);
 void	ms_hdoc_writer(int *fd, char *line, char *limiter);
 
 /*------------PIPE-------------------*/
-void	ms_pipe(t_token *token, t_token *token_prev);
+void	ms_spipe(t_token *token, t_token *token_prev);
 
 /*----PIPEX_EXECUTE----*/
 void	ft_execute(char *argv, char **envp);
@@ -350,6 +374,20 @@ char	*p_pwd_sub1(t_list *aux);
 char	*p_pwd_sub2(char *old_prompt, char *char_aux, int i, int start);
 char	*prompt_comp_first(char *char_aux, char *char_aux2, int i, int start);
 
+int	export_var(t_list *list, char *argv);
+int	err_argv_command(char **argv);
 
+
+/*--------MEM-------*/
+void	*smalloc(long bytes);
+void	sfree(void *ptr);
+void	sfree_all();
+int		sopen(const char *file, int oflag, int perm);
+int		sclose(int fd);
+void	sclose_all();
+int		sdup(int fd);
+int		sdup2(int fd1, int fd2);
+int		spipe(int *fd);
+void	sexit(int code);
 
 #endif

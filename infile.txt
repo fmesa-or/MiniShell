@@ -1,0 +1,1 @@
+ echo "$USER    pito" "pito $HOME" 'ams $USER ams'

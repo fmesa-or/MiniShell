@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 18:46:12 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/04/30 12:44:35 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 21:02:51 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_strcjoin(char *s1, char *s2, char c)
 	n = 1;
 	if(c)
 		n++;
-	ptr = (char *)malloc(ft_strlen((char *)s1) + ft_strlen((char *)s2) + n);
+	ptr = (char *)smalloc(ft_strlen((char *)s1) + ft_strlen((char *)s2) + n);
 	if (!ptr)
 		return (0);
 	ptr = cjoin((char *)s1, (char *)s2, ptr, c);

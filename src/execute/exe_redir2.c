@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:50:44 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/20 16:52:53 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 21:14:59 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ int	ms_c_redir(t_token *tk, t_redir *redir, t_sherpa *sh, t_data *data, int *fd)
 
 static t_sherpa	*ms_sherpa_init(t_sherpa *sherpa)
 {
-	sherpa = malloc(sizeof(t_sherpa));
+	sherpa = smalloc(sizeof(t_sherpa));
 	if (!sherpa)
 	{
 		throw_error("ERROR: malloc failed in sherpa", NULL, NULL);
-		exit(errno);
+		sexit(errno);
 	}
 	sherpa->typein = NONE;
 	sherpa->typeout = NONE;
@@ -68,3 +68,4 @@ int	ms_init_redir(t_token *token, t_data *data, int *fd, t_token *token_prev)
 	}
 	return (0);
 }
+

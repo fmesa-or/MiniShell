@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:38:10 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/13 14:42:21 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:36:37 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ static char	*prompt_user(t_list *aux, char *prompt)
 	{
 		aux_prompt = ft_strdup(aux->value);
 		prompt = ft_strjoin(aux_prompt, "\033[0;92m@\033[0;96m");
-		free(aux_prompt);
+		sfree(aux_prompt);
 	}
 	else
 	{
 		aux_prompt = ft_strdup("try_harder");
 		prompt = ft_strjoin(aux_prompt, "\033[0;92m@\033[0;96m");
-		free(aux_prompt);
+		sfree(aux_prompt);
 	}
 	return (prompt);
 }
@@ -69,12 +69,15 @@ static char	*prompt_comp(t_list *aux, char *old_prompt, int i, int start)
 	}
 	else
 	{
-		char_aux = (char *)malloc(sizeof(char) * 9);
+		char_aux = (char *)smalloc(sizeof(char) * 9);
+//		if (!char_aux)
+//			throw_error("ERROR: smalloc fatal failure.", NULL, NULL);
 		char_aux = "harder!!";
 	}
 	new_prompt = p_c_1(old_prompt, new_prompt, char_aux, char_aux2);
-	free(old_prompt);
-	free(char_aux);
+	sfree(old_prompt);
+	if (ft_isalpha(char_aux[0]) == 0 || ft_isalnum(char_aux[0] == 0))
+		sfree(char_aux);
 	return (new_prompt);
 }
 
@@ -104,9 +107,9 @@ static char	*prompt_pwd(t_list *aux, char *old_prompt)
 	start++;
 	new_prompt = p_pwd_sub2(old_prompt, char_aux, i, start);
 	old_prompt = ft_strjoin(new_prompt, "\033[0;92m$\033[0m ");
-	free(new_prompt);
+	sfree(new_prompt);
 	new_prompt = ft_strjoin("\033[0;96m", old_prompt);
-	free(old_prompt);
+	sfree(old_prompt);
 	return (new_prompt);
 }
 

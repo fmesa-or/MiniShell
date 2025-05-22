@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:22:05 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/20 16:53:11 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:23:41 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,34 +53,25 @@ int	err_redir(t_sherpa *sherpa, int *fd)
 	return (0);
 }
 
-/****************************************
-*Returns "argv", adding "new" at the end*
-****************************************/
-static char	**ms_red_argv(char **argv, char *new)
+/*
+*Checks if arguments for command like cat or wc has access.*
+*/
+int	err_argv_command(char **argv)
 {
-	int		i;
-	char	**newarray;
+	int	i;
 
-	i = 0;
-	if (!argv[0])
-		return (NULL);//cambiar por un error
+	i = 1;
+//		dprintf(2, CI"CHECK: %s\n"RES, argv[i]);
 	while (argv[i])
+	{
+		if (access(argv[i], F_OK) == -1 || access(argv[i], R_OK) == -1)
+			return (1);
 		i++;
-	newarray = (char **)malloc(sizeof(char *) * i + 2);
-	if (!newarray)
-	{
-		throw_error("ERROR: malloc failed in ms_red_argv", NULL, NULL);
-		exit (errno);
 	}
-	i = -1;
-	while (argv[++i])
-		newarray[i] = argv[i];
-	newarray[i] = ft_strdup(new);
-	if (!newarray[i])
-	{
-		free(newarray);
-		return (NULL);
-	}
-	newarray[i + 1] = NULL;
-	return (newarray);
+
+/*	if (fd[0] < 0 && (sherpa->typein == IN))
+		return (e_red_mssg(sherpa->filein, 1));
+	if (fd[1] < 0 && (sherpa->typeout != NONE))
+		return (e_red_mssg(sherpa->fileout, 1));*/
+	return (0);
 }
