@@ -1,70 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   migue_split.c                                      :+:      :+:    :+:   */
+/*   new_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/06 14:14:29 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/22 23:22:14 by fmesa-or         ###   ########.fr       */
+/*   Created: 2025/05/22 23:03:16 by fmesa-or          #+#    #+#             */
+/*   Updated: 2025/05/22 23:29:20 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	fill_split2(const char *s, int i, char c)
-{
-	int	j;
-
-	j = 0;
-	while (s[i + j] && s[i + j] != c)
-		j++;
-	return (j);
-}
-
-int	ft_strlen(const char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while(str[i])
-		i++;
-	return (i);
-}
-
-int	ft_countstr(char const *s, char c)
-{
-	int	size;
-	int	i;
-
-	i = 0;
-	size = 0;
-	while (s[i])
-	{
-		if (s[i] != c)
-		{
-			size++;
-			while (s[i] && s[i] != c)
-				i++;
-		}
-		else
-			i++;
-	}
-	return (size);
-}
-
 /**********************************************************************
 *Allocates enough memory to copy 's1'. Copies and returns the pointer.*
 *If there is no enough space available for memory, returns NULL       *
 **********************************************************************/
-static char	*mig_strdup(const char *s1)
+char	*ft_strdup(const char *s1, t_data *data)
 {
 	char		*ptr;
 	int		i;
 
-	ptr = (char *) malloc(sizeof(char) * (ft_strlen(s1) + 1));
+	ptr = (char *) smalloc(sizeof(char) * (ft_strlen(s1) + 1), data);
 	if (!ptr)
 		return (NULL);
 	i = 0;
@@ -77,26 +34,7 @@ static char	*mig_strdup(const char *s1)
 	return (ptr);
 }
 
-char	**ft_clear(char ***ptr)
-{
-	int	i;
-
-	if (ptr && *ptr)
-	{
-		i = 0;
-		while ((*ptr)[i])
-		{
-			free((*ptr)[i]);
-			(*ptr)[i] = NULL;
-			i++;
-		}
-		free(*ptr);
-		*ptr = NULL;
-	}
-	return (*ptr);
-}
-
-static char	*mig_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, unsigned int start, size_t len, t_data *data)
 {
 	size_t			size;
 	char			*ptr;
@@ -106,10 +44,10 @@ static char	*mig_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	size = ft_strlen(s);
 	if (start >= size)
-		return (mig_strdup(""));
+		return (ft_strdup("", data));
 	else if (size - start < len)
 		len = size - start;
-	ptr = malloc(sizeof(char) * (len + 1));
+	ptr = smalloc(sizeof(char) * (len + 1), data);
 	if (!ptr)
 		return (NULL);
 	j = 0;
@@ -122,7 +60,26 @@ static char	*mig_substr(char const *s, unsigned int start, size_t len)
 	return (ptr);
 }
 
-static char	**mig_fill_split(char **ptr, char const *s, char c)
+static char	**new_clear(char ***ptr, t_data *data)
+{
+	int	i;
+
+	if (ptr && *ptr)
+	{
+		i = 0;
+		while ((*ptr)[i])
+		{
+			sfree((*ptr)[i], data);
+			(*ptr)[i] = NULL;
+			i++;
+		}
+		sfree(*ptr, data);
+		*ptr = NULL;
+	}
+	return (*ptr);
+}
+
+char	**fill_split(char **ptr, char const *s, char c, t_data *data)
 {
 	int	i;
 	int	j;
@@ -137,9 +94,9 @@ static char	**mig_fill_split(char **ptr, char const *s, char c)
 			j = fill_split2(s, i, c);
 			if (j)
 			{
-				ptr[k] = mig_substr(s, i, j);
+				ptr[k] = ft_substr(s, i, j, data);
 				if (!ptr[k++])
-					return (ft_clear(&ptr));
+					return (new_clear(&ptr, data));
 				i += j;
 			}
 		}
@@ -150,7 +107,7 @@ static char	**mig_fill_split(char **ptr, char const *s, char c)
 	return (ptr);
 }
 
-char	**mig_split(char const *s, char c)
+char	**ft_split(char const *s, char c, t_data *data)
 {
 	int		words;
 	char	**ptr;
@@ -158,9 +115,25 @@ char	**mig_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	words = ft_countstr(s, c);
-	ptr = malloc(sizeof(char *) * (words + 1));
+	ptr = smalloc(sizeof(char *) * (words + 1), data);
 	if (!ptr)
 		return (NULL);
-	ptr = mig_fill_split(ptr, s, c);
+	ptr = fill_split(ptr, s, c, data);
 	return (ptr);
+}
+
+t_list	*ft_lstnew(char *n_key, char *n_value, t_data *data)
+{
+	t_list *node;
+
+	node = smalloc(sizeof(t_list), data);
+	if (!node)
+	{
+		throw_error("ERROR: smalloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
+		sexit(errno, data);
+	}
+	node->key = n_key;
+	node->value = n_value;
+	node->next = NULL;
+	return (node);
 }

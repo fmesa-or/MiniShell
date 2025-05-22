@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:35:31 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/22 12:06:29 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 22:06:59 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ctrl_c_handler_hd(int sig)
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_redisplay();
-	sexit(1, data);
+	exit(1);
 }
 
 void	setup_signal_handlers_hd(void)

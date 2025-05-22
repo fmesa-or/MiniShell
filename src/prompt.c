@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:38:10 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/22 12:24:51 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 23:44:59 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ static char	*prompt_user(t_list *aux, char *prompt, t_data *data)
 
 	if (aux != NULL)
 	{
-		aux_prompt = ft_strdup(aux->value);
+		aux_prompt = ft_strdup(aux->value, data);
 		prompt = ft_strjoin(aux_prompt, "\033[0;92m@\033[0;96m", data);
-		sfree(aux_prompt);
+//		sfree(aux_prompt, data);
 	}
 	else
 	{
-		aux_prompt = ft_strdup("try_harder");
+		aux_prompt = ft_strdup("try_harder", data);
 		prompt = ft_strjoin(aux_prompt, "\033[0;92m@\033[0;96m", data);
-		sfree(aux_prompt);
+//		sfree(aux_prompt, data);
 	}
 	return (prompt);
 }
@@ -64,8 +64,8 @@ static char	*prompt_comp(t_list *aux, char *old_prompt, int i, int start, t_data
 	char_aux2 = NULL;
 	if (aux != NULL)
 	{
-		char_aux2 = ft_strdup(aux->value);
-		char_aux = prompt_comp_first(char_aux, char_aux2, i, start);
+		char_aux2 = ft_strdup(aux->value, data);
+		char_aux = prompt_comp_first(char_aux, char_aux2, i, start, data);
 	}
 	else
 	{
@@ -75,9 +75,9 @@ static char	*prompt_comp(t_list *aux, char *old_prompt, int i, int start, t_data
 		char_aux = "harder!!";
 	}
 	new_prompt = p_c_1(old_prompt, new_prompt, char_aux, char_aux2, data);
-	sfree(old_prompt);
+//	sfree(old_prompt, data);
 	if (ft_isalpha(char_aux[0]) == 0 || ft_isalnum(char_aux[0] == 0))
-		sfree(char_aux);
+		sfree(char_aux, data);
 	return (new_prompt);
 }
 
@@ -93,7 +93,7 @@ static char	*prompt_pwd(t_list *aux, char *old_prompt, t_data *data)
 
 	i = 0;
 	start = 0;
-	char_aux = p_pwd_sub1(aux);
+	char_aux = p_pwd_sub1(aux, data);
 	while (char_aux[start] && i < 1)
 	{
 		if (char_aux[start] == '/')
@@ -107,9 +107,9 @@ static char	*prompt_pwd(t_list *aux, char *old_prompt, t_data *data)
 	start++;
 	new_prompt = p_pwd_sub2(old_prompt, char_aux, i, start, data);
 	old_prompt = ft_strjoin(new_prompt, "\033[0;92m$\033[0m ", data);
-	sfree(new_prompt, data);
+//	sfree(new_prompt, data);
 	new_prompt = ft_strjoin("\033[0;96m", old_prompt, data);
-	sfree(old_prompt, data);
+//	sfree(old_prompt, data);
 	return (new_prompt);
 }
 

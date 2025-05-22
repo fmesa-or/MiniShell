@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:52:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/22 12:07:52 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 23:52:44 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	redir_fill(t_token *tk, char *str, int rd_type, int i, t_data *data)
 {
 	t_redir *aux_red;
 
-	aux_red = smalloc(sizeof(t_redir));
+	aux_red = smalloc(sizeof(t_redir), data);
 	if (!aux_red)
 	{
 		throw_error("ERROR: smalloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
@@ -30,7 +30,7 @@ int	redir_fill(t_token *tk, char *str, int rd_type, int i, t_data *data)
 	else
 		aux_red->file = getfilename(str, i + 1, aux_red, tk, data);
 	ft_rediradd_back(&tk->redir, aux_red);
-	printf("\nred indx = %i,  archivo = %s\n", aux_red->index, aux_red->file);
+//	printf("\nred indx = %i,  archivo = %s\n", aux_red->index, aux_red->file);
 /* 	while (tk->redir->next)
 	{
 		printf("\n redirfill: \n");
@@ -46,7 +46,7 @@ int	redir_fill(t_token *tk, char *str, int rd_type, int i, t_data *data)
 de cada pipe, despues de guardarlo en la struc.
 Seguro q se pueden abrebiar muchas lineas, 
 segurqmente hay q liberar mas memoria*/
-char	*rd_strdel(t_redir *redir, char *str)
+char	*rd_strdel(t_redir *redir, char *str, t_data *data)
 {
 	int		i;
 	int		extra_len;
@@ -69,22 +69,22 @@ char	*rd_strdel(t_redir *redir, char *str)
 	if (redir->type == HDOC || redir->type == NDOUT)
 	{
 		//caso de dos
-		aux1 = ft_substr(str, 0, i);
-		aux2 = ft_substr(str, extra_len, ft_strlen(str));
-		str = ft_strcjoin(aux1, aux2, ' ');
-		sfree(aux1);
-		sfree(aux2);
+		aux1 = ft_substr(str, 0, i, data);
+		aux2 = ft_substr(str, extra_len, ft_strlen(str), data);
+		str = ft_strcjoin(aux1, aux2, ' ', data);
+		sfree(aux1, data);
+		sfree(aux2, data);
 		return(str);
 		
 	}
 	else if (redir->type == IN || redir->type == DOUT)
 	{
 		//caso de 1
-		aux1 = ft_substr(str, 0, i);
-		aux2 = ft_substr(str, extra_len, ft_strlen(str));
-		str = ft_strcjoin(aux1, aux2, ' ');
-		sfree(aux1);
-		sfree(aux2);
+		aux1 = ft_substr(str, 0, i, data);
+		aux2 = ft_substr(str, extra_len, ft_strlen(str), data);
+		str = ft_strcjoin(aux1, aux2, ' ', data);
+		sfree(aux1, data);
+		sfree(aux2, data);
 		return(str);
 	}
 	else

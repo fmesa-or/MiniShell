@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 13:46:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/21 23:50:51 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 21:19:25 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,18 @@ int	ft_echo(char **argv)
 	para q no tengamos q recurrir a nuestra lista,
 	de manera q siempre lo escriba*/
 
-int ft_pwd()
+/*int ft_pwd(t_data *data)
 {
 	char	*aux;
 
 	aux = getcwd(NULL, 0);
 	if (write(1,aux, sizeof(aux)) == -1)
 		return (-1);
-	sfree(aux);
+	sfree(aux, data);
 	if (write(1, "\n", 1) == -1)
 		return (-1);
 	return (0);
-}
+}*/
 
 /*Esta funcion es para sacar el env actual por pantalla;
 	Convierte nuestra lista en un char ** y lo imprime linea a linea

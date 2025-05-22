@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:35:11 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/22 18:40:21 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 21:28:56 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	mem_add(void *ptr, t_data *data)
 	new_mem = mem_find(ptr, data);
 	if (new_mem)
 	{
-		free(new_mem->ptr);//revisar si es free o sfree
+		free(new_mem->ptr);
 		new_mem->ptr = ptr;
 	}
 	else
@@ -79,7 +79,7 @@ static void	mem_add(void *ptr, t_data *data)
 		index = hash_index_ptr(ptr) % MEM_HASH_SIZE;
 		new_node = malloc(sizeof(t_mem));
 		if (!new_node)
-			alloc_fail(NO_MEMORY);
+			alloc_fail(NO_MEMORY, data);
 
 		new_node->ptr = ptr;
 		new_node->next = data->mem_table[index];
@@ -87,7 +87,7 @@ static void	mem_add(void *ptr, t_data *data)
 	}
 }
 
-void	*smalloc(long bytes, t_data *data)//voy por aquí
+void	*smalloc(long bytes, t_data *data)
 {
 	void	*ptr;
 

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:06 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/22 10:31:32 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 23:48:35 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,18 @@ int	ms_builts(t_token *token, t_data *data, t_token *token_prev, int *fd)
 	else if (ft_strncmp(token->argv[0], "pwd", ft_strlen(token->argv[0])) == 0)
 		ret = bi_print_working_directory(data);
 	else if (ft_strncmp(token->argv[0], "echo", ft_strlen(token->argv[0])) == 0)
-		ret = bi_echo(toke, fd);
+		ret = bi_echo(token, fd);
 	else if ((ft_strncmp(token->argv[0], "export", ft_strlen(token->argv[0]))
 			== 0) && (token[1].type == NONE && token_prev->type == NONE))
-		ret = bi_export(data->exported_list, token->argv);
+		ret = bi_export(data->exported_list, token->argv, data);
 	else if ((ft_strncmp(token->argv[0], "unset", ft_strlen(token->argv[0]))
 			== 0) && (token[1].type == NONE && token_prev->type == NONE))
-		ret = bi_unset(data->exported_list, token->argv);
+		ret = bi_unset(data->exported_list, token->argv, data);
 	else if (ft_strncmp(token->argv[0], "env", ft_strlen(token->argv[0])) == 0)
 		ret = bi_env(data, token, fd);
 	else if ((ft_strncmp(token->argv[0], "exit", ft_strlen(token->argv[0]))
 			== 0) && (token[1].type == NONE && token_prev->type == NONE))
-		ret = bi_exit(token->argv);
+		ret = bi_exit(token->argv, data);
 	else
 		return (0);
 	return (ret);

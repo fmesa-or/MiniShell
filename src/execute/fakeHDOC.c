@@ -6,13 +6,13 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 19:53:19 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/21 22:15:04 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 21:10:53 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_fake_hdoc(t_token *token)
+void	ft_fake_hdoc(t_token *token, t_data *data)
 {
 	char	*line;
 	pid_t	reader;
@@ -26,10 +26,10 @@ void	ft_fake_hdoc(t_token *token)
 			line = readline("> ");
 			if (ft_strcmp(line, token->redir->file) == 0)
 			{
-				sfree(line);
+				sfree(line, data);
 				break ;
 			}
-			sfree(line);
+			sfree(line, data);
 		}
 	}
 	else

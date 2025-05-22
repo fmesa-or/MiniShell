@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:50:44 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/22 12:17:13 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 21:15:22 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ms_c_redir(t_token *tk, t_redir *redir, t_sherpa *sh, t_data *data, int *fd)
 				data->typein, tk, data, fd);
 	}
 	if (sh->hdocflag == true && sh->typein != HDOC)
-		ft_fake_hdoc(tk);
+		ft_fake_hdoc(tk, data);
 	return (ret);
 }
 
@@ -64,7 +64,7 @@ int	ms_init_redir(t_token *token, t_data *data, int *fd, t_token *token_prev)
 		sherpa = ms_sherpa_init(sherpa, data);
 		redir = token->redir;
 		return (ms_c_redir(token, redir,
-				ms_sherpa(token, redir, sherpa, token_prev), data, fd));
+				ms_sherpa(token, redir, sherpa, token_prev, data), data, fd));
 	}
 	return (0);
 }

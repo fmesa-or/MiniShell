@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:08:11 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/22 12:27:56 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 21:35:00 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	**ms_return_env(t_data *data)
 		i++;
 		list = list->next;
 	}
-	env = smalloc(sizeof(char *) * (i + 1));
+	env = smalloc((sizeof(char *) * (i + 1)), data);
 	if (!env)
 	{
 		throw_error("ERROR: smalloc failed in ms_return_env", NULL, data);
@@ -68,6 +68,7 @@ int	bi_env(t_data *data, t_token *token, int *fd)
 	char	**env;
 	int		i;
 
+	(void) token;
 	env = ms_return_env(data);
 	i = 0;
 	while (env[i])

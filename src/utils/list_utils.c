@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/22 12:08:19 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 23:10:38 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*Esta funcion elimina un nodo de nuestra lista, q necesita
 q la pasemos con &, ya que usa doble puntero*/
 
-void	ft_unset(t_list **list, char *ref)
+void	ft_unset(t_list **list, char *ref, t_data *data)
 {
 	t_list  *aux;
 	t_list	*prev;
@@ -23,9 +23,9 @@ void	ft_unset(t_list **list, char *ref)
  	if (ft_strcmp((*list)->key, ref) == 0)
 	{
 		*list =(*list)->next;
-		sfree(aux->value);
-		sfree(aux->key);
-		sfree(aux);
+		sfree(aux->value, data);
+		sfree(aux->key, data);
+		sfree(aux, data);
 		return ;
 	}
 	while (aux && ft_strcmp(aux->key, ref) != 0)
@@ -36,9 +36,9 @@ void	ft_unset(t_list **list, char *ref)
 	if (aux && ft_strcmp(aux->key, ref) == 0)
 	{
 		prev->next = aux->next;
-		sfree(aux->value);
-		sfree(aux->key);
-		sfree(aux);
+		sfree(aux->value, data);
+		sfree(aux->key, data);
+		sfree(aux, data);
 	}
 }
 
@@ -59,15 +59,15 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 }
 
 
-t_list	*ft_lstnew(char *n_key, char *n_value)
+t_list	*mig_lstnew(char *n_key, char *n_value)
 {
 	t_list *node;
 
-	node = smalloc(sizeof(t_list));
+	node = malloc(sizeof(t_list));
 	if (!node)
 	{
 		throw_error("ERROR: smalloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
-		sexit(errno, data);
+		exit(errno);
 	}
 	node->key = n_key;
 	node->value = n_value;

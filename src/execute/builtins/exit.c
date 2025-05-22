@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:47:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/22 12:07:32 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 21:35:32 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_atoi(const char *str)
 	return ((int) nb);
 }
 
-int	bi_exit(char **av)
+int	bi_exit(char **av, t_data *data)
 {
 	long	nb;
 

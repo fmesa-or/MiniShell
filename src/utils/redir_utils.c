@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 17:21:09 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/13 13:57:58 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/22 20:55:58 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*getfilename(char *str, int i, t_redir *rd, t_token *tk, t_data *data)
 	{
 		i = end_quote(str, i + 1, str[i], tk);
 		rd->end_in = i;
-		aux = ft_substr(str, start + 1, i - start - 1);
+		aux = ft_substr(str, start + 1, i - start - 1, data);
 		if (ft_strlen(aux) == 0)
 			throw_error("NO file name", tk, data);
 		return (aux);
@@ -71,7 +71,7 @@ char	*getfilename(char *str, int i, t_redir *rd, t_token *tk, t_data *data)
 		while (!ft_isspace(str[i]) && str[i])
 			i++;
 		rd->end_in = i;
-		return (ft_substr(str, start, i - start));
+		return (ft_substr(str, start, i - start, data));
 	}
 }
 

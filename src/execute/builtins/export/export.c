@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:11:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/21 23:36:37 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 21:31:13 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	export_find_equal(char *argv)
 	return (i);
 }
 
-int	export_var(t_list *list, char *argv)
+int	export_var(t_list *list, char *argv, t_data *data)
 {
 	int		n;
 	char	*value;
@@ -50,21 +50,21 @@ int	export_var(t_list *list, char *argv)
 	n = export_find_equal(argv);
 	if (n != -1)
 	{
-		value = ft_strdup(&(argv[n + 1]));
-		key = ft_substr(argv, 0, n);
+		value = ft_strdup(&(argv[n + 1]), data);
+		key = ft_substr(argv, 0, n, data);
 	}
 	else
-		key = ft_strdup(argv);
+		key = ft_strdup(argv, data);
 	if (!export_is_key_valid(key))
 	{
-		sfree(key);
-		sfree(value);
+		sfree(key, data);
+		sfree(value, data);
 		throw_error("ERROR: Invalid identifier\n", NULL, NULL);
 		return (1);
 	}
-	add_element_to_env(list, ft_strdup(key), ft_strdup(value));
-	sfree(key);
-	sfree(value);
+	add_element_to_env(list, ft_strdup(key, data), ft_strdup(value, data), data);
+	sfree(key, data);
+	sfree(value, data);
 	return (0);
 }
 
@@ -89,7 +89,7 @@ void	export_print_declare(t_list *list)
 *This function will create and modify keys and their values according*
 *to the arguments given.                                             *
 *********************************************************************/
-int	bi_export(t_list *list, char **argv)
+int	bi_export(t_list *list, char **argv, t_data *data)
 {
 	int	i;
 
@@ -98,7 +98,7 @@ int	bi_export(t_list *list, char **argv)
 		export_print_declare(list);
 	while (argv[i])
 	{
-		if (export_var(list, argv[i]) == 1)
+		if (export_var(list, argv[i], data) == 1)
 			return (1);
 		i++;
 	}

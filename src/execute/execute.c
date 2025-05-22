@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/22 12:17:22 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 23:58:55 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ms_fds(t_token *token, t_token *token_prev, t_data *data, int *fd)
 {
 	if (token[1].type != NONE)
 	{
-		if (spipe(fd) == -1)
+		if (spipe(fd, data) == -1)
 		{
 			perror("pipe");
 			sexit(EXIT_FAILURE, data);
@@ -59,15 +59,15 @@ void	ms_commander(t_token *token, t_data *data, int fd[2], int fd_in, t_token *t
 			if (token->type == BUIL)
 			{
 				if (data->typein == IN)
-					sdup2(data->file_in, STDIN_FILENO);
+					sdup2(data->file_in, STDIN_FILENO, data);
 				else if (fd_in != STDIN_FILENO)
-					sdup2(fd_in, STDIN_FILENO);
+					sdup2(fd_in, STDIN_FILENO, data);
 				if (data->typeout == DOUT || data->typeout == NDOUT)
-					sdup2(data->file_out, STDOUT_FILENO);
+					sdup2(data->file_out, STDOUT_FILENO, data);
 				else if (token[1].type == CMD)
-					sdup2(fd[1], STDOUT_FILENO);
-				sclose(fd[0]);
-				sclose(fd[1]);
+					sdup2(fd[1], STDOUT_FILENO, data);
+				sclose(fd[0], data);
+				sclose(fd[1], data);
 				ms_builts(token, data, token_prev, fd);
 				sexit(0, data);
 			}
@@ -84,7 +84,7 @@ void	ms_commander(t_token *token, t_data *data, int fd[2], int fd_in, t_token *t
 				token_prev->l_status = 128 + WTERMSIG(status);
 			data->l_status = token_prev->l_status;
 			if (fd[1] != STDOUT_FILENO)
-				sclose(fd[1]);
+				sclose(fd[1], data);
 			data->file_in = NONE;
 			data->file_out = NONE;
 			data->typein = NONE;
@@ -139,7 +139,7 @@ void	ms_main_exe(t_token *token, t_data *data)
 		else
 		{
 			if (fd[1] != STDOUT_FILENO)
-				sclose(fd[1]);
+				sclose(fd[1], data);
 			data->file_in = NONE;
 			data->file_out = NONE;
 			data->typein = NONE;

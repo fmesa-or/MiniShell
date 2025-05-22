@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:54:04 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/21 23:36:37 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 20:49:49 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ char	*aux_ft(int dig, int n, char *s)
 	return (s);
 }
 
-char	*ft_itoa(int n)
+char	*ft_itoa(int n, t_data *data)
 {
 	char	*s;
 	int		dig;
 
 	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
+		return (ft_strdup("-2147483648", data));
 	dig = cont_dig(n);
-	s = smalloc(sizeof(char) * (dig + 1));
+	s = smalloc(sizeof(char) * (dig + 1), data);
 	if (!s)
 		return (NULL);
 	s[dig] = '\0';

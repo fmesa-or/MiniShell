@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/22 12:28:24 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 23:30:43 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,23 +198,23 @@ void	print_tokenlist(t_token *tk);
 void	print2char(char **str);
 
 /*-----------------List_Convers------------------*/
-char	**listtoenv(t_list *list);
+char	**listtoenv(t_list *list, t_data *data);
 t_list	*envtolist(char **env);
-char	**listtoargv(t_list *lst);
+char	**listtoargv(t_list *lst, t_data *data);
 
 /*------------freedom-----------*/
 void	free_partial_data(t_data *data);
 void	free_all_data(t_data *data);
-void	free_2ptr(char **array);
-void	ft_redirclear(t_redir **red);
-void	ft_tokenclear(t_token *tk);
-void	ft_envclear(t_list **lst);
+void	free_2ptr(char **array, t_data *data);
+void	ft_redirclear(t_redir **red, t_data *data);
+void	ft_tokenclear(t_token *tk, t_data *data);
+void	ft_envclear(t_list **lst, t_data *data);
 void	ms_free_3(void *p1, void *p2, void *p3);
 
 
 /*------------redir------------*/
 int		redir_fill(t_token *tk, char *str, int rd_type, int i, t_data *data);
-char	*rd_strdel(t_redir *redir, char *str);
+char	*rd_strdel(t_redir *redir, char *str, t_data *data);
 void	tk_inrd(t_token *tk_node, char *str);
 void	tk_outrd(t_token *tk_node, char *str);
 
@@ -232,8 +232,8 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data);
 char	*expand_var(char *str, t_list *list, t_data *data, t_token *tk);
 /*---------Get_Argv---------*/
 int		is_cmd(char *av, t_token *tk, t_list *env, t_data *data);
-int		is_builtin(t_token *tk, char *av);
-int		get_av(t_list **lst, char *str, int j, t_token *tk);
+int		is_builtin(t_token *tk, char *av, t_data *data);
+int		get_av(t_list **lst, char *str, int j, t_token *tk, t_data *data);
 
 /*-----------Parse-----------*/
 int		pipe_iteri(char *str, int i, char c);
@@ -243,16 +243,16 @@ char	**pip_separator(char *str);
 
 /*-----------Error-----------*/
 void	throw_error(const char *str, t_token *tk, t_data *data);
-void	free_2ptr(char **array);
 
 /*-----------Split-----------*/
-char	**ft_split(char const *s, char c);
+char	**ft_split(char const *s, char c, t_data *data);
+char	**mig_split(char const *s, char c);
 int		ft_strlen(const char *str);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_substr(char const *s, unsigned int start, size_t len, t_data *data);
 
 /*-----------strCjoin-----------*/
 int		ft_strcmp(const char *s1, const char *s2);
-char	*ft_strcjoin(char *s1, char *s2, char c);
+char	*ft_strcjoin(char *s1, char *s2, char c, t_data *data);
 
 /*-----------ft_echo-----------*/
 int		ft_echo(char **argv);
@@ -261,16 +261,17 @@ int		ft_echo(char **argv);
 int		ft_atoi(const char *str);
 
 /*----------List_utils----------*/
-void	ft_unset(t_list **list, char *ref);
+void	ft_unset(t_list **list, char *ref, t_data *data);
 void	ft_lstadd_back(t_list **lst, t_list *new);
-t_list	*ft_lstnew(char *n_key, char *n_value);
+t_list	*ft_lstnew(char *n_key, char *n_value, t_data *data);
+t_list	*mig_lstnew(char *n_key, char *n_value);
 int		ft_lstsize(t_list *lst);
 
 /*-----------ft_export-----------*/
 int		ft_strchr(const char *str, char c);
 
 /*-----------ft_itoa------------*/
-char	*ft_itoa(int n);
+char	*ft_itoa(int n, t_data *data);
 
 /*----------Str_utils-----------*/
 void	ft_putstr_fd(char *s, int fd);
@@ -281,11 +282,11 @@ int		ft_isspace(char c);
 
 /*------CHILDS------*/
 void	ms_exe_childs(t_token *token, t_data *data, int fd[2], int fd_in);
-void	ms_check_permision(char *command, t_token *token);
+void	ms_check_permision(char *command, t_token *token, t_data *data);
 
 /*------------EXE_REDIR------------------*/
 int	ms_init_redir(t_token *token, t_data *data, int *fd, t_token *token_prev);
-t_sherpa	*ms_sherpa(t_token *token, t_redir *redir, t_sherpa *sherpa, t_token *token_prev);
+t_sherpa	*ms_sherpa(t_token *tk, t_redir *re, t_sherpa *sh, t_token *t_prev, t_data *data);
 int	ms_c_redir(t_token *token, t_redir *redir, t_sherpa *sherpa, t_data *data, int *fd);
 int	err_redir(t_sherpa *sherpa, int *fd);
 int	e_red_mssg(char *file, int flag);
@@ -297,20 +298,20 @@ void	ms_fds(t_token *token, t_token *token_prev, t_data *data, int *fd);
 void	child_process(t_token *token);
 
 /*------FAKEHDOC--------*/
-void	ft_fake_hdoc(t_token *token);
+void	ft_fake_hdoc(t_token *token, t_data *data);
 
 /*----FREE_ARRAY---*/
-void	ft_freearray(char **array);
+//void	ft_freearray(char **array, t_data *data);
 
 /*---MINI_LOOP----*/
 void	mini_loop();
 
 /*----MS_HDOC---*/
 void	ms_here_doc(t_token *token, t_data *data, int *fd, char *limiter);
-void	ms_hdoc_writer(int *fd, char *line, char *limiter);
+void	ms_hdoc_writer(int *fd, char *line, char *limiter, t_data *data);
 
 /*------------PIPE-------------------*/
-void	ms_spipe(t_token *token, t_token *token_prev);
+//void	ms_spipe(t_token *token, t_token *token_prev);
 
 /*----PIPEX_EXECUTE----*/
 void	ft_execute(char *argv, char **envp);
@@ -327,8 +328,8 @@ int	ms_tin_opener(char *argv, int flag, t_token *token, t_data *data, int *fd);
 /*-----------UTILS_EXE-----------*/
 int	ms_gnl(char **line);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-char	*ft_strjoin(char const *s1, char const *s2, t_data *data)
-char	*ft_strdup(const char *s1);
+char	*ft_strjoin(char const *s1, char const *s2, t_data *data);
+char	*ft_strdup(const char *s1, t_data *data);
 char	*ms_tolower_str(char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ms_cmd_nf(char *cmd);
@@ -345,14 +346,14 @@ t_list	*find_key(t_list *list, char *n_key);
 int		bi_env(t_data *data, t_token *token, int *fd);
 char	**ms_return_env(t_data *data);
 char	*str_miscelaneus(char *key, char *value, t_data *data);
-int		bi_exit(char **av);
-int		bi_unset(t_list *list, char **argv);
+int		bi_exit(char **av, t_data *data);
+int		bi_unset(t_list *list, char **argv, t_data *data);
 
 
 /*-------EXPORT------*/
-void	add_element_to_env(t_list *list, char *n_key, char *n_value);
+void	add_element_to_env(t_list *list, char *n_key, char *n_value, t_data *data);
 void	export_print_declare(t_list *list);
-int		bi_export(t_list *list, char **argv);
+int		bi_export(t_list *list, char **argv, t_data *data);
 
 
 
@@ -361,7 +362,6 @@ int		bi_export(t_list *list, char **argv);
 /*-----------Minishell (MAIN)------------*/
 void	mini_loop(t_data *data, t_list *list);
 t_data	*data_init(t_list *env);
-char	*ft_strdup(const char *s1);
 
 /*--------SIGNAL-------*/
 void	ctrl_c_handler(int sig);
@@ -375,9 +375,9 @@ void setup_signal_handlers_hd(void);
 char	*ms_prompt(t_data *data);
 char	*p_pwd_sub1(t_list *aux, t_data *data);
 char	*p_pwd_sub2(char *old_prompt, char *char_aux, int i, int start, t_data *data);
-char	*prompt_comp_first(char *char_aux, char *char_aux2, int i, int start);
+char	*prompt_comp_first(char *char_aux, char *char_aux2, int i, int start, t_data *data);
 
-int	export_var(t_list *list, char *argv);
+int	export_var(t_list *list, char *argv, t_data *data);
 int	err_argv_command(char **argv);
 
 
@@ -395,6 +395,10 @@ int				sdup2(int fd1, int fd2, t_data *data);
 int				spipe(int *fd, t_data *data);
 void			sexit(int code, t_data *data);
 void			alloc_fail(int type, t_data *data);
+t_data	*pre_data_init(void);
+int	fill_split2(const char *s, int i, char c);
+int	ft_countstr(char const *s, char c);
+
 
 
 

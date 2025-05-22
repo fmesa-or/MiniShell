@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/22 12:07:45 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 23:52:11 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	**pipe_separator(char *str, t_data* data)
 	start = 0;
 	k = 0;
 	npipe = pipe_count(str);
-	av = smalloc(sizeof(char *) * (npipe +1));
+	av = smalloc((sizeof(char *) * (npipe +1)), data);
 	if(!av)
 	{
 		throw_error("ERROR: smalloc failed in bm_rm_quotes", NULL, data);//pasarle data y token si necesario
@@ -90,7 +90,7 @@ char	**pipe_separator(char *str, t_data* data)
 	{
 		start = i;
 		i = pipe_iteri(str, start, '|');
-		av[k] = ft_substr(str, start, i - start);
+		av[k] = ft_substr(str, start, i - start, data);
 		if(str[i] == '|')
 			i++;
 		k++;
@@ -110,7 +110,7 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)
 	aux = expand_var(str, list, data, NULL);
 	av = pipe_separator(aux, data);
 	tokens = tk_list_make(av, list, data);
-	free_2ptr(av);
+//	free_2ptr(av, data);
 	if (!tokens)
 		return (NULL);
 	return (tokens);

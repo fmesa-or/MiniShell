@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:03:23 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/22 12:18:23 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/22 21:16:16 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int	ms_gnl(char **line)
 	buffer[i] = '\n';
 	buffer[++i] = '\0';
 	*line = buffer;
-	sfree(buffer);
+	sfree(buffer, data);
 	return (r);
 }
 */
