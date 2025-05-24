@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:06:25 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/22 23:57:39 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:36:37 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,36 +23,36 @@ int	is_cmd(char *av, t_token *tk, t_list *env, t_data *data)
 	key = find_key(env, "PATH");
 	if (!key || ft_strchr(av, '/') != -1)
 	{
-		tk->command = ft_strdup(av, data);
+		tk->command = ft_strdup(av);
 		tk->type = CMD;
 		return (1);
 	}
-	path = ft_split(key->value, ':', data);//segfault cuando unset PATH
+	path = ft_split(key->value, ':');//segfault cuando unset PATH
 	if (!path)
 		throw_error("ERROR: PATH not found (2)", tk, data);
 	while (path[i])
 	{
-		aux = ft_strcjoin(path[i], av, '/', data);
+		aux = ft_strcjoin(path[i], av, '/');
 		if (access(aux, X_OK) == 0)
 		{
-			tk->command = ft_strdup(aux, data);
+			tk->command = ft_strdup(aux);
 			tk->type = CMD;
-//			free_2ptr(path, data);
-//			sfree(aux, data);
+			free_2ptr(path);
+			sfree(aux);
 			return (1);
 		}
 		i++;
 	}
-//	free_2ptr(path, data);
+	free_2ptr(path);
 	//if (aux)
-//	sfree(aux, data);
+		sfree(aux);
 	return (0);
 }
 
 /*******************************************************
 *If is BUILTIN stores it in token->command and return 1*
 *******************************************************/
-int	is_builtin(t_token *tk, char *av, t_data *data)
+int	is_builtin(t_token *tk, char *av)
 {
 	char	*aux[8];
 	int		i;
@@ -71,7 +71,7 @@ int	is_builtin(t_token *tk, char *av, t_data *data)
 		if (ft_strcmp(av, aux[i]) == 0)
 		{
 			tk->type = BUIL;
-			tk->command = ft_strdup(aux[i], data);
+			tk->command = ft_strdup(aux[i]);
 			return (1);
 		}
 		i++;
@@ -79,7 +79,7 @@ int	is_builtin(t_token *tk, char *av, t_data *data)
 	return (0);
 }
 
-int	get_av(t_list **lst, char *str, int j, t_token *tk, t_data *data)
+int	get_av(t_list **lst, char *str, int j, t_token *tk)
 {
 	int start;
 	char *av;
@@ -92,18 +92,18 @@ int	get_av(t_list **lst, char *str, int j, t_token *tk, t_data *data)
 		j = end_quote(str, j + 1, str[j], tk);
 		if (j == -1)
 			return (-1);
-		av = ft_substr(str, start, j + 1 - start, data);
+		av = ft_substr(str, start, j + 1 - start);
 		if (ft_strlen(av) == 2) // si hay comillas vacias pasa de ese argv
 			return (j + 1);
-		ft_lstadd_back(lst, ft_lstnew(av, "q", data)); //le dejo una q en el value para marcar quoted
+		ft_lstadd_back(lst, ft_lstnew(av, "q")); //le dejo una q en el value para marcar quoted
 		return(j + 1);//aqui devuelve con comillas
 	}
 	else
 	{
 		while (!ft_isspace(str[j]) && str[j])
 			j++;
-		av = ft_substr(str, start, j - start, data);
-		ft_lstadd_back(lst, ft_lstnew(av, NULL, data));
+		av = ft_substr(str, start, j - start);
+		ft_lstadd_back(lst, ft_lstnew(av, NULL));
 		return (j);
 	}
 }

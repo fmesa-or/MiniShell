@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/22 23:57:55 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/24 22:07:54 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,78 +14,35 @@
 
 int	g_signal = 0;
 
-static void	*ft_memset(void *str, int c, size_t len)
+static void	data_init(t_data *data, t_list *env)
 {
-	size_t	i;
-	char	*a;
-
-	i = 0;
-	a = (char *)str;
-	while (i < len)
-	{
-		a[i] = c;
-		i++;
-	}
-	return (a);
-}
-
-/*
-static void	copy_void_memory(void *dest, const void *src, size_t n)
-{
-	unsigned char *d;
-	const unsigned char *s;
-
-	d = (unsigned char *)dest;
-	s = (const unsigned char *)src;
-	size_t i = 0;
-	while (i < n)
-	{
-		d[i] = s[i];
-		i++;
-	}
-}*/
-
-t_data	*data_init(t_list *env)
-{
-	t_data	*data_list;
 	t_list	*node;
 
-	data_list = malloc(sizeof(t_data));
-	if (!data_list)
-	{
-		throw_error("ERROR: data_init malloc dramatic failure", NULL, NULL);
-		exit(errno);
-	}
-//	copy_void_memory(data_list->fd_table, pre_data->fd_table, sizeof(data_list->fd_table));
-//	copy_void_memory(data_list->mem_table, pre_data->mem_table, sizeof(data_list->mem_table));
-	ft_memset(data_list->fd_table, 0, sizeof(data_list->fd_table));
-	ft_memset(data_list->mem_table, 0, sizeof(data_list->mem_table));
-	data_list->l_status = 0;
-	data_list->cmnds = NULL;
-	data_list->exported_list = env;
-	data_list->user_input = NULL;
-	data_list->bk_in = sdup(STDIN_FILENO, data_list);
-	data_list->bk_out = sdup(STDOUT_FILENO, data_list);
-	data_list->file_in = 0;
-	data_list->file_out = 1;
+	data->l_status = 0;
+	data->cmnds = NULL;
+	data->exported_list = env;
+	data->user_input = NULL;
+	data->bk_in = sdup(STDIN_FILENO);
+	data->bk_out = sdup(STDOUT_FILENO);
+	data->file_in = 0;
+	data->file_out = 1;
 	node = find_key(env, "PATH");
 	if (!node)
-		throw_error("ERROR: PATH has been deleted", NULL, data_list);
-//	data_list->pwd = ft_strdup(node->value);
-//	data_list->pwd = (char*)smalloc(sizeof(getcwd), data_list);
-	data_list->pwd = getcwd(NULL, 0);
-	data_list->oldpwd = getcwd(NULL, 0);
-	if (data_list->pwd == NULL)
-		throw_error("ERROR: failed to set pwd", NULL, data_list);
-//	printf("PWD: %s\n", data_list->pwd);
+		throw_error("ERROR: PATH has been deleted", NULL, data);
+//	data->pwd = ft_strdup(node->value);
+//	data->pwd = (char*)malloc(sizeof(getcwd));
+	data->pwd = get_cwd();
+	data->oldpwd = get_cwd();
+	if (data->pwd == NULL)
+		throw_error("ERROR: failed to set pwd", NULL, data);
+//	printf("PWD: %s\n", data->pwd);
 	node = find_key(env, "HOME");
 	if (!node)
 	{
-		throw_error("ERROR: HOME has been deleted", NULL, data_list);
+		throw_error("ERROR: HOME has been deleted", NULL, data);
 		exit (0);
 	}
-	data_list->home = ft_strdup(node->value, data_list);
-	return (data_list);
+	data->home = ft_strdup(node->value);
 }
 
 
@@ -110,7 +67,7 @@ void	mini_loop(t_data *data, t_list *list)
 	t_token	*tk_list;
 	char	*prompt;
 
-
+	(void) prompt;
 	setup_signal_handlers();
 	while (1)
 	{
@@ -120,7 +77,7 @@ void	mini_loop(t_data *data, t_list *list)
 			break ;
 		if (check_quote(data->user_input) == -1)
 		{
-			sfree(data->user_input, data);
+			free(data->user_input);
 			continue ;
 		}
 		if (g_signal == SIGINT)
@@ -132,25 +89,32 @@ void	mini_loop(t_data *data, t_list *list)
 //			continue ;
 		add_history(data->user_input);
 		tk_list = parse_main(data->user_input, list, data);
-		ms_main_exe(tk_list, data);
+		ms_main_exe(tk_list, data); //ls -l | grep docs | wc -l
+	/* 	if (ft_strcmp(tk_list->command, "exit"))
+			ft_exit(NULL); */
+//		ft_tokenclear(tk_list); /*/aquí peta, REVISAR
+//		free_partial_data(data);
+	//	rl_on_new_line();
+	//	rl_redisplay();
+//		free(prompt);
 	}
 }
 
 int main(int argc, char **argv, char **env)
 {
-	t_data	*data;
-//	t_data	*pre_data;
+	t_data	data;
 	t_list	*list;
 	int		final_status;
 
-	data = NULL;
-	list = NULL;
 	final_status = 0;
+	ft_memset(&data, 0, sizeof(data));
+	get_pdata(&data);
 	if (!env[0])
 	{
 		throw_error("ERROR: Enviroment not found.", NULL, NULL);
-		exit(errno);
+		sexit(errno);
 	}
+	list = envtolist(env);
 	//Efectivamente en el momento de almacenar en list, es cuando metemos los datos extras.!!
 //	while(list)
 //	{
@@ -160,14 +124,10 @@ int main(int argc, char **argv, char **env)
 //	list = temp;
 	if (argc == 1 && argv)
 	{
-//		pre_data = pre_data_init();
-		list = envtolist(env);
-		data = data_init(list);//luego mandaremos los datos de predata y los copiaremos en data
-		//		free(pre_data);
-		//		free(data); //ESTO HACIA QUE PETASE
-		mini_loop(data, list);
-		final_status = data->l_status;
-//		free_all_data(data);
+		data_init(&data, list);
+		mini_loop(&data, list);
+		final_status = data.l_status;
+		free_all_data(&data);
 	}
-	sexit(final_status, data);
+	sexit(final_status);
 }

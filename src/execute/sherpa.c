@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:48:34 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/22 21:15:59 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:36:37 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /****************************************
 *Returns "argv", adding "new" at the end*
 ****************************************/
-static char	**ms_red_argv(char **argv, char *new, t_data *data)
+static char	**ms_red_argv(char **argv, char *new)
 {
 	int		i;
 	char	**newarray;
@@ -25,19 +25,19 @@ static char	**ms_red_argv(char **argv, char *new, t_data *data)
 		return (NULL);//cambiar por un error
 	while (argv[i])
 		i++;
-	newarray = (char **)smalloc(sizeof(char *) * i + 2, data);
+	newarray = (char **)malloc(sizeof(char *) * i + 2);
 	if (!newarray)
 	{
 		throw_error("ERROR: malloc failed in ms_red_argv", NULL, NULL);
-		sexit (errno, data);
+		exit (errno);
 	}
 	i = -1;
 	while (argv[++i])
 		newarray[i] = argv[i];
-	newarray[i] = ft_strdup(new, data);
+	newarray[i] = ft_strdup(new);
 	if (!newarray[i])
 	{
-		sfree(newarray, data);
+		sfree(newarray);
 		return (NULL);
 	}
 	newarray[i + 1] = NULL;
@@ -47,20 +47,20 @@ static char	**ms_red_argv(char **argv, char *new, t_data *data)
 /*******************************************************************
 *Checks if the command is wc, cat or grep to adapt the input redir.*
 *******************************************************************/
-static void	ms_redin_except(t_token *token, t_sherpa *sherpa, t_data *data)
+static void	ms_redin_except(t_token *token, t_sherpa *sherpa)
 {
 	if ((ft_strcmp(token->argv[0], "wc") == 0)
 		|| (ft_strcmp(token->argv[0], "cat") == 0)
 		|| (ft_strcmp(token->argv[0], "grep") == 0))
 	{
-		token->argv = ms_red_argv(token->argv, sherpa->filein, data);
+		token->argv = ms_red_argv(token->argv, sherpa->filein);
 	}
 }
 
 /**********************************************************
 *Fills t_sherpa data structure info with the t_redir list.*
 **********************************************************/
-t_sherpa	*ms_sherpa(t_token *tk, t_redir *re, t_sherpa *sh, t_token *t_prev, t_data *data)
+t_sherpa	*ms_sherpa(t_token *tk, t_redir *re, t_sherpa *sh, t_token *t_prev)
 {
 	if (!sh)
 		return (NULL);
@@ -77,8 +77,8 @@ t_sherpa	*ms_sherpa(t_token *tk, t_redir *re, t_sherpa *sh, t_token *t_prev, t_d
 		sh->fileout = re->file;
 	}
 	if (re->next)
-		sh = ms_sherpa(tk, re->next, sh, t_prev, data);
+		sh = ms_sherpa(tk, re->next, sh, t_prev);
 	else if (sh->typein == IN && !(tk->argv[1]))
-		ms_redin_except(tk, sh, data);
+		ms_redin_except(tk, sh);
 	return (sh);
 }

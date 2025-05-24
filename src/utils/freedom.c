@@ -6,14 +6,14 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 19:13:54 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/22 21:25:11 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:15:04 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //esto libera arrays dobles
-void	free_2ptr(char **array, t_data *data)
+void	free_2ptr(char **array)
 {
 	int	i;
 
@@ -22,14 +22,14 @@ void	free_2ptr(char **array, t_data *data)
 		return ;
 	while (array[i])
 	{
-		sfree(array[i], data);
+		sfree(array[i]);
 		i++;
 	}
-	sfree(array, data);
+	sfree(array);
 }
 
 //esto libera solo las struct de redirecciones
-void	ft_redirclear(t_redir **red, t_data *data)
+void	ft_redirclear(t_redir **red)
 {
 	t_redir	*aux1;
 	t_redir	*aux2;
@@ -40,31 +40,31 @@ void	ft_redirclear(t_redir **red, t_data *data)
 		while (aux1)
 		{
 			aux2 = aux1->next;
-			sfree(aux1->file, data);
-			sfree(aux1, data);
+			sfree(aux1->file);
+			sfree(aux1);
 			aux1 = aux2;
 		}
 		*red = NULL;
 	}
 }
 
-void	ft_tokenclear(t_token *tk, t_data *data)
+void	ft_tokenclear(t_token *tk)
 {
 	if (tk->command)
 	{
-		sfree(tk->command, data);
+		sfree(tk->command);
 		tk->command = NULL;
 	}
 	if (tk->argv)
-		free_2ptr(tk->argv, data);
+		free_2ptr(tk->argv);
 	if (tk->av_list)
-		ft_envclear(&tk->av_list, data);
+		ft_envclear(&tk->av_list);
 	if (tk->redir)
-		ft_redirclear(&tk->redir, data);
+		ft_redirclear(&tk->redir);
 }
 
 //esto libera el env
-void	ft_envclear(t_list **lst, t_data *data)
+void	ft_envclear(t_list **lst)
 {
 	t_list	*ls1;
 	t_list	*ls2;
@@ -75,10 +75,10 @@ void	ft_envclear(t_list **lst, t_data *data)
 		while (ls1)
 		{
 			ls2 = ls1->next;
-			sfree(ls1->key, data);
+			sfree(ls1->key);
 			if (ls1->value)
-				sfree(ls1->value, data);
-			sfree(ls1, data);
+				sfree(ls1->value);
+			sfree(ls1);
 			ls1 = ls2;
 		}
 		*lst = NULL;
@@ -92,12 +92,12 @@ void	free_partial_data(t_data *data)
 		return ;
 	if (data->cmnds)
 	{
-		free_2ptr(data->cmnds, data);
+		free_2ptr(data->cmnds);
 		data->cmnds = NULL;
 	}
 	if (data->user_input)
 	{
-		sfree(data->user_input, data);
+		sfree(data->user_input);
 		data->user_input = NULL;
 	}
 }
@@ -111,14 +111,14 @@ void	free_all_data(t_data *data)
 	free_partial_data(data);
 	if (data->pwd)
 	{
-		sfree(data->pwd, data);
+		sfree(data->pwd);
 		data->pwd = NULL;
 	}
 	if (data->home)
 	{
-		sfree(data->home, data);
+		sfree(data->home);
 		data->home = NULL;
 	}
 	if (data->exported_list)
-		ft_envclear(&data->exported_list, data);
+		ft_envclear(&data->exported_list);
 }

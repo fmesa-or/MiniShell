@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:03:23 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/22 21:16:16 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:15:04 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*ms_tolower_str(char *str)
 *Reserves memory (with smalloc) and returns a new string*
 *formed by the concatenation of 's1' and 's2'          *
 *******************************************************/
-char	*ft_strjoin(char const *s1, char const *s2, t_data *data)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
 	size_t	sizestr;
@@ -66,7 +66,7 @@ char	*ft_strjoin(char const *s1, char const *s2, t_data *data)
 	size_t	j;
 
 	sizestr = ft_strlen(s1) + ft_strlen(s2) + 1;
-	str = smalloc(sizestr, data);
+	str = smalloc(sizestr);
 	if (!str)
 		return (NULL);
 	i = 0;
@@ -143,7 +143,7 @@ int	ms_gnl(char **line)
 	buffer[i] = '\n';
 	buffer[++i] = '\0';
 	*line = buffer;
-	sfree(buffer, data);
+	sfree(buffer);
 	return (r);
 }
 */

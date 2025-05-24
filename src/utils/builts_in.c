@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builts_in.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzurera- <vzurera-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 13:46:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/22 21:19:25 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/23 19:13:26 by vzurera-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,18 @@ int	ft_echo(char **argv)
 	para q no tengamos q recurrir a nuestra lista,
 	de manera q siempre lo escriba*/
 
-/*int ft_pwd(t_data *data)
+int ft_pwd()
 {
 	char	*aux;
 
-	aux = getcwd(NULL, 0);
+	aux = get_cwd();
 	if (write(1,aux, sizeof(aux)) == -1)
 		return (-1);
-	sfree(aux, data);
+	sfree(aux);
 	if (write(1, "\n", 1) == -1)
 		return (-1);
 	return (0);
-}*/
+}
 
 /*Esta funcion es para sacar el env actual por pantalla;
 	Convierte nuestra lista en un char ** y lo imprime linea a linea

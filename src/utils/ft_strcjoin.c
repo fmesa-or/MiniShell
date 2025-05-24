@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 18:46:12 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/22 20:30:58 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 21:02:51 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*cjoin(char *s1, char *s2, char *ptr, char c)
 }
 /*Esto hace join de dos str metiendo un caracter en medio de los dos
 	Se puede usar como join normal pasando un nuloen el char*/
-char	*ft_strcjoin(char *s1, char *s2, char c, t_data *data)
+char	*ft_strcjoin(char *s1, char *s2, char c)
 {
 	int	n;
 	char	*ptr;
@@ -66,7 +66,7 @@ char	*ft_strcjoin(char *s1, char *s2, char c, t_data *data)
 	n = 1;
 	if(c)
 		n++;
-	ptr = (char *)smalloc(ft_strlen((char *)s1) + ft_strlen((char *)s2) + n, data);
+	ptr = (char *)smalloc(ft_strlen((char *)s1) + ft_strlen((char *)s2) + n);
 	if (!ptr)
 		return (0);
 	ptr = cjoin((char *)s1, (char *)s2, ptr, c);

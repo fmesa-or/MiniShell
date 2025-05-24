@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/22 20:53:15 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:15:04 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*la i esta en el ultimo char de lo q se va a expan
 la j esta en el siguiente char al $*/
-char	*ft_sustit(char *str, int i, int j, t_list *node, t_data *data)
+char	*ft_sustit(char *str, int i, int j, t_list *node)
 {
 	int		size;
 	char	*sub;
@@ -22,20 +22,20 @@ char	*ft_sustit(char *str, int i, int j, t_list *node, t_data *data)
 	char	*new_av;
 
 	size = ft_strlen(str);
-	sub = ft_substr(str, 0, j - 1, data);
+	sub = ft_substr(str, 0, j - 1);
 	if (!node)
-		aux = ft_strcjoin(sub, "", 0, data);
+		aux = ft_strcjoin(sub, "", 0);
 	else
-		aux = ft_strcjoin(sub, node->value, 0, data);
-	sfree(sub, data);
-	sub = ft_substr(str, i, size - i, data);
-	new_av = ft_strcjoin(aux, sub, 0, data);
-	sfree(sub, data);
-	sfree(aux, data);
+		aux = ft_strcjoin(sub, node->value, 0);
+	sfree(sub);
+	sub = ft_substr(str, i, size - i);
+	new_av = ft_strcjoin(aux, sub, 0);
+	sfree(sub);
+	sfree(aux);
 	return (new_av);	
 }
 
-char	*ft_expand(char *str, int *i, t_list *list, t_data *data)
+char	*ft_expand(char  *str, int *i, t_list *list)
 {
 	int	j;
 	int	n;
@@ -46,9 +46,9 @@ char	*ft_expand(char *str, int *i, t_list *list, t_data *data)
 	j = n;
 	while(ft_isalnum(str[n]) && str[n])
 		n++;
-	aux =ft_substr(str, j, n - j, data);
+	aux =ft_substr(str, j, n - j);
 	node = find_key(list, aux);
-	aux = ft_sustit(str, n, j, node, data);
+	aux = ft_sustit(str, n, j, node);
 	(*i) += ft_strlen(list->value) - ft_strlen(list->key); 
 	return (aux);
 }
@@ -62,15 +62,15 @@ char	*put_lstat(char  *str, int *i, t_data *data)
 	char	*sub;
 
 	n = (*i);
-	stat = ft_itoa(data->l_status, data);
-	sub = ft_substr(str, 0, n, data);
-	aux = ft_strcjoin(sub, stat, ' ', data);
-	sfree(sub, data);
-	sfree(stat, data);
-	sub = ft_substr(str, n + 2, ft_strlen(str), data);
-	stat = ft_strcjoin(aux, sub, ' ', data);
-	sfree(aux, data);
-	sfree(sub, data);
+	stat = ft_itoa(data->l_status);
+	sub = ft_substr(str, 0, n);
+	aux = ft_strcjoin(sub, stat, ' ');
+	sfree(sub);
+	sfree(stat);
+	sub = ft_substr(str, n + 2, ft_strlen(str));
+	stat = ft_strcjoin(aux, sub, ' ');
+	sfree(aux);
+	sfree(sub);
 	return (stat);
 }
 
@@ -98,7 +98,7 @@ char	*expand_var(char *str, t_list *list, t_data *data, t_token *tk)
 				if (str[i] == '$' && str[i + 1] == '?')
 					str = put_lstat(str, &i, data);
 				else if (str[i] == '$' && ft_isalnum(str[i+1]))
-					str = ft_expand(str, &i, list, data);
+					str = ft_expand(str, &i, list);
 				i++;
 			}
 		}
@@ -107,7 +107,7 @@ char	*expand_var(char *str, t_list *list, t_data *data, t_token *tk)
 		else if (str[i] == '$' && str[i + 1] == '?')
 			str = put_lstat(str, &i, data);
 		else if (str[i] == '$' && ft_isalnum(str[i+1]))
-			str = ft_expand(str, &i, list, data);
+			str = ft_expand(str, &i, list);
 		i++;
 	}
 	return (str);

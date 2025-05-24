@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:50:44 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/22 21:15:22 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/24 21:58:47 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ms_c_redir(t_token *tk, t_redir *redir, t_sherpa *sh, t_data *data, int *fd)
 		return (0);
 	data->typein = sh->typein;
 	data->typeout = sh->typeout;
-	ret = err_redir(sh, fd);
+	ret = err_redir(sh);
 	if (ret == 0)
 	{
 		data->file_out = ms_tin_opener(sh->fileout,
@@ -31,17 +31,17 @@ int	ms_c_redir(t_token *tk, t_redir *redir, t_sherpa *sh, t_data *data, int *fd)
 				data->typein, tk, data, fd);
 	}
 	if (sh->hdocflag == true && sh->typein != HDOC)
-		ft_fake_hdoc(tk, data);
+		ft_fake_hdoc(tk);
 	return (ret);
 }
 
-static t_sherpa	*ms_sherpa_init(t_sherpa *sherpa, t_data *data)
+static t_sherpa	*ms_sherpa_init(t_sherpa *sherpa)
 {
-	sherpa = smalloc(sizeof(t_sherpa), data);
+	sherpa = smalloc(sizeof(t_sherpa));
 	if (!sherpa)
 	{
 		throw_error("ERROR: malloc failed in sherpa", NULL, NULL);
-		sexit(errno, data);
+		sexit(errno);
 	}
 	sherpa->typein = NONE;
 	sherpa->typeout = NONE;
@@ -61,10 +61,10 @@ int	ms_init_redir(t_token *token, t_data *data, int *fd, t_token *token_prev)
 		return (0);
 	if (token->type == BUIL || token->type == CMD)
 	{
-		sherpa = ms_sherpa_init(sherpa, data);
+		sherpa = ms_sherpa_init(sherpa);
 		redir = token->redir;
 		return (ms_c_redir(token, redir,
-				ms_sherpa(token, redir, sherpa, token_prev, data), data, fd));
+				ms_sherpa(token, redir, sherpa, token_prev), data, fd));
 	}
 	return (0);
 }

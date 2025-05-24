@@ -6,27 +6,27 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:52:49 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/22 21:13:12 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:15:04 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ms_hdoc_writer(int *fd, char *line, char *limiter, t_data *data)
+void	ms_hdoc_writer(int *fd, char *line, char *limiter)
 {
 	while (1)
 	{
 		line = readline("> ");
 		if (ft_strcmp(line, limiter) == 0)
 		{
-			sfree(line, data);
+			sfree(line);
 			break ;
 		}
 		write(fd[1], line, ft_strlen(line));
 		write(fd[1], "\n", 1);
-		sfree(line, data);
+		sfree(line);
 	}
-	sexit(EXIT_SUCCESS, data);
+	sexit(EXIT_SUCCESS);
 }
 
 /*************************************************************************
@@ -40,19 +40,19 @@ void	ms_here_doc(t_token *token, t_data *data, int *fd, char *limiter)
 	char	*line;
 
 	line = NULL;
-	if (spipe(fd, data) == -1)
+	if (spipe(fd) == -1)
 		throw_error("Error: Pipe not working.", token, data);
 	reader = fork();
 	if (reader == 0)
 	{
-		sclose(fd[0], data);
+		sclose(fd[0]);
 		setup_signal_handlers_hd();
-		ms_hdoc_writer(fd, line, limiter, data);
+		ms_hdoc_writer(fd, line, limiter);
 	}
 	else
 	{
-		sclose(fd[1], data);
-		sdup2(fd[0], STDIN_FILENO, data);
+		sclose(fd[1]);
+		sdup2(fd[0], STDIN_FILENO);
 		waitpid(reader, NULL, 0);
 	}
 }

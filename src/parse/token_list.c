@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/22 23:57:49 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:54:57 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	tk_argvtipe(t_token *tk_list, t_list *env, t_data *data)
 	flag = 0;
 	while (tk_list->argv[i])
 	{
-		if (is_builtin(tk_list, tk_list->argv[i], data) == 1)
+		if (is_builtin(tk_list, tk_list->argv[i]) == 1)
 		{
 			if (((ft_strcmp(tk_list->argv[i], "cd") == 0) && (tk_list->argv[i + 1])) && (ft_strcmp(tk_list->argv[i + 1], "..") == 0))
 				i++;
@@ -67,11 +67,11 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 		write(1, "\n", 1);
 		i++;
 	}
-	tk_list = smalloc(sizeof(t_token) * (i + 1), data);
+	tk_list = smalloc(sizeof(t_token) * (i + 1));
 	if (!tk_list)
 	{
 		throw_error("ERROR: smalloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
-		sexit(errno, data);
+		sexit(errno);
 	}
 	i = 0;
 	while (pipes[i])
@@ -85,15 +85,14 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 			if (pipes[i][j] == '<' || pipes[i][j] == '>')
 			{
 				get_redir(&tk_list[i], pipes[i], j, data);
-				pipes[i] = rd_strdel(ft_redirlast(tk_list[i].redir), pipes[i], data); //añadir lo de las comillas
+				pipes[i] = rd_strdel(ft_redirlast(tk_list[i].redir), pipes[i]); //añadir lo de las comillas
 			}
 			else if (pipes[i][j] && (pipes[i][j] != '<' && pipes[i][j] != '>' && !ft_isspace(pipes[i][j])))
-				j = get_av(&tk_list[i].av_list, pipes[i], j, tk_list, data);//funcion q saca un arg, teniendo en cuenta q este primer char puede ser ' o ";
+				j = get_av(&tk_list[i].av_list, pipes[i], j, tk_list);//funcion q saca un arg, teniendo en cuenta q este primer char puede ser ' o ";
 			if (j == -1)
 				return(NULL);
-				
 		}
-		tk_list[i].argv = listtoargv(tk_list[i].av_list, data);
+		tk_list[i].argv = listtoargv(tk_list[i].av_list);
 		if (tk_argvtipe(&tk_list[i], env, data) < 1)
 		{
 			throw_error(RD"ERROR: command not found"RES, tk_list, NULL);

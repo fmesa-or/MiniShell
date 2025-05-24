@@ -25,15 +25,16 @@ comandos:
 valgrind
 
 REVISAR:
--Leaks y fugas de memoria.Echo tiene fugas gordas.(13/5)
--Bombardear(13/5)
--Solo espacios no debería dar mensaje de error
+-last status se actualiza pero no se resetea a 0.
 -Solo expande el primer $popo $popo
--echo no está enviando por el stdout correcto cuando hay una redir
--token->fd[1] en echo y env
+-Leaks y fugas de memoria.Echo tiene fugas gordas.(13/5)
+
+
+-Bombardear(13/5)
 -Limpiar archivos y funciones(14/5)
 -Traducir notas(14/5)
 -Norminette(19/5)
 -Revisión Leaks y general
+-Eliminar wildcards!!!
 
 

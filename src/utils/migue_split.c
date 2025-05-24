@@ -6,32 +6,32 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:14:29 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/22 23:22:14 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:36:37 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	fill_split2(const char *s, int i, char c)
+/**********************************************************************
+*Allocates enough memory to copy 's1'. Copies and returns the pointer.*
+*If there is no enough space available for memory, returns NULL       *
+**********************************************************************/
+char	*ft_strdup(const char *s1)
 {
-	int	j;
+	char		*ptr;
+	int		i;
 
-	j = 0;
-	while (s[i + j] && s[i + j] != c)
-		j++;
-	return (j);
-}
-
-int	ft_strlen(const char *str)
-{
-	int	i;
-
+	ptr = (char *) smalloc(sizeof(char) * (ft_strlen(s1)+1));
+	if (!ptr)
+		return (NULL);
 	i = 0;
-	if (!str)
-		return (0);
-	while(str[i])
+	while (i < ft_strlen(s1))
+	{
+		ptr[i] = s1[i];
 		i++;
-	return (i);
+	}
+	ptr[i] = '\0';
+	return (ptr);
 }
 
 int	ft_countstr(char const *s, char c)
@@ -55,28 +55,6 @@ int	ft_countstr(char const *s, char c)
 	return (size);
 }
 
-/**********************************************************************
-*Allocates enough memory to copy 's1'. Copies and returns the pointer.*
-*If there is no enough space available for memory, returns NULL       *
-**********************************************************************/
-static char	*mig_strdup(const char *s1)
-{
-	char		*ptr;
-	int		i;
-
-	ptr = (char *) malloc(sizeof(char) * (ft_strlen(s1) + 1));
-	if (!ptr)
-		return (NULL);
-	i = 0;
-	while (i < ft_strlen(s1))
-	{
-		ptr[i] = s1[i];
-		i++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
-}
-
 char	**ft_clear(char ***ptr)
 {
 	int	i;
@@ -86,43 +64,27 @@ char	**ft_clear(char ***ptr)
 		i = 0;
 		while ((*ptr)[i])
 		{
-			free((*ptr)[i]);
+			sfree((*ptr)[i]);
 			(*ptr)[i] = NULL;
 			i++;
 		}
-		free(*ptr);
+		sfree(*ptr);
 		*ptr = NULL;
 	}
 	return (*ptr);
 }
 
-static char	*mig_substr(char const *s, unsigned int start, size_t len)
+int	fill_split2(const char *s, int i, char c)
 {
-	size_t			size;
-	char			*ptr;
-	size_t			j;
+	int	j;
 
-	if (!s)
-		return (NULL);
-	size = ft_strlen(s);
-	if (start >= size)
-		return (mig_strdup(""));
-	else if (size - start < len)
-		len = size - start;
-	ptr = malloc(sizeof(char) * (len + 1));
-	if (!ptr)
-		return (NULL);
 	j = 0;
-	while (j < len && s[start + j])
-	{
-		ptr[j] = s[start + j];
+	while (s[i + j] && s[i + j] != c)
 		j++;
-	}
-	ptr[j] = '\0';
-	return (ptr);
+	return (j);
 }
 
-static char	**mig_fill_split(char **ptr, char const *s, char c)
+char	**fill_split(char **ptr, char const *s, char c)
 {
 	int	i;
 	int	j;
@@ -137,7 +99,7 @@ static char	**mig_fill_split(char **ptr, char const *s, char c)
 			j = fill_split2(s, i, c);
 			if (j)
 			{
-				ptr[k] = mig_substr(s, i, j);
+				ptr[k] = ft_substr(s, i, j);
 				if (!ptr[k++])
 					return (ft_clear(&ptr));
 				i += j;
@@ -149,8 +111,45 @@ static char	**mig_fill_split(char **ptr, char const *s, char c)
 	ptr[k] = 0;
 	return (ptr);
 }
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	size_t			size;
+	char			*ptr;
+	size_t			j;
 
-char	**mig_split(char const *s, char c)
+	if (!s)
+		return (NULL);
+	size = ft_strlen(s);
+	if (start >= size)
+		return (ft_strdup(""));
+	else if (size - start < len)
+		len = size - start;
+	ptr = smalloc(sizeof(char) * (len + 1));
+	if (!ptr)
+		return (NULL);
+	j = 0;
+	while (j < len && s[start + j])
+	{
+		ptr[j] = s[start + j];
+		j++;
+	}
+	ptr[j] = '\0';
+	return (ptr);
+}
+
+int	ft_strlen(const char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while(str[i])
+		i++;
+	return (i);
+}
+
+char	**ft_split(char const *s, char c)
 {
 	int		words;
 	char	**ptr;
@@ -158,9 +157,9 @@ char	**mig_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	words = ft_countstr(s, c);
-	ptr = malloc(sizeof(char *) * (words + 1));
+	ptr = smalloc(sizeof(char *) * (words + 1));
 	if (!ptr)
 		return (NULL);
-	ptr = mig_fill_split(ptr, s, c);
+	ptr = fill_split(ptr, s, c);
 	return (ptr);
 }

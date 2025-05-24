@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:50:44 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/22 21:22:58 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:08:34 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ void	throw_error(const char *str, t_token *tk, t_data *data)
 	if (data)
 		free_all_data(data);
 	if (tk)
-		ft_tokenclear(tk, data);
+		ft_tokenclear(tk);
 	return ;
 }
