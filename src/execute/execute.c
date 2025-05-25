@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/24 22:25:41 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/25 13:04:41 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ void	ms_main_exe(t_token *token, t_data *data)
 	data->typeout = NONE;
 	while (token->type != NONE)
 	{
+		data->l_status = 0;
 		ms_fds(token, last_token, data, fd);
 		if (token->type == CMD && (token[1].type == BUIL
 				&& ms_check_built_nspipe(token[1]) == 0))

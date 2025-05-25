@@ -25,10 +25,46 @@ comandos:
 valgrind
 
 REVISAR:
--last status se actualiza pero no se resetea a 0.
--Solo expande el primer $popo $popo
--Leaks y fugas de memoria.Echo tiene fugas gordas.(13/5)
+-builts
+	export(✅)
+	cd(✅)
+	pwd(✅)
+	Echo
+	env
+	exit
+	unset
+comando
+	cat
+	wc
+	grep
+redir
+	in
+	HDOC
+	dout
+	ndout
+	multiples
+errors msg
 
+-Leaks y fugas de memoria.(13/5)
+	builts
+		export
+		cd
+		pwd
+		Echo
+		env
+		exit
+		unset
+	comando
+		cat
+		wc
+		grep
+	redir
+		in
+		HDOC
+		dout
+		ndout
+		multiples
+	errors msg
 
 -Bombardear(13/5)
 -Limpiar archivos y funciones(14/5)

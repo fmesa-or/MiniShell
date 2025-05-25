@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/24 21:59:07 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/25 13:16:01 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -396,5 +396,11 @@ int		sdup(int fd);
 int		sdup2(int fd1, int fd2);
 int		spipe(int *fd);
 void	sexit(int code);
+
+
+/*-----NOT DECLARED!!!!---*/
+char	*ft_expand(char  *str, int i, t_list *list);
+char	*put_lstat(char  *str, int i, t_data *data);
+
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzurera- <vzurera-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:11:13 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/23 19:13:24 by vzurera-         ###   ########.fr       */
+/*   Updated: 2025/05/25 13:26:42 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ static int	bi_cd2(t_data *data, char *target_path, int cd_stat)
 	else
 	{
 //		sfree(data->pwd);
-		dprintf(2, RD"CHECK: %s\n"RES, data->pwd);
 		data->pwd = get_cwd();
-		dprintf(2, RD"CHECK: %s\n"RES, data->pwd);
 		if (!data->pwd)
 			throw_error("ERROR: failed to update pwd", NULL, NULL);
 	}

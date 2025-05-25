@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/21 22:54:57 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/25 13:22:16 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 	j = 0;
 	while (pipes[i])
 	{
-		write(1, pipes[i], ft_strlen(pipes[i]));
-		write(1, "\n", 1);
+//		write(1, pipes[i], ft_strlen(pipes[i]));
+//		write(1, "\n", 1);
 		i++;
 	}
 	tk_list = smalloc(sizeof(t_token) * (i + 1));

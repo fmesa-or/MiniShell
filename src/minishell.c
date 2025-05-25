@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/24 22:07:54 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/25 13:13:41 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	mini_loop(t_data *data, t_list *list)
 	while (1)
 	{
 		prompt = ms_prompt(data);
-		data->user_input = readline("> "); //el prompt debería ser ~user:current_dir$~
+		data->user_input = readline("> ");
 		if (!data->user_input)
 			break ;
 		if (check_quote(data->user_input) == -1)
