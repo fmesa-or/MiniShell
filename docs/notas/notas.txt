@@ -28,7 +28,9 @@ REVISAR:
 -builts
 	export(✅)
 	cd(✅)
+		-señal ctrl + D:  free(): double free detected in tcache 2 \n Aborted (core dumped)
 	pwd(✅)
+		-señal ctrl + D:  free(): double free detected in tcache 2 \n Aborted (core dumped)
 	Echo(✅)
 	env(✅)
 	exit(✅)
@@ -43,7 +45,15 @@ redir
 	dout(✅)
 	ndout(✅)
 	multiples(✅)
-errors msg(✅)
+errors msg(✅):
+
+señales:
+	-al hacer cd $PWD hi, y luego en lugar de exit hacemos ctrl + D hacemos algún doble free en alguna parte.
+
+
+parse:
+	-SOLO cuando es echo "hola" "hola" debería guardarse como argv[1] = holahola
+
 
 -Leaks y fugas de memoria.(13/5)
 	builts
@@ -52,15 +62,16 @@ errors msg(✅)
 		pwd
 		Echo
 		env
-		exit
+		exit:
+			-exit asfas
 		unset
 	comando
-		cat
+		cat:
 		wc
 		grep
 	redir
 		in
-		HDOC
+		HDOC:
 		dout
 		ndout
 		multiples

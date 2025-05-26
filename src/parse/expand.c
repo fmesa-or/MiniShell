@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/26 11:52:48 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:40:23 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ char	*expand_var(char *str, t_list *list, t_data *data, t_token *tk)
 	int i;
 
 	i = 0;
+	while (str[i] == ' ')
+		i++;
 	while(str[i])
 	{
 		if (i == -1)

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/26 12:00:00 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/26 20:11:11 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ char	**pipe_separator(char *str, t_data* data)
 		throw_error("ERROR: smalloc failed in bm_rm_quotes", NULL, data);//pasarle data y token si necesario
 		sexit(errno);
 	}
+	while (str[i] == ' ')
+		i++;
 	while (str[i])
 	{
 		start = i;
