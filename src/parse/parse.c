@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/20 19:19:34 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/26 20:11:11 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,14 @@ char	**pipe_separator(char *str, t_data* data)
 	start = 0;
 	k = 0;
 	npipe = pipe_count(str);
-	av = malloc(sizeof(char *) * (npipe +1));
+	av = smalloc(sizeof(char *) * (npipe +1));
 	if(!av)
 	{
-		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, data);//pasarle data y token si necesario
-		exit(errno);
+		throw_error("ERROR: smalloc failed in bm_rm_quotes", NULL, data);//pasarle data y token si necesario
+		sexit(errno);
 	}
+	while (str[i] == ' ')
+		i++;
 	while (str[i])
 	{
 		start = i;
@@ -109,14 +111,6 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)
 	tokens = NULL;
 	aux = expand_var(str, list, data, NULL);
 	av = pipe_separator(aux, data);
-/* 	while (av[i])
-	{
-		write(1, "\n---PIPE---\n", 13);
-		write(1, av[i], ft_strlen(av[i]));
-		write(1, "\n", 1);
-		write(1, "\n---EPIP---\n", 13);
-		i++;
-	} */
 	tokens = tk_list_make(av, list, data);
 	free_2ptr(av);
 	if (!tokens)

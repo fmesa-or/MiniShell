@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/06 13:49:52 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:15:04 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	ft_unset(t_list **list, char *ref)
  	if (ft_strcmp((*list)->key, ref) == 0)
 	{
 		*list =(*list)->next;
-		free(aux->value);
-		free(aux->key);
-		free(aux);
+		sfree(aux->value);
+		sfree(aux->key);
+		sfree(aux);
 		return ;
 	}
 	while (aux && ft_strcmp(aux->key, ref) != 0)
@@ -36,9 +36,9 @@ void	ft_unset(t_list **list, char *ref)
 	if (aux && ft_strcmp(aux->key, ref) == 0)
 	{
 		prev->next = aux->next;
-		free(aux->value);
-		free(aux->key);
-		free(aux);
+		sfree(aux->value);
+		sfree(aux->key);
+		sfree(aux);
 	}
 }
 
@@ -63,11 +63,11 @@ t_list	*ft_lstnew(char *n_key, char *n_value)
 {
 	t_list *node;
 
-	node = malloc(sizeof(t_list));
+	node = smalloc(sizeof(t_list));
 	if (!node)
 	{
-		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
-		exit(errno);
+		throw_error("ERROR: smalloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
+		sexit(errno);
 	}
 	node->key = n_key;
 	node->value = n_value;

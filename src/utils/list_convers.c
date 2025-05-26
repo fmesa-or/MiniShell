@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_convers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:59:36 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/13 14:05:10 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:36:37 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*ft_strdup_quo(const char *s1)
 	int		i;
 	int		j;
 
-	ptr = (char *) malloc (sizeof(char) * (ft_strlen(s1)-1));
+	ptr = (char *) smalloc(sizeof(char) * (ft_strlen(s1)-1));
 	if (!ptr)
 		return (NULL);
 	i = 0;
@@ -39,11 +39,11 @@ char	**listtoargv(t_list *lst)
 	int		i;
 
 	i = 0;
-	av = malloc(sizeof(char *) * (ft_lstsize(lst) + 1));
+	av = smalloc(sizeof(char *) * (ft_lstsize(lst) + 1));
 	if (!av)
 	{
 		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
-		exit(errno);
+		sexit(errno);
 	}
 	while (lst)
 	{
@@ -71,11 +71,11 @@ char **listtoenv(t_list *list)
 		i++;
 		list = list->next;
 	}
-	env = malloc(sizeof(char *) * i + 1);
+	env = smalloc(sizeof(char *) * i + 1);
 	if (!env)
 	{
 		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
-		exit(errno);
+		sexit(errno);
 	}
 	i = 0;
 	list = head;

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:48:34 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/20 18:18:44 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:36:37 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	**ms_red_argv(char **argv, char *new)
 	newarray[i] = ft_strdup(new);
 	if (!newarray[i])
 	{
-		free(newarray);
+		sfree(newarray);
 		return (NULL);
 	}
 	newarray[i + 1] = NULL;
@@ -67,13 +67,9 @@ t_sherpa	*ms_sherpa(t_token *tk, t_redir *re, t_sherpa *sh, t_token *t_prev)
 	if (re->type == IN || re->type == HDOC)
 	{
 		sh->typein = re->type;
-		if (re->type == IN)
-			sh->filein = re->file;
-		else
-		{
-			sh->filein = NULL;
+		if (re->type == HDOC)
 			sh->hdocflag = true;
-		}
+		sh->filein = re->file;
 	}
 	if (re->type == DOUT || re->type == NDOUT)
 	{

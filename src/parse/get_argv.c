@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_argv.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:06:25 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/13 14:09:15 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/26 20:20:49 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,13 @@ int	is_cmd(char *av, t_token *tk, t_list *env, t_data *data)
 
 	i = 0;
 	key = find_key(env, "PATH");
-	path = ft_split(key->value, ':');
+	if (!key || ft_strchr(av, '/') != -1)
+	{
+		tk->command = ft_strdup(av);
+		tk->type = CMD;
+		return (1);
+	}
+	path = ft_split(key->value, ':');//segfault cuando unset PATH
 	if (!path)
 		throw_error("ERROR: PATH not found (2)", tk, data);
 	while (path[i])
@@ -32,17 +38,20 @@ int	is_cmd(char *av, t_token *tk, t_list *env, t_data *data)
 			tk->command = ft_strdup(aux);
 			tk->type = CMD;
 			free_2ptr(path);
-			free(aux);
+			sfree(aux);
 			return (1);
 		}
 		i++;
 	}
 	free_2ptr(path);
-	if (aux)
-		free(aux);
+	//if (aux)
+		sfree(aux);
 	return (0);
 }
 
+/*******************************************************
+*If is BUILTIN stores it in token->command and return 1*
+*******************************************************/
 int	is_builtin(t_token *tk, char *av)
 {
 	char	*aux[8];

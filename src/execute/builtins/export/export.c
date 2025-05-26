@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:11:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/20 19:11:01 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/26 12:30:42 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	export_find_equal(char *argv)
 	return (i);
 }
 
-static int	export_var(t_list *list, char *argv)
+int	export_var(t_list *list, char *argv)
 {
 	int		n;
 	char	*value;
@@ -57,14 +57,14 @@ static int	export_var(t_list *list, char *argv)
 		key = ft_strdup(argv);
 	if (!export_is_key_valid(key))
 	{
-		free(key);
-		free(value);
-		throw_error("ERROR: Invalid identifier\n", NULL, NULL);
+		sfree(key);
+		sfree(value);
+		throw_error("ERROR: Invalid identifier.", NULL, NULL);
 		return (1);
 	}
 	add_element_to_env(list, ft_strdup(key), ft_strdup(value));
-	free(key);
-	free(value);
+	sfree(key);
+	sfree(value);
 	return (0);
 }
 

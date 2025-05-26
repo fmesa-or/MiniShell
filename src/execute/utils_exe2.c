@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:25:17 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/20 16:59:34 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:19:06 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ms_cmd_nf(char *cmd)
 {
 	write(2, "Minishell: ", 11);
 	write(2, cmd, sizeof(cmd));
-	write(2, ": command not found", 19);
+	write(2, ": command not found\n", 20);
 	return (127);
 }
 

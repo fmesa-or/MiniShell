@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:11:13 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/20 19:24:33 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/26 22:58:44 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,21 @@ static int	bi_cd_homer(t_token *token)
 
 static int	bi_cd2(t_data *data, char *target_path, int cd_stat)
 {
-	cd_stat = chdir(target_path);
+	cd_stat = (chdir(target_path) * -1);
 	if (cd_stat != 0)
-		throw_error("ERROR: no find rute", NULL, data);
+	{
+		//check if access not granted
+		if (access(target_path, X_OK))
+			throw_error("ERROR: Permission denied", NULL, NULL);
+		else
+			throw_error("ERROR: No such file directory", NULL, NULL);
+	}
 	else
 	{
-		free(data->pwd);
-		data->pwd = getcwd(NULL, 0);
+//		sfree(data->pwd);
+		data->pwd = get_cwd();
 		if (!data->pwd)
-			throw_error("ERROR: failed to update pwd", NULL, data);
+			throw_error("ERROR: failed to update pwd", NULL, NULL);
 	}
 	return (cd_stat);
 }
@@ -46,9 +52,9 @@ static int	bi_change_dir_sub(t_token *tk, t_data *data, char *target_path)
 	cd_stat = 0;
 	if (tk->argv[1] && ft_strcmp(tk->argv[1], "-") == 0)
 	{
-		bi_print_working_directory(data);
 		target_path = data->oldpwd;
 		cd_stat = bi_cd2(data, target_path, cd_stat);
+		bi_print_working_directory(data);
 	}
 	else if (bi_cd_homer(tk) == 1)
 	{
@@ -75,15 +81,24 @@ int	bi_change_dir(t_token *token, t_data *data)
 	aux_pwd = NULL;
 	cd_stat = 0;
 	if (token->argv[1] && token->argv[2])
-		throw_error("ERROR: cd: too many arguments.", NULL, data);
+	{
+		throw_error("ERROR: cd: too many arguments.", NULL, NULL);
+		cd_stat = 1;
+	}
 	else
 	{
-		aux_pwd = getcwd(NULL, 0);
+		aux_pwd = get_cwd();
 		cd_stat = bi_change_dir_sub(token, data, NULL);
 	}
+	sfree(data->oldpwd);
 	data->oldpwd = aux_pwd;
 	aux = find_key(data->exported_list, "PWD");
-	if (aux != NULL)
+	if (!aux)
+	{
+//		ft_lstadd_back(&data->exported_list, ft_lstnew("PWD", data->pwd));
+		export_var(data->exported_list, (ft_strjoin("PWD=", data->pwd)));
+	}
+	else
 		aux->value = data->pwd;
 	return (cd_stat);
 }
@@ -99,7 +114,7 @@ int	bi_print_working_directory(t_data *data)
 	}
 	else
 	{
-		data->pwd = getcwd(NULL, 0);
+		data->pwd = get_cwd();
 		if (data->pwd != NULL)
 		{
 			write(1, data->pwd, ft_strlen(data->pwd));
@@ -109,6 +124,10 @@ int	bi_print_working_directory(t_data *data)
 			perror("pwd");
 	}
 	aux = find_key(data->exported_list, "PWD");
-	aux->value = data->pwd;
+	if (!aux)
+//		ft_lstadd_back(&data->exported_list, ft_lstnew("PWD", data->pwd));
+		export_var(data->exported_list, (ft_strjoin("PWD=", data->pwd)));
+	else
+		aux->value = data->pwd;
 	return (0);
 }
