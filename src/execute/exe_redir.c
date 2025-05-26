@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:22:05 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/24 21:59:40 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/26 13:19:23 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,9 @@ int	e_red_mssg(char *file)
 */
 int	err_redir(t_sherpa *sherpa)
 {
-	if (!access(sherpa->filein, F_OK) && access(sherpa->filein, R_OK)
-		&& sherpa->typein == IN)
+	if (sherpa->typein == IN && (!access(sherpa->filein, F_OK) && access(sherpa->filein, R_OK)))
 		return (e_red_mssg(sherpa->filein));
-	if (!access(sherpa->fileout, F_OK) && access(sherpa->fileout, W_OK)
-		&& (sherpa->typeout != NONE))
+	if ( (sherpa->typeout != NONE) && (!access(sherpa->fileout, F_OK) && access(sherpa->fileout, W_OK)))
 		return (e_red_mssg(sherpa->fileout));
 	return (0);
 }

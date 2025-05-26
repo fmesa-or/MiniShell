@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:52:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/21 22:15:04 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/26 12:52:09 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ int	redir_fill(t_token *tk, char *str, int rd_type, int i, t_data *data)
 	else
 		aux_red->file = getfilename(str, i + 1, aux_red, tk, data);
 	ft_rediradd_back(&tk->redir, aux_red);
-	printf("\nred indx = %i,  archivo = %s\n", aux_red->index, aux_red->file);
-/* 	while (tk->redir->next)
+	//	printf("\nred indx = %i,  archivo = %s\n", aux_red->index, aux_red->file);
+	if (!aux_red->file)
 	{
-		printf("\n redirfill: \n");
-		tk->redir = tk->redir->next;
-	} */
+		throw_error("ERROR: syntax error near unexpected token `newline'", NULL, NULL);
+		tk->l_status = 2;
+	}
 	return(aux_red->end_in);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:52:49 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/21 22:15:04 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/26 13:45:07 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ms_here_doc(t_token *token, t_data *data, int *fd, char *limiter)
 
 	line = NULL;
 	if (spipe(fd) == -1)
-		throw_error("Error: Pipe not working.", token, data);
+		throw_error("ERROR: Pipe not working.", token, data);
 	reader = fork();
 	if (reader == 0)
 	{
@@ -51,8 +51,8 @@ void	ms_here_doc(t_token *token, t_data *data, int *fd, char *limiter)
 	}
 	else
 	{
+		waitpid(reader, NULL, 0);
 		sclose(fd[1]);
 		sdup2(fd[0], STDIN_FILENO);
-		waitpid(reader, NULL, 0);
 	}
 }

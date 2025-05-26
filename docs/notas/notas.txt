@@ -29,23 +29,20 @@ REVISAR:
 	export(✅)
 	cd(✅)
 	pwd(✅)
-	Echo
-		-al hacer echo "VAR" "VAR2" genera un espacio que no debería aparecer.
-		nota: me he quedando revisando por expand.c: expand_var: 103
-			las comillas se están separando en algun momento y se almacena como dos argumentos diferentes, por lo que se separan en el parseo.
-	env
-	exit
-	unset
+	Echo(✅)
+	env(✅)
+	exit(✅)
+	unset(✅)
 comando
-	cat
-	wc
-	grep
+	cat(✅)
+	wc(✅)
+	grep(✅)
 redir
-	in
-	HDOC
-	dout
-	ndout
-	multiples
+	in(✅)
+	HDOC(✅)
+	dout(✅)
+	ndout(✅)
+	multiples(✅)
 errors msg
 
 -Leaks y fugas de memoria.(13/5)

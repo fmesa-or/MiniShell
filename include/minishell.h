@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/25 13:16:01 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/26 12:03:38 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,7 +342,7 @@ t_list	*find_key(t_list *list, char *n_key);
 //int		bi_env(t_list *list);
 int		bi_env(t_data *data, t_token *token);
 char	**ms_return_env(t_data *data);
-int		bi_exit(char **av);
+int		bi_exit(char **av, long nb);
 int		bi_unset(t_list *list, char **argv);
 
 
@@ -388,10 +388,10 @@ void	mem_delete(void *ptr);
 void	mem_clear(void);
 void	*smalloc(long bytes);
 void	sfree(void *ptr);
-void	sfree_all();
+void	sfree_all(void);
 int		sopen(const char *file, int oflag, int perm);
 int		sclose(int fd);
-void	sclose_all();
+void	sclose_all(void);
 int		sdup(int fd);
 int		sdup2(int fd1, int fd2);
 int		spipe(int *fd);

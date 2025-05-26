@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/25 13:04:41 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/26 12:56:35 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,13 @@ void	ms_commander(t_token *token, t_data *data, int fd[2], int fd_in, t_token *t
 		else
 		{
 			waitpid(token->pid, &status, 0);
+
 			data->l_status = token_prev->l_status;
 			if (WIFEXITED(status))
-				token_prev->l_status = WEXITSTATUS(status);
+				token->l_status = WEXITSTATUS(status);
 			if (WIFSIGNALED(status))
 				token_prev->l_status = 128 + WTERMSIG(status);
-			data->l_status = token_prev->l_status;
+			data->l_status = token->l_status;
 			if (fd[1] != STDOUT_FILENO)
 				sclose(fd[1]);
 			data->file_in = NONE;
@@ -118,7 +119,7 @@ void	ms_main_exe(t_token *token, t_data *data)
 	last_token = smalloc(sizeof(t_token));
 	if (!last_token)
 	{
-		throw_error("ERROR: smalloc at ms_main_exe failed\n", NULL, NULL);
+		throw_error("ERROR: smalloc at ms_main_exe failed.", NULL, NULL);
 		return ;
 	}
 	fd_in = STDIN_FILENO;
@@ -134,7 +135,8 @@ void	ms_main_exe(t_token *token, t_data *data)
 	while (token->type != NONE)
 	{
 		data->l_status = 0;
-		ms_fds(token, last_token, data, fd);
+		if (token->l_status == 0)
+			ms_fds(token, last_token, data, fd);
 		if (token->type == CMD && (token[1].type == BUIL
 				&& ms_check_built_nspipe(token[1]) == 0))
 		{
@@ -151,8 +153,8 @@ void	ms_main_exe(t_token *token, t_data *data)
 			data->file_out = NONE;
 			data->typein = NONE;
 			data->typeout = NONE;
-			data->l_status = token->l_status;
 		}
+		data->l_status = token->l_status;
 		last_token = token;
 		token++;
 		fd_in = fd[0];

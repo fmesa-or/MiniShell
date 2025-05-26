@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mem_manager.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/26 11:45:11 by fmesa-or          #+#    #+#             */
+/*   Updated: 2025/05/26 11:48:51 by fmesa-or         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-static unsigned int hash_index_ptr(void *ptr)
+static unsigned int	hash_index_ptr(void *ptr)
 {
 	unsigned long	addr;
 
@@ -15,7 +26,7 @@ static unsigned int hash_index_ptr(void *ptr)
 	return (addr % MEM_HASH_SIZE);
 }
 
-static t_mem *mem_find(void *ptr)
+static t_mem	*mem_find(void *ptr)
 {
 	t_data	*data;
 	t_mem	*mem;
@@ -24,7 +35,8 @@ static t_mem *mem_find(void *ptr)
 	if (!data || !ptr)
 		return (NULL);
 	mem = data->mem_table[hash_index_ptr(ptr)];
-	while (mem) {
+	while (mem)
+	{
 		if (mem->ptr == ptr)
 			return (mem);
 		mem = mem->next;
@@ -32,7 +44,7 @@ static t_mem *mem_find(void *ptr)
 	return (NULL);
 }
 
-void mem_add(void *ptr)
+void	mem_add(void *ptr)
 {
 	t_data			*data;
 	unsigned int	i;
@@ -41,12 +53,15 @@ void mem_add(void *ptr)
 
 	data = get_pdata(NULL);
 	if (!data || !ptr)
-		return;	
+		return ;
 	new_mem = mem_find(ptr);
-	if (new_mem) {
+	if (new_mem)
+	{
 		free(new_mem->ptr);
 		new_mem->ptr = ptr;
-	} else {
+	}
+	else
+	{
 		i = hash_index_ptr(ptr) % MEM_HASH_SIZE;
 		new_node = malloc(sizeof(t_mem));
 		if (!new_node)
@@ -57,7 +72,7 @@ void mem_add(void *ptr)
 	}
 }
 
-void mem_delete(void *ptr)
+void	mem_delete(void *ptr)
 {
 	t_data			*data;
 	unsigned int	i;
@@ -66,7 +81,7 @@ void mem_delete(void *ptr)
 
 	data = get_pdata(NULL);
 	if (!data || !ptr)
-		return;	
+		return ;
 	i = hash_index_ptr(ptr);
 	mem = data->mem_table[i];
 	prev = NULL;
@@ -86,7 +101,7 @@ void mem_delete(void *ptr)
 	free(ptr);
 }
 
-void mem_clear(void)
+void	mem_clear(void)
 {
 	t_data			*data;
 	unsigned int	i;
