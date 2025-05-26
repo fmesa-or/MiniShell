@@ -43,7 +43,7 @@ redir
 	dout(✅)
 	ndout(✅)
 	multiples(✅)
-errors msg
+errors msg(✅)
 
 -Leaks y fugas de memoria.(13/5)
 	builts
