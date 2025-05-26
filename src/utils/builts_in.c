@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builts_in.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzurera- <vzurera-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 13:46:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/13 14:23:31 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/23 19:13:26 by vzurera-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ int ft_pwd()
 {
 	char	*aux;
 
-	aux = getcwd(NULL, 0);
+	aux = get_cwd();
 	if (write(1,aux, sizeof(aux)) == -1)
 		return (-1);
-	free(aux);
+	sfree(aux);
 	if (write(1, "\n", 1) == -1)
 		return (-1);
 	return (0);

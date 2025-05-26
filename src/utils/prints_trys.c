@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prints_trys.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzurera- <vzurera-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:48:13 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/13 13:54:45 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/23 18:55:08 by vzurera-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	print_tokenlist(t_token *tk)
 
 	i = 0;
 	printf("\n----------TOKEN LIST----------\n");
-	while (&tk[i] && tk[i].type != NONE)
+	while (tk && tk[i].type != NONE)
 	{
 		printf("tk[%i] :\n", i);
 		if (tk[i].argv)

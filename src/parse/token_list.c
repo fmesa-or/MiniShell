@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/21 20:25:18 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/26 12:54:18 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	tk_init(t_token *new)
 	new->av_list = NULL;
 	new->argc = 0;
 	new->pid = 0;
-	new->fd[0] = 0;
-	new->fd[1] = 1;
+	new->fd[0] = -1;
+	new->fd[1] = -1;
 	new->l_status = 0;
 }
 
@@ -63,15 +63,15 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 	j = 0;
 	while (pipes[i])
 	{
-		write(1, pipes[i], ft_strlen(pipes[i]));
-		write(1, "\n", 1);
+//		write(1, pipes[i], ft_strlen(pipes[i]));
+//		write(1, "\n", 1);
 		i++;
 	}
-	tk_list = malloc(sizeof(t_token) * (i + 1));
+	tk_list = smalloc(sizeof(t_token) * (i + 1));
 	if (!tk_list)
 	{
-		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
-		exit(errno);
+		throw_error("ERROR: smalloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
+		sexit(errno);
 	}
 	i = 0;
 	while (pipes[i])
@@ -95,7 +95,7 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 		tk_list[i].argv = listtoargv(tk_list[i].av_list);
 		if (tk_argvtipe(&tk_list[i], env, data) < 1)
 		{
-			throw_error(RD"ERROR: command not found"RES, tk_list, NULL);
+			throw_error("ERROR: command not found", tk_list, NULL);
 			tk_list->l_status = 127;
 			return (tk_list);
 		}

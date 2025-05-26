@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:48:34 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/21 17:58:46 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:36:37 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	**ms_red_argv(char **argv, char *new)
 	newarray[i] = ft_strdup(new);
 	if (!newarray[i])
 	{
-		free(newarray);
+		sfree(newarray);
 		return (NULL);
 	}
 	newarray[i + 1] = NULL;

@@ -6,13 +6,13 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:06 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/20 19:25:02 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/26 12:03:45 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_builts(t_token *token, t_data *data, t_token *token_prev)
+int	ms_builts(t_token *token, t_data *data, t_token *token_prev, int *fd)
 {
 	int	ret;
 
@@ -23,7 +23,7 @@ int	ms_builts(t_token *token, t_data *data, t_token *token_prev)
 	else if (ft_strncmp(token->argv[0], "pwd", ft_strlen(token->argv[0])) == 0)
 		ret = bi_print_working_directory(data);
 	else if (ft_strncmp(token->argv[0], "echo", ft_strlen(token->argv[0])) == 0)
-		ret = bi_echo(token);
+		ret = bi_echo(token, fd);
 	else if ((ft_strncmp(token->argv[0], "export", ft_strlen(token->argv[0]))
 			== 0) && (token[1].type == NONE && token_prev->type == NONE))
 		ret = bi_export(data->exported_list, token->argv);
@@ -34,7 +34,7 @@ int	ms_builts(t_token *token, t_data *data, t_token *token_prev)
 		ret = bi_env(data, token);
 	else if ((ft_strncmp(token->argv[0], "exit", ft_strlen(token->argv[0]))
 			== 0) && (token[1].type == NONE && token_prev->type == NONE))
-		ret = bi_exit(token->argv);
+		ret = bi_exit(token->argv, 0);
 	else
 		return (0);
 	return (ret);

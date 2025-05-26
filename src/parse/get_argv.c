@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:06:25 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/21 20:03:34 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:36:37 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ int	is_cmd(char *av, t_token *tk, t_list *env, t_data *data)
 			tk->command = ft_strdup(aux);
 			tk->type = CMD;
 			free_2ptr(path);
-			free(aux);
+			sfree(aux);
 			return (1);
 		}
 		i++;
 	}
 	free_2ptr(path);
-	if (aux)
-		free(aux);
+	//if (aux)
+		sfree(aux);
 	return (0);
 }
 

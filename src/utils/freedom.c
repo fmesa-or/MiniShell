@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 19:13:54 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/20 20:08:07 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:15:04 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	free_2ptr(char **array)
 		return ;
 	while (array[i])
 	{
-		free(array[i]);
+		sfree(array[i]);
 		i++;
 	}
-	free(array);
+	sfree(array);
 }
 
 //esto libera solo las struct de redirecciones
@@ -40,8 +40,8 @@ void	ft_redirclear(t_redir **red)
 		while (aux1)
 		{
 			aux2 = aux1->next;
-			free(aux1->file);
-			free(aux1);
+			sfree(aux1->file);
+			sfree(aux1);
 			aux1 = aux2;
 		}
 		*red = NULL;
@@ -52,7 +52,7 @@ void	ft_tokenclear(t_token *tk)
 {
 	if (tk->command)
 	{
-		free(tk->command);
+		sfree(tk->command);
 		tk->command = NULL;
 	}
 	if (tk->argv)
@@ -75,10 +75,10 @@ void	ft_envclear(t_list **lst)
 		while (ls1)
 		{
 			ls2 = ls1->next;
-			free(ls1->key);
+			sfree(ls1->key);
 			if (ls1->value)
-				free(ls1->value);
-			free(ls1);
+				sfree(ls1->value);
+			sfree(ls1);
 			ls1 = ls2;
 		}
 		*lst = NULL;
@@ -97,7 +97,7 @@ void	free_partial_data(t_data *data)
 	}
 	if (data->user_input)
 	{
-		free(data->user_input);
+		sfree(data->user_input);
 		data->user_input = NULL;
 	}
 }
@@ -111,12 +111,12 @@ void	free_all_data(t_data *data)
 	free_partial_data(data);
 	if (data->pwd)
 	{
-		free(data->pwd);
+		sfree(data->pwd);
 		data->pwd = NULL;
 	}
 	if (data->home)
 	{
-		free(data->home);
+		sfree(data->home);
 		data->home = NULL;
 	}
 	if (data->exported_list)
