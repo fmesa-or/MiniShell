@@ -28,9 +28,7 @@ REVISAR:
 -builts
 	export(✅)
 	cd(✅)
-		-señal ctrl + D:  free(): double free detected in tcache 2 \n Aborted (core dumped)
 	pwd(✅)
-		-señal ctrl + D:  free(): double free detected in tcache 2 \n Aborted (core dumped)
 	Echo(✅)
 	env(✅)
 	exit(✅)
@@ -48,12 +46,13 @@ redir
 errors msg(✅):
 
 señales:
-	-al hacer cd $PWD hi, y luego en lugar de exit hacemos ctrl + D hacemos algún doble free en alguna parte.
 
 
 parse:
 	-SOLO cuando es echo "hola" "hola" debería guardarse como argv[1] = holahola
+		puede que haya alguna forma de llevarnos a echo la informacion de que a que arg se le ha retirado las comillas
 
+		AHORA BASH METE UN ESPACIO!!!
 
 -Leaks y fugas de memoria.(13/5)
 	builts
