@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:11:13 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/26 23:20:49 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/27 20:35:53 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static int	bi_cd2(t_data *data, char *target_path, int cd_stat)
 	cd_stat = (chdir(target_path) * -1);
 	if (cd_stat != 0)
 	{
-		//check if access not granted
 		if (access(target_path, X_OK))
 			throw_error("ERROR: Permission denied", NULL, NULL);
 		else

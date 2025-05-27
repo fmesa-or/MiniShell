@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/26 19:40:23 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/27 20:37:09 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,20 @@ char	*ft_sustit(char *str, int i, int j, t_list *node)
 	return (new_av);	
 }
 
-char	*ft_expand(char  *str, int i, t_list *list)
+char *ft_expand(char *str, int i, t_list *list)
 {
-	int	j;
-	int	n;
-	char	*aux;
-	t_list	*node;
+	int j;
+	int n;
+	char *aux;
+	t_list *node;
 
 	n = i + 1;
 	j = n;
 	while(ft_isalnum(str[n]) && str[n])
 		n++;
-	aux =ft_substr(str, j, n - j);
+	aux = ft_substr(str, j, n - j);
 	node = find_key(list, aux);
 	aux = ft_sustit(str, n, j, node);
-	i += ft_strlen(list->value) - ft_strlen(list->key); 
 	return (aux);
 }
 
@@ -64,11 +63,11 @@ char	*put_lstat(char  *str, int i, t_data *data)
 	n = i;
 	stat = ft_itoa(data->l_status);
 	sub = ft_substr(str, 0, n);
-	aux = ft_strcjoin(sub, stat, ' ');
+	aux = ft_strjoin(sub, stat);
 	sfree(sub);
 	sfree(stat);
 	sub = ft_substr(str, n + 2, ft_strlen(str));
-	stat = ft_strcjoin(aux, sub, ' ');
+	stat = ft_strjoin(aux, sub);
 	sfree(aux);
 	sfree(sub);
 	return (stat);
@@ -109,7 +108,10 @@ char	*expand_var(char *str, t_list *list, t_data *data, t_token *tk)
 		else if (str[i] == '$' && str[i + 1] == '?')
 			str = put_lstat(str, i, data);
 		else if (str[i] == '$' && ft_isalnum(str[i+1]))
+		{
 			str = ft_expand(str, i, list);
+			i = -1;
+		}
 		i++;
 	}
 	return (str);

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/27 19:23:31 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:17:38 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	tk_init(t_token *new)
 {
-	new->type = PIPE;
+	new->type = NONE;
 	new->command = NULL;
 	new->redir = NULL;
 	new->argv = NULL;

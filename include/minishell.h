@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/27 19:23:08 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/27 20:58:48 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -398,7 +398,7 @@ char	*ft_expand(char  *str, int i, t_list *list);
 char	*put_lstat(char  *str, int i, t_data *data);
 char	*ms_get_argv_nquotes(char *str, int *j, char *av, t_token *tk);
 char	*ms_quote_loop(char *av, int *j, char *str, t_token *tk);
-
+void	tk_init(t_token *new);
 
 
 #endif

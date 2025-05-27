@@ -28,6 +28,7 @@ REVISAR:
 -builts
 	export(✅)
 	cd(✅)
+		los ERROR: permision denied se imprimen después de hacer exit.
 	pwd(✅)
 	Echo(✅)
 	env(✅)
@@ -49,9 +50,6 @@ señales:
 
 
 parse:
-	-cuando el argv es "hola""hola" debería guardarse como argv[1] = holahola
-		puede que haya alguna forma de llevarnos a echo la informacion de que a que arg se le ha retirado las comillas
-	- los siguientes input dan segfault: | // "" // '' // | cat Makefile
 
 -Leaks y fugas de memoria.(13/5)
 	builts

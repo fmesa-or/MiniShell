@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/26 19:50:13 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:31:28 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	ms_commander(t_token *token, t_data *data, int fd[2], int fd_in, t_token *t
 {
 	int	status;
 
+	status = 0;
 	if (token->type != CMD && token->type != BUIL)
 		return ;
 	if (token->type == BUIL && (token[1].type == NONE
@@ -114,8 +115,6 @@ void	ms_main_exe(t_token *token, t_data *data)
 
 	fd[0] = -1;
 	fd[1] = -1;
-//	if (token->l_status != 0)
-//		data->l_status = token->l_status;
 	last_token = smalloc(sizeof(t_token));
 	if (!last_token)
 	{
@@ -123,15 +122,12 @@ void	ms_main_exe(t_token *token, t_data *data)
 		return ;
 	}
 	fd_in = STDIN_FILENO;
-	if (!last_token)
-	{
-		throw_error("ERROR: smalloc didn't work as expected.", NULL, data);
-		sexit(errno);
-	}
 	last_token->type = NONE;
 	first_token = token;
 	data->typein = NONE;
 	data->typeout = NONE;
+	if (token->type == NONE)
+		data->l_status = token->l_status;
 	while (token->type != NONE)
 	{
 		data->l_status = 0;
