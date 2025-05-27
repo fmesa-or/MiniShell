@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 09:56:47 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/26 20:09:01 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:24:57 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	bi_echo(t_token *token, int *fd)
 		}
 		while (token->argv[++i])
 		{
-//			dprintf(2, "CHECK: %s\n", token->argv[i]);
 			write(1, token->argv[i], ft_strlen(token->argv[i]));
 			if (token->argv[i + 1])
 				write(1, " ", 1);
