@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:14:29 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/21 23:36:37 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:53:13 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,9 @@ char	**fill_split(char **ptr, char const *s, char c)
 	ptr[k] = 0;
 	return (ptr);
 }
+/*
+*
+*/
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t			size;
