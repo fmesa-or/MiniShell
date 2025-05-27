@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/27 11:20:05 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/27 15:08:00 by rmarin-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,11 @@ int	pipe_count(char *str)
 		count++;
 		i = pipe_iteri(str, i, '|');
 		if (str[i] == '|')
+		{
+			if (!str[i+1])
+				count++;
 			i++;	
+		}
 	}
 	return (count);
 }
@@ -81,7 +85,7 @@ char	**pipe_separator(char *str, t_data* data)
 	k = 0;
 	npipe = pipe_count(str);
 	av = smalloc(sizeof(char *) * (npipe +1));
-	if(!av)
+	if (!av)
 	{
 		throw_error("ERROR: smalloc failed in bm_rm_quotes", NULL, data);//pasarle data y token si necesario
 		sexit(errno);
@@ -93,12 +97,56 @@ char	**pipe_separator(char *str, t_data* data)
 		start = i;
 		i = pipe_iteri(str, start, '|');
 		av[k] = ft_substr(str, start, i - start);
-		if(str[i] == '|')
+		if (str[i] == '|')
+		{
+			if (!str[i+1])
+			{
+				k++;
+				av[k] = ft_strdup("");
+			}
 			i++;
+		}
 		k++;
 	}
 	av[k] = NULL;
 	return (av);
+}
+
+/*zero = void str; 1 = there's chars*/
+int	str_isspace(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isspace(str[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+
+char	**check_pipes(char **pipes, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (!pipes)
+	{
+		throw_error("ERROR: no pipes", NULL, data);
+		return (NULL);
+	}
+	while (pipes[i])
+	{
+		if (!pipes[i][0] || str_isspace(pipes[i]) == 0)
+		{
+			pipes[i] = readline("----> ");
+		}
+		i++;
+	}
+	return (pipes);
 }
 
 t_token	*parse_main(char *str, t_list *list, t_data *data)
@@ -109,8 +157,16 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)
 
 	av = NULL;
 	tokens = NULL;
+	if (str[0] == '|')
+	{
+		throw_error("Minishell: syntax error near unexpected token", NULL, NULL);
+		data->l_status = 2;
+		return (NULL);
+	}
 	aux = expand_var(str, list, data, NULL);
-	av = pipe_separator(aux, data);
+	av = check_pipes(pipe_separator(aux, data), data);
+	if (!av)
+		return (NULL);
 	tokens = tk_list_make(av, list, data);
 	free_2ptr(av);
 	if (!tokens)
