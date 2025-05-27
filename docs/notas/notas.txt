@@ -43,7 +43,15 @@ redir
 	dout(✅)
 	ndout(✅)
 	multiples(✅)
-errors msg
+errors msg(✅):
+
+señales:
+
+
+parse:
+	-cuando el argv es "hola""hola" debería guardarse como argv[1] = holahola
+		puede que haya alguna forma de llevarnos a echo la informacion de que a que arg se le ha retirado las comillas
+	- los siguientes input dan segfault: | // "" // '' // | cat Makefile
 
 -Leaks y fugas de memoria.(13/5)
 	builts
@@ -52,15 +60,16 @@ errors msg
 		pwd
 		Echo
 		env
-		exit
+		exit:
+			-exit asfas
 		unset
 	comando
-		cat
+		cat:
 		wc
 		grep
 	redir
 		in
-		HDOC
+		HDOC:
 		dout
 		ndout
 		multiples

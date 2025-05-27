@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 11:17:17 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/26 14:07:43 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/26 21:35:37 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	ms_exe_childs(t_token *token, t_data *data, int fd[2], int fd_in)
 {
 	int final[2];
 
-	dprintf(2, "CHECK: %s, %d\n", token->argv[0], fd[1]);
 	if (data->typein == IN)
 		sdup2(data->file_in, STDIN_FILENO);
 	else if (fd_in != STDIN_FILENO)

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:11:13 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/25 13:26:42 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/26 23:20:49 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ int	bi_change_dir(t_token *token, t_data *data)
 	aux_pwd = NULL;
 	cd_stat = 0;
 	if (token->argv[1] && token->argv[2])
+	{
 		throw_error("ERROR: cd: too many arguments.", NULL, NULL);
+		cd_stat = 1;
+	}
 	else
 	{
 		aux_pwd = get_cwd();

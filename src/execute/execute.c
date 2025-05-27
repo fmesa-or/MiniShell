@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/26 12:56:35 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:50:13 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ extern int	g_sig;
 
 void	ms_fds(t_token *token, t_token *token_prev, t_data *data, int *fd)
 {
+	if (token->redir)
+		token->l_status = ms_init_redir(token, data, fd, token_prev);
 	if (token[1].type != NONE)
 	{
 		if (spipe(fd) == -1)
@@ -24,8 +26,6 @@ void	ms_fds(t_token *token, t_token *token_prev, t_data *data, int *fd)
 			sexit(EXIT_FAILURE);
 		}
 	}
-	if (token->redir)
-		token->l_status = ms_init_redir(token, data, fd, token_prev);
 }
 
 static int	ms_check_built_nspipe(t_token token)

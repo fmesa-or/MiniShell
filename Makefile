@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rmarin-j <rmarin-j@student.42malaga.com    +#+  +:+       +#+         #
+#    By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/11 15:59:19 by fmesa-or          #+#    #+#              #
-#    Updated: 2024/10/10 14:41:10 by rmarin-j         ###   ########.fr        #
+#    Updated: 2025/05/26 22:28:26 by fmesa-or         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ NAME		:= minishell
 CC			:= cc
 
 #Flags
-CFLAGS		:= -Wextra -Werror -Wall -g
+CFLAGS		:= -Wall -Wextra -Werror -g
 
 #Clean
 CLEAN		:= rm -Rf
