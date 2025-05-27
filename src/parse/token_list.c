@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/26 21:14:58 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:08:37 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,15 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 	i = 0;
 	while (pipes[i])
 	{
-//		dprintf(2, "CHECK: %d : %d\n", pipes[i][0], pipes[i ][1]);
-//		if ((pipes[0][0] == 0 || pipes[i][0] == 34 || pipes[i][0] == 39) && (!pipes[i][1] || !pipes[i][2]))//es solo una tirita
-//			break ;
+		/*
+		Si el input es | // "" // '' // | cmd --> tenemos un segfault
+		nota: arreglando el problema de las comillas, debería solucionarse con
+			en get_av segurmanente.
+		Si el input es cmd | --> se está ejecutando y no debería. 
+		nota: Seguramente habrá que checkearlo antes de incluso llegar aquí!!
+		*/
+		if (pipes[i][0] == 0)//es solo una tirita para e problema de "|" y "| cmd", pero hace falta algo para "cmd |"
+			break ;
 		tk_init(&tk_list[i]);
 		j = 0;
 		while (pipes[i][j]) //en este buble inspeccionamos la linea de cada pipe char x char

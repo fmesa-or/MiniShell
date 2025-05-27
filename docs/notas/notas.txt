@@ -1,0 +1,85 @@
+//1-Existe un comando después? -> Hacer una pipe. Modificando el fd.
+//2-Redirecciones ->
+//3-Hacemos fork si existe un comando despues
+//4-Hacer dup2 de los fd y close.
+//5-Comprobar tipo de comando
+/****Aquí cambia para los built in****/
+//6-Ejecutar
+//7-Del 1 al 7 en el siguiente.
+
+
+Cntrl + D cierra el STDIN
+
+
+
+
+
+Estoy añadiendo las funciones al .h voy por el ms_here_doc
+
+Usar gdb ./minishell
+comandos:
+	-run
+	-backtrace
+	-set follow-fork-mode child
+
+valgrind
+
+REVISAR:
+-builts
+	export(✅)
+	cd(✅)
+	pwd(✅)
+	Echo(✅)
+	env(✅)
+	exit(✅)
+	unset(✅)
+comando
+	cat(✅)
+	wc(✅)
+	grep(✅)
+redir
+	in(✅)
+	HDOC(✅)
+	dout(✅)
+	ndout(✅)
+	multiples(✅)
+errors msg(✅):
+
+señales:
+
+
+parse:
+	-cuando el argv es "hola""hola" debería guardarse como argv[1] = holahola
+		puede que haya alguna forma de llevarnos a echo la informacion de que a que arg se le ha retirado las comillas
+	- los siguientes input dan segfault: | // "" // '' // | cat Makefile
+
+-Leaks y fugas de memoria.(13/5)
+	builts
+		export
+		cd
+		pwd
+		Echo
+		env
+		exit:
+			-exit asfas
+		unset
+	comando
+		cat:
+		wc
+		grep
+	redir
+		in
+		HDOC:
+		dout
+		ndout
+		multiples
+	errors msg
+
+-Bombardear(13/5)
+-Limpiar archivos y funciones(14/5)
+-Traducir notas(14/5)
+-Norminette(19/5)
+-Revisión Leaks y general
+-Eliminar wildcards!!!
+
+

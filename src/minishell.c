@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/26 19:50:24 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:09:40 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,10 @@ static void	data_init(t_data *data, t_list *env)
 	node = find_key(env, "PATH");
 	if (!node)
 		throw_error("ERROR: PATH has been deleted", NULL, data);
-//	data->pwd = ft_strdup(node->value);
-//	data->pwd = (char*)malloc(sizeof(getcwd));
 	data->pwd = get_cwd();
 	data->oldpwd = get_cwd();
 	if (data->pwd == NULL)
 		throw_error("ERROR: failed to set pwd", NULL, data);
-//	printf("PWD: %s\n", data->pwd);
 	node = find_key(env, "HOME");
 	if (!node)
 	{
@@ -85,18 +82,9 @@ void	mini_loop(t_data *data, t_list *list)
 			data->l_status = 130;
 			g_signal = 0;
 		}
-//		else if (data->user_input[0] == '\0')
-//			continue ;
 		add_history(data->user_input);
 		tk_list = parse_main(data->user_input, list, data);
 		ms_main_exe(tk_list, data); //ls -l | grep docs | wc -l
-	/* 	if (ft_strcmp(tk_list->command, "exit"))
-			ft_exit(NULL); */
-//		ft_tokenclear(tk_list); /*/aquí peta, REVISAR
-//		free_partial_data(data);
-	//	rl_on_new_line();
-	//	rl_redisplay();
-//		free(prompt);
 	}
 }
 
@@ -115,19 +103,11 @@ int main(int argc, char **argv, char **env)
 		sexit(errno);
 	}
 	list = envtolist(env);
-	//Efectivamente en el momento de almacenar en list, es cuando metemos los datos extras.!!
-//	while(list)
-//	{
-//		printf("ENV: %s=%s\n\n", list->key, list->value);
-//		list = list->next;
-//	}
-//	list = temp;
 	if (argc == 1 && argv)
 	{
 		data_init(&data, list);
 		mini_loop(&data, list);
 		final_status = data.l_status;
-		free_all_data(&data);
 	}
 	sexit(final_status);
 }
