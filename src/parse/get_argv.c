@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:06:25 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/26 20:20:49 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/27 11:44:51 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,14 @@ int	get_av(t_list **lst, char *str, int j, t_token *tk)
 
 	start = j;
 	av = NULL;
+
+	/*
+	Hay que quitar las comillas antes de separar!!
+	ej.: "hola""hola" --> holahola // "hola"hola --> holahola // hola"hola" --> holahola
+
+	Hay que hacer una funcion que mire si hay una pareja de comillas, en caso de haberla,
+		tiene que quitar ambas y NO añadir ningún espacio
+	*/
 
 	if (str[j] == '\'' || str[j] == '\"')
 	{
