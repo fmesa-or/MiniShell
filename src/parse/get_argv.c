@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:06:25 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/27 13:41:49 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:47:42 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,86 @@ int	is_builtin(t_token *tk, char *av)
 	return (0);
 }
 
+
+
+int	get_av(t_list **lst, char *str, int j, t_token *tk)
+{
+	int		start;
+	char	*av;
+	int		start2 = 0;
+	char	*nav = NULL;
+
+	start = j;
+	av = NULL;
+
+	
+//	Hay que quitar las comillas antes de separar!!
+//	ej.: "hola""hola" --> holahola // "hola"hola --> holahola // hola"hola" --> holahola
+
+//	Hay que hacer una funcion que mire si hay una pareja de comillas, en caso de haberla,
+//		tiene que quitar ambas y NO añadir ningún espacio
+
+
+	if (str[j] == '\'' || str[j] == '\"')
+	{
+		j = end_quote(str, j + 1, str[j], tk);
+		if (j == -1)
+			return (-1);
+		av = ft_substr(str, start + 1, ++j - (start + 2));
+		if (str[j] && (str[j] != ' ' && str[j] != '\0'))
+		{
+			if (str[j] == '\'' || str[j] == '\"')
+			{
+				start2 = j + 1;
+				j = end_quote(str, j + 1, str[j], tk);
+				if (j == -1)
+					return (-1);
+				nav = ft_strdup(av);
+				sfree(av);
+				av = ft_strjoin(nav, ft_substr(str, start2, j - start2));
+				j++;
+			}
+			else
+			{
+				start2 = j;
+				while (str[j] && str[j] != ' ')
+					j++;
+				nav = ft_strdup(av);
+				sfree(av);
+				av = ft_strjoin(nav, ft_substr(str, start2, j - start2));
+			}
+		}
+		if (ft_strlen(av) == 2) // si hay comillas vacias pasa de ese argv
+			return (j);
+		ft_lstadd_back(lst, ft_lstnew(av, NULL));
+		return(j);
+	}
+	else
+	{
+		while (str[j] && (!ft_isspace(str[j])))
+		{
+			if (str[j] == '\'' || str[j] == '\"')
+				break ;
+			j++;
+		}
+		av = ft_substr(str, start, j - start);
+		if (str[j] == '\'' || str[j] == '\"')
+		{
+			start2 = j + 1;
+			j = end_quote(str, j + 1, str[j], tk);
+			if (j == -1)
+				return (-1);
+			nav = ft_strdup(av);
+			sfree(av);
+			av = ft_strjoin(nav, ft_substr(str, start2, j - start2));
+			j++;
+		}
+		ft_lstadd_back(lst, ft_lstnew(av, NULL));
+		return (j);
+	}
+}
+
+/*
 int	get_av(t_list **lst, char *str, int j, t_token *tk)
 {
 	int start;
@@ -87,13 +167,13 @@ int	get_av(t_list **lst, char *str, int j, t_token *tk)
 	start = j;
 	av = NULL;
 
-	/*
-	Hay que quitar las comillas antes de separar!!
-	ej.: "hola""hola" --> holahola // "hola"hola --> holahola // hola"hola" --> holahola
 
-	Hay que hacer una funcion que mire si hay una pareja de comillas, en caso de haberla,
-		tiene que quitar ambas y NO añadir ningún espacio
-	*/
+//	Hay que quitar las comillas antes de separar!!
+//	ej.: "hola""hola" --> holahola // "hola"hola --> holahola // hola"hola" --> holahola
+
+//	Hay que hacer una funcion que mire si hay una pareja de comillas, en caso de haberla,
+//		tiene que quitar ambas y NO añadir ningún espacio
+	
 
 	if (str[j] == '\'' || str[j] == '\"')
 	{
@@ -114,4 +194,5 @@ int	get_av(t_list **lst, char *str, int j, t_token *tk)
 		ft_lstadd_back(lst, ft_lstnew(av, NULL));
 		return (j);
 	}
-}
+}*/
+
