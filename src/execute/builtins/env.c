@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:08:11 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/24 22:32:08 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/27 19:21:48 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	bi_env(t_data *data, t_token *token)
 	{
 	//	if (ft_strncmp(env[i], "minishell", 9) == 0)//ESTAMOS ALMACENANDO EN ENV UN DATO FIANL MAL!!
 	//		break;
-//		printf("%s\n", env[i]);
 		if (write(1, env[i], ft_strlen(env[i])) == -1)
 			return (-1);
 		if (write(1, "\n", 1) == -1)

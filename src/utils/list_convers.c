@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:59:36 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/21 23:36:37 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/27 19:25:21 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,6 @@ t_list	*envtolist(char **env)
 	i = 0;
 	while (env[i])
 	{
-		//Hay que revisar las fugas de memoria, ya que estamos reasignando memoria 
-		//	a una memoria ya reservada previamente sin liberarla.
-		//	La prueba aquí.
-		//		if (i > 0)
-		//			printf("%s%s\n", aux[0], aux[1]);
 		aux = ft_split(env[i], '=');
 		if (!aux || !aux[0])
 		{

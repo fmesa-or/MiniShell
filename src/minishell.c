@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/26 23:19:22 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/27 19:13:43 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,26 @@ static void	data_init(t_data *data, t_list *env)
 
 
 
-static int check_quote(char *str)
+static int	check_quote(char *str)
 {
-	int i;
+	int	i;
+
 	i = 0;
+/* 	if (str[0] == '|')
+	{
+		throw_error("Minishell: syntax error near unexpected token", NULL, NULL);
+		data->l_status = 2;
+		return (-1);
+	} */
 	while (str[i])
 	{
 		if(str[i] == '\"' || str[i] == '\'')
 			i = end_quote(str,i + 1,str[i],NULL);
 		if (i == -1)
-			return(-1);
+			return (-1);
 		i++;
 	}
-	return(0);
+	return (0);
 }
 
 void	mini_loop(t_data *data, t_list *list)
@@ -72,9 +79,9 @@ void	mini_loop(t_data *data, t_list *list)
 		data->user_input = readline("> ");
 		if (!data->user_input)
 			break ;
-		if (check_quote(data->user_input) == -1)
+		if (check_quote(data->user_input) < 0)
 		{
-			free(data->user_input);
+			sfree(data->user_input);
 			continue ;
 		}
 		if (g_signal == SIGINT)
@@ -84,6 +91,11 @@ void	mini_loop(t_data *data, t_list *list)
 		}
 		add_history(data->user_input);
 		tk_list = parse_main(data->user_input, list, data);
+ 		if (!tk_list)//aqui no throw_error q en principio no deberia haber error fatal
+		{
+			sfree(data->user_input);
+			continue ;
+		}
 		ms_main_exe(tk_list, data); //ls -l | grep docs | wc -l
 	}
 }

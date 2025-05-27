@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/27 13:42:38 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/27 19:23:31 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,5 +116,3 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 	tk_list[i].type = NONE;
 	return (tk_list);
 }
-
-//print_tokenlist(tk_list);

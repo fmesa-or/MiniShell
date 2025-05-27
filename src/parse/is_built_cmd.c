@@ -6,13 +6,13 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 18:57:58 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/27 19:05:06 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/27 19:17:43 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ms_cmd_access_lloop(char *av, char *path, int i, t_token *tk)
+static int	ms_cmd_access_loop(char *av, char **path, int i, t_token *tk)
 {
 	char	*aux;
 

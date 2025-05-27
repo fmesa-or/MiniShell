@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/27 18:37:40 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/27 19:23:08 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,11 +189,6 @@ typedef struct s_sherpa
  *7-From 1 to 7 in the next.                                               *
  **************************************************************************/
 
-
-/*--------------PRINTS-------------------*/
-void	printredir(t_redir *red, char *str);
-void	print_tokenlist(t_token *tk);
-void	print2char(char **str);
 
 /*-----------------List_Convers------------------*/
 char	**listtoenv(t_list *list);
