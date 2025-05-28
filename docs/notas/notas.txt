@@ -44,6 +44,8 @@ redir
 	dout(✅)
 	ndout(✅)
 	multiples(✅)
+pipes:
+	-cuando hay pipes y una redirección de entrada al final se pierde información con wc/cat al final
 errors msg(✅):
 
 señales:

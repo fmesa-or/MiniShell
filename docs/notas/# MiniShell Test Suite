@@ -1,0 +1,270 @@
+# MiniShell Test Suite
+# File: docs/notas/test_notas.txt
+
+## BUILT-IN COMMANDS TESTS
+
+### Export Tests
+export TEST_VAR=hello
+export | grep TEST_VAR
+export EMPTY_VAR=
+export | grep EMPTY_VAR
+export INVALID-VAR=test  # Should fail
+export =invalid         # Should fail
+export 123VAR=test      # Should fail
+
+### CD Tests
+cd /tmp
+pwd
+cd ..
+pwd
+cd nonexistent_directory  # Should show permission denied error
+cd
+pwd  # Should be in HOME
+cd -  # Should go to previous directory
+
+### PWD Tests
+pwd
+cd /
+pwd
+cd ~
+pwd
+
+### Echo Tests
+echo "Hello World"
+echo -n "No newline"
+echo $HOME
+echo "$USER is logged in"
+echo 'Single quotes test'
+echo ""  # Empty string
+echo
+
+### Env Tests
+env | head -5
+env | grep HOME
+env | wc -l
+
+### Exit Tests
+# Note: These should be tested carefully as they terminate the shell
+# exit
+# exit 0
+# exit 42
+# exit invalid_number  # Should show error but exit with status 2
+
+### Unset Tests
+export TEST_UNSET=value
+echo $TEST_UNSET
+unset TEST_UNSET
+echo $TEST_UNSET  # Should be empty
+
+## EXTERNAL COMMANDS TESTS
+
+### Cat Tests
+cat /etc/passwd | head -3
+cat nonexistent_file  # Should show error
+cat < /etc/hosts
+echo "test content" | cat
+
+### WC Tests
+wc /etc/passwd
+echo "line1\nline2\nline3" | wc -l
+ls | wc -l
+wc < /etc/hosts
+
+### Grep Tests
+cat /etc/passwd | grep root
+grep bash /etc/passwd
+echo "hello world" | grep world
+grep nonexistent /etc/passwd  # Should return no matches
+
+## REDIRECTION TESTS
+
+### Input Redirection Tests
+wc < /etc/passwd
+cat < /etc/hosts
+grep root < /etc/passwd
+
+### Heredoc Tests
+cat << EOF
+This is a heredoc test
+Line 2
+EOF
+
+wc << DELIMITER
+line1
+line2
+line3
+DELIMITER
+
+### Output Redirection Tests
+echo "test output" > /tmp/test_output.txt
+cat /tmp/test_output.txt
+echo "append test" >> /tmp/test_output.txt
+cat /tmp/test_output.txt
+rm /tmp/test_output.txt
+
+### Multiple Redirections Tests
+cat < /etc/hosts > /tmp/hosts_copy.txt
+wc < /etc/passwd > /tmp/passwd_count.txt
+cat /tmp/hosts_copy.txt
+cat /tmp/passwd_count.txt
+rm /tmp/hosts_copy.txt /tmp/passwd_count.txt
+
+## PIPE TESTS
+
+### Basic Pipes
+ls | wc -l
+cat /etc/passwd | grep bash
+ps aux | grep bash | wc -l
+
+### Pipes with Input Redirection (PROBLEMATIC CASES)
+# These tests target the Valgrind error in sherpa.c:37 and sherpa.c:43
+cat Makefile | wc < /etc/hosts
+echo "test" | cat < /etc/passwd
+ls | wc < /proc/version
+cat /etc/passwd | grep root < /etc/hosts
+
+### Complex Pipe Chains
+cat /etc/passwd | grep bash | wc -l
+ls -la | grep "^d" | wc -l
+ps aux | grep -v grep | grep bash
+
+## ERROR HANDLING TESTS
+
+### Permission Denied Tests
+cat /root/.bashrc  # Should show permission denied
+cd /root          # Should show permission denied
+ls /root          # Should show permission denied
+
+### Command Not Found Tests
+nonexistent_command
+./nonexistent_file
+/bin/nonexistent
+
+### Invalid Syntax Tests
+|  # Pipe at beginning
+|ls  # Pipe at beginning
+ls |  # Pipe at end
+ls | |  # Double pipe
+< nonexistent_file  # Redirection without command
+> /dev/null <  # Incomplete redirection
+
+## MEMORY LEAK TESTS
+# Run these with Valgrind to check for memory leaks
+
+### Builtin Commands Memory Tests
+export LEAK_TEST=value; unset LEAK_TEST
+cd /tmp; cd ~; cd -
+pwd; pwd; pwd
+echo "test"; echo "test2"; echo "test3"
+env | head -1
+
+### External Commands Memory Tests
+cat /etc/passwd | head -1
+wc /etc/hosts
+grep root /etc/passwd
+
+### Redirection Memory Tests
+cat < /etc/hosts > /tmp/mem_test.txt; rm /tmp/mem_test.txt
+echo "test" | cat > /tmp/mem_test2.txt; rm /tmp/mem_test2.txt
+
+### Complex Memory Tests
+cat /etc/passwd | grep bash | wc -l
+ls -la | grep "^-" | head -5 | wc -l
+
+## SIGNAL HANDLING TESTS
+
+### Ctrl+C Tests
+# Start a long-running command and press Ctrl+C
+sleep 10  # Press Ctrl+C during execution
+cat  # Press Ctrl+C during input wait
+
+### Ctrl+D Tests
+cat  # Press Ctrl+D to send EOF
+# Try Ctrl+D at prompt (should exit shell)
+
+### Ctrl+\ Tests
+sleep 10  # Press Ctrl+\ during execution
+
+## STRESS TESTS
+
+### Large Input Tests
+# Generate large input to test buffer handling
+seq 1 1000 | wc -l
+yes | head -1000 | wc -l
+
+### Many Pipes Tests
+echo "start" | cat | cat | cat | cat | wc -c
+ls | sort | uniq | wc -l
+
+### Long Command Lines
+echo "very long argument string that might cause buffer issues in argument parsing and memory allocation functions especially when combined with redirections and pipes"
+
+## EDGE CASES
+
+### Empty Commands
+# Just press Enter
+
+### Whitespace Handling
+	ls   
+	cat	/etc/passwd
+ echo    "spaced"   
+
+### Quote Handling
+echo "double quotes with spaces"
+echo 'single quotes with spaces'
+echo "mixed 'quotes' test"
+echo 'mixed "quotes" test'
+
+### Variable Expansion
+export TEST_VAR=hello
+echo $TEST_VAR
+echo "$TEST_VAR world"
+echo '$TEST_VAR'  # Should not expand
+
+## SPECIFIC VALGRIND ERROR TESTS
+# These target the sherpa.c buffer overflow issues
+
+### Buffer Overflow Tests
+cat very_long_filename_that_might_cause_buffer_overflow.txt | wc < /etc/passwd
+echo "test" | very_long_command_name_that_might_overflow < input_file
+cat file1 file2 file3 file4 file5 | wc < redirect_file
+
+### Argument Array Tests
+cat arg1 arg2 arg3 arg4 arg5 arg6 arg7 arg8 | wc
+echo a b c d e f g h i j k l m n o | cat < /etc/hosts
+
+## CLEANUP TESTS
+# Clean up any test files created
+rm -f /tmp/test_*.txt /tmp/mem_test*.txt /tmp/hosts_copy.txt /tmp/passwd_count.txt
+
+## AUTOMATED TEST SCRIPT SUGGESTIONS
+
+# To run these tests systematically:
+# 1. Create a test script that runs each command
+# 2. Capture exit codes and output
+# 3. Compare with expected results
+# 4. Run with Valgrind to check memory issues
+# 5. Test signal handling in separate processes
+
+# Example test runner command:
+# valgrind --leak-check=full --show-leak-kinds=all ./minishell < test_commands.txt
+
+## NOTES FOR DEVELOPERS
+
+# Known Issues to Fix:
+# - Buffer overflow in ms_red_argv (sherpa.c:37, sherpa.c:43)
+# - Memory leak in redirection argument handling
+# - execve parameter corruption when using pipes with input redirection
+# - Permission denied errors appearing after exit command
+
+# Memory Allocation Issues:
+# - malloc size calculation error in sherpa.c:28
+# - Writing beyond allocated buffer boundaries
+# - Improper argv array termination for execve
+
+# Recommendations:
+# 1. Add bounds checking in ms_red_argv function
+# 2. Ensure proper malloc size calculation for argument arrays
+# 3. Add NULL termination for argv arrays
+# 4. Implement proper cleanup for redirection handling
+# 5. Add comprehensive error checking for all malloc calls
