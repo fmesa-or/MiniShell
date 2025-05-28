@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:35:00 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/28 12:05:11 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:27:11 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,13 @@ void	ms_main_exe(t_token *token, t_data *data)
 	t_token	*first_token;
 	int		fd[2];
 	int		fd_in;
+	int		i = -1;
 
 	fd[0] = -1;
 	fd[1] = -1;
+	while (token[++i].type != NONE)
+		if (token[i].l_status != 0)
+			return ;
 	last_token = smalloc(sizeof(t_token));
 	if (!last_token)
 	{

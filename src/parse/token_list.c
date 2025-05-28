@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:24:05 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/28 12:03:07 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:23:04 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ t_token	*tk_list_make(char **pipes, t_list *env, t_data *data)
 		{
 			throw_error("ERROR: command not found", NULL, NULL);
 			tk_list[i].l_status = 127;
+			tk_list->l_status = 127;
 			return (tk_list);
 		}
 		i++;
