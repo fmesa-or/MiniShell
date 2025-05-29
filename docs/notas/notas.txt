@@ -79,6 +79,10 @@ parse:
 -Limpiar archivos y funciones(14/5)
 -Traducir notas(14/5)
 -Norminette(19/5)
+
+
+-Al pasar la norminette he roto el tema de las comillas, revisar cuando texto"texto" y cuando texto""TEXTO
+
 -Revisión Leaks y general
 -Eliminar wildcards!!!
 
