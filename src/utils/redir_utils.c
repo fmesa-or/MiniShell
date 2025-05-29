@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarin-j <rmarin-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 17:21:09 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/13 13:57:58 by rmarin-j         ###   ########.fr       */
+/*   Updated: 2025/05/29 19:04:16 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*returns the last node of redir list*/
+/************************************
+*Returns the last node of redir list*
+************************************/
 t_redir	*ft_redirlast(t_redir *rd)
 {
 	t_redir	*node;
@@ -28,30 +30,42 @@ t_redir	*ft_redirlast(t_redir *rd)
 	return (node);
 }
 
-int	get_redir(t_token *tk, char *str, int j, t_data *data)
+int	get_redir(t_token *tk, char *str, int j)
 {
 	int	rd_end;
 
 	rd_end = 0;
 	if (str[j] == '<' && str[j + 1] == '<')
-		rd_end = redir_fill(tk, str, HDOC, j, data);
+		rd_end = redir_fill(tk, str, HDOC, j);
 	else if (str[j] == '>' && str[j + 1] == '>')
-		rd_end = redir_fill(tk, str, NDOUT, j, data);
+		rd_end = redir_fill(tk, str, NDOUT, j);
 	else if (str[j] == '<')
-		rd_end = redir_fill(tk, str, IN, j, data);
+		rd_end = redir_fill(tk, str, IN, j);
 	else if (str[j] == '>')
-		rd_end = redir_fill(tk, str, DOUT, j, data);
+		rd_end = redir_fill(tk, str, DOUT, j);
 	return (rd_end);
 }
 
-/*Esta funcion solo coge la siguiente palabra despues
-de la redireccion, q tiene q ser el archivo al q hace ref*/
-char	*getfilename(char *str, int i, t_redir *rd, t_token *tk, t_data *data)
+static int	getfilename_sub(char *str, t_redir *rd, int i)
+{
+	while (!ft_isspace(str[i]) && str[i])
+		i++;
+	rd->end_in = i;
+	return (i);
+}
+
+/***********************************************************************
+* This function only takes the next word after the redirection, which  *
+* has to be the file it refers to.                                     *
+***********************************************************************/
+char	*getfilename(char *str, int i, t_redir *rd, t_token *tk)
 {
 	int		start;
 	char	*aux;
+	t_data	*data;
 
 	aux = NULL;
+	data = get_pdata(NULL);
 	while (ft_isspace(str[i]) && str[i])
 		i++;
 	start = i;
@@ -68,14 +82,15 @@ char	*getfilename(char *str, int i, t_redir *rd, t_token *tk, t_data *data)
 	}
 	else
 	{
-		while (!ft_isspace(str[i]) && str[i])
-			i++;
-		rd->end_in = i;
+		i = getfilename_sub(str, rd, i);
 		return (ft_substr(str, start, i - start));
 	}
 }
 
-/*Esta ft añade al final  de la lista de redir un nuevo nodo o lo crea si esta vacia la lista*/
+/***********************************************************************
+* This function adds a new node at the end of the redirection list or  *
+* creates it if the list is empty.                                     *
+***********************************************************************/
 void	ft_rediradd_back(t_redir **lst, t_redir *new)
 {
 	t_redir	*current;

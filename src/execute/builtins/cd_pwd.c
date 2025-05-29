@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:11:13 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/27 20:35:53 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:27:31 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static int	bi_cd2(t_data *data, char *target_path, int cd_stat)
 	}
 	else
 	{
-//		sfree(data->pwd);
 		data->pwd = get_cwd();
 		if (!data->pwd)
 			throw_error("ERROR: failed to update pwd", NULL, NULL);
@@ -93,10 +92,7 @@ int	bi_change_dir(t_token *token, t_data *data)
 	data->oldpwd = aux_pwd;
 	aux = find_key(data->exported_list, "PWD");
 	if (!aux)
-	{
-//		ft_lstadd_back(&data->exported_list, ft_lstnew("PWD", data->pwd));
 		export_var(data->exported_list, (ft_strjoin("PWD=", data->pwd)));
-	}
 	else
 		aux->value = data->pwd;
 	return (cd_stat);
@@ -124,7 +120,6 @@ int	bi_print_working_directory(t_data *data)
 	}
 	aux = find_key(data->exported_list, "PWD");
 	if (!aux)
-//		ft_lstadd_back(&data->exported_list, ft_lstnew("PWD", data->pwd));
 		export_var(data->exported_list, (ft_strjoin("PWD=", data->pwd)));
 	else
 		aux->value = data->pwd;

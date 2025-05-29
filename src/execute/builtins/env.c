@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:08:11 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/27 19:21:48 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:31:41 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,11 @@ char	*str_miscelaneus(char *key, char *value)
 /****************
 *Need for execve*
 ****************/
-char	**ms_return_env(t_data *data)
+char	**ms_return_env(t_data *data, int i)
 {
 	t_list	*list;
 	char	**env;
-	int		i;
 
-	i = 0;
 	list = data->exported_list;
 	while (list)
 	{
@@ -69,12 +67,10 @@ int	bi_env(t_data *data, t_token *token)
 	int		i;
 
 	(void) token;
-	env = ms_return_env(data);
+	env = ms_return_env(data, 0);
 	i = 0;
 	while (env[i])
 	{
-	//	if (ft_strncmp(env[i], "minishell", 9) == 0)//ESTAMOS ALMACENANDO EN ENV UN DATO FIANL MAL!!
-	//		break;
 		if (write(1, env[i], ft_strlen(env[i])) == -1)
 			return (-1);
 		if (write(1, "\n", 1) == -1)
@@ -83,4 +79,3 @@ int	bi_env(t_data *data, t_token *token)
 	}
 	return (0);
 }
-

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 18:57:58 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/27 19:17:43 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:21:29 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static int	ms_cmd_access_loop(char *av, char **path, int i, t_token *tk)
 int	is_cmd(char *av, t_token *tk, t_list *env, t_data *data)
 {
 	char	**path;
-
 	t_list	*key;
 	int		i;
 
@@ -46,7 +45,7 @@ int	is_cmd(char *av, t_token *tk, t_list *env, t_data *data)
 		tk->type = CMD;
 		return (1);
 	}
-	path = ft_split(key->value, ':');//segfault cuando unset PATH
+	path = ft_split(key->value, ':');
 	if (!path)
 		throw_error("ERROR: PATH not found (2)", tk, data);
 	while (path[i])

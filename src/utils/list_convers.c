@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:59:36 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/27 19:25:21 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:50:22 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	**listtoargv(t_list *lst)
 	av = smalloc(sizeof(char *) * (ft_lstsize(lst) + 1));
 	if (!av)
 	{
-		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
+		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);
 		sexit(errno);
 	}
 	while (lst)
@@ -51,17 +51,23 @@ char	**listtoargv(t_list *lst)
 			av[i] = ft_strdup_quo(lst->key);
 		else
 			av[i] = ft_strdup(lst->key);
-		i++;		
+		i++;
 		lst = lst->next;
 	}
 	av[i] = NULL;
-	return(av);
+	return (av);
 }
 
-char **listtoenv(t_list *list)
+static void	listtoenv_error(void)
+{
+	throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);
+	sexit(errno);
+}
+
+char	**listtoenv(t_list *list)
 {
 	char	**env;
-	int	 i;
+	int		i;
 	t_list	*head;
 
 	i = 0;
@@ -73,10 +79,7 @@ char **listtoenv(t_list *list)
 	}
 	env = smalloc(sizeof(char *) * i + 1);
 	if (!env)
-	{
-		throw_error("ERROR: malloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
-		sexit(errno);
-	}
+		listtoenv_error();
 	i = 0;
 	list = head;
 	while (list)
@@ -86,42 +89,5 @@ char **listtoenv(t_list *list)
 		list = list->next;
 	}
 	env[i] = NULL;
-	return(env);
-}
-
-t_list	*envtolist(char **env)
-{
-	t_list *list;
-	t_list *head;
-	char	**aux;
-	int	 i;
-
-	if (!env || !*env)
-		return (NULL);
-	list = NULL;
-	head =NULL;
-	aux = NULL;
-	i = 0;
-	while (env[i])
-	{
-		aux = ft_split(env[i], '=');
-		if (!aux || !aux[0])
-		{
-			free_2ptr(aux);
-			throw_error("ERROR: Split failed.", NULL, NULL);
-		}
-		if (list == NULL)
-		{
-			list =ft_lstnew(aux[0],aux[1]);
-			head = list;
-		}
-		else if (env[i + 1])
-		{
-			list->next =ft_lstnew(aux[0],aux[1]);
-			list = list->next;
-		}
-		i++;
-	}
-	free_2ptr(aux);
-	return (head);
+	return (env);
 }

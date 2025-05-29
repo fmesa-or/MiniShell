@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzurera- <vzurera-@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:38:10 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/23 18:52:42 by vzurera-         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:10:05 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ static char	*prompt_comp(t_list *aux, char *old_prompt, int i, int start)
 	else
 	{
 		char_aux = (char *)smalloc(sizeof(char) * 9);
-//		if (!char_aux)
-//			throw_error("ERROR: smalloc fatal failure.", NULL, NULL);
 		char_aux = "harder!!";
 	}
 	new_prompt = p_c_1(old_prompt, new_prompt, char_aux, char_aux2);
@@ -116,7 +114,7 @@ static char	*prompt_pwd(t_list *aux, char *old_prompt)
 /*******************************************************
 *This PROMPT is exclusive for 42MALAGA CAMPUS computers*
 *******************************************************/
-char	*ms_prompt(t_data *data)
+void	ms_prompt(t_data *data)
 {
 	char	*prompt;
 	int		i;
@@ -133,5 +131,4 @@ char	*ms_prompt(t_data *data)
 	i = ft_strlen(prompt);
 	prompt[i] = '\0';
 	printf("%s\n", prompt);
-	return (prompt);
 }

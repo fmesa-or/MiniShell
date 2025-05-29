@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:03:23 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/21 22:15:04 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:08:37 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-
 /****************************************************************************
 *Looks for a string inside a bigger string. Only looks for 'len' characters.*
 *Every char after '\0' it's not checked.                                    *
@@ -115,35 +114,3 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 	}
 	return (0);
 }
-
-/**************************
-*Special GNL for MINISHELL*
-**************************/
-/*
-int	ms_gnl(char **line)
-{
-	int		i;
-	int		r;
-	char	c;
-	char	*buffer;
-
-	i = 0;
-	r = 0;
-	buffer = (char *)smalloc(10000);
-	if (!buffer)
-		return (-1);
-	r = read(0, &c, 1);
-	while (r && (c != '\n' && c != '\0'))
-	{
-		if (c != '\n' && c != '\0')
-			buffer[i] = c;
-		i++;
-		read(0, &c, 1);
-	}
-	buffer[i] = '\n';
-	buffer[++i] = '\0';
-	*line = buffer;
-	sfree(buffer);
-	return (r);
-}
-*/

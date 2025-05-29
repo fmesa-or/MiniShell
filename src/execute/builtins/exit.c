@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:47:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/26 12:05:43 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:32:05 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	ft_alldigit(char *str)
 		i++;
 	}
 	return (1);
-
 }
 
 int	ft_atoi(const char *str)

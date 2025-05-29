@@ -6,13 +6,19 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/27 21:03:51 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/29 19:16:58 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_signal = 0;
+
+static void	ms_normi(t_data *data)
+{
+	data->l_status = 130;
+	g_signal = 0;
+}
 
 static void	data_init(t_data *data, t_list *env)
 {
@@ -42,23 +48,15 @@ static void	data_init(t_data *data, t_list *env)
 	data->home = ft_strdup(node->value);
 }
 
-
-
 static int	check_quote(char *str)
 {
 	int	i;
 
 	i = 0;
-/* 	if (str[0] == '|')
-	{
-		throw_error("Minishell: syntax error near unexpected token", NULL, NULL);
-		data->l_status = 2;
-		return (-1);
-	} */
 	while (str[i])
 	{
-		if(str[i] == '\"' || str[i] == '\'')
-			i = end_quote(str,i + 1,str[i],NULL);
+		if (str[i] == '\"' || str[i] == '\'')
+			i = end_quote(str, i + 1, str[i], NULL);
 		if (i == -1)
 			return (-1);
 		i++;
@@ -69,13 +67,11 @@ static int	check_quote(char *str)
 void	mini_loop(t_data *data, t_list *list)
 {
 	t_token	*tk_list;
-	char	*prompt;
 
-	(void) prompt;
 	setup_signal_handlers();
 	while (1)
 	{
-		prompt = ms_prompt(data);
+		ms_prompt(data);
 		data->user_input = readline("> ");
 		if (!data->user_input)
 			break ;
@@ -85,22 +81,19 @@ void	mini_loop(t_data *data, t_list *list)
 			continue ;
 		}
 		if (g_signal == SIGINT)
-		{
-			data->l_status = 130;
-			g_signal = 0;
-		}
+			ms_normi(data);
 		add_history(data->user_input);
 		tk_list = parse_main(data->user_input, list, data);
- 		if (!tk_list)//aqui no throw_error q en principio no deberia haber error fatal
+		if (!tk_list)
 		{
 			sfree(data->user_input);
 			continue ;
 		}
-		ms_main_exe(tk_list, data); //ls -l | grep docs | wc -l
+		ms_main_exe(tk_list, data, -1);
 	}
 }
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
 	t_list	*list;
@@ -114,7 +107,7 @@ int main(int argc, char **argv, char **env)
 		throw_error("ERROR: Enviroment not found.", NULL, NULL);
 		sexit(errno);
 	}
-	list = envtolist(env);
+	list = envtolist(env, NULL, NULL, NULL);
 	if (argc == 1 && argv)
 	{
 		data_init(&data, list);

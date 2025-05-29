@@ -6,23 +6,25 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:08:37 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/21 22:15:04 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/29 19:29:34 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*Esta funcion elimina un nodo de nuestra lista, q necesita
-q la pasemos con &, ya que usa doble puntero*/
-
+/***********************************************************************
+* This function removes a node from our list, which needs to be passed *
+* with &, since it uses double pointer.                                *
+***********************************************************************/
 void	ft_unset(t_list **list, char *ref)
 {
-	t_list  *aux;
+	t_list	*aux;
 	t_list	*prev;
+
 	aux = *list;
- 	if (ft_strcmp((*list)->key, ref) == 0)
+	if (ft_strcmp((*list)->key, ref) == 0)
 	{
-		*list =(*list)->next;
+		*list = (*list)->next;
 		sfree(aux->value);
 		sfree(aux->key);
 		sfree(aux);
@@ -42,7 +44,9 @@ void	ft_unset(t_list **list, char *ref)
 	}
 }
 
-/*Esta funcion añade un nodo nuevo al final de un t_list */
+/***********************************************************************
+* This function adds a new node at the end of a t_list.                *
+***********************************************************************/
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*current;
@@ -58,15 +62,14 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	current->next = new;
 }
 
-
 t_list	*ft_lstnew(char *n_key, char *n_value)
 {
-	t_list *node;
+	t_list	*node;
 
 	node = smalloc(sizeof(t_list));
 	if (!node)
 	{
-		throw_error("ERROR: smalloc failed in bm_rm_quotes", NULL, NULL);//pasarle data y token si necesario
+		throw_error("ERROR: smalloc failed in bm_rm_quotes", NULL, NULL);
 		sexit(errno);
 	}
 	node->key = n_key;
@@ -87,6 +90,5 @@ int	ft_lstsize(t_list *lst)
 		count++;
 		node = node->next;
 	}
-		return (count);
+	return (count);
 }
-

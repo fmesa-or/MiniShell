@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:22:05 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/27 19:21:29 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:44:00 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,23 @@ int	e_red_mssg(char *file)
 	return (1);
 }
 
-/*
-*Checks the access to the filein and the fileout and the file descriptors
-*/
+/************************************************
+*Checks the access to the filein and the fileout*
+************************************************/
 int	err_redir(t_sherpa *sherpa)
 {
-	if (sherpa->typein == IN && (!access(sherpa->filein, F_OK) && access(sherpa->filein, R_OK)))
+	if (sherpa->typein == IN && (!access(sherpa->filein, F_OK)
+			&& access(sherpa->filein, R_OK)))
 		return (e_red_mssg(sherpa->filein));
-	if ( (sherpa->typeout != NONE) && (!access(sherpa->fileout, F_OK) && access(sherpa->fileout, W_OK)))
+	if ((sherpa->typeout != NONE) && (!access(sherpa->fileout, F_OK)
+			&& access(sherpa->fileout, W_OK)))
 		return (e_red_mssg(sherpa->fileout));
 	return (0);
 }
 
-/*
+/***********************************************************
 *Checks if arguments for command like cat or wc has access.*
-*/
+***********************************************************/
 int	err_argv_command(char **argv)
 {
 	int	i;

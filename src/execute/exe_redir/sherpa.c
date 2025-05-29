@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:48:34 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/28 11:32:24 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/29 19:56:11 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,13 @@ static char	**ms_red_argv(char **argv, char *new)
 	char	**newarray;
 
 	i = 0;
-	if (!argv[0])
-		return (NULL);//cambiar por un error
 	while (argv[i])
 		i++;
 	newarray = (char **)smalloc(sizeof(char *) * (i + 2));
 	if (!newarray)
 	{
 		throw_error("ERROR: malloc failed in ms_red_argv", NULL, NULL);
-		exit (errno);
+		sexit (errno);
 	}
 	i = -1;
 	while (argv[++i])

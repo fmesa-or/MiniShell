@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   post_exe.c                                         :+:      :+:    :+:   */
+/*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/29 14:54:52 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/27 19:21:43 by fmesa-or         ###   ########.fr       */
+/*   Created: 2025/05/29 17:10:00 by fmesa-or          #+#    #+#             */
+/*   Updated: 2025/05/29 17:10:39 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-/*
-*token_prev es el último token
-*/
-void ms_post_exe(t_data *data, t_token *token_prev, t_token *first_token)
+char	*put_lstat(char *str, int i, t_data *data)
 {
-	(void) token_prev;
-	(void) first_token;
-//	ms_pilatos(first_token);
-	sdup2(data->bk_in, STDIN_FILENO);
-	sdup2(data->bk_out, STDOUT_FILENO);
+	int		n;
+	char	*stat;
+	char	*aux;
+	char	*sub;
+
+	n = i;
+	stat = ft_itoa(data->l_status);
+	sub = ft_substr(str, 0, n);
+	aux = ft_strjoin(sub, stat);
+	sfree(sub);
+	sfree(stat);
+	sub = ft_substr(str, n + 2, ft_strlen(str));
+	stat = ft_strjoin(aux, sub);
+	sfree(aux);
+	sfree(sub);
+	return (stat);
 }

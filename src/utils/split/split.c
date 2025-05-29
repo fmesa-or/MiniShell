@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   migue_split.c                                      :+:      :+:    :+:   */
+/*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:14:29 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/27 12:53:13 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/29 19:08:11 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 **********************************************************************/
 char	*ft_strdup(const char *s1)
 {
-	char		*ptr;
+	char	*ptr;
 	int		i;
 
 	ptr = (char *) smalloc(sizeof(char) * (ft_strlen(s1)+1));
@@ -74,7 +74,7 @@ char	**ft_clear(char ***ptr)
 	return (*ptr);
 }
 
-int	fill_split2(const char *s, int i, char c)
+static int	fill_split2(const char *s, int i, char c)
 {
 	int	j;
 
@@ -109,60 +109,5 @@ char	**fill_split(char **ptr, char const *s, char c)
 			i++;
 	}
 	ptr[k] = 0;
-	return (ptr);
-}
-/*
-*
-*/
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	size_t			size;
-	char			*ptr;
-	size_t			j;
-
-	if (!s)
-		return (NULL);
-	size = ft_strlen(s);
-	if (start >= size)
-		return (ft_strdup(""));
-	else if (size - start < len)
-		len = size - start;
-	ptr = smalloc(sizeof(char) * (len + 1));
-	if (!ptr)
-		return (NULL);
-	j = 0;
-	while (j < len && s[start + j])
-	{
-		ptr[j] = s[start + j];
-		j++;
-	}
-	ptr[j] = '\0';
-	return (ptr);
-}
-
-int	ft_strlen(const char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while(str[i])
-		i++;
-	return (i);
-}
-
-char	**ft_split(char const *s, char c)
-{
-	int		words;
-	char	**ptr;
-
-	if (!s)
-		return (NULL);
-	words = ft_countstr(s, c);
-	ptr = smalloc(sizeof(char *) * (words + 1));
-	if (!ptr)
-		return (NULL);
-	ptr = fill_split(ptr, s, c);
 	return (ptr);
 }

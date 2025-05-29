@@ -6,28 +6,32 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 11:17:17 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/26 21:35:37 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:37:07 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ms_check_permision(char *command, t_token *token)
+static void	ms_exe_childs_sub(int *final)
+{
+	close(final[0]);
+	close(final[1]);
+}
+
+void	ms_check_permision(char *command)
 {
 	if (access(command, X_OK))
 	{
 		write(2, "minishell: ", 11);
 		write(2, command, ft_strlen(command));
 		write(2, ": Command error\n", 16);
-		(void) token;//borrar
 		sexit(127);
 	}
 }
 
-
 void	ms_exe_childs(t_token *token, t_data *data, int fd[2], int fd_in)
 {
-	int final[2];
+	int	final[2];
 
 	if (data->typein == IN)
 		sdup2(data->file_in, STDIN_FILENO);
@@ -41,15 +45,14 @@ void	ms_exe_childs(t_token *token, t_data *data, int fd[2], int fd_in)
 		sexit(1);
 	else
 	{
-		ms_check_permision(token->command, token);
+		ms_check_permision(token->command);
 		final[0] = dup(STDIN_FILENO);
 		final[1] = dup(STDOUT_FILENO);
 		sclose_all();
 		dup2(final[0], STDIN_FILENO);
 		dup2(final[1], STDOUT_FILENO);
-		close(final[0]);
-		close(final[1]);
-		if (execve(token->command, token->argv, ms_return_env(data)) == -1)
+		ms_exe_childs_sub(final);
+		if (execve(token->command, token->argv, ms_return_env(data, 0)) == -1)
 			token->l_status = ms_cmd_nf(token->argv[0]);
 	}
 	sexit(127);

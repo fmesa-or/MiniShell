@@ -6,20 +6,22 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:13:43 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/28 12:01:28 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/29 19:24:23 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-/*Esta funcion itera el str hasta encontrar un pipe valido.
-	Despues devuelve el int de su posicion, lo q sirve para retomar ese valor*/
+/***********************************************************************
+* This function iterates through the string until it finds a valid     *
+* pipe. Then returns the int of its position, which is useful to       *
+* resume from that value.                                              *
+***********************************************************************/
 int	pipe_iteri(char *str, int i, char c)
 {
 	while (str[i] != c && str[i])
 	{
-		if(str[i] == '\\' && str[i+1])
+		if (str[i] == '\\' && str[i + 1])
 			i += 2;
 		else if (str[i] == '\"')
 		{
@@ -38,13 +40,15 @@ int	pipe_iteri(char *str, int i, char c)
 	return (i);
 }
 
-/*Esta funcion cuenta los cachos entre |, sin tener en cuenta
-los q esten entre comillas y eso.
-IMPORTANTE: si hay una pipe como primer o ultimo  char los cuenta,
-sendos casos tienen q tener tratamientos distintos:
-	Si el str[0] = |, tiene q dar error como q el primer pipe ta vacio.
-	Si el ultimo str[i] = |, tiene 	q dejar escribir el ultimo trozo por terminal;*/
-
+/***********************************************************************
+* This function counts the segments between |, without considering     *
+* those that are within quotes and such.                               *
+* IMPORTANT: if there's a pipe as first or last char it counts them,   *
+* both cases must have different treatments:                           *
+*	If str[0] = |, it should give an error as the first pipe is empty. *
+*	If the last str[i] = |, it should let the last chunk be written    *
+*	through terminal.                                                  *
+***********************************************************************/
 int	pipe_count(char *str)
 {
 	int	i;
@@ -58,75 +62,13 @@ int	pipe_count(char *str)
 		i = pipe_iteri(str, i, '|');
 		if (str[i] == '|')
 		{
-			if (!str[i+1])
+			if (!str[i + 1])
 				count++;
-			i++;	
+			i++;
 		}
 	}
 	return (count);
 }
-
-/*Esta funcion coge el string inicial q nos pasen y lo separa por pipes.
-	Retorna char **, correspondiente a argv.
-	Tiene en cuenta comillas simples, dobles, y la barra invertida.
-	El tratamiento de las redir tendra q  ser previo o posterior a esta ft.
-*/
-
-char	**pipe_separator(char *str, t_data* data)
-{
-	char	**av;
-	int	i;
-	int	start;
-	int	k;
-	int	npipe;
-
-	i = 0;
-	start = 0;
-	k = 0;
-	npipe = pipe_count(str);
-	av = smalloc(sizeof(char *) * (npipe +1));
-	if (!av)
-	{
-		throw_error("ERROR: smalloc failed in bm_rm_quotes", NULL, data);//pasarle data y token si necesario
-		sexit(errno);
-	}
-	while (str[i] == ' ')
-		i++;
-	while (str[i])
-	{
-		start = i;
-		i = pipe_iteri(str, start, '|');
-		av[k] = ft_substr(str, start, i - start);
-		if (str[i] == '|')
-		{
-			if (!str[i+1])
-			{
-				k++;
-				av[k] = ft_strdup("");
-			}
-			i++;
-		}
-		k++;
-	}
-	av[k] = NULL;
-	return (av);
-}
-
-/*zero = void str; 1 = there's chars*/
-int	str_isspace(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (!ft_isspace(str[i]))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 
 char	**check_pipes(char **pipes, t_data *data)
 {
@@ -159,11 +101,12 @@ t_token	*parse_main(char *str, t_list *list, t_data *data)
 	tokens = NULL;
 	if (str[0] == '|')
 	{
-		throw_error("Minishell: syntax error near unexpected token", NULL, NULL);
+		throw_error("Minishell: syntax error near unexpected token",
+			NULL, NULL);
 		data->l_status = 2;
 		return (NULL);
 	}
-	aux = expand_var(str, list, data, NULL);
+	aux = expand_var(str, list, NULL);
 	av = check_pipes(pipe_separator(aux, data), data);
 	if (!av)
 		return (NULL);

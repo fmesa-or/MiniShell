@@ -6,13 +6,15 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 19:13:54 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/21 22:15:04 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:35:59 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//esto libera arrays dobles
+/************************
+*Free two pointer array.*
+************************/
 void	free_2ptr(char **array)
 {
 	int	i;
@@ -28,7 +30,9 @@ void	free_2ptr(char **array)
 	sfree(array);
 }
 
-//esto libera solo las struct de redirecciones
+/***************************
+*Frees the redir structure.*
+***************************/
 void	ft_redirclear(t_redir **red)
 {
 	t_redir	*aux1;
@@ -63,7 +67,9 @@ void	ft_tokenclear(t_token *tk)
 		ft_redirclear(&tk->redir);
 }
 
-//esto libera el env
+/**********************
+*Frees the enviroment.*
+**********************/
 void	ft_envclear(t_list **lst)
 {
 	t_list	*ls1;
@@ -85,7 +91,6 @@ void	ft_envclear(t_list **lst)
 	}
 }
 
-//esto libera parte de la estruct data para cada vez que se vuelve a mandar nueva linea
 void	free_partial_data(t_data *data)
 {
 	if (!data)
@@ -100,25 +105,4 @@ void	free_partial_data(t_data *data)
 		sfree(data->user_input);
 		data->user_input = NULL;
 	}
-}
-
-//esto libera todo eldata para cuando se va  a cerrar el programa;
-	//LLamar a esto en exit
-void	free_all_data(t_data *data)
-{
-	if (!data)
-		return ;
-	free_partial_data(data);
-	if (data->pwd)
-	{
-		sfree(data->pwd);
-		data->pwd = NULL;
-	}
-	if (data->home)
-	{
-		sfree(data->home);
-		data->home = NULL;
-	}
-	if (data->exported_list)
-		ft_envclear(&data->exported_list);
 }

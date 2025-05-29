@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fakeHDOC.c                                         :+:      :+:    :+:   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/17 19:53:19 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/26 18:49:02 by fmesa-or         ###   ########.fr       */
+/*   Created: 2025/05/29 17:27:50 by fmesa-or          #+#    #+#             */
+/*   Updated: 2025/05/29 17:28:02 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_fake_hdoc(t_token *token)
+/***********************************
+*zero = void str; 1 = there's chars*
+***********************************/
+int	str_isspace(char *str)
 {
-	char	*line;
-	pid_t	reader;
+	int	i;
 
-	reader = fork();
-	if (reader == 0)
+	i = 0;
+	while (str[i])
 	{
-		setup_signal_handlers_hd();
-		while (1)
-		{
-			line = readline("> ");
-			if (ft_strcmp(line, token->redir->file) == 0)
-			{
-				sfree(line);
-				break ;
-			}
-			sfree(line);
-		}
-		sexit(EXIT_SUCCESS);
+		if (!ft_isspace(str[i]))
+			return (1);
+		i++;
 	}
-	else
-		waitpid(reader, NULL, 0);
+	return (0);
 }
