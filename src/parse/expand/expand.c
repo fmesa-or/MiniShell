@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/29 17:22:59 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/29 20:47:56 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,28 +68,28 @@ static int	expand_var_sub2(char *str, int i, t_data *data, t_list *list)
 	return (i);
 }
 
-static int	expand_var_sub(char *str, int i, t_list *list, t_token *tk)
+static char	*expand_var_sub(char *str, int *i, t_list *list, t_token *tk)
 {
 	t_data	*data;
 
 	data = get_pdata(NULL);
-	if (str[i] == '\\' && str[i + 1])
-		i += 2;
-	else if (str[i] == '\"')
+	if (str[(*i)] == '\\' && str[(*i) + 1])
+		(*i) += 2;
+	else if (str[(*i)] == '\"')
 	{
-		i++;
-		i = expand_var_sub2(str, i, data, list);
+		(*i)++;
+		(*i) = expand_var_sub2(str, (*i), data, list);
 	}
-	else if (str[i] == '\'')
-		i = end_quote(str, i + 1, '\'', tk);
-	else if (str[i] == '$' && str[i + 1] == '?')
-		str = put_lstat(str, i, data);
-	else if (str[i] == '$' && ft_isalnum(str[i + 1]))
+	else if (str[(*i)] == '\'')
+		(*i) = end_quote(str, (*i) + 1, '\'', tk);
+	else if (str[(*i)] == '$' && str[(*i) + 1] == '?')
+		str = put_lstat(str, (*i), data);
+	else if (str[(*i)] == '$' && ft_isalnum(str[(*i) + 1]))
 	{
-		str = ft_expand(str, i, list);
-		i = -1;
+		str = ft_expand(str, (*i), list);
+		(*i) = -1;
 	}
-	return (i);
+	return (str);
 }
 
 /**************************************************
@@ -110,7 +110,7 @@ char	*expand_var(char *str, t_list *list, t_token *tk)
 			throw_error("ERROR: expand quotes", NULL, NULL);
 			return (NULL);
 		}
-		i = expand_var_sub(str, i, list, tk);
+		str = expand_var_sub(str, &i, list, tk);
 		i++;
 	}
 	return (str);
