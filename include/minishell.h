@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:52 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/29 20:05:26 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/30 13:58:40 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,13 +194,10 @@ void		free_2ptr(char **array);
 void		ft_redirclear(t_redir **red);
 void		ft_tokenclear(t_token *tk);
 void		ft_envclear(t_list **lst);
-void		ms_free_3(void *p1, void *p2, void *p3);
 
 /*------------redir------------*/
 int			redir_fill(t_token *tk, char *str, int rd_type, int i);
 char		*rd_strdel(t_redir *redir, char *str);
-void		tk_inrd(t_token *tk_node, char *str);
-void		tk_outrd(t_token *tk_node, char *str);
 
 /*------------Redir_utirs------------*/
 char		*getfilename(char *str, int i, t_redir *rd, t_token *tk);
@@ -209,7 +206,6 @@ int			get_redir(t_token *tk, char *str, int j);
 t_redir		*ft_redirlast(t_redir *rd);
 
 /*----------Token_list----------*/
-t_token		*tk_list_init(char **pipes);
 t_token		*tk_list_make(char **pipes, t_list *env, t_data *data);
 
 /*----------Expand-----------*/
@@ -223,7 +219,6 @@ int			get_av(t_list **lst, char *str, int j, t_token *tk);
 int			pipe_iteri(char *str, int i, char c);
 t_token		*parse_main(char *str, t_list *list, t_data *data);
 int			pipe_count(char *str);
-char		**pip_separator(char *str);
 
 /*-----------Error-----------*/
 void		throw_error(const char *str, t_token *tk, t_data *data);
@@ -278,7 +273,6 @@ void		ms_main_exe(t_token *token, t_data *data, int i);
 void		ms_commander(t_token *token, int fd[2], int fd_in,
 				t_token *token_prev);
 void		ms_fds(t_token *token, t_token *token_prev, int *fd);
-void		child_process(t_token *token);
 
 /*------FAKEHDOC--------*/
 void		ft_fake_hdoc(t_token *token);
@@ -286,15 +280,6 @@ void		ft_fake_hdoc(t_token *token);
 /*----MS_HDOC---*/
 void		ms_here_doc(t_token *token, t_data *data, int *fd, char *limiter);
 void		ms_hdoc_writer(int *fd, char *line, char *limiter);
-
-/*------------PIPE-------------------*/
-void		ms_spipe(t_token *token, t_token *token_prev);
-
-/*----PIPEX_EXECUTE----*/
-void		ft_execute(char *argv, char **envp);
-char		*find_path(char *cmd, char **envp);
-char		*fp_loop(char *path, char *cmd, char **paths, int i);
-char		**awk_split(const char *argv, int i);
 
 /*----POST_EXE----*/
 void		ms_post_exe(t_data *data, t_token *token_prev,

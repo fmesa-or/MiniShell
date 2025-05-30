@@ -1,0 +1,8 @@
+UUse gdb ./minishell
+commands:
+	-run
+	-backtrace
+	-set follow-fork-mode child
+
+valgrind -> bash /docs/leaks
+	*error messajes only show up when minishell is closed*
