@@ -6,11 +6,24 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 09:56:47 by fmesa-or          #+#    #+#             */
-/*   Updated: 2025/05/26 20:09:01 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:39:10 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	bi_echo_sub(t_token *token, int i)
+{
+	if (!(token->argv[1]))
+		write(1, "\n", 1);
+	while (token->argv[++i])
+	{
+		write(1, token->argv[i], ft_strlen(token->argv[i]));
+		if (token->argv[i + 1])
+			write(1, " ", 1);
+	}
+	write(1, "\n", 1);
+}
 
 /**************************************************************************
 * When called, ECHO will return the text given.                           *
@@ -21,11 +34,10 @@
 *If the option "-n" it's included, doesn't print the next line at the end.*
 *If there is no arguments for "echo" it should return a newline.          *
 **************************************************************************/
-int	bi_echo(t_token *token, int *fd)
+int	bi_echo(t_token *token)
 {
 	int	i;
 
-	(void) fd;
 	i = 0;
 	if (token->argv[1] && (ft_strncmp(token->argv[1],
 				"-n", ft_strlen(token->argv[1])) == 0))
@@ -39,20 +51,6 @@ int	bi_echo(t_token *token, int *fd)
 		}
 	}
 	else
-	{
-		if (!(token->argv[1]))
-		{
-			write(1, "\n", 1);
-			return (0);
-		}
-		while (token->argv[++i])
-		{
-//			dprintf(2, "CHECK: %s\n", token->argv[i]);
-			write(1, token->argv[i], ft_strlen(token->argv[i]));
-			if (token->argv[i + 1])
-				write(1, " ", 1);
-		}
-		write(1, "\n", 1);
-	}
+		bi_echo_sub(token, i);
 	return (0);
 }

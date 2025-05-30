@@ -6,13 +6,12 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:38:50 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/26 19:46:05 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/30 13:21:41 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*Esto imprime str por el fd deseado*/
 void	ft_putstr_fd(char *s, int fd)
 {
 	while (*s)
@@ -22,21 +21,24 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
-
-/*Esta funcion mira q un char sea un espacio.
-	Se usa dentro de la condicion de los while*/
+/***********************************************************************
+* This function checks if a char is a space. It's used within the      *
+* condition of while loops.                                             *
+***********************************************************************/
 int	ft_isspace(char c)
 {
-	if (c == ' ' || c == '\t' || c =='\n'
-		|| c == '\r' || c == '\f' || c == '\v')
-		return(1);
+	if ((c == ' ' || c == '\t') || (c == '\n'
+			|| c == '\r') || (c == '\f' || c == '\v'))
+		return (1);
 	else
-		return(0);
+		return (0);
 }
 
-/*esto mira q un caracter sea alfanumerico,
-pa comprobar q despues de ciertos caracteres especiales
-no van cosas raras como unas comilla o yo q se*/
+/***********************************************************************
+* This checks if a character is alphanumeric, to verify that after     *
+* certain special characters there are no weird things like quotes or   *
+* whatever.                                                             *
+***********************************************************************/
 int	ft_isalnum(int c)
 {
 	if (!c)
@@ -50,15 +52,16 @@ int	ft_isalnum(int c)
 	return (0);
 }
 
-/*esta funcion busca un caracter dentro de un str y devuelve el indice donde lo encuentra.
-Sino lo encuentra devuelve -1;*/
-
-int ft_strchr(const char *str, char c)
+/***********************************************************************
+* This function searches for a character within a string and returns   *
+* the index where it finds it. If it doesn't find it, it returns -1.   *
+***********************************************************************/
+int	ft_strchr(const char *str, char c)
 {
 	char	*p;
-    int     i;
+	int		i;
 
-    i = 0;
+	i = 0;
 	p = (char *)str;
 	while (p[i] != c && p[i] != '\0')
 		i++;
@@ -67,11 +70,11 @@ int ft_strchr(const char *str, char c)
 	return (-1);
 }
 
-
-
-/*Esta funcion le pasamos la i+1, un str cuando el indice esta
-	en una comilla y devuelve el mismo indice pero con
-	el final de la comilla o salta error si termina el str*/
+/***********************************************************************
+* This function is passed i+1, a string when the index is at a quote  *
+* and returns the same index but at the end of the quote or throws an  *
+* error if the string ends.                                            *
+***********************************************************************/
 int	end_quote(char *str, int i, char c, t_token *tk)
 {
 	while (str[i] != c && str[i])
