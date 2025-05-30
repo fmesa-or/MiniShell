@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 18:32:22 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/29 20:47:56 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/30 13:11:59 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,17 @@ char	*ft_expand(char *str, int i, t_list *list)
 	return (aux);
 }
 
-static int	expand_var_sub2(char *str, int i, t_data *data, t_list *list)
+static char	*expand_var_sub2(char *str, int *i, t_data *data, t_list *list)
 {
-	while (str[i] != '\"' && str[i])
+	while (str[(*i)] != '\"' && str[(*i)])
 	{
-		if (str[i] == '$' && str[i + 1] == '?')
-			str = put_lstat(str, i, data);
-		else if (str[i] == '$' && ft_isalnum(str[i + 1]))
-			str = ft_expand(str, i, list);
-		i++;
+		if (str[(*i)] == '$' && str[(*i) + 1] == '?')
+			str = put_lstat(str, (*i), data);
+		else if (str[(*i)] == '$' && ft_isalnum(str[(*i) + 1]))
+			str = ft_expand(str, (*i), list);
+		(*i)++;
 	}
-	return (i);
+	return (str);
 }
 
 static char	*expand_var_sub(char *str, int *i, t_list *list, t_token *tk)
@@ -78,7 +78,7 @@ static char	*expand_var_sub(char *str, int *i, t_list *list, t_token *tk)
 	else if (str[(*i)] == '\"')
 	{
 		(*i)++;
-		(*i) = expand_var_sub2(str, (*i), data, list);
+		str = expand_var_sub2(str, i, data, list);
 	}
 	else if (str[(*i)] == '\'')
 		(*i) = end_quote(str, (*i) + 1, '\'', tk);

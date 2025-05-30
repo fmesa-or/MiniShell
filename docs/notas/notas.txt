@@ -80,8 +80,8 @@ parse:
 -Traducir notas(14/5)
 -Norminette(19/5)
 
+-pipe abierta no furula
 
--Al pasar la norminette he roto el tema de las comillas, revisar cuando texto"texto" y cuando texto""TEXTO
 
 -Revisión Leaks y general
 -Eliminar wildcards!!!

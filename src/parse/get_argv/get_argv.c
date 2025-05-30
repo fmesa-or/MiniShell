@@ -6,23 +6,25 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:06:25 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/29 23:28:57 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/30 13:27:57 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*ms_get_nquotes_sub(int start2, char *str, char *av, int *j)
+static char	*ms_get_nq_sub(char *str, char *av, int *j, t_token *tk)
 {
 	char	*nav;
+	int		start;
 
 	nav = NULL;
+	start = (*j) + 1;
+	(*j) = end_quote(str, (*j) + 1, str[(*j)], tk);
 	if ((*j) == -1)
 		return (NULL);
-	start2 = (*j) + 1;
 	nav = ft_strdup(av);
 	sfree(av);
-	av = ft_strjoin(nav, ft_substr(str, start2, (*j) - start2));
+	av = ft_strjoin(nav, ft_substr(str, start, (*j) - start));
 	(*j)++;
 	return (av);
 }
@@ -34,7 +36,7 @@ static char	*ms_get_nquotes_sub(int start2, char *str, char *av, int *j)
 **************************************************************************/
 char	*ms_get_argv_nquotes(char *str, int *j, char *av, t_token *tk)
 {
-	int		start;
+	int	start;
 
 	start = (*j);
 	while (str[(*j)] && (!ft_isspace(str[(*j)])))
@@ -45,10 +47,7 @@ char	*ms_get_argv_nquotes(char *str, int *j, char *av, t_token *tk)
 	}
 	av = ft_substr(str, start, (*j) - start);
 	if (str[(*j)] == '\'' || str[(*j)] == '\"')
-	{
-		(*j) = end_quote(str, (*j) + 1, str[(*j)], tk);
-		av = ms_get_nquotes_sub(start, str, av, j);
-	}
+		av = ms_get_nq_sub(str, av, j, tk);
 	if (!av)
 		return (NULL);
 	if (str[(*j)] && (str[(*j)] != ' ' && str[(*j)] != '\0'))

@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 19:52:02 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/29 19:26:15 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/30 13:04:26 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	redir_fill(t_token *tk, char *str, int rd_type, int i)
 	return (aux_red->end_in);
 }
 
-static void	rd_strdel_sub(char *str, int i, int extra_len)
+static char	*rd_strdel_sub(char *str, int i, int extra_len)
 {
 	char	*aux1;
 	char	*aux2;
@@ -50,6 +50,7 @@ static void	rd_strdel_sub(char *str, int i, int extra_len)
 	str = ft_strcjoin(aux1, aux2, ' ');
 	sfree(aux1);
 	sfree(aux2);
+	return (str);
 }
 
 /***********************************************************************
@@ -79,7 +80,7 @@ char	*rd_strdel(t_redir *redir, char *str)
 	if ((redir->type == HDOC || redir->type == NDOUT)
 		|| (redir->type == IN || redir->type == DOUT))
 	{
-		rd_strdel_sub(str, i, extra_len);
+		str = rd_strdel_sub(str, i, extra_len);
 		return (str);
 	}
 	return (str);

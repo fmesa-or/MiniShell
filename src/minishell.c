@@ -6,7 +6,7 @@
 /*   By: fmesa-or <fmesa-or@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:58:21 by rmarin-j          #+#    #+#             */
-/*   Updated: 2025/05/29 20:06:38 by fmesa-or         ###   ########.fr       */
+/*   Updated: 2025/05/30 13:46:22 by fmesa-or         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ void	mini_loop(t_data *data, t_list *list)
 			sfree(data->user_input);
 			continue ;
 		}
+		add_history(data->user_input);
 		if (g_signal == SIGINT)
 			ms_normi(data);
-		add_history(data->user_input);
 		tk_list = parse_main(data->user_input, list, data);
 		if (!tk_list)
 		{
